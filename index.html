@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .header-logos { background: white; padding: 15px; text-align: center; border-bottom: 3px solid #0d6efd; }
+      .card { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+      .section-title { color: #0d6efd; font-weight: 700; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; margin-bottom: 20px; }
+      
+      /* Estilos de la Matriz */
+      .matrix-table th { background-color: #343a40; color: white; text-align: center; font-size: 0.85rem; }
+      .matrix-table td { vertical-align: middle; font-size: 0.85rem; }
+      
+      /* Colores del Semáforo */
+      .bg-fortaleza { background-color: #d1e7dd; color: #0f5132; border-left: 5px solid #198754; }
+      .bg-mejora { background-color: #fff3cd; color: #664d03; border-left: 5px solid #ffc107; }
+      .bg-critico { background-color: #f8d7da; color: #842029; border-left: 5px solid #dc3545; }
+      
+      .btn-primary { background-color: #0d6efd; padding: 12px; font-weight: bold; }
+    </style>
+  </head>
+  <body>
+
+    <div class="header-logos">
+      <h4 class="m-0 fw-bold">UEB - GAD PROVINCIAL SDT</h4>
+      <small class="text-muted">Evaluación de Conformación de Comités y Planificación</small>
+    </div>
+
+    <div class="container py-4">
+      <div class="row g-4">
+        
+        <div class="col-lg-6">
+          <div class="card p-4">
+            <h5 class="section-title">📝 Nuevo Registro</h5>
+            <form id="formEvaluacion">
+              
+              <div class="mb-4 bg-light p-3 rounded">
+                <label class="form-label fw-bold text-secondary">1. Datos de Ubicación</label>
+                
+                <div class="mb-3">
+                  <label class="form-label small">Parroquia Rural</label>
+                  <select class="form-select" name="parroquia" required>
+                    <option value="" selected disabled>Seleccione...</option>
+                    <option value="Alluriquín">Alluriquín</option>
+                    <option value="Puerto Limón">Puerto Limón</option>
+                    <option value="Luz de América">Luz de América</option>
+                    <option value="San Jacinto del Búa">San Jacinto del Búa</option>
+                    <option value="Valle Hermoso">Valle Hermoso</option>
+                    <option value="El Esfuerzo">El Esfuerzo</option>
+                    <option value="Santa María del Toachi">Santa María del Toachi</option>
+                    <option value="Santo Domingo (Cabecera)">Santo Domingo (Cabecera)</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="comunidad" placeholder="Nombre de la Comunidad / Recinto" required>
+                </div>
+
+                <label class="form-label fw-bold text-secondary mt-2">2. Datos del Participante</label>
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="nombre" placeholder="Nombre y Apellido" required>
+                </div>
+                <div class="mb-3">
+                  <select class="form-select" name="cargo" required>
+                    <option value="" selected disabled>Cargo en el Comité...</option>
+                    <option value="Presidente">Presidente/a</option>
+                    <option value="Vicepresidente">Vicepresidente/a</option>
+                    <option value="Secretario">Secretario/a</option>
+                    <option value="Vocal">Vocal / Coordinador</option>
+                    <option value="Miembro Comunidad">Miembro de la Comunidad</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="preguntasContainer"></div>
+
+              <button type="button" class="btn btn-primary w-100 mt-3 shadow" onclick="enviarFormulario()">
+                💾 GUARDAR EVALUACIÓN
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card p-4 sticky-top" style="top: 20px; z-index: 1;">
+            <h5 class="section-title">📊 Matriz de Resultados (En Vivo)</h5>
+            <p class="small text-muted">Promedios calculados automáticamente de todas las encuestas.</p>
+            
+            <div class="table-responsive">
+              <table class="table table-bordered matrix-table">
+                <thead>
+                  <tr>
+                    <th style="width: 35%">Indicador</th>
+                    <th style="width: 15%">Prom.</th>
+                    <th>Diagnóstico Automático</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaResultados">
+                  <tr><td colspan="3" class="text-center py-3">Cargando datos...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      // CONFIGURACIÓN TÉCNICA DE LAS PREGUNTAS Y DIAGNÓSTICOS
+      const configPreguntas = [
+        { id: "p1", label: "1. Participación", 
+          txtFortaleza: "FORTALEZA: Alta legitimidad social.", 
+          txtMejora: "ÁREA DE MEJORA: Convocatoria parcial.", 
+          txtCritico: "CRÍTICO: Desinterés/Ausentismo." },
+        { id: "p2", label: "2. Compromiso", 
+          txtFortaleza: "FORTALEZA: Líderes motivados.", 
+          txtMejora: "ÁREA DE MEJORA: Liderazgo débil.", 
+          txtCritico: "CRÍTICO: Apatía total." },
+        { id: "p3", label: "3. Capacitación", 
+          txtFortaleza: "FORTALEZA: Apropiación de conocimientos.", 
+          txtMejora: "ÁREA DE MEJORA: Comprensión limitada.", 
+          txtCritico: "CRÍTICO: Confusión conceptual." },
+        { id: "p4", label: "4. El Plan (Herramienta)", 
+          txtFortaleza: "EXITO PILOTO: Validación del Plan.", 
+          txtMejora: "ALERTA: Plan visto como trámite.", 
+          txtCritico: "FALLA: Resistencia al modelo." },
+        { id: "p5", label: "5. Comunicación", 
+          txtFortaleza: "FORTALEZA: Clima de confianza.", 
+          txtMejora: "ÁREA DE MEJORA: Poca participación.", 
+          txtCritico: "CRÍTICO: Tensión interna." },
+        { id: "p6", label: "6. Articulación", 
+          txtFortaleza: "FORTALEZA: Alta confianza inst.", 
+          txtMejora: "ÁREA DE MEJORA: Apoyo regular.", 
+          txtCritico: "CRÍTICO: Sensación de abandono." },
+        { id: "p7", label: "7. Inclusión", 
+          txtFortaleza: "FORTALEZA: Representatividad total.", 
+          txtMejora: "ÁREA DE MEJORA: Inclusión baja.", 
+          txtCritico: "CRÍTICO: Directiva excluyente." },
+        { id: "p8", label: "8. Sostenibilidad", 
+          txtFortaleza: "POTENCIAL ALTO: Efecto Multiplicador.", 
+          txtMejora: "INCERTIDUMBRE: Dudas continuidad.", 
+          txtCritico: "RIESGO: Iniciativa aislada." }
+      ];
+
+      // AL CARGAR LA PÁGINA
+      window.onload = function() {
+        renderizarPreguntas();
+        cargarEstadisticas();
+      };
+
+      function renderizarPreguntas() {
+        const container = document.getElementById('preguntasContainer');
+        configPreguntas.forEach(p => {
+          container.innerHTML += `
+            <div class="mb-3 pb-2 border-bottom border-light">
+              <label class="form-label fw-bold text-dark small">${p.label}</label>
+              <div class="d-flex gap-2">
+                 <select class="form-select form-select-sm" name="${p.id}" required>
+                  <option value="" selected disabled>Calif. (1-5)</option>
+                  <option value="1">1 - Muy Malo</option>
+                  <option value="2">2 - Malo</option>
+                  <option value="3">3 - Regular</option>
+                  <option value="4">4 - Bueno</option>
+                  <option value="5">5 - Excelente</option>
+                </select>
+              </div>
+            </div>`;
+        });
+      }
+
+      function cargarEstadisticas() {
+        google.script.run.withSuccessHandler(actualizarMatriz).obtenerEstadisticas();
+      }
+
+      function enviarFormulario() {
+        const form = document.getElementById('formEvaluacion');
+        const inputs = form.querySelectorAll('select, input');
+        let data = {};
+        let completo = true;
+
+        // Validar campos vacíos
+        inputs.forEach(input => {
+          if(!input.value) {
+            input.classList.add('is-invalid'); // Pone el borde rojo si falta
+            completo = false;
+          } else {
+            input.classList.remove('is-invalid');
+            data[input.name] = input.value;
+          }
+        });
+
+        if(!completo) { 
+          alert("⚠️ Por favor complete todos los campos obligatorios."); 
+          return; 
+        }
+
+        // Bloquear botón y mostrar cargando
+        const btn = document.querySelector('button');
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Guardando...';
+        
+        google.script.run.withSuccessHandler(function(promedios) {
+           alert("✅ ¡Encuesta guardada correctamente!");
+           form.reset();
+           btn.disabled = false;
+           btn.innerHTML = '💾 GUARDAR EVALUACIÓN';
+           actualizarMatriz(promedios);
+        }).guardarEncuesta(data);
+      }
+
+      // LÓGICA DE SEMÁFORO
+      function actualizarMatriz(promedios) {
+        const tbody = document.getElementById('tablaResultados');
+        tbody.innerHTML = "";
+
+        if (!promedios || promedios.length === 0) return;
+
+        promedios.forEach((promedio, index) => {
+          const conf = configPreguntas[index];
+          let clase = "";
+          let texto = "";
+          let p = parseFloat(promedio);
+
+          if (p >= 4.0) {
+            clase = "bg-fortaleza";
+            texto = conf.txtFortaleza;
+          } else if (p >= 3.0) {
+            clase = "bg-mejora";
+            texto = conf.txtMejora;
+          } else {
+            clase = "bg-critico";
+            texto = conf.txtCritico;
+          }
+
+          tbody.innerHTML += `
+            <tr>
+              <td class="fw-bold text-dark">${conf.label}</td>
+              <td class="text-center fw-bold fs-6">${p}</td>
+              <td class="${clase} p-2 rounded">${texto}</td>
+            </tr>
+          `;
+        });
+      }
+    </script>
+  </body>
+</html>
