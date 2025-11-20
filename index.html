@@ -3,198 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación Piloto - Gestión de Riesgos</title>
+    <title>Evaluación de Proceso - Gestión de Riesgos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .card { border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: none; }
-        .header-logos { background: white; padding: 20px; border-bottom: 4px solid #0d6efd; text-align: center; }
-        
-        /* Semáforo */
-        .bg-fortaleza { background-color: #d1e7dd; color: #0f5132; border-left: 5px solid #198754; }
-        .bg-mejora { background-color: #fff3cd; color: #664d03; border-left: 5px solid #ffc107; }
-        .bg-critico { background-color: #f8d7da; color: #842029; border-left: 5px solid #dc3545; }
-        
-        /* Tabla */
-        .matrix-table th { background-color: #343a40; color: white; text-align: center; font-size: 0.9rem; }
-        .matrix-table td { font-size: 0.9rem; vertical-align: middle; }
+        body { 
+            background-color: #e9ecef; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        .main-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-top: 5px solid #0d6efd; /* Azul Institucional */
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 20px;
+        }
+        .institution-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+        }
+        .form-section-title {
+            color: #0d6efd;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0d6efd;
+            padding-left: 10px;
+        }
+        .question-row {
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f3f5;
+        }
+        .question-row:last-child {
+            border-bottom: none;
+        }
+        .btn-submit {
+            background-color: #0d6efd;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 20px;
+        }
+        .btn-submit:disabled {
+            background-color: #6c757d;
+        }
+        label {
+            font-weight: 500;
+            color: #495057;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header-logos">
-        <h3 class="fw-bold text-primary">UEB - GAD PROVINCIAL SDT</h3>
-        <p class="text-muted m-0">Evaluación del Proceso de Conformación de Comités</p>
-    </div>
-
-    <div class="container py-4">
-        <div class="row g-4">
+    <div class="container">
+        <div class="main-container">
             
-            <div class="col-lg-6">
-                <div class="card p-4">
-                    <h5 class="mb-3 text-primary fw-bold">📝 Nueva Evaluación</h5>
-                    <form id="miFormulario">
-                        
-                        <div class="bg-light p-3 rounded mb-3">
-                            <label class="fw-bold small text-muted">UBICACIÓN Y DATOS</label>
-                            <div class="mb-2">
-                                <select class="form-select" name="parroquia" required>
-                                    <option value="" disabled selected>Seleccione Parroquia...</option>
-                                    <option value="Alluriquín">Alluriquín</option>
-                                    <option value="Puerto Limón">Puerto Limón</option>
-                                    <option value="Luz de América">Luz de América</option>
-                                    <option value="San Jacinto del Búa">San Jacinto del Búa</option>
-                                    <option value="Valle Hermoso">Valle Hermoso</option>
-                                    <option value="El Esfuerzo">El Esfuerzo</option>
-                                    <option value="Santa María del Toachi">Santa María del Toachi</option>
-                                    <option value="Santo Domingo">Santo Domingo (Cabecera)</option>
-                                </select>
-                            </div>
-                            <div class="mb-2">
-                                <input type="text" class="form-control" name="comunidad" placeholder="Comunidad / Recinto" required>
-                            </div>
-                            <div class="row g-2">
-                                <div class="col-6">
-                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-select" name="cargo" required>
-                                        <option value="" disabled selected>Cargo...</option>
-                                        <option value="Presidente">Presidente</option>
-                                        <option value="Vicepresidente">Vicepresidente</option>
-                                        <option value="Secretario">Secretario</option>
-                                        <option value="Vocal">Vocal / Coord.</option>
-                                        <option value="Comunidad">Comunidad</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="preguntasContainer"></div>
-
-                        <button type="submit" class="btn btn-primary w-100 py-2 mt-3 fw-bold shadow-sm" id="btnEnviar">
-                            GUARDAR RESPUESTA
-                        </button>
-                    </form>
-                </div>
+            <div class="header-section">
+                <div class="institution-title">Universidad Estatal de Bolívar</div>
+                <div class="institution-title">GAD Provincial Santo Domingo de los Tsáchilas</div>
+                <p class="text-muted mt-2 mb-0">Evaluación del Proceso de Conformación de Comités Comunitarios</p>
             </div>
 
-            <div class="col-lg-6">
-                <div class="card p-4 sticky-top" style="top: 20px;">
-                    <h5 class="mb-3 text-success fw-bold">📊 Resultados en Tiempo Real</h5>
-                    <div class="table-responsive">
-                        <table class="table table-bordered matrix-table mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Indicador</th>
-                                    <th width="15%">Nota</th>
-                                    <th>Diagnóstico</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaResultados">
-                                <tr><td colspan="3" class="text-center py-3">Cargando datos...</td></tr>
-                            </tbody>
-                        </table>
+            <form id="evaluationForm">
+                
+                <div class="form-section-title">1. Datos Generales</div>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label small">Parroquia Rural</label>
+                        <select class="form-select" name="parroquia" required>
+                            <option value="" selected disabled>Seleccione una opción</option>
+                            <option value="Alluriquín">Alluriquín</option>
+                            <option value="Puerto Limón">Puerto Limón</option>
+                            <option value="Luz de América">Luz de América</option>
+                            <option value="San Jacinto del Búa">San Jacinto del Búa</option>
+                            <option value="Valle Hermoso">Valle Hermoso</option>
+                            <option value="El Esfuerzo">El Esfuerzo</option>
+                            <option value="Santa María del Toachi">Santa María del Toachi</option>
+                            <option value="Santo Domingo">Santo Domingo (Cabecera)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small">Comunidad / Recinto</label>
+                        <input type="text" class="form-control" name="comunidad" required>
                     </div>
                 </div>
-            </div>
 
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label small">Nombre y Apellido</label>
+                        <input type="text" class="form-control" name="nombre" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small">Cargo / Rol</label>
+                        <select class="form-select" name="cargo" required>
+                            <option value="" selected disabled>Seleccione una opción</option>
+                            <option value="Presidente">Presidente/a</option>
+                            <option value="Vicepresidente">Vicepresidente/a</option>
+                            <option value="Secretario">Secretario/a</option>
+                            <option value="Vocal">Vocal / Coordinador</option>
+                            <option value="Comunidad">Miembro de la Comunidad</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section-title">2. Encuesta de Evaluación</div>
+                <p class="small text-muted mb-3">Califique del 1 (Muy Deficiente) al 5 (Excelente)</p>
+
+                <div id="questionsContainer">
+                    </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-submit" id="btnSubmit">
+                        GUARDAR REGISTRO
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
-        // ==========================================
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec"; 
-        
-        // Configuración de Preguntas
-        const config = [
-            { id: "p1", label: "1. Participación", ok: "FORTALEZA: Alta legitimidad.", fail: "CRÍTICO: Ausentismo." },
-            { id: "p2", label: "2. Compromiso", ok: "FORTALEZA: Líderes motivados.", fail: "CRÍTICO: Apatía." },
-            { id: "p3", label: "3. Capacitación", ok: "FORTALEZA: Conocimiento claro.", fail: "CRÍTICO: Confusión." },
-            { id: "p4", label: "4. El Plan (Herramienta)", ok: "EXITO: Plan validado.", fail: "FALLA: Resistencia al plan." },
-            { id: "p5", label: "5. Comunicación", ok: "FORTALEZA: Confianza total.", fail: "CRÍTICO: Tensión interna." },
-            { id: "p6", label: "6. Articulación Inst.", ok: "EXITO: Sinergia GAD-UEB.", fail: "CRÍTICO: Abandono." },
-            { id: "p7", label: "7. Inclusión", ok: "FORTALEZA: Representatividad.", fail: "CRÍTICO: Exclusión." },
-            { id: "p8", label: "8. Sostenibilidad", ok: "POTENCIAL: Efecto Réplica.", fail: "RIESGO: Aislamiento." }
+        // ======================================================
+        // PEGAR AQUÍ LA URL DEL SCRIPT DE GOOGLE (TERMINADA EN /exec)
+        // ======================================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+
+        // Configuración de Preguntas (Texto Profesional)
+        const questions = [
+            { id: "p1", text: "1. Participación de la comunidad en la asamblea" },
+            { id: "p2", text: "2. Compromiso e interés de la directiva electa" },
+            { id: "p3", text: "3. Claridad de la capacitación sobre autoprotección" },
+            { id: "p4", text: "4. Utilidad percibida del Plan Comunitario (Herramienta)" },
+            { id: "p5", text: "5. Ambiente de comunicación y confianza" },
+            { id: "p6", text: "6. Apoyo institucional (UEB - GAD - SNGR)" },
+            { id: "p7", text: "7. Inclusión de grupos vulnerables (Género/Edad)" },
+            { id: "p8", text: "8. Potencial de replicabilidad en otros sectores" }
         ];
 
-        // 1. Renderizar Preguntas
-        const container = document.getElementById('preguntasContainer');
-        config.forEach(c => {
+        // Renderizar preguntas al cargar
+        const container = document.getElementById('questionsContainer');
+        questions.forEach(q => {
             container.innerHTML += `
-                <div class="d-flex align-items-center justify-content-between border-bottom py-2">
-                    <label class="small fw-bold m-0" style="width:60%">${c.label}</label>
-                    <select class="form-select form-select-sm" name="${c.id}" style="width:35%" required>
+                <div class="question-row d-flex align-items-center justify-content-between">
+                    <label class="m-0" style="font-size: 0.9rem; width: 70%;">${q.text}</label>
+                    <select class="form-select form-select-sm" name="${q.id}" style="width: 80px;" required>
                         <option value="" selected disabled>-</option>
-                        <option value="1">1</option><option value="2">2</option>
-                        <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
-                </div>`;
+                </div>
+            `;
         });
 
-        // 2. Cargar Datos Iniciales (GET)
-        window.onload = () => {
-            fetch(WEB_APP_URL)
-                .then(response => response.json())
-                .then(data => actualizarMatriz(data.promedios))
-                .catch(error => console.error('Error cargando:', error));
-        };
-
-        // 3. Enviar Formulario (POST)
-        document.getElementById('miFormulario').addEventListener('submit', function(e) {
+        // Manejo del Envío
+        document.getElementById('evaluationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const btn = document.getElementById('btnEnviar');
+            const btn = document.getElementById('btnSubmit');
+            const originalText = btn.innerText;
+            
+            // Bloquear botón
+            btn.disabled = true;
+            btn.innerText = "PROCESANDO...";
+
+            // Capturar datos
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
-            
-            btn.disabled = true;
-            btn.innerText = "Guardando...";
 
-            // Enviamos como texto plano para evitar errores de CORS en GitHub
-            fetch(WEB_APP_URL, {
+            // Enviar a Google Sheets
+            fetch(API_URL, {
                 method: "POST",
                 body: JSON.stringify(data)
             })
             .then(response => response.json())
             .then(result => {
-                alert("✅ ¡Encuesta guardada!");
-                this.reset();
-                actualizarMatriz(result.promedios);
-                btn.disabled = false;
-                btn.innerText = "GUARDAR RESPUESTA";
+                if(result.status === 'success' || result.promedios) {
+                    alert("Registro guardado correctamente.");
+                    this.reset();
+                } else {
+                    alert("Error al guardar. Intente nuevamente.");
+                }
             })
             .catch(error => {
-                alert("Error: " + error);
+                console.error('Error:', error);
+                alert("Error de conexión.");
+            })
+            .finally(() => {
+                // Restaurar botón
                 btn.disabled = false;
+                btn.innerText = originalText;
             });
         });
-
-        // 4. Actualizar Tabla
-        function actualizarMatriz(promedios) {
-            const tbody = document.getElementById('tablaResultados');
-            tbody.innerHTML = "";
-            
-            if(!promedios) return;
-
-            promedios.forEach((prom, i) => {
-                let p = parseFloat(prom);
-                let clase = "bg-critico";
-                let texto = config[i].fail;
-                
-                if(p >= 4) { clase = "bg-fortaleza"; texto = config[i].ok; }
-                else if(p >= 3) { clase = "bg-mejora"; texto = "ALERTA: Mejora necesaria."; }
-
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="fw-bold small">${config[i].label}</td>
-                        <td class="text-center fw-bold">${p}</td>
-                        <td class="${clase} small p-1 rounded">${texto}</td>
-                    </tr>`;
-            });
-        }
     </script>
 </body>
 </html>
