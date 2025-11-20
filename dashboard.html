@@ -6,9 +6,8 @@
     <title>Monitor de Riesgos | UEB - GAD</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,80 +31,92 @@
             padding-bottom: 50px;
         }
 
+        /* --- PRELOADER (Restaurado) --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 99999; /* Z-index alto para tapar todo */
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid #e5e7eb;
+            border-top: 5px solid var(--primary); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         /* --- HEADER --- */
         .top-bar {
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            padding: 15px 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            background: var(--white); border-bottom: 1px solid var(--border);
+            padding: 15px 20px; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         .project-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
         .project-subtitle { font-size: 0.75rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; }
 
-        /* --- TARJETAS LIMPIAS --- */
+        /* --- TARJETAS (Diseño Limpio) --- */
         .clean-card {
-            background: var(--white);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            padding: 25px;
-            height: 100%;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background: var(--white); border-radius: 12px; border: 1px solid var(--border);
+            padding: 25px; height: 100%; box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex; flex-direction: column; justify-content: space-between;
         }
         
-        .card-title-custom {
-            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-gray);
-            margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border); padding-bottom: 10px;
+        .card-header-custom {
+            border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center;
         }
+        .card-title-text { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-gray); }
+
+        /* --- ETIQUETAS DE ESTADO (MATRIZ) --- */
+        .badge-status { padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .bg-fortaleza { background-color: #dcfce7; color: #166534; border: 1px solid #86efac; }
+        .bg-mejora { background-color: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+        .bg-critico { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
 
         /* --- KPIS --- */
-        .kpi-big { font-size: 2.2rem; font-weight: 900; color: var(--text-dark); line-height: 1; }
-        .kpi-desc { font-size: 0.75rem; color: var(--text-gray); font-weight: 600; margin-top: 5px; text-transform: uppercase; }
+        .kpi-val { font-size: 2.5rem; font-weight: 900; color: var(--text-dark); line-height: 1; }
+        .kpi-lbl { font-size: 0.75rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; margin-top: 5px; }
 
-        /* --- MAPA & MONITOR --- */
-        #map { height: 450px; width: 100%; border-radius: 8px; border: 1px solid var(--border); z-index: 1; }
-        .monitor-scroll { max-height: 455px; overflow-y: auto; }
+        /* --- MAPA --- */
+        #map { height: 400px; width: 100%; border-radius: 8px; border: 1px solid var(--border); z-index: 1; }
 
-        /* --- ANÁLISIS BOX --- */
+        /* --- ANÁLISIS TÉCNICO --- */
         .analysis-box {
-            background-color: #f9fafb; border-left: 4px solid var(--primary);
-            padding: 12px; font-size: 0.8rem; color: #374151; line-height: 1.5;
-            margin-top: 20px; border-radius: 0 6px 6px 0; text-align: justify;
+            background-color: #f8fafc; border-left: 4px solid var(--primary);
+            padding: 12px; font-size: 0.8rem; color: #334155; line-height: 1.5;
+            margin-top: 15px; border-radius: 0 6px 6px 0; text-align: justify;
         }
-        .analysis-label { font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase; display: block; margin-bottom: 5px; }
 
-        /* --- BOTONES --- */
-        .btn-download {
-            border: 1px solid var(--border); background: white; color: var(--text-gray);
-            padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: 0.2s;
-        }
-        .btn-download:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        /* --- BOTÓN DESCARGA --- */
+        .btn-icon { border: 1px solid #e5e7eb; background: white; color: #6b7280; padding: 4px 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .btn-icon:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* --- RESPONSIVE (MÓVIL) --- */
         @media (max-width: 768px) {
             .top-bar { flex-direction: column; align-items: flex-start; gap: 15px; }
             .top-bar .d-flex { width: 100%; justify-content: space-between; }
+            .kpi-val { font-size: 2rem; }
             #map { height: 300px; }
-            .monitor-scroll { max-height: 300px; }
-            .kpi-big { font-size: 1.8rem; }
         }
 
-        /* --- IMPRESIÓN PROFESIONAL --- */
+        /* --- IMPRESIÓN (CORREGIDO) --- */
         @media print {
             .no-print { display: none !important; }
             body { background: white; padding: 0; font-size: 10pt; }
-            .container-fluid { max-width: 100% !important; padding: 0 !important; }
-            .clean-card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; margin-bottom: 15px; page-break-inside: avoid; }
-            #map { height: 300px; }
-            .analysis-box { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            /* Forzar 2 columnas para gráficas en impresión */
-            .col-xl-3 { width: 50% !important; float: left; }
-            .row { display: flex; flex-wrap: wrap; }
+            .container-fluid { padding: 0 !important; }
+            .clean-card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; page-break-inside: avoid; margin-bottom: 20px; }
+            .col-xl-3 { width: 48% !important; float: left; margin: 1%; } /* Forzar 2 columnas */
+            .analysis-box { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; }
+            .badge-status { -webkit-print-color-adjust: exact; }
+            #map { height: 250px; }
         }
     </style>
 </head>
 <body>
+
+    <div id="preloader">
+        <div class="spinner"></div>
+        <h6 class="fw-bold text-secondary">Cargando Datos...</h6>
+        <small class="text-muted">Conectando con Base de Datos</small>
+    </div>
 
     <div class="top-bar no-print">
         <div>
@@ -113,49 +124,49 @@
             <div class="project-subtitle">Prácticas Pre-Profesionales | UEB & GAD Provincial SDT</div>
         </div>
         <div class="d-flex gap-2 align-items-center">
-            <select id="parroquiaFilter" class="form-select form-select-sm fw-bold" style="width: 180px;" onchange="applyFilter()">
+            <select id="parroquiaFilter" class="form-select form-select-sm fw-bold" style="width: 200px;" onchange="applyFilter()">
                 <option value="ALL">Provincia Completa</option>
-                </select>
-            <button onclick="window.print()" class="btn btn-dark btn-sm fw-bold px-3"><i class="bi bi-printer me-1"></i> Imprimir</button>
+            </select>
+            <button onclick="window.print()" class="btn btn-dark btn-sm fw-bold px-3"><i class="bi bi-printer me-1"></i> PDF</button>
         </div>
     </div>
 
     <div class="container-fluid px-4" style="max-width: 1600px;">
         
         <div class="mb-4 pb-2 border-bottom">
-            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2">
+            <div class="d-flex flex-wrap justify-content-between align-items-end">
                 <h3 class="fw-bold m-0 text-dark" id="reportTitle">Reporte Consolidado</h3>
                 <div class="text-end text-muted">
-                    <span class="badge bg-primary mb-1">COBERTURA RURAL</span>
-                    <div class="small fw-bold">Fecha Corte: <script>document.write(new Date().toLocaleDateString())</script></div>
+                    <span class="badge bg-primary mb-1">GESTIÓN DE RIESGOS</span>
+                    <div class="small fw-bold">Fecha: <script>document.write(new Date().toLocaleDateString())</script></div>
                 </div>
             </div>
         </div>
 
         <div class="row g-4 mb-5">
             <div class="col-md-4">
-                <div class="clean-card d-flex align-items-center justify-content-between px-4">
+                <div class="clean-card flex-row align-items-center justify-content-between px-4">
                     <div>
-                        <div class="kpi-desc">COMUNIDADES EVALUADAS</div>
-                        <div class="kpi-big" id="kpiTotal">0</div>
+                        <div class="kpi-lbl">COMUNIDADES EVALUADAS</div>
+                        <div class="kpi-val" id="kpiTotal">0</div>
                     </div>
-                    <i class="bi bi-people fs-1 text-black-50 opacity-25"></i>
+                    <i class="bi bi-people fs-1 text-secondary opacity-25"></i>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="clean-card d-flex align-items-center justify-content-between px-4">
+                <div class="clean-card flex-row align-items-center justify-content-between px-4">
                     <div>
-                        <div class="kpi-desc">ÍNDICE DE GESTIÓN (1-5)</div>
-                        <div class="kpi-big text-primary" id="kpiPromedio">0.0</div>
+                        <div class="kpi-lbl">ÍNDICE DE GESTIÓN (1-5)</div>
+                        <div class="kpi-val text-primary" id="kpiPromedio">0.0</div>
                     </div>
-                    <i class="bi bi-graph-up-arrow fs-1 text-primary opacity-25"></i>
+                    <i class="bi bi-bar-chart fs-1 text-primary opacity-25"></i>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="clean-card d-flex align-items-center justify-content-between px-4">
+                <div class="clean-card flex-row align-items-center justify-content-between px-4">
                     <div>
-                        <div class="kpi-desc">ESTADO DEL PROYECTO</div>
-                        <div class="fw-bold text-uppercase" id="kpiEstado" style="font-size: 1.5rem;">-</div>
+                        <div class="kpi-lbl">ESTADO DEL PROYECTO</div>
+                        <div class="fw-bold text-uppercase fs-3" id="kpiEstado">-</div>
                     </div>
                     <i class="bi bi-shield-check fs-1 opacity-25"></i>
                 </div>
@@ -165,25 +176,19 @@
         <div class="row g-4 mb-5">
             <div class="col-lg-8">
                 <div class="clean-card p-0 overflow-hidden">
-                    <div class="p-3 bg-white border-bottom d-flex justify-content-between align-items-center">
-                        <span class="fw-bold text-secondary small"><i class="bi bi-geo-alt-fill me-1"></i>MAPA DE GESTIÓN TERRITORIAL</span>
-                    </div>
+                    <div class="p-3 bg-white border-bottom"><span class="fw-bold text-secondary small">MAPA GEOREFERENCIADO</span></div>
                     <div id="map"></div>
                 </div>
             </div>
-            
             <div class="col-lg-4">
-                <div class="clean-card p-0 overflow-hidden d-flex flex-column">
-                    <div class="p-3 bg-white border-bottom">
-                        <span class="fw-bold text-secondary small">MONITOR PARROQUIAL</span>
-                    </div>
-                    <div id="territoryGrid" class="monitor-scroll flex-grow-1">
-                        </div>
+                <div class="clean-card p-0 overflow-hidden d-flex flex-column" style="max-height: 455px;">
+                    <div class="p-3 bg-white border-bottom"><span class="fw-bold text-secondary small">MONITOR DE PARROQUIAS</span></div>
+                    <div id="territoryGrid" style="overflow-y: auto; flex-grow: 1;"></div>
                 </div>
             </div>
         </div>
 
-        <h5 class="fw-bold text-secondary mb-4 pb-2 border-bottom">ANÁLISIS TÉCNICO DE RESULTADOS (OBJETIVO 2)</h5>
+        <h5 class="fw-bold text-secondary mb-4 pb-2 border-bottom text-uppercase">Matriz de Fortalezas y Áreas de Mejora (Objetivo 2)</h5>
         
         <div class="row g-4 mb-5" id="chartsGrid">
             </div>
@@ -191,22 +196,19 @@
         <div class="row g-4 mb-5">
             <div class="col-lg-4">
                 <div class="clean-card" id="cardRadar">
-                    <div class="card-title-custom">
-                        PERFIL DE COMPETENCIAS
-                        <button class="btn-download" onclick="downloadCard('cardRadar')"><i class="bi bi-download"></i></button>
+                    <div class="card-header-custom">
+                        <span class="card-title-text">PERFIL DE COMPETENCIAS</span>
+                        <button class="btn-icon no-print" onclick="downloadCard('cardRadar', 'Radar')"><i class="bi bi-camera"></i></button>
                     </div>
-                    <div style="height: 280px;">
-                        <canvas id="radarChart"></canvas>
-                    </div>
+                    <div style="height: 250px;"><canvas id="radarChart"></canvas></div>
                 </div>
             </div>
-
             <div class="col-lg-8">
                  <div class="clean-card p-0 overflow-hidden">
                     <div class="p-3 border-bottom"><span class="fw-bold small text-secondary">BASE DE DATOS DE ACTORES</span></div>
                     <div class="table-responsive" style="max-height: 350px;">
-                        <table class="table table-hover mb-0 w-100" style="font-size: 0.85rem;">
-                            <thead class="table-light small text-uppercase"><tr><th>Fecha</th><th>Parroquia</th><th>Comunidad</th><th>Cargo</th><th>Nota</th></tr></thead>
+                        <table class="table table-hover mb-0 w-100 small">
+                            <thead class="table-light"><tr><th>Fecha</th><th>Parroquia</th><th>Comunidad</th><th>Cargo</th><th>Nota</th></tr></thead>
                             <tbody id="tableBody"></tbody>
                         </table>
                     </div>
@@ -218,7 +220,7 @@
 
     <script>
         // ============================================
-        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+        // ⚠️ PEGA AQUÍ TU URL DEL APPS SCRIPT
         // ============================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
@@ -227,26 +229,28 @@
         
         let RAW_DATA = [], FILTERED_DATA = [], map, markersLayer = new L.LayerGroup(), chartInstances = {};
 
-        // --- TEXTOS TÉCNICOS ---
+        // TEXTOS TÉCNICOS LARGOS
         const analysisDB = {
-            low: "Vulnerabilidad Crítica. El indicador muestra deficiencias estructurales graves. La falta de gestión efectiva en este componente compromete la operatividad del comité ante eventos adversos. Se recomienda una intervención correctiva inmediata mediante talleres focalizados.",
-            mid: "Estabilidad Operativa Parcial. Si bien existen capacidades instaladas, estas son insuficientes para escenarios de alta complejidad. El comité cumple con los mínimos normativos, pero carece de la robustez necesaria para garantizar sostenibilidad sin apoyo externo.",
-            high: "Capacidad Consolidada. El comité demuestra autonomía y suficiencia técnica en este aspecto, constituyéndose como un referente de buenas prácticas locales. La gestión valida la metodología de la Guía de Conformación."
+            low: "Vulnerabilidad Crítica. El indicador muestra deficiencias estructurales graves que comprometen la operatividad del comité. Se requiere intervención correctiva inmediata.",
+            mid: "Estabilidad Parcial. Existen capacidades instaladas pero son insuficientes para escenarios complejos. Se cumple con la normativa mínima pero falta robustez.",
+            high: "Fortaleza Consolidada. El comité demuestra autonomía técnica y suficiencia operativa. Este indicador valida la metodología aplicada en la guía."
         };
 
         window.onload = () => {
             initMap();
             initFilters();
             fetch(API_URL).then(r => r.json()).then(d => {
+                // OCULTAR PRELOADER AL CARGAR
+                document.getElementById('preloader').style.display = 'none';
                 if(d.data) { RAW_DATA = d.data; applyFilter(); }
+            }).catch(e => {
+                document.getElementById('preloader').innerHTML = "<h6 class='text-danger'>Error de Conexión</h6>";
             });
         };
 
         function initMap() {
             map = L.map('map', {zoomControl: false}).setView([-0.2530, -79.1754], 10);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; CARTO', maxZoom: 18
-            }).addTo(map);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO', maxZoom: 18 }).addTo(map);
             markersLayer.addTo(map);
             L.control.zoom({position: 'bottomright'}).addTo(map);
         }
@@ -259,13 +263,11 @@
         function applyFilter() {
             const val = document.getElementById('parroquiaFilter').value;
             FILTERED_DATA = val === 'ALL' ? RAW_DATA : RAW_DATA.filter(r => r[1] === val);
-            document.getElementById('reportTitle').innerText = val === 'ALL' ? "Reporte Consolidado Provincial" : `Reporte Situacional: ${val}`;
+            document.getElementById('reportTitle').innerText = val === 'ALL' ? "Reporte Consolidado Provincial" : `Reporte: ${val}`;
             
-            if(val !== 'ALL' && FILTERED_DATA.length > 0 && FILTERED_DATA[0][5]) {
-                map.setView([FILTERED_DATA[0][5], FILTERED_DATA[0][6]], 13);
-            } else {
-                map.setView([-0.2530, -79.1754], 10);
-            }
+            if(val !== 'ALL' && FILTERED_DATA.length > 0 && FILTERED_DATA[0][5]) map.setView([FILTERED_DATA[0][5], FILTERED_DATA[0][6]], 13);
+            else map.setView([-0.2530, -79.1754], 10);
+            
             updateDashboard();
         }
 
@@ -282,29 +284,20 @@
                 let avg = (s/8).toFixed(1);
                 for(let i=0;i<8;i++) sums[i]+=Number(row[i+7]);
 
-                // Tabla
-                tbody.innerHTML += `<tr>
-                    <td>${new Date(row[0]).toLocaleDateString()}</td><td>${row[1]}</td><td>${row[2]}</td>
-                    <td><span class="badge bg-light text-dark border">${row[4]}</span></td><td><b>${avg}</b></td>
-                </tr>`;
+                tbody.innerHTML += `<tr><td>${new Date(row[0]).toLocaleDateString()}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[4]}</td><td><b>${avg}</b></td></tr>`;
 
-                // Mapa Popup Completo
                 if(row[5] && row[6]) {
                     let color = avg>=4 ? '#10b981' : (avg>=3 ? '#f59e0b' : '#ef4444');
-                    let popupContent = `
-                        <div style="font-family:Inter; min-width:200px;">
+                    // POPUP COMPLETO
+                    let popup = `
+                        <div style="font-family:Inter; min-width:200px; font-size:12px;">
                             <div style="border-bottom:2px solid ${color}; font-weight:bold; margin-bottom:5px;">${row[2]}</div>
-                            <table style="width:100%; font-size:11px; color:#374151;">
-                                <tr><td><b>Rep:</b></td><td>${row[3]}</td></tr>
-                                <tr><td><b>Cargo:</b></td><td>${row[4]}</td></tr>
-                                <tr><td><b>Parr:</b></td><td>${row[1]}</td></tr>
-                                <tr><td><b>Fecha:</b></td><td>${new Date(row[0]).toLocaleDateString()}</td></tr>
-                                <tr><td><b>Lat/Lng:</b></td><td>${Number(row[5]).toFixed(3)}, ${Number(row[6]).toFixed(3)}</td></tr>
-                            </table>
-                            <div style="background:${color}; color:white; text-align:center; border-radius:3px; margin-top:5px; font-weight:bold;">NOTA FINAL: ${avg} / 5.0</div>
+                            <div><b>Rep:</b> ${row[3]}</div>
+                            <div><b>Cargo:</b> ${row[4]}</div>
+                            <div><b>Fecha:</b> ${new Date(row[0]).toLocaleDateString()}</div>
+                            <div class="mt-2 p-1 text-center text-white rounded" style="background:${color}">NOTA: ${avg}</div>
                         </div>`;
-                    L.circleMarker([row[5], row[6]], {radius:8, fillColor:color, color:'white', weight:2, fillOpacity:1})
-                     .bindPopup(popupContent).addTo(markersLayer);
+                    L.circleMarker([row[5], row[6]], {radius:8, fillColor:color, color:'white', weight:2, fillOpacity:1}).bindPopup(popup).addTo(markersLayer);
                 }
             });
 
@@ -313,6 +306,7 @@
             
             document.getElementById('kpiTotal').innerText = total;
             document.getElementById('kpiPromedio').innerText = global;
+            
             const st = document.getElementById('kpiEstado');
             if(global>=4) { st.innerText="RESILIENTE"; st.className="fw-bold text-success"; }
             else if(global>=3) { st.innerText="EN PROCESO"; st.className="fw-bold text-warning"; }
@@ -327,7 +321,7 @@
              document.getElementById('kpiTotal').innerText = "0";
              document.getElementById('kpiPromedio').innerText = "0.0";
              document.getElementById('kpiEstado').innerText = "-";
-             document.getElementById('chartsGrid').innerHTML = "<p class='col-12 text-muted'>No hay datos disponibles para esta selección.</p>";
+             document.getElementById('chartsGrid').innerHTML = "<p class='col-12 text-muted'>Sin datos.</p>";
              document.getElementById('territoryGrid').innerHTML = "";
              document.getElementById('tableBody').innerHTML = "";
              if(chartInstances['radar']) chartInstances['radar'].destroy();
@@ -338,42 +332,34 @@
             avgs.forEach((avg, i) => {
                 const level = avg>=4 ? 'high' : (avg>=3 ? 'mid' : 'low');
                 const color = avg>=4 ? '#10b981' : (avg>=3 ? '#f59e0b' : '#ef4444');
-                const text = analysisDB[level];
+                const label = avg>=4 ? 'FORTALEZA' : (avg>=3 ? 'ÁREA DE MEJORA' : 'ÁREA CRÍTICA');
+                const badgeClass = avg>=4 ? 'bg-fortaleza' : (avg>=3 ? 'bg-mejora' : 'bg-critico');
                 const cardId = `cardChart${i}`;
-                const canvasId = `canvasChart${i}`;
 
                 c.innerHTML += `
                 <div class="col-md-6 col-xl-3">
-                    <div class="clean-card d-flex flex-column justify-content-between" id="${cardId}">
-                        <div>
-                            <div class="card-title-custom">
-                                ${labels[i]}
-                                <button class="btn-download no-print" onclick="downloadCard('${cardId}', '${labels[i]}')" title="Descargar Imagen"><i class="bi bi-camera"></i></button>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-end mb-3">
-                                <span class="display-6 fw-bold" style="color:${color}">${avg}</span>
-                                <span class="text-muted small">/ 5.0</span>
-                            </div>
-                            <div style="height: 60px;">
-                                <canvas id="${canvasId}"></canvas>
-                            </div>
+                    <div class="clean-card" id="${cardId}">
+                        <div class="card-header-custom">
+                            <span class="card-title-text">${labels[i]}</span>
+                            <button class="btn-icon no-print" onclick="downloadCard('${cardId}', '${labels[i]}')"><i class="bi bi-download"></i></button>
                         </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2 class="fw-bold m-0" style="color:${color}">${avg}</h2>
+                            <span class="badge-status ${badgeClass}">${label}</span>
+                        </div>
+                        <div style="height: 60px;"><canvas id="canvasChart${i}"></canvas></div>
                         <div class="analysis-box">
-                            <span class="analysis-label">ANÁLISIS TÉCNICO:</span>
-                            ${text}
+                            <span class="analysis-label">DICTAMEN TÉCNICO:</span>
+                            ${analysisDB[level]}
                         </div>
                     </div>
                 </div>`;
 
                 setTimeout(() => {
-                    new Chart(document.getElementById(canvasId), {
+                    new Chart(document.getElementById(`canvasChart${i}`), {
                         type: 'bar',
-                        data: { labels: [''], datasets: [{ data: [avg], backgroundColor: color, borderRadius: 4, barThickness: 25 }] },
-                        options: { 
-                            indexAxis: 'y', maintainAspectRatio: false, 
-                            scales: { x:{min:0, max:5, display:false}, y:{display:false} }, 
-                            plugins: { legend: {display:false}, tooltip: {enabled: false} }
-                        }
+                        data: { labels: [''], datasets: [{ data: [avg], backgroundColor: color, borderRadius: 4, barThickness: 20 }] },
+                        options: { indexAxis: 'y', maintainAspectRatio: false, scales: { x:{min:0, max:5, display:false}, y:{display:false} }, plugins: { legend: {display:false} } }
                     });
                 }, 0);
             });
@@ -389,10 +375,9 @@
                 const color = d.c===0 ? '#9ca3af' : (s>=4 ? '#10b981' : (s>=3 ? '#f59e0b' : '#ef4444'));
                 
                 c.innerHTML += `
-                <div style="padding: 12px; border-bottom:1px solid #f3f4f6; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" 
-                     onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();">
-                    <span style="font-size:0.85rem; font-weight:600; color:#374151;">${p}</span>
-                    <span class="badge" style="background:${color}; font-size:0.9rem">${s}</span>
+                <div style="padding: 10px; border-bottom:1px solid #f3f4f6; cursor:pointer; display:flex; justify-content:space-between;" onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();">
+                    <span style="font-size:0.8rem; font-weight:600; color:#374151;">${p}</span>
+                    <span style="font-weight:800; color:${color}">${s}</span>
                 </div>`;
             });
         }
@@ -407,18 +392,16 @@
             });
         }
 
-        // --- FUNCIÓN DE DESCARGA PRO (html2canvas) ---
         function downloadCard(cardId, title) {
             const element = document.getElementById(cardId);
-            const btn = element.querySelector('.btn-download');
-            btn.style.display = 'none'; // Ocultar botón temporalmente
-            
-            html2canvas(element, { backgroundColor: '#ffffff', scale: 2 }).then(canvas => {
+            const btn = element.querySelector('.btn-icon');
+            btn.style.display = 'none'; // Ocultar botón
+            html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `Analisis_${title.replace(' ','_')}.png`;
+                link.download = `Analisis_${title}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-                btn.style.display = 'block'; // Mostrar botón de nuevo
+                btn.style.display = 'block'; // Mostrar botón
             });
         }
     </script>
