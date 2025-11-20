@@ -132,6 +132,20 @@
             width: 75%; 
             line-height: 1.4;
         }
+
+        /* BARRA DE SINCRONIZACIÓN OFFLINE */
+        #syncBar {
+            display: none; /* Se muestra solo si hay datos pendientes */
+            background-color: #fff3cd;
+            border: 1px solid #ffecb5;
+            color: #664d03;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
     </style>
 </head>
 <body>
@@ -152,6 +166,19 @@
 
     <div class="container" style="margin-top: 80px; max-width: 700px;">
         
+        <div id="syncBar">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-wifi-off fs-4 me-3 text-warning"></i>
+                <div>
+                    <strong id="syncCount">0</strong> registros guardados localmente.
+                    <div class="small">Conéctate a internet para subirlos.</div>
+                </div>
+            </div>
+            <button class="btn btn-warning btn-sm fw-bold" onclick="syncOfflineData()">
+                <i class="bi bi-cloud-upload-fill me-1"></i> SUBIR AHORA
+            </button>
+        </div>
+
         <div class="text-center mb-4">
             <h4 class="fw-bold text-primary">Ficha de Evaluación de Campo</h4>
             <p class="text-muted small">Conformación de Comités de Gestión de Riesgos</p>
@@ -174,7 +201,9 @@
                             <option value="Valle Hermoso">Valle Hermoso</option>
                             <option value="El Esfuerzo">El Esfuerzo</option>
                             <option value="Santa María del Toachi">Santa María del Toachi</option>
-                            <option value="Santo Domingo">Santo Domingo</option>
+                            <option value="La Villegas">La Villegas</option>
+                            <option value="Monterrey">Monterrey</option>
+                            <option value="Plan Piloto">Plan Piloto</option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -239,7 +268,7 @@
         // ======================================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
-        // LISTADO DE PREGUNTAS COMPLETAS
+        // PREGUNTAS
         const questions = [
             { id: "p1", label: "1. ¿Cómo califica la respuesta y participación de su comunidad el día de hoy?" },
             { id: "p2", label: "2. ¿Cómo evalúa el nivel de compromiso e interés de los líderes elegidos?" },
@@ -255,6 +284,7 @@
         window.onload = () => {
             setTimeout(() => document.getElementById('preloader').style.display = 'none', 800);
             renderQuestions();
+            checkOfflineQueue(); // Verificar si hay datos pendientes al abrir
         };
 
         function renderQuestions() {
@@ -265,14 +295,10 @@
                         <label class="q-text">${q.label}</label>
                         <select class="form-select form-select-sm" name="${q.id}" style="width: 80px; flex-shrink: 0;" required>
                             <option value="" selected disabled>-</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                            <option value="4">4</option><option value="5">5</option>
                         </select>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
@@ -282,26 +308,23 @@
             const box = document.getElementById('gpsBox');
             
             if (!navigator.geolocation) {
-                Swal.fire('Dispositivo no compatible', 'Tu navegador no soporta geolocalización.', 'error');
+                Swal.fire('Error', 'Tu dispositivo no tiene GPS.', 'error');
                 return;
             }
 
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Conectando Satélites...';
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
             btn.disabled = true;
 
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
-                    // ÉXITO
                     document.getElementById('lat').value = pos.coords.latitude;
                     document.getElementById('lng').value = pos.coords.longitude;
                     
                     box.classList.add('gps-success');
                     btn.style.display = 'none'; 
                     document.getElementById('gpsData').style.display = 'block';
-                    document.getElementById('coordsText').innerText = 
-                        `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+                    document.getElementById('coordsText').innerText = `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
 
-                    // ACTIVAR BOTÓN ENVIAR
                     const submitBtn = document.getElementById('btnSubmit');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<i class="bi bi-check-lg me-2"></i> ENVIAR REPORTE';
@@ -309,21 +332,15 @@
                     submitBtn.classList.add('btn-primary');
                 },
                 (err) => {
-                    // ERROR
                     btn.disabled = false;
                     btn.innerHTML = '<i class="bi bi-arrow-counterclockwise"></i> Reintentar GPS';
-                    Swal.fire({
-                        title: 'Acceso Denegado',
-                        text: 'Necesitas activar la ubicación de tu celular y dar permiso al navegador.',
-                        icon: 'warning',
-                        confirmButtonText: 'Entendido'
-                    });
+                    Swal.fire('Acceso Denegado', 'Debes permitir el acceso a la ubicación.', 'warning');
                 },
                 { enableHighAccuracy: true, timeout: 15000 }
             );
         }
 
-        // ENVÍO DE DATOS
+        // ENVÍO DE DATOS (Con Manejo Offline)
         document.getElementById('mainForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -334,6 +351,7 @@
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
 
+            // Intentar enviar
             fetch(API_URL, {
                 method: "POST",
                 body: JSON.stringify(data)
@@ -342,23 +360,65 @@
             .then(res => {
                 loader.style.display = 'none';
                 if(res.status === 'success') {
-                    Swal.fire({
-                        title: '¡Datos Guardados!',
-                        text: 'Evaluación registrada correctamente en el sistema.',
-                        icon: 'success',
-                        confirmButtonColor: '#2563eb'
-                    }).then(() => {
-                        window.location.reload();
-                    });
+                    Swal.fire('¡Guardado!', 'Registro exitoso.', 'success').then(() => window.location.reload());
                 } else {
-                    throw new Error(res.message);
+                    throw new Error('Error en servidor');
                 }
             })
             .catch(err => {
+                // SI FALLA (NO HAY INTERNET), GUARDAR EN LOCALSTORAGE
                 loader.style.display = 'none';
-                Swal.fire('Error de Red', 'No se pudo conectar con el servidor. Revisa tu internet.', 'error');
+                saveToLocalStorage(data);
+                Swal.fire({
+                    title: 'Sin Conexión',
+                    text: 'No hay internet. El registro se guardó en el celular y se subirá cuando tengas señal.',
+                    icon: 'info',
+                    confirmButtonText: 'Entendido'
+                }).then(() => window.location.reload());
             });
         });
+
+        // --- FUNCIONES OFFLINE ---
+
+        function saveToLocalStorage(data) {
+            let queue = JSON.parse(localStorage.getItem('offlineQueue')) || [];
+            queue.push(data);
+            localStorage.setItem('offlineQueue', JSON.stringify(queue));
+        }
+
+        function checkOfflineQueue() {
+            let queue = JSON.parse(localStorage.getItem('offlineQueue')) || [];
+            if (queue.length > 0) {
+                document.getElementById('syncBar').style.display = 'flex';
+                document.getElementById('syncCount').innerText = queue.length;
+            }
+        }
+
+        function syncOfflineData() {
+            let queue = JSON.parse(localStorage.getItem('offlineQueue')) || [];
+            if(queue.length === 0) return;
+
+            const loader = document.getElementById('preloader');
+            loader.querySelector('h6').innerText = "Subiendo pendientes...";
+            loader.style.display = 'flex';
+
+            // Enviar uno por uno (Promesa en cadena)
+            const promises = queue.map(data => 
+                fetch(API_URL, { method: "POST", body: JSON.stringify(data) })
+            );
+
+            Promise.all(promises)
+            .then(responses => {
+                loader.style.display = 'none';
+                localStorage.removeItem('offlineQueue'); // Limpiar cola
+                document.getElementById('syncBar').style.display = 'none';
+                Swal.fire('¡Sincronizado!', 'Todos los datos pendientes se han subido.', 'success');
+            })
+            .catch(err => {
+                loader.style.display = 'none';
+                Swal.fire('Error', 'Aún hay problemas de conexión. Intenta luego.', 'error');
+            });
+        }
     </script>
 </body>
 </html>
