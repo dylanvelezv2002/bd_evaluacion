@@ -3,177 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación de Conformación - Piloto</title>
+    <title>Levantamiento de Información | Riesgos</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
     <style>
+        :root {
+            --primary: #0f172a; 
+            --accent: #2563eb;
+            --success: #10b981;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+        }
+
         body { 
-            background-color: #f4f6f9; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--primary);
+            padding-bottom: 40px;
         }
-        .main-card {
-            max-width: 850px;
-            margin: 30px auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            overflow: hidden;
-            border-top: 6px solid #0d6efd;
+
+        /* NAVBAR */
+        .navbar { background: var(--card); border-bottom: 1px solid #e2e8f0; padding: 15px 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .brand-text { font-weight: 800; letter-spacing: -0.5px; color: var(--primary); font-size: 1.1rem; }
+
+        /* CARDS */
+        .form-card {
+            background: var(--card); 
+            border: 1px solid #e2e8f0; 
+            border-radius: 12px; 
+            padding: 25px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
-        .header-logos {
-            text-align: center;
-            padding: 30px 20px;
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
-        }
-        .institution-name {
-            font-weight: 800;
-            color: #2c3e50;
+        .card-header-title {
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-        
-        /* Caja de Instrucciones */
-        .instruction-box {
-            background-color: #eef2f7;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 8px;
-            border-left: 5px solid #0d6efd;
-            font-size: 0.95rem;
-            color: #495057;
-        }
-        .scale-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        .scale-item span {
-            background: #fff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid #ced4da;
-            margin-right: 5px;
-            color: #0d6efd;
-        }
-
-        /* Estilos del Formulario */
-        .form-section {
-            padding: 0 30px 30px 30px;
-        }
-        .section-label {
-            color: #0d6efd;
             font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f1f1f1;
-            padding-bottom: 5px;
-        }
-        .question-item {
-            background: #fff;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .question-text {
-            font-weight: 500;
-            color: #343a40;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        /* Botón */
-        .btn-submit {
-            background-color: #0d6efd;
-            color: white;
-            padding: 15px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            border: none;
-            transition: all 0.3s;
-        }
-        .btn-submit:hover {
-            background-color: #0b5ed7;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
-        }
-
-        /* PRELOADER (Pantalla de carga) */
-        .loader-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            z-index: 9999;
-            display: none; /* Oculto por defecto */
-            flex-direction: column;
-            justify-content: center;
+            color: #64748b;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+            display: flex;
             align-items: center;
+            gap: 10px;
         }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #0d6efd;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+
+        /* INPUTS */
+        .form-label { font-weight: 600; font-size: 0.9rem; color: #334155; }
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            font-size: 0.95rem;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
+
+        /* GPS BUTTON */
+        .gps-container {
+            background: #eff6ff;
+            border: 1px dashed #93c5fd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .btn-gps {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-gps:hover { background-color: #1e293b; transform: translateY(-1px); }
+        .gps-success { background-color: #dcfce7; border-color: #86efac; color: #166534; }
+
+        /* PRELOADER */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .loader-spinner {
+            width: 40px; height: 40px; border: 4px solid #e2e8f0;
+            border-top: 4px solid var(--accent); border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin-bottom: 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* BOTÓN ENVIAR */
+        .btn-submit {
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            padding: 16px;
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+            transition: all 0.2s;
+        }
+        .btn-submit:hover { background: #1d4ed8; transform: translateY(-2px); }
+        .btn-submit:disabled { background: #cbd5e1; transform: none; cursor: not-allowed; }
+
+        /* PREGUNTAS */
+        .question-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid #f1f5f9;
+        }
+        .question-row:last-child { border-bottom: none; }
+        .q-text { font-size: 0.9rem; font-weight: 500; color: #334155; width: 70%; }
     </style>
 </head>
 <body>
 
-    <div id="loader" class="loader-overlay">
-        <div class="spinner"></div>
-        <h5 class="text-primary fw-bold">Guardando encuesta...</h5>
-        <p class="text-muted small">Por favor espere</p>
+    <div id="preloader">
+        <div class="loader-spinner"></div>
+        <h6 class="fw-bold text-secondary">Cargando Sistema...</h6>
     </div>
 
-    <div class="main-card">
+    <nav class="navbar fixed-top">
+        <div class="container">
+            <span class="brand-text">
+                <i class="bi bi-clipboard-data-fill text-primary me-2"></i>UEB - GAD SDT
+            </span>
+            <small class="text-muted fw-bold"><script>document.write(new Date().toLocaleDateString())</script></small>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 80px; max-width: 700px;">
         
-        <div class="header-logos">
-            <div class="institution-name">Universidad Estatal de Bolívar</div>
-            <div class="institution-name">GAD Provincial Santo Domingo de los Tsáchilas</div>
-            <div class="text-muted mt-2">Proyecto de Vinculación: Gestión de Riesgos</div>
+        <div class="text-center mb-4">
+            <h4 class="fw-bold text-primary">Ficha de Evaluación de Campo</h4>
+            <p class="text-muted small">Conformación de Comités de Gestión de Riesgos</p>
         </div>
 
-        <form id="evaluationForm">
+        <form id="mainForm">
             
-            <div class="instruction-box">
-                <strong>Instrucciones:</strong><br>
-                Por favor, evalúa cada uno de los siguientes aspectos del proceso de conformación de los comités comunitarios. Marca la opción que mejor refleje tu experiencia.
-                <ul class="scale-list">
-                    <li class="scale-item"><span>1</span> Muy deficiente</li>
-                    <li class="scale-item"><span>2</span> Deficiente</li>
-                    <li class="scale-item"><span>3</span> Aceptable</li>
-                    <li class="scale-item"><span>4</span> Bueno</li>
-                    <li class="scale-item"><span>5</span> Excelente</li>
-                </ul>
-            </div>
-
-            <div class="form-section">
+            <div class="form-card">
+                <div class="card-header-title"><i class="bi bi-person-vcard-fill"></i> 1. Datos de Identificación</div>
                 
-                <div class="section-label">1. Información General</div>
-                
-                <div class="row g-3 mb-2">
+                <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label small text-muted fw-bold">Parroquia Rural</label>
+                        <label class="form-label">Parroquia Rural</label>
                         <select class="form-select" name="parroquia" required>
-                            <option value="" selected disabled>Seleccione...</option>
+                            <option value="" selected disabled>Seleccionar...</option>
                             <option value="Alluriquín">Alluriquín</option>
                             <option value="Puerto Limón">Puerto Limón</option>
                             <option value="Luz de América">Luz de América</option>
@@ -181,89 +164,160 @@
                             <option value="Valle Hermoso">Valle Hermoso</option>
                             <option value="El Esfuerzo">El Esfuerzo</option>
                             <option value="Santa María del Toachi">Santa María del Toachi</option>
-                            <option value="Santo Domingo">Santo Domingo (Cabecera)</option>
+                            <option value="Santo Domingo">Santo Domingo</option>
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small text-muted fw-bold">Comunidad / Recinto</label>
+                        <label class="form-label">Comunidad / Recinto</label>
                         <input type="text" class="form-control" name="comunidad" placeholder="Ej. El Congoma" required>
                     </div>
-                </div>
-
-                <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label small text-muted fw-bold">Nombre Completo</label>
-                        <input type="text" class="form-control" name="nombre" required>
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" name="nombre" placeholder="Ej. Juan Pérez" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small text-muted fw-bold">Rol en el Comité</label>
+                        <label class="form-label">Cargo en el Comité</label>
                         <select class="form-select" name="cargo" required>
-                            <option value="" selected disabled>Seleccione...</option>
+                            <option value="" selected disabled>Seleccionar...</option>
                             <option value="Presidente">Presidente/a</option>
                             <option value="Vicepresidente">Vicepresidente/a</option>
                             <option value="Secretario">Secretario/a</option>
-                            <option value="Vocal">Vocal / Coordinador</option>
-                            <option value="Comunidad">Miembro de la Comunidad</option>
+                            <option value="Vocal">Vocal / Brigadista</option>
+                            <option value="Comunidad">Miembro Comunidad</option>
                         </select>
                     </div>
                 </div>
-
-                <div class="section-label">2. Cuestionario de Evaluación</div>
-                
-                <div id="questionsContainer">
-                    </div>
-
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn-submit">
-                        ENVIAR EVALUACIÓN
-                    </button>
-                </div>
             </div>
+
+            <div class="form-card">
+                <div class="card-header-title"><i class="bi bi-geo-alt-fill"></i> 2. Ubicación Satelital (GPS)</div>
+                
+                <div id="gpsBox" class="gps-container">
+                    <p class="small text-muted mb-3">Es necesario capturar las coordenadas de la reunión para validar el informe.</p>
+                    <button type="button" class="btn-gps" onclick="getGPS()" id="btnGPS">
+                        <i class="bi bi-crosshair"></i> Activar GPS
+                    </button>
+                    <div id="gpsData" class="mt-2 small fw-bold text-success" style="display:none;">
+                        <i class="bi bi-check-circle-fill"></i> Coordenadas: <span id="coordsText"></span>
+                    </div>
+                </div>
+                <input type="hidden" name="latitud" id="lat">
+                <input type="hidden" name="longitud" id="lng">
+            </div>
+
+            <div class="form-card">
+                <div class="card-header-title"><i class="bi bi-list-check"></i> 3. Evaluación Técnica (1-5)</div>
+                <div class="alert alert-light border mb-3 py-2 px-3">
+                    <small class="text-muted"><i class="bi bi-info-circle me-1"></i> <strong>Escala:</strong> 1 (Deficiente) - 5 (Excelente)</small>
+                </div>
+                <div id="questionsList"></div>
+            </div>
+
+            <div class="d-grid gap-2 mb-5">
+                <button type="submit" class="btn-submit" id="btnSubmit" disabled>
+                    <i class="bi bi-send-fill me-2"></i> ENVIAR REPORTE
+                </button>
+                <p class="text-center small text-muted mt-2">* El botón se activará al capturar el GPS</p>
+            </div>
+
         </form>
     </div>
 
     <script>
-        // ==========================================
-        // ⚠️ PEGA AQUÍ TU URL (Termina en /exec)
-        // ==========================================
+        // ==========================================================
+        // ⚠️ TU URL DE GOOGLE APPS SCRIPT VA AQUÍ
+        // ==========================================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
-        // Lista Completa de Preguntas
+        // Preguntas del Formulario
         const questions = [
-            { id: "p1", text: "1. ¿Cómo califica la respuesta y participación de su comunidad el día de hoy?" },
-            { id: "p2", text: "2. ¿Cómo evalúa el nivel de compromiso e interés de los líderes elegidos?" },
-            { id: "p3", text: "3. ¿Qué tan clara fue la capacitación sobre medidas de autoprotección?" },
-            { id: "p4", text: "4. ¿Considera que el Plan Comunitario elaborado hoy es una herramienta útil?" },
-            { id: "p5", text: "5. ¿Cómo califica la confianza y comunicación durante la creación del plan?" },
-            { id: "p6", text: "6. ¿Cómo evalúa el apoyo brindado por el equipo (UEB, GAD, SNGR)?" },
-            { id: "p7", text: "7. ¿Cómo evalúa la inclusión de diversos sectores (mujeres, jóvenes)?" },
-            { id: "p8", text: "8. ¿Cree que este trabajo servirá de ejemplo para otras comunidades?" }
+            { id: "p1", label: "1. Participación de la comunidad" },
+            { id: "p2", label: "2. Compromiso de la directiva" },
+            { id: "p3", label: "3. Claridad de la capacitación" },
+            { id: "p4", label: "4. Utilidad del Plan Comunitario" },
+            { id: "p5", label: "5. Ambiente de comunicación" },
+            { id: "p6", label: "6. Apoyo Institucional (UEB-GAD)" },
+            { id: "p7", label: "7. Inclusión (Género/Edad)" },
+            { id: "p8", label: "8. Potencial de replicabilidad" }
         ];
 
-        // Renderizar preguntas
-        const container = document.getElementById('questionsContainer');
-        questions.forEach(q => {
-            container.innerHTML += `
-                <div class="question-item">
-                    <label class="question-text">${q.text}</label>
-                    <select class="form-select" name="${q.id}" required>
-                        <option value="" selected disabled>Seleccione una opción...</option>
-                        <option value="1">1 - Muy deficiente</option>
-                        <option value="2">2 - Deficiente</option>
-                        <option value="3">3 - Aceptable</option>
-                        <option value="4">4 - Bueno</option>
-                        <option value="5">5 - Excelente</option>
-                    </select>
-                </div>
-            `;
-        });
+        // INICIALIZAR
+        window.onload = () => {
+            // Ocultar Preloader
+            setTimeout(() => document.getElementById('preloader').style.display = 'none', 800);
+            renderQuestions();
+        };
 
-        // Lógica de Envío con Loader y SweetAlert
-        document.getElementById('evaluationForm').addEventListener('submit', function(e) {
+        function renderQuestions() {
+            const container = document.getElementById('questionsList');
+            questions.forEach(q => {
+                container.innerHTML += `
+                    <div class="question-row">
+                        <label class="q-text">${q.label}</label>
+                        <select class="form-select form-select-sm" name="${q.id}" style="width: 90px;" required>
+                            <option value="" selected disabled>-</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                `;
+            });
+        }
+
+        // LÓGICA GPS
+        function getGPS() {
+            const btn = document.getElementById('btnGPS');
+            const box = document.getElementById('gpsBox');
+            
+            if (!navigator.geolocation) {
+                Swal.fire('Error', 'Tu dispositivo no tiene GPS.', 'error');
+                return;
+            }
+
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
+            btn.disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    // Éxito
+                    document.getElementById('lat').value = pos.coords.latitude;
+                    document.getElementById('lng').value = pos.coords.longitude;
+                    
+                    // Cambio visual
+                    box.classList.add('gps-success');
+                    btn.style.display = 'none'; // Ocultar botón
+                    document.getElementById('gpsData').style.display = 'block';
+                    document.getElementById('coordsText').innerText = 
+                        `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+
+                    // Activar Submit
+                    const submitBtn = document.getElementById('btnSubmit');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="bi bi-check-lg me-2"></i> ENVIAR REPORTE';
+                    submitBtn.classList.remove('btn-secondary');
+                    submitBtn.classList.add('btn-primary');
+                },
+                (err) => {
+                    // Error
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-arrow-counterclockwise"></i> Reintentar GPS';
+                    Swal.fire('Acceso Denegado', 'Debes permitir el acceso a la ubicación para guardar el reporte.', 'warning');
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        }
+
+        // ENVÍO DE DATOS
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // 1. Mostrar Loader
-            document.getElementById('loader').style.display = 'flex';
+            // Mostrar Loader de nuevo
+            const loader = document.getElementById('preloader');
+            loader.querySelector('h6').innerText = "Enviando Datos...";
+            loader.style.display = 'flex';
 
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
@@ -272,36 +326,25 @@
                 method: "POST",
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
-            .then(result => {
-                // 2. Ocultar Loader
-                document.getElementById('loader').style.display = 'none';
-
-                if(result.status === 'success' || result.promedios) {
-                    // ALERTA CHÉVERE DE ÉXITO
+            .then(r => r.json())
+            .then(res => {
+                loader.style.display = 'none';
+                if(res.status === 'success') {
                     Swal.fire({
-                        title: '¡Excelente!',
-                        text: 'La evaluación ha sido guardada correctamente.',
+                        title: '¡Registro Exitoso!',
+                        text: 'La información ha sido sincronizada con la base de datos.',
                         icon: 'success',
-                        confirmButtonColor: '#0d6efd',
-                        confirmButtonText: 'Aceptar'
+                        confirmButtonColor: '#2563eb'
+                    }).then(() => {
+                        window.location.reload(); // Recargar para nuevo registro
                     });
-                    this.reset(); // Limpiar formulario
                 } else {
-                    throw new Error('Error en la respuesta');
+                    throw new Error(res.message);
                 }
             })
-            .catch(error => {
-                // 2. Ocultar Loader
-                document.getElementById('loader').style.display = 'none';
-                
-                // ALERTA DE ERROR
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Hubo un problema al enviar los datos. Revisa tu conexión.',
-                    icon: 'error',
-                    confirmButtonText: 'Intentar de nuevo'
-                });
+            .catch(err => {
+                loader.style.display = 'none';
+                Swal.fire('Error de Conexión', 'No se pudo guardar. Verifica tu internet.', 'error');
             });
         });
     </script>
