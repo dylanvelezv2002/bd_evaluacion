@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala Situacional | GAD Provincial SDT</title>
+    <title>Tablero de Control | UEB - GAD</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,12 +15,11 @@
 
     <style>
         :root {
-            --primary: #0f172a; --secondary: #334155; --accent: #2563eb;
-            --bg: #f8fafc; --card: #ffffff;
-            --success: #059669; --warning: #d97706; --danger: #dc2626;
+            --primary: #1e293b; --secondary: #475569; --accent: #2563eb;
+            --bg: #f1f5f9; --card: #ffffff; --border: #e2e8f0;
         }
 
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--primary); font-size: 0.9rem; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--primary); font-size: 0.85rem; }
 
         /* PRELOADER */
         #preloader {
@@ -29,72 +28,57 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .loader-spinner {
-            width: 50px; height: 50px; border: 4px solid #e2e8f0;
-            border-top: 4px solid var(--accent); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 15px;
+            width: 40px; height: 40px; border: 3px solid #e2e8f0;
+            border-top: 3px solid var(--accent); border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin-bottom: 10px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* NAVBAR */
-        .navbar { background: var(--card); border-bottom: 1px solid #e2e8f0; padding: 15px 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        .brand-text { font-weight: 800; letter-spacing: -0.5px; color: var(--primary); font-size: 1.2rem; }
+        /* NAVBAR COMPACTA */
+        .navbar { background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 20px; height: 60px; }
+        .brand-text { font-weight: 800; letter-spacing: -0.5px; color: var(--primary); font-size: 1rem; }
 
-        /* TARJETAS */
+        /* TARJETAS COMPACTAS */
         .tech-card {
-            background: var(--card); 
-            border: 1px solid #e2e8f0; 
-            border-radius: 12px; 
-            padding: 24px; 
-            margin-bottom: 24px; 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            height: 100%; 
-            display: flex; flex-direction: column;
+            background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+            padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            height: 100%; display: flex; flex-direction: column;
         }
-        
-        .card-header-title {
-            font-size: 0.85rem; font-weight: 700; color: var(--secondary); 
-            text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;
+        .card-header-sm {
+            border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 10px;
             display: flex; justify-content: space-between; align-items: center;
         }
+        .card-title { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin: 0; }
 
-        /* KPIS GRANDES */
-        .kpi-value { font-size: 2.5rem; font-weight: 800; line-height: 1; letter-spacing: -1px; color: var(--primary); }
-        .kpi-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; margin-bottom: 5px; }
-
-        /* ANÁLISIS TÉCNICO */
-        .ai-analysis-box {
-            background-color: #f8fafc; border-left: 4px solid var(--accent);
-            padding: 15px; font-size: 0.85rem; color: #334155; margin-top: auto;
-            border-radius: 0 6px 6px 0; line-height: 1.6; text-align: justify;
-        }
-        .ai-label { font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 5px; }
+        /* KPI BOX (Minimalista) */
+        .kpi-box { text-align: center; padding: 5px; }
+        .kpi-val { font-size: 1.8rem; font-weight: 800; line-height: 1; color: var(--primary); }
+        .kpi-lbl { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; }
 
         /* MAPA */
-        #map { height: 400px; width: 100%; border-radius: 8px; z-index: 1; border: 1px solid #e2e8f0; }
+        #map { height: 320px; width: 100%; border-radius: 4px; border: 1px solid var(--border); }
 
-        /* MONITOR TERRITORIAL */
+        /* LISTAS Y TABLAS COMPACTAS */
         .territory-item {
-            padding: 12px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: all 0.2s;
-            border-left: 4px solid transparent; display: flex; justify-content: space-between; align-items: center;
+            padding: 6px 8px; border-bottom: 1px solid var(--bg); cursor: pointer; transition: all 0.2s;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
         }
-        .territory-item:hover { background-color: #f1f5f9; padding-left: 18px; }
-        .t-name { font-weight: 600; font-size: 0.9rem; }
-        .t-score { font-weight: 800; font-size: 1rem; }
+        .territory-item:hover { background-color: var(--bg); }
+        .table-xs th { background: var(--bg); font-size: 0.7rem; text-transform: uppercase; padding: 4px 8px; }
+        .table-xs td { font-size: 0.75rem; padding: 4px 8px; vertical-align: middle; }
 
-        /* COLORES */
-        .border-success { border-left-color: var(--success) !important; }
-        .border-warning { border-left-color: var(--warning) !important; }
-        .border-danger { border-left-color: var(--danger) !important; }
-        .text-success { color: var(--success) !important; }
-        .text-warning { color: var(--warning) !important; }
-        .text-danger { color: var(--danger) !important; }
+        /* ANÁLISIS BOX COMPACTO */
+        .ai-box {
+            background: #f8fafc; border-left: 3px solid var(--accent); padding: 8px;
+            font-size: 0.75rem; color: var(--secondary); margin-top: auto; line-height: 1.3; text-align: justify;
+        }
 
+        /* IMPRESIÓN */
         @media print {
             .no-print { display: none !important; }
-            .tech-card { border: 1px solid #ccc; break-inside: avoid; box-shadow: none; }
-            body { background: white; font-size: 11px; }
-            .ai-analysis-box { background: #f9f9f9 !important; border-left-color: #000 !important; }
-            #map { height: 300px; }
+            .tech-card { border: 1px solid #000; break-inside: avoid; box-shadow: none; }
+            body { background: white; }
+            #map { height: 250px; }
         }
     </style>
 </head>
@@ -102,109 +86,111 @@
 
     <div id="preloader">
         <div class="loader-spinner"></div>
-        <h6 class="fw-bold text-secondary">Cargando Sala Situacional...</h6>
-        <small class="text-muted">GAD Provincial Santo Domingo de los Tsáchilas</small>
+        <h6 class="fw-bold text-secondary" style="font-size:0.9rem">Cargando Datos...</h6>
     </div>
 
     <nav class="navbar fixed-top no-print">
         <div class="container-fluid">
             <div class="d-flex align-items-center gap-3">
-                <span class="brand-text"><i class="bi bi-grid-1x2-fill text-primary me-2"></i>WAR ROOM RIESGOS</span>
-                <select id="parroquiaFilter" class="form-select form-select-sm shadow-sm" style="width: 240px; font-weight:600;" onchange="applyFilter()">
-                    <option value="ALL">🌎 Provincia Completa</option>
-                    </select>
+                <span class="brand-text"><i class="bi bi-bar-chart-steps text-primary me-2"></i>TABLERO DE CONTROL</span>
+                <div style="border-left: 1px solid #ccc; height: 20px;"></div>
+                <select id="parroquiaFilter" class="form-select form-select-sm border-0 bg-light fw-bold" style="width: 200px;" onchange="applyFilter()">
+                    <option value="ALL">Vista Provincial</option>
+                </select>
             </div>
             <div class="d-flex gap-2">
-                <button onclick="window.print()" class="btn btn-primary btn-sm fw-bold shadow-sm"><i class="bi bi-printer"></i> Imprimir Reporte</button>
-                <button onclick="location.reload()" class="btn btn-outline-secondary btn-sm shadow-sm"><i class="bi bi-arrow-clockwise"></i></button>
+                <button onclick="window.print()" class="btn btn-dark btn-sm py-1 px-3 fw-bold" style="font-size:0.75rem">PDF</button>
+                <button onclick="location.reload()" class="btn btn-light btn-sm border py-1"><i class="bi bi-arrow-clockwise"></i></button>
             </div>
         </div>
     </nav>
 
-    <div class="container-fluid px-4" style="margin-top: 90px; max-width: 1600px;">
+    <div class="container-fluid px-3" style="margin-top: 70px; max-width: 1600px;">
         
-        <div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-3">
+        <div class="d-flex justify-content-between align-items-end mb-3 pb-2 border-bottom">
             <div>
-                <h5 class="fw-bold text-secondary m-0">INFORME TÉCNICO PROVINCIAL</h5>
-                <h3 class="fw-bold text-primary m-0" id="reportTitle">Consolidado Provincial</h3>
+                <h5 class="fw-bold text-primary m-0" style="font-size:1.1rem">PRÁCTICAS PRE PROFESIONALES</h5>
+                <span class="text-muted small fw-bold">UEB & GAD PROVINCIAL SDT | Producto: Comités de Riesgos</span>
             </div>
             <div class="text-end">
-                <span class="badge bg-primary mb-1" style="font-size: 0.8rem;">PROYECTO VINCULACIÓN 2025</span>
-                <div class="small fw-bold text-muted">Fecha de Corte: <script>document.write(new Date().toLocaleDateString())</script></div>
+                <div class="small fw-bold text-muted" id="reportTitle">Consolidado</div>
+                <div style="font-size:0.7rem" class="text-muted"><script>document.write(new Date().toLocaleDateString())</script></div>
             </div>
         </div>
 
-        <div class="row g-4 mb-4">
-            <div class="col-md-3">
-                <div class="tech-card align-items-center justify-content-center py-4">
-                    <div class="kpi-label">Encuestas Procesadas</div>
-                    <div class="kpi-value" id="kpiTotal">0</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="tech-card align-items-center justify-content-center py-4">
-                    <div class="kpi-label">Índice de Gestión (1-5)</div>
-                    <div class="kpi-value text-primary" id="kpiPromedio">0.0</div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="tech-card flex-row align-items-center justify-content-between px-5 py-4">
-                    <div>
-                        <div class="kpi-label">Estado General</div>
-                        <div class="fw-bold text-uppercase" id="kpiEstado" style="font-size: 2rem">-</div>
-                    </div>
-                    <i class="bi bi-shield-check fs-1 opacity-25" style="font-size: 4rem !important;"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-4">
+        <div class="row g-3">
             
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 
-                <div class="tech-card p-0 overflow-hidden mb-4">
-                    <div class="p-3 border-bottom bg-light d-flex justify-content-between align-items-center">
-                        <h6 class="fw-bold m-0 text-primary"><i class="bi bi-geo-alt-fill me-2"></i>MONITOR GEOESPACIAL</h6>
-                        <span class="badge bg-white text-dark border">Santo Domingo + La Concordia</span>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-8">
+                        <div class="tech-card p-0 overflow-hidden">
+                            <div class="p-2 bg-light border-bottom d-flex justify-content-between align-items-center px-3">
+                                <span class="card-title"><i class="bi bi-geo-alt-fill me-1"></i> COBERTURA TERRITORIAL</span>
+                            </div>
+                            <div id="map"></div>
+                        </div>
                     </div>
-                    <div id="map"></div>
+                    <div class="col-md-4">
+                        <div class="tech-card align-items-center justify-content-center text-center py-4 mb-3">
+                            <div class="kpi-lbl">Diagnóstico General</div>
+                            <div class="fw-bold" id="kpiEstado" style="font-size: 1.6rem; margin: 10px 0;">-</div>
+                            <div id="kpiIcon"></div>
+                        </div>
+                        <div class="tech-card p-0 overflow-hidden" style="height: auto;">
+                            <div class="p-2 bg-light border-bottom px-3"><span class="card-title">Monitor Parroquial</span></div>
+                            <div id="territoryGrid" style="max-height: 140px; overflow-y: auto;"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <h6 class="text-primary fw-bold mb-4 border-bottom pb-2">ANÁLISIS ESTRUCTURAL (OBJETIVO 2)</h6>
-                <div class="row g-4" id="chartsGrid"></div>
+                <h6 class="card-title mb-2 ps-1 text-primary">ANÁLISIS TÉCNICO POR VARIABLE (OBJETIVO 2)</h6>
+                <div class="row g-3" id="chartsGrid">
+                    </div>
+
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 
-                <div class="tech-card mb-4">
-                    <div class="card-header-title">
-                        <span><i class="bi bi-radar me-2"></i>PERFIL DE CAPACIDADES</span>
-                        <button class="btn btn-sm btn-link text-muted p-0" onclick="downloadCanvas('radarChart')"><i class="bi bi-download"></i></button>
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <div class="tech-card py-2">
+                            <div class="kpi-box">
+                                <div class="kpi-val" id="kpiTotal">0</div>
+                                <div class="kpi-lbl">Encuestas</div>
+                            </div>
+                        </div>
                     </div>
-                    <div style="height: 300px;">
+                    <div class="col-6">
+                        <div class="tech-card py-2">
+                            <div class="kpi-box">
+                                <div class="kpi-val text-primary" id="kpiPromedio">0.0</div>
+                                <div class="kpi-lbl">Índice (1-5)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-card mb-3">
+                    <div class="card-header-sm">
+                        <span class="card-title">PERFIL DE CAPACIDADES</span>
+                    </div>
+                    <div style="height: 200px;">
                         <canvas id="radarChart"></canvas>
                     </div>
-                    <div class="ai-analysis-box">
-                        <span class="ai-label">SÍNTESIS DEL PERFIL:</span>
-                        <span id="radarAnalysisText">Procesando...</span>
+                    <div class="ai-box mt-2">
+                        <strong style="color:var(--accent)">SÍNTESIS:</strong> <span id="radarAnalysisText">...</span>
                     </div>
                 </div>
 
-                <div class="tech-card mb-4 p-0 overflow-hidden" style="max-height: 500px;">
-                    <div class="p-3 bg-light border-bottom">
-                        <h6 class="fw-bold m-0 text-secondary" style="font-size:0.8rem">SEMÁFORO PARROQUIAL</h6>
+                <div class="tech-card p-0 overflow-hidden" style="flex-grow: 1;">
+                    <div class="p-2 bg-light border-bottom px-3">
+                        <span class="card-title">REGISTRO DE ACTORES</span>
                     </div>
-                    <div id="territoryGrid" style="overflow-y: auto;">
-                        </div>
-                </div>
-
-                <div class="tech-card p-0 overflow-hidden">
-                    <div class="p-3 bg-light border-bottom">
-                        <h6 class="fw-bold m-0 text-secondary" style="font-size:0.8rem">BASE DE ACTORES</h6>
-                    </div>
-                    <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
-                        <table class="table table-sm table-hover mb-0" style="font-size:0.75rem">
-                            <thead class="table-light"><tr><th>Parroquia</th><th>Cargo</th><th>Nota</th></tr></thead>
+                    <input type="text" id="searchBox" class="form-control form-control-sm border-0 border-bottom rounded-0" placeholder="Filtrar...">
+                    <div class="table-responsive" style="height: 300px; overflow-y: auto;">
+                        <table class="table table-sm table-hover table-xs mb-0">
+                            <thead><tr><th>Parroquia</th><th>Cargo</th><th>Nota</th></tr></thead>
                             <tbody id="tableBody"></tbody>
                         </table>
                     </div>
@@ -216,39 +202,22 @@
 
     <script>
         // ==========================================
-        // ⚠️ TU URL DEL SCRIPT DE GOOGLE
+        // ⚠️ TU URL DE GOOGLE APPS SCRIPT
         // ==========================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
-        // LISTA OFICIAL DE PARROQUIAS RURALES (GAD PROVINCIAL)
-        const PARROQUIAS_OFICIALES = [
-            "Alluriquín", "Puerto Limón", "Luz de América", 
-            "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", 
-            "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"
-        ];
+        const PARROQUIAS_OFICIALES = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
+        let RAW_DATA = [], FILTERED_DATA = [], map, markersLayer = new L.LayerGroup(), chartInstances = {};
 
-        let RAW_DATA = [];
-        let FILTERED_DATA = [];
-        let map;
-        let markersLayer = new L.LayerGroup();
-        let chartInstances = {};
-
-        // TEXTOS TÉCNICOS (IA)
+        // TEXTOS TÉCNICOS
         const techAnalysisDB = {
             generic: {
-                low: ["Se identifica una vulnerabilidad crítica en este indicador. La falta de gestión efectiva compromete la operatividad del comité ante eventos adversos. Se recomienda una intervención correctiva inmediata.", "Desempeño deficiente. Los resultados evidencian una desconexión estructural que impide alcanzar los objetivos de resiliencia planteados en el proyecto."],
-                mid: ["Estabilidad operativa parcial. Si bien existen capacidades instaladas, estas son insuficientes para escenarios de alta complejidad. Se requiere un plan de fortalecimiento a mediano plazo.", "Nivel de gestión regular. El indicador cumple con los mínimos normativos, pero carece de la robustez necesaria para garantizar sostenibilidad sin apoyo externo."],
-                high: ["Capacidad de respuesta consolidada. El comité demuestra autonomía y suficiencia técnica en este aspecto, constituyéndose como un referente de buenas prácticas locales.", "Excelente desempeño institucional. La gestión en este componente valida la metodología aplicada y sugiere un alto potencial de replicabilidad en otros territorios."]
+                low: ["Nivel Crítico. Vulnerabilidad alta ante eventos adversos. Requiere intervención prioritaria.", "Capacidad operativa nula. Estructura débil."],
+                mid: ["Nivel Medio. Funcionalidad parcial. Se sugiere reforzar capacitación.", "Estabilidad condicionada. Cumple mínimos pero carece de robustez."],
+                high: ["Nivel Óptimo. Capacidades consolidadas y sostenibles.", "Alta Resiliencia. Estructura organizativa sólida."]
             }
         };
-
-        function getAiText(score) {
-            const level = score >= 4 ? 'high' : (score >= 3 ? 'mid' : 'low');
-            const texts = techAnalysisDB.generic[level];
-            return texts[Math.floor(Math.random() * texts.length)];
-        }
-
-        const labels = ["1. Participación", "2. Compromiso", "3. Capacitación", "4. Plan Local", "5. Comunicación", "6. Articulación", "7. Inclusión", "8. Réplica"];
+        const labels = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
 
         window.onload = () => {
             initMap();
@@ -260,73 +229,46 @@
 
         function initMap() {
             map = L.map('map', {zoomControl: false}).setView([-0.2530, -79.1754], 10);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; CARTO', maxZoom: 19
-            }).addTo(map);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO', maxZoom: 18 }).addTo(map);
             markersLayer.addTo(map);
             L.control.zoom({position: 'bottomright'}).addTo(map);
         }
 
         function initFilters() {
             const sel = document.getElementById('parroquiaFilter');
-            // Cargamos la lista oficial fija para que siempre aparezcan todas
-            PARROQUIAS_OFICIALES.sort().forEach(p => {
-                sel.add(new Option(p, p));
-            });
+            PARROQUIAS_OFICIALES.sort().forEach(p => sel.add(new Option(p, p)));
         }
 
         function applyFilter() {
             const val = document.getElementById('parroquiaFilter').value;
             FILTERED_DATA = val === 'ALL' ? RAW_DATA : RAW_DATA.filter(r=>r[1]===val);
-            document.getElementById('reportTitle').innerText = val === 'ALL' ? "Consolidado Provincial" : `Reporte: ${val}`;
-            
-            if(val !== 'ALL' && FILTERED_DATA.length > 0 && FILTERED_DATA[0][5]) {
-                map.setView([FILTERED_DATA[0][5], FILTERED_DATA[0][6]], 13);
-            } else {
-                map.setView([-0.2530, -79.1754], 10);
-            }
+            document.getElementById('reportTitle').innerText = val === 'ALL' ? "Consolidado" : val;
+            if(val !== 'ALL' && FILTERED_DATA.length>0 && FILTERED_DATA[0][5]) map.setView([FILTERED_DATA[0][5], FILTERED_DATA[0][6]], 13);
+            else map.setView([-0.2530, -79.1754], 10);
             updateDashboard();
         }
 
         function updateDashboard() {
             const total = FILTERED_DATA.length;
-            // Si no hay datos, limpiar y salir (pero mostrar ceros)
-            if(total===0) {
-                 document.getElementById('kpiTotal').innerText = "0";
-                 document.getElementById('kpiPromedio').innerText = "0.0";
-                 document.getElementById('kpiEstado').innerText = "SIN DATOS";
-                 document.getElementById('kpiEstado').className = "fw-bold text-muted text-uppercase";
-                 markersLayer.clearLayers();
-                 document.getElementById('chartsGrid').innerHTML = "<div class='col-12 text-center text-muted py-5'>No hay encuestas registradas para esta parroquia aún.</div>";
-                 document.getElementById('territoryGrid').innerHTML = "";
-                 document.getElementById('tableBody').innerHTML = "";
-                 return;
-            }
-
             markersLayer.clearLayers();
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = "";
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = "";
             let sums = new Array(8).fill(0);
 
+            if(total===0) {
+                document.getElementById('kpiTotal').innerText = "0"; document.getElementById('kpiPromedio').innerText = "0.0";
+                document.getElementById('kpiEstado').innerText = "SIN DATOS"; 
+                renderMonitor(); return;
+            }
+
             FILTERED_DATA.forEach(row => {
-                let s = 0; for(let i=0; i<8; i++) s+=Number(row[i+7]);
-                let avg = (s/8).toFixed(1);
-                for(let i=0; i<8; i++) sums[i]+=Number(row[i+7]);
-
+                let s=0; for(let i=0;i<8;i++) s+=Number(row[i+7]);
+                let avg=(s/8).toFixed(1);
+                for(let i=0;i<8;i++) sums[i]+=Number(row[i+7]);
                 tbody.innerHTML += `<tr><td>${row[1]}</td><td>${row[4]}</td><td><b>${avg}</b></td></tr>`;
-
                 if(row[5] && row[6]) {
                     let color = avg>=4 ? '#059669' : (avg>=3 ? '#d97706' : '#dc2626');
-                    let popup = `<div style="font-family:Inter; min-width:180px;">
-                        <div style="border-bottom:2px solid ${color}; font-weight:bold; margin-bottom:5px;">${row[2]}</div>
-                        <div style="font-size:11px; color:#444;">
-                            <b>Rep:</b> ${row[3]}<br>
-                            <b>Cargo:</b> ${row[4]}<br>
-                            <b>Parr:</b> ${row[1]}
-                        </div>
-                        <div style="background:${color}; color:white; text-align:center; border-radius:3px; margin-top:5px; font-weight:bold;">NOTA: ${avg}</div>
-                    </div>`;
-                    L.circleMarker([row[5], row[6]], {radius: 8, fillColor: color, color: '#fff', weight: 2, fillOpacity: 0.9}).bindPopup(popup).addTo(markersLayer);
+                    L.circleMarker([row[5], row[6]], {radius:6, fillColor:color, color:'#fff', weight:1, fillOpacity:1})
+                     .bindPopup(`<b>${row[2]}</b><br>${row[4]}<br>Nota: ${avg}`).addTo(markersLayer);
                 }
             });
 
@@ -335,11 +277,11 @@
             
             document.getElementById('kpiTotal').innerText = total;
             document.getElementById('kpiPromedio').innerText = global;
-            const kpiState = document.getElementById('kpiEstado');
             
-            if(global>=4) { kpiState.innerText = "RESILIENTE"; kpiState.className = "fw-bold text-success text-uppercase"; }
-            else if(global>=3) { kpiState.innerText = "EN DESARROLLO"; kpiState.className = "fw-bold text-warning text-uppercase"; }
-            else { kpiState.innerText = "CRÍTICO"; kpiState.className = "fw-bold text-danger text-uppercase"; }
+            const st = document.getElementById('kpiEstado');
+            if(global>=4) { st.innerText = "RESILIENTE"; st.className="fw-bold text-success"; }
+            else if(global>=3) { st.innerText = "EN PROCESO"; st.className="fw-bold text-warning"; }
+            else { st.innerText = "CRÍTICO"; st.className="fw-bold text-danger"; }
 
             renderCharts(avgs);
             renderRadar(avgs);
@@ -347,59 +289,33 @@
         }
 
         function renderCharts(avgs) {
-            const container = document.getElementById('chartsGrid');
-            container.innerHTML = "";
+            const c = document.getElementById('chartsGrid'); c.innerHTML = "";
             avgs.forEach((avg, i) => {
                 const color = avg>=4 ? '#059669' : (avg>=3 ? '#d97706' : '#dc2626');
-                const text = getAiText(avg);
-                const id = `chart${i}`;
-                
-                container.innerHTML += `
-                <div class="col-md-6">
-                    <div class="tech-card p-3 h-100">
-                        <div class="d-flex justify-content-between mb-2">
-                            <h6 class="card-header-title m-0 p-0 border-0 text-dark">${labels[i]}</h6>
-                            <span class="badge" style="background:${color}">${avg}</span>
-                        </div>
-                        <div style="height: 40px;"><canvas id="${id}"></canvas></div>
-                        <div class="ai-analysis-box">${text}</div>
+                const text = techAnalysisDB.generic[avg>=4?'high':(avg>=3?'mid':'low')][Math.floor(Math.random()*2)];
+                const id = `c${i}`;
+                c.innerHTML += `<div class="col-md-3"> <div class="tech-card p-2 h-100">
+                        <div class="d-flex justify-content-between mb-1"><span class="card-title text-dark">${labels[i]}</span><b style="color:${color}">${avg}</b></div>
+                        <div style="height:35px"><canvas id="${id}"></canvas></div>
+                        <div class="ai-box mt-2">${text}</div>
                     </div>
                 </div>`;
-
-                setTimeout(() => {
-                    new Chart(document.getElementById(id), {
-                        type: 'bar',
-                        data: { labels: [''], datasets: [{ data: [avg], backgroundColor: color, barThickness: 15, borderRadius: 4 }] },
-                        options: { indexAxis: 'y', maintainAspectRatio: false, scales: { x:{min:0, max:5, display:false}, y:{display:false} }, plugins:{legend:{display:false}} }
-                    });
-                }, 0);
+                setTimeout(() => new Chart(document.getElementById(id), {
+                    type: 'bar', data: {labels:[''], datasets:[{data:[avg], backgroundColor:color, barThickness:10, borderRadius:2}]},
+                    options: {indexAxis:'y', maintainAspectRatio:false, scales:{x:{min:0,max:5,display:false},y:{display:false}}, plugins:{legend:{display:false}}}
+                }), 0);
             });
         }
 
         function renderMonitor() {
             const c = document.getElementById('territoryGrid'); c.innerHTML = "";
-            const g = {};
-            // Inicializar todas las parroquias oficiales en 0
-            PARROQUIAS_OFICIALES.forEach(p => { g[p] = {s:0, c:0}; });
-
-            // Llenar con datos reales
-            RAW_DATA.forEach(r => {
-                const p = r[1]; 
-                if(g[p]) {
-                   let sum=0; for(let i=0;i<8;i++) sum+=Number(r[i+7]);
-                   g[p].s+=sum/8; g[p].c++;
-                }
-            });
-
+            const g = {}; PARROQUIAS_OFICIALES.forEach(p=>g[p]={s:0,c:0});
+            RAW_DATA.forEach(r=>{ if(g[r[1]]) { let s=0; for(let i=0;i<8;i++) s+=Number(r[i+7]); g[r[1]].s+=s/8; g[r[1]].c++; }});
             Object.keys(g).sort().forEach(p => {
-                const d = g[p];
-                const s = d.c > 0 ? (d.s/d.c).toFixed(1) : "0.0";
-                // Si es 0.0 lo ponemos gris, si no aplicamos semáforo
-                let border = d.c===0 ? 'border-left: 4px solid #e2e8f0' : (s>=4 ? 'border-success' : (s>=3 ? 'border-warning' : 'border-danger'));
-                let color = d.c===0 ? 'text-muted' : (s>=4 ? 'text-success' : (s>=3 ? 'text-warning' : 'text-danger'));
-
-                c.innerHTML += `<div class="territory-item ${border.includes('solid')?'':border}" style="${border.includes('solid')?border:''}" onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();">
-                    <span class="t-name text-secondary">${p}</span><span class="t-score ${color}">${s}</span>
+                const d=g[p]; const s=d.c>0?(d.s/d.c).toFixed(1):"0.0";
+                const color = d.c===0?'#94a3b8':(s>=4?'#059669':(s>=3?'#d97706':'#dc2626'));
+                c.innerHTML += `<div class="territory-item" onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();">
+                    <span class="fw-bold text-secondary">${p}</span><span style="color:${color}; font-weight:800">${s}</span>
                 </div>`;
             });
         }
@@ -407,19 +323,18 @@
         function renderRadar(avgs) {
             const ctx = document.getElementById('radarChart');
             if(chartInstances['radar']) chartInstances['radar'].destroy();
-            const global = avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8;
-            document.getElementById('radarAnalysisText').innerText = global>3.5 ? "Perfil consolidado. Apto para operaciones." : "Brechas detectadas. Requiere capacitación.";
-            
+            const g = avgs.length > 0 ? avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8 : 0;
+            document.getElementById('radarAnalysisText').innerText = g>3.5?"Capacidades consolidadas.":"Brechas detectadas.";
             chartInstances['radar'] = new Chart(ctx, {
-                type: 'radar',
-                data: { labels: labels.map(l=>l.split('. ')[1]), datasets: [{ label: 'Nivel', data: avgs, backgroundColor: 'rgba(37, 99, 235, 0.2)', borderColor: '#2563eb', borderWidth: 2 }] },
-                options: { scales: { r: { suggestedMin: 0, suggestedMax: 5, ticks:{display:false} } }, plugins:{legend:{display:false}}, maintainAspectRatio: false }
+                type: 'radar', data: {labels:labels, datasets:[{data:avgs, backgroundColor:'rgba(37,99,235,0.2)', borderColor:'#2563eb', borderWidth:1}]},
+                options: {scales:{r:{suggestedMin:0,suggestedMax:5,ticks:{display:false}}}, plugins:{legend:{display:false}}, maintainAspectRatio:false}
             });
         }
         
-        function downloadCanvas(id) {
-            const link = document.createElement('a'); link.download = 'grafica.png'; link.href = document.getElementById(id).toDataURL(); link.click();
-        }
+        document.getElementById('searchBox').addEventListener('keyup', function() {
+            let v = this.value.toLowerCase();
+            document.querySelectorAll('#tableBody tr').forEach(r => r.style.display = r.innerText.toLowerCase().includes(v) ? '' : 'none');
+        });
     </script>
 </body>
 </html>
