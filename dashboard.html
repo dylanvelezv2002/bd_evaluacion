@@ -16,7 +16,7 @@
 
     <style>
         :root {
-            --bg-app: #f3f4f6;
+            --bg-app: #f8f9fa;
             --white: #ffffff;
             --primary: #1e40af;
             --text-dark: #111827;
@@ -31,82 +31,74 @@
             padding-bottom: 50px;
         }
 
-        /* --- PRELOADER (Restaurado) --- */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff; z-index: 99999; /* Z-index alto para tapar todo */
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid #e5e7eb;
-            border-top: 5px solid var(--primary); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 15px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
         /* --- HEADER --- */
         .top-bar {
-            background: var(--white); border-bottom: 1px solid var(--border);
-            padding: 15px 20px; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            margin-bottom: 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.04);
         }
-        .project-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
-        .project-subtitle { font-size: 0.75rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; }
+        .project-title { font-size: 1.4rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+        .project-subtitle { font-size: 0.85rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; margin-top: 4px; }
 
-        /* --- TARJETAS (Diseño Limpio) --- */
+        /* --- TARJETAS --- */
         .clean-card {
             background: var(--white); border-radius: 12px; border: 1px solid var(--border);
-            padding: 25px; height: 100%; box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 25px; height: 100%; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             display: flex; flex-direction: column; justify-content: space-between;
         }
         
         .card-header-custom {
-            border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px;
+            border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 15px;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .card-title-text { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-gray); }
+        .card-title-text { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-gray); }
 
-        /* --- ETIQUETAS DE ESTADO (MATRIZ) --- */
-        .badge-status { padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        /* --- ETIQUETAS --- */
+        .badge-status { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
         .bg-fortaleza { background-color: #dcfce7; color: #166534; border: 1px solid #86efac; }
         .bg-mejora { background-color: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
         .bg-critico { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
 
         /* --- KPIS --- */
-        .kpi-val { font-size: 2.5rem; font-weight: 900; color: var(--text-dark); line-height: 1; }
-        .kpi-lbl { font-size: 0.75rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; margin-top: 5px; }
+        .kpi-val { font-size: 3rem; font-weight: 900; color: var(--text-dark); line-height: 1; }
+        .kpi-lbl { font-size: 0.8rem; color: var(--text-gray); font-weight: 700; text-transform: uppercase; margin-top: 5px; }
 
         /* --- MAPA --- */
-        #map { height: 400px; width: 100%; border-radius: 8px; border: 1px solid var(--border); z-index: 1; }
+        #map { height: 420px; width: 100%; border-radius: 8px; border: 1px solid var(--border); z-index: 1; }
 
         /* --- ANÁLISIS TÉCNICO --- */
         .analysis-box {
             background-color: #f8fafc; border-left: 4px solid var(--primary);
-            padding: 12px; font-size: 0.8rem; color: #334155; line-height: 1.5;
+            padding: 15px; font-size: 0.82rem; color: #334155; line-height: 1.5;
             margin-top: 15px; border-radius: 0 6px 6px 0; text-align: justify;
         }
+        .analysis-label { font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase; display: block; margin-bottom: 5px; }
 
-        /* --- BOTÓN DESCARGA --- */
-        .btn-icon { border: 1px solid #e5e7eb; background: white; color: #6b7280; padding: 4px 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid #e5e7eb; border-top: 5px solid var(--primary); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- BOTONES --- */
+        .btn-icon { border: 1px solid #e5e7eb; background: white; color: #6b7280; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
         .btn-icon:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* --- RESPONSIVE (MÓVIL) --- */
-        @media (max-width: 768px) {
-            .top-bar { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .top-bar .d-flex { width: 100%; justify-content: space-between; }
-            .kpi-val { font-size: 2rem; }
-            #map { height: 300px; }
-        }
-
-        /* --- IMPRESIÓN (CORREGIDO) --- */
         @media print {
             .no-print { display: none !important; }
-            body { background: white; padding: 0; font-size: 10pt; }
-            .container-fluid { padding: 0 !important; }
-            .clean-card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; page-break-inside: avoid; margin-bottom: 20px; }
-            .col-xl-3 { width: 48% !important; float: left; margin: 1%; } /* Forzar 2 columnas */
-            .analysis-box { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; }
-            .badge-status { -webkit-print-color-adjust: exact; }
-            #map { height: 250px; }
+            body { padding: 0; background: white; }
+            .clean-card { border: 1px solid #ccc; break-inside: avoid; box-shadow: none; margin-bottom: 20px; }
+            .col-xl-3 { width: 48% !important; float: left; margin: 1%; }
+            #map { height: 300px; }
+            .analysis-box { background-color: #f0f0f0 !important; -webkit-print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -114,61 +106,63 @@
 
     <div id="preloader">
         <div class="spinner"></div>
-        <h6 class="fw-bold text-secondary">Cargando Datos...</h6>
-        <small class="text-muted">Conectando con Base de Datos</small>
+        <h6 class="fw-bold text-secondary">Cargando Sistema...</h6>
     </div>
 
     <div class="top-bar no-print">
         <div>
             <div class="project-title">GUÍA DE CONFORMACIÓN DE COMITÉS COMUNITARIOS</div>
-            <div class="project-subtitle">Prácticas Pre-Profesionales | UEB & GAD Provincial SDT</div>
+            <div class="project-subtitle">PRÁCTICAS PRE-PROFESIONALES | UEB & GAD PROVINCIAL SDT</div>
         </div>
-        <div class="d-flex gap-2 align-items-center">
-            <select id="parroquiaFilter" class="form-select form-select-sm fw-bold" style="width: 200px;" onchange="applyFilter()">
+        <div class="d-flex gap-3 align-items-center">
+            <select id="parroquiaFilter" class="form-select fw-bold border-secondary" style="width: 220px; height: 45px;" onchange="applyFilter()">
                 <option value="ALL">Provincia Completa</option>
             </select>
-            <button onclick="window.print()" class="btn btn-dark btn-sm fw-bold px-3"><i class="bi bi-printer me-1"></i> PDF</button>
+            <button onclick="window.print()" class="btn btn-dark fw-bold px-4" style="height: 45px;"><i class="bi bi-printer-fill me-2"></i> PDF</button>
         </div>
     </div>
 
-    <div class="container-fluid px-4" style="max-width: 1600px;">
+    <div class="container-fluid px-5" style="max-width: 1800px;">
         
-        <div class="mb-4 pb-2 border-bottom">
+        <div class="mb-5 pb-3 border-bottom">
             <div class="d-flex flex-wrap justify-content-between align-items-end">
-                <h3 class="fw-bold m-0 text-dark" id="reportTitle">Reporte Consolidado</h3>
+                <div>
+                    <h2 class="fw-bold m-0 text-dark" id="reportTitle">Reporte Consolidado</h2>
+                    <p class="text-muted m-0 mt-1">Evaluación de Fortalezas y Áreas de Mejora</p>
+                </div>
                 <div class="text-end text-muted">
-                    <span class="badge bg-primary mb-1">GESTIÓN DE RIESGOS</span>
-                    <div class="small fw-bold">Fecha: <script>document.write(new Date().toLocaleDateString())</script></div>
+                    <span class="badge bg-primary mb-2">GESTIÓN DE RIESGOS</span>
+                    <div class="fw-bold">Fecha Corte: <script>document.write(new Date().toLocaleDateString())</script></div>
                 </div>
             </div>
         </div>
 
         <div class="row g-4 mb-5">
             <div class="col-md-4">
-                <div class="clean-card flex-row align-items-center justify-content-between px-4">
+                <div class="clean-card flex-row align-items-center justify-content-between px-5 py-4">
                     <div>
                         <div class="kpi-lbl">COMUNIDADES EVALUADAS</div>
                         <div class="kpi-val" id="kpiTotal">0</div>
                     </div>
-                    <i class="bi bi-people fs-1 text-secondary opacity-25"></i>
+                    <i class="bi bi-people fs-1 text-secondary opacity-25" style="font-size: 3.5rem !important;"></i>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="clean-card flex-row align-items-center justify-content-between px-4">
+                <div class="clean-card flex-row align-items-center justify-content-between px-5 py-4">
                     <div>
                         <div class="kpi-lbl">ÍNDICE DE GESTIÓN (1-5)</div>
                         <div class="kpi-val text-primary" id="kpiPromedio">0.0</div>
                     </div>
-                    <i class="bi bi-bar-chart fs-1 text-primary opacity-25"></i>
+                    <i class="bi bi-bar-chart fs-1 text-primary opacity-25" style="font-size: 3.5rem !important;"></i>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="clean-card flex-row align-items-center justify-content-between px-4">
+                <div class="clean-card flex-row align-items-center justify-content-between px-5 py-4">
                     <div>
                         <div class="kpi-lbl">ESTADO DEL PROYECTO</div>
-                        <div class="fw-bold text-uppercase fs-3" id="kpiEstado">-</div>
+                        <div class="fw-bold text-uppercase" id="kpiEstado" style="font-size: 2rem;">-</div>
                     </div>
-                    <i class="bi bi-shield-check fs-1 opacity-25"></i>
+                    <i class="bi bi-shield-check fs-1 opacity-25" style="font-size: 3.5rem !important;"></i>
                 </div>
             </div>
         </div>
@@ -176,19 +170,22 @@
         <div class="row g-4 mb-5">
             <div class="col-lg-8">
                 <div class="clean-card p-0 overflow-hidden">
-                    <div class="p-3 bg-white border-bottom"><span class="fw-bold text-secondary small">MAPA GEOREFERENCIADO</span></div>
+                    <div class="p-4 bg-white border-bottom d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-secondary"><i class="bi bi-geo-alt-fill me-2"></i>MONITOR GEOREFERENCIADO</span>
+                        <span class="badge bg-light text-dark border">Santo Domingo + La Concordia</span>
+                    </div>
                     <div id="map"></div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="clean-card p-0 overflow-hidden d-flex flex-column" style="max-height: 455px;">
-                    <div class="p-3 bg-white border-bottom"><span class="fw-bold text-secondary small">MONITOR DE PARROQUIAS</span></div>
+                <div class="clean-card p-0 overflow-hidden d-flex flex-column" style="max-height: 490px;">
+                    <div class="p-4 bg-white border-bottom"><span class="fw-bold text-secondary">SEMÁFORO POR PARROQUIAS</span></div>
                     <div id="territoryGrid" style="overflow-y: auto; flex-grow: 1;"></div>
                 </div>
             </div>
         </div>
 
-        <h5 class="fw-bold text-secondary mb-4 pb-2 border-bottom text-uppercase">Matriz de Fortalezas y Áreas de Mejora (Objetivo 2)</h5>
+        <h4 class="fw-bold text-secondary mb-4 pb-3 border-bottom text-uppercase">Matriz de Fortalezas y Áreas de Mejora (Objetivo 2)</h4>
         
         <div class="row g-4 mb-5" id="chartsGrid">
             </div>
@@ -200,27 +197,26 @@
                         <span class="card-title-text">PERFIL DE COMPETENCIAS</span>
                         <button class="btn-icon no-print" onclick="downloadCard('cardRadar', 'Radar')"><i class="bi bi-camera"></i></button>
                     </div>
-                    <div style="height: 250px;"><canvas id="radarChart"></canvas></div>
+                    <div style="height: 300px;"><canvas id="radarChart"></canvas></div>
                 </div>
             </div>
             <div class="col-lg-8">
                  <div class="clean-card p-0 overflow-hidden">
-                    <div class="p-3 border-bottom"><span class="fw-bold small text-secondary">BASE DE DATOS DE ACTORES</span></div>
-                    <div class="table-responsive" style="max-height: 350px;">
-                        <table class="table table-hover mb-0 w-100 small">
-                            <thead class="table-light"><tr><th>Fecha</th><th>Parroquia</th><th>Comunidad</th><th>Cargo</th><th>Nota</th></tr></thead>
+                    <div class="p-4 border-bottom"><span class="fw-bold small text-secondary">BASE DE DATOS DE ACTORES</span></div>
+                    <div class="table-responsive" style="max-height: 400px;">
+                        <table class="table table-hover mb-0 w-100">
+                            <thead class="table-light"><tr><th class="p-3">Fecha</th><th class="p-3">Parroquia</th><th class="p-3">Comunidad</th><th class="p-3">Cargo</th><th class="p-3">Nota</th></tr></thead>
                             <tbody id="tableBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
         // ============================================
-        // ⚠️ PEGA AQUÍ TU URL DEL APPS SCRIPT
+        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
         // ============================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
@@ -229,22 +225,64 @@
         
         let RAW_DATA = [], FILTERED_DATA = [], map, markersLayer = new L.LayerGroup(), chartInstances = {};
 
-        // TEXTOS TÉCNICOS LARGOS
-        const analysisDB = {
-            low: "Vulnerabilidad Crítica. El indicador muestra deficiencias estructurales graves que comprometen la operatividad del comité. Se requiere intervención correctiva inmediata.",
-            mid: "Estabilidad Parcial. Existen capacidades instaladas pero son insuficientes para escenarios complejos. Se cumple con la normativa mínima pero falta robustez.",
-            high: "Fortaleza Consolidada. El comité demuestra autonomía técnica y suficiencia operativa. Este indicador valida la metodología aplicada en la guía."
+        // --- MOTOR DE DICTAMEN TÉCNICO (LENGUAJE DE INGENIERÍA) ---
+        const techDB = {
+            p1: { // Participación
+                low: ["Fractura del tejido social evidenciada. La convocatoria no alcanzó el umbral mínimo de representatividad, deslegitimando el proceso inicial.", "Ausentismo crítico. Se requiere replantear los canales de difusión y realizar un mapeo de actores clave urgente."],
+                mid: ["Convocatoria sectorizada. Asistencia parcial que no garantiza la participación de grupos vulnerables. Se sugiere reforzar la invitación personalizada.", "Nivel de participación estándar. Suficiente para validación formal, pero carece de la masa crítica necesaria para sostenibilidad operativa."],
+                high: ["Alta legitimidad social. La convocatoria masiva valida plenamente la conformación del comité y garantiza el respaldo comunitario.", "Excelente poder de movilización. La comunidad demuestra interés activo, constituyendo un activo fundamental para la resiliencia local."]
+            },
+            p2: { // Compromiso
+                low: ["Riesgo de acefalía. La directiva muestra apatía y desconocimiento de roles, lo que augura una disolución temprana del comité.", "Liderazgo débil. Los cargos fueron asumidos por presión y no por convicción. Se requiere intervención motivacional inmediata."],
+                mid: ["Compromiso condicionado. La directiva tiene voluntad política pero depende del acompañamiento técnico externo para operar.", "Liderazgo en desarrollo. Existen dudas sobre el alcance de funciones que limitan la autonomía de gestión."],
+                high: ["Gobernanza local fortalecida. La directiva muestra empoderamiento y proactividad en la toma de decisiones.", "Liderazgo consolidado. Los actores clave asumen su rol de primeros respondientes con responsabilidad y autonomía."]
+            },
+            p3: { // Capacitación
+                low: ["Brecha cognitiva crítica. Los conceptos de autoprotección no fueron asimilados, manteniendo la vulnerabilidad ante amenazas.", "Falla en transferencia de conocimientos. Se requiere repetir el taller con metodología lúdica adaptada al territorio."],
+                mid: ["Asimilación teórica parcial. Comprenden los riesgos pero fallan en la aplicación práctica de protocolos de seguridad.", "Competencias básicas. El nivel es suficiente para prevención, pero insuficiente para respuesta ante eventos adversos."],
+                high: ["Apropiación del conocimiento. La comunidad domina los protocolos y demuestra capacidad de réplica familiar.", "Capacidades instaladas exitosas. El proceso formativo logró modificar la percepción del riesgo en la población."]
+            },
+            p4: { // Plan Local
+                low: ["Instrumento inoperante. El Plan es visto como un requisito burocrático sin valor práctico para la comunidad.", "Falta de validación. El documento no refleja la realidad territorial y será ignorado en una emergencia real."],
+                mid: ["Validación formal. El Plan existe y está firmado, pero falta socialización masiva para que sea efectivo.", "Planificación reactiva. El documento se enfoca en respuesta y descuida las fases de prevención y mitigación."],
+                high: ["Herramienta de gestión validada. El Plan es reconocido por la comunidad como la hoja de ruta oficial ante desastres.", "Planificación participativa. La construcción colectiva asegura la aplicabilidad y respeto de los protocolos."]
+            },
+            p5: { // Comunicación
+                low: ["Canales rotos. Existe desconfianza y rumores que impiden el flujo de información oficial.", "Silencio organizativo. La falta de comunicación interna genera duplicidad de esfuerzos y conflictos."],
+                mid: ["Comunicación vertical. La información fluye de los líderes hacia abajo, pero falta retroalimentación de las bases.", "Flujo intermitente. Los canales existen pero no se activan de manera preventiva, solo reactiva."],
+                high: ["Sinergia comunicacional. Clima de confianza que permite el flujo transparente de información crítica.", "Redes activas. Los canales de alerta temprana comunitarios están operativos y verificados."]
+            },
+            p6: { // Articulación
+                low: ["Aislamiento institucional. La comunidad percibe abandono por parte de los entes rectores.", "Desarticulación total. No existen puentes de comunicación con el GAD o cuerpos de respuesta."],
+                mid: ["Relación asistencialista. Esperan recursos del GAD sin aportar contraparte organizativa local.", "Articulación formal. Existen convenios pero falta operatividad en el territorio."],
+                high: ["Alianza estratégica. Relación de corresponsabilidad efectiva entre Comunidad, Universidad y GAD.", "Gobernanza multinivel. La comunidad se integra activamente al Sistema Descentralizado de Gestión de Riesgos."]
+            },
+            p7: { // Inclusión
+                low: ["Exclusión estructural. El comité no representa a la diversidad demográfica del sector.", "Ausencia de enfoque de género. La toma de decisiones está masculinizada y centralizada."],
+                mid: ["Inclusión simbólica. Participan mujeres y jóvenes pero sin poder real de decisión en la directiva.", "Representatividad parcial. Faltan sectores periféricos o grupos prioritarios en la mesa."],
+                high: ["Enfoque integral. El comité refleja la diversidad de la comunidad, garantizando atención a grupos vulnerables.", "Participación equitativa. Liderazgos femeninos y juveniles fortalecidos y activos."]
+            },
+            p8: { // Réplica
+                low: ["Iniciativa aislada. El proceso no genera interés en comunidades vecinas.", "Modelo no transferible. La experiencia se percibe como un evento único y no como un proceso continuo."],
+                mid: ["Potencial moderado. Se requiere consolidar resultados internos antes de intentar exportar el modelo.", "Visibilidad limitada. Los logros del comité no han sido suficientemente difundidos."],
+                high: ["Efecto multiplicador. La comunidad se convierte en referente y mentora para recintos aledaños.", "Sostenibilidad garantizada. El modelo de gestión es robusto y fácilmente replicable en otros contextos."]
+            }
         };
+
+        function getAnalysisText(key, score) {
+            const level = score >= 4 ? 'high' : (score >= 3 ? 'mid' : 'low');
+            const texts = techDB[key][level];
+            return texts[Math.floor(Math.random() * texts.length)];
+        }
 
         window.onload = () => {
             initMap();
             initFilters();
             fetch(API_URL).then(r => r.json()).then(d => {
-                // OCULTAR PRELOADER AL CARGAR
                 document.getElementById('preloader').style.display = 'none';
                 if(d.data) { RAW_DATA = d.data; applyFilter(); }
             }).catch(e => {
-                document.getElementById('preloader').innerHTML = "<h6 class='text-danger'>Error de Conexión</h6>";
+                document.getElementById('preloader').innerHTML = "<h5 class='text-danger fw-bold'>Error de Conexión</h5>";
             });
         };
 
@@ -267,7 +305,6 @@
             
             if(val !== 'ALL' && FILTERED_DATA.length > 0 && FILTERED_DATA[0][5]) map.setView([FILTERED_DATA[0][5], FILTERED_DATA[0][6]], 13);
             else map.setView([-0.2530, -79.1754], 10);
-            
             updateDashboard();
         }
 
@@ -284,18 +321,17 @@
                 let avg = (s/8).toFixed(1);
                 for(let i=0;i<8;i++) sums[i]+=Number(row[i+7]);
 
-                tbody.innerHTML += `<tr><td>${new Date(row[0]).toLocaleDateString()}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[4]}</td><td><b>${avg}</b></td></tr>`;
+                tbody.innerHTML += `<tr><td class="p-3">${new Date(row[0]).toLocaleDateString()}</td><td class="p-3">${row[1]}</td><td class="p-3">${row[2]}</td><td class="p-3"><span class="badge bg-light text-dark border">${row[4]}</span></td><td class="p-3"><b>${avg}</b></td></tr>`;
 
                 if(row[5] && row[6]) {
                     let color = avg>=4 ? '#10b981' : (avg>=3 ? '#f59e0b' : '#ef4444');
-                    // POPUP COMPLETO
                     let popup = `
                         <div style="font-family:Inter; min-width:200px; font-size:12px;">
-                            <div style="border-bottom:2px solid ${color}; font-weight:bold; margin-bottom:5px;">${row[2]}</div>
+                            <div style="border-bottom:2px solid ${color}; font-weight:bold; margin-bottom:5px; padding-bottom:3px;">${row[2]}</div>
                             <div><b>Rep:</b> ${row[3]}</div>
                             <div><b>Cargo:</b> ${row[4]}</div>
                             <div><b>Fecha:</b> ${new Date(row[0]).toLocaleDateString()}</div>
-                            <div class="mt-2 p-1 text-center text-white rounded" style="background:${color}">NOTA: ${avg}</div>
+                            <div class="mt-2 p-1 text-center text-white rounded fw-bold" style="background:${color}">NOTA: ${avg} / 5.0</div>
                         </div>`;
                     L.circleMarker([row[5], row[6]], {radius:8, fillColor:color, color:'white', weight:2, fillOpacity:1}).bindPopup(popup).addTo(markersLayer);
                 }
@@ -306,7 +342,6 @@
             
             document.getElementById('kpiTotal').innerText = total;
             document.getElementById('kpiPromedio').innerText = global;
-            
             const st = document.getElementById('kpiEstado');
             if(global>=4) { st.innerText="RESILIENTE"; st.className="fw-bold text-success"; }
             else if(global>=3) { st.innerText="EN PROCESO"; st.className="fw-bold text-warning"; }
@@ -321,7 +356,7 @@
              document.getElementById('kpiTotal').innerText = "0";
              document.getElementById('kpiPromedio').innerText = "0.0";
              document.getElementById('kpiEstado').innerText = "-";
-             document.getElementById('chartsGrid').innerHTML = "<p class='col-12 text-muted'>Sin datos.</p>";
+             document.getElementById('chartsGrid').innerHTML = "<p class='col-12 text-muted p-4'>No hay datos disponibles para esta selección.</p>";
              document.getElementById('territoryGrid').innerHTML = "";
              document.getElementById('tableBody').innerHTML = "";
              if(chartInstances['radar']) chartInstances['radar'].destroy();
@@ -335,13 +370,15 @@
                 const label = avg>=4 ? 'FORTALEZA' : (avg>=3 ? 'ÁREA DE MEJORA' : 'ÁREA CRÍTICA');
                 const badgeClass = avg>=4 ? 'bg-fortaleza' : (avg>=3 ? 'bg-mejora' : 'bg-critico');
                 const cardId = `cardChart${i}`;
+                const qKey = `p${i+1}`;
+                const text = getAnalysisText(qKey, avg);
 
                 c.innerHTML += `
                 <div class="col-md-6 col-xl-3">
                     <div class="clean-card" id="${cardId}">
                         <div class="card-header-custom">
                             <span class="card-title-text">${labels[i]}</span>
-                            <button class="btn-icon no-print" onclick="downloadCard('${cardId}', '${labels[i]}')"><i class="bi bi-download"></i></button>
+                            <button class="btn-icon no-print" onclick="downloadCard('${cardId}', '${labels[i]}')" title="Descargar Gráfica"><i class="bi bi-camera"></i></button>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h2 class="fw-bold m-0" style="color:${color}">${avg}</h2>
@@ -350,7 +387,7 @@
                         <div style="height: 60px;"><canvas id="canvasChart${i}"></canvas></div>
                         <div class="analysis-box">
                             <span class="analysis-label">DICTAMEN TÉCNICO:</span>
-                            ${analysisDB[level]}
+                            ${text}
                         </div>
                     </div>
                 </div>`;
@@ -375,9 +412,9 @@
                 const color = d.c===0 ? '#9ca3af' : (s>=4 ? '#10b981' : (s>=3 ? '#f59e0b' : '#ef4444'));
                 
                 c.innerHTML += `
-                <div style="padding: 10px; border-bottom:1px solid #f3f4f6; cursor:pointer; display:flex; justify-content:space-between;" onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();">
-                    <span style="font-size:0.8rem; font-weight:600; color:#374151;">${p}</span>
-                    <span style="font-weight:800; color:${color}">${s}</span>
+                <div style="padding: 12px 15px; border-bottom:1px solid #f3f4f6; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();">
+                    <span style="font-size:0.85rem; font-weight:600; color:#374151;">${p}</span>
+                    <span class="badge" style="background:${color}; font-size:0.9rem">${s}</span>
                 </div>`;
             });
         }
@@ -395,13 +432,13 @@
         function downloadCard(cardId, title) {
             const element = document.getElementById(cardId);
             const btn = element.querySelector('.btn-icon');
-            btn.style.display = 'none'; // Ocultar botón
+            btn.style.display = 'none'; 
             html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `Analisis_${title}.png`;
+                link.download = `Analisis_${title.replace(/ /g,'_')}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-                btn.style.display = 'block'; // Mostrar botón
+                btn.style.display = 'block';
             });
         }
     </script>
