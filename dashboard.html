@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Resultados - Gestión de Riesgos</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+        .card { border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-radius: 10px; margin-bottom: 20px; }
+        .header-dashboard { background: #2c3e50; color: white; padding: 20px; margin-bottom: 30px; }
+        
+        /* Estilos de Matriz */
+        .bg-fortaleza { background-color: #d1e7dd; color: #0f5132; border-left: 5px solid #198754; }
+        .bg-mejora { background-color: #fff3cd; color: #664d03; border-left: 5px solid #ffc107; }
+        .bg-critico { background-color: #f8d7da; color: #842029; border-left: 5px solid #dc3545; }
+        
+        .analysis-box {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            border-left: 3px solid #0d6efd;
+        }
+        .table-responsive { font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <div class="header-dashboard text-center">
+        <h3>📊 PANEL DE CONTROL DE RESULTADOS</h3>
+        <p class="m-0 opacity-75">Evaluación de Procesos de Conformación de Comités - UEB & GAD SDT</p>
+    </div>
+
+    <div class="container-fluid px-4">
+        
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card p-3 text-center border-primary border-bottom border-3">
+                    <h6 class="text-muted">Total Encuestados</h6>
+                    <h2 class="fw-bold text-primary" id="totalEncuestas">0</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 text-center border-success border-bottom border-3">
+                    <h6 class="text-muted">Promedio General</h6>
+                    <h2 class="fw-bold text-success" id="promedioGlobal">0.0</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="fw-bold m-0">📥 Descargar Reporte</h6>
+                        <button onclick="window.print()" class="btn btn-outline-dark btn-sm"><i class="bi bi-printer"></i> Imprimir PDF</button>
+                    </div>
+                    <small class="text-muted mt-2">Genera un reporte instantáneo de la situación actual.</small>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="text-primary fw-bold mb-3"><i class="bi bi-grid-3x3-gap"></i> Matriz de Fortalezas y Mejoras (Objetivo 2)</h5>
+        <div class="card p-0 overflow-hidden mb-4">
+            <div class="table-responsive">
+                <table class="table table-bordered mb-0 text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Indicador Evaluado</th>
+                            <th>Promedio</th>
+                            <th>Diagnóstico Técnico</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrixBody">
+                        <tr><td colspan="3">Cargando datos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="text-primary fw-bold mb-3"><i class="bi bi-bar-chart-line"></i> Análisis por Variable</h5>
+        <div class="row" id="chartsContainer">
+            </div>
+
+        <h5 class="text-primary fw-bold mb-3 mt-4"><i class="bi bi-people"></i> Registro de Participantes</h5>
+        <div class="card p-3">
+            <div class="mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="🔍 Buscar por Parroquia, Comunidad o Cargo...">
+            </div>
+            <div class="table-responsive" style="max-height: 400px;">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Parroquia</th>
+                            <th>Comunidad</th>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="participantsTable">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================
+        // ⚠️ PEGA TU URL DEL SCRIPT AQUÍ
+        // ============================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+
+        // Configuración de Preguntas y Análisis Dinámico
+        const config = [
+            { 
+                id: 0, label: "1. Participación", 
+                analisis: { high: "Excelente poder de convocatoria. El proyecto inicia con legitimidad.", low: "Baja asistencia. Se requiere reforzar estrategias de difusión en esta zona." } 
+            },
+            { 
+                id: 1, label: "2. Compromiso Directiva", 
+                analisis: { high: "Liderazgo fuerte. La directiva muestra disposición inmediata.", low: "Liderazgo débil. Existe riesgo de abandono temprano del comité." } 
+            },
+            { 
+                id: 2, label: "3. Capacitación", 
+                analisis: { high: "Los conceptos de autoprotección fueron asimilados correctamente.", low: "Confusión conceptual. Se recomienda repetir el taller práctico." } 
+            },
+            { 
+                id: 3, label: "4. Plan Comunitario", 
+                analisis: { high: "La comunidad valida el Plan como su herramienta principal.", low: "El Plan se percibe como un trámite burocrático sin valor real." } 
+            },
+            { 
+                id: 4, label: "5. Comunicación", 
+                analisis: { high: "Clima de confianza alto. Flujo de información transparente.", low: "Tensión interna detectada. Posibles conflictos latentes." } 
+            },
+            { 
+                id: 5, label: "6. Apoyo Institucional", 
+                analisis: { high: "La alianza UEB-GAD-SNGR es bien percibida.", low: "Sensación de abandono institucional por parte de la comunidad." } 
+            },
+            { 
+                id: 6, label: "7. Inclusión", 
+                analisis: { high: "Comité diverso y representativo (Género/Edad).", low: "Directiva homogénea. Faltan voces de mujeres o jóvenes." } 
+            },
+            { 
+                id: 7, label: "8. Replicabilidad", 
+                analisis: { high: "Alto potencial para ser comunidad piloto modelo.", low: "Iniciativa aislada. Baja probabilidad de réplica vecinal." } 
+            }
+        ];
+
+        // CARGAR DATOS AL INICIAR
+        window.onload = () => {
+            fetch(API_URL)
+            .then(res => res.json())
+            .then(response => {
+                if(response.data) procesarDatos(response.data);
+            })
+            .catch(err => console.error("Error cargando datos:", err));
+        };
+
+        function procesarDatos(filas) {
+            const total = filas.length;
+            document.getElementById('totalEncuestas').innerText = total;
+            
+            // Renderizar Tabla Participantes
+            const tableBody = document.getElementById('participantsTable');
+            tableBody.innerHTML = "";
+            filas.forEach(fila => {
+                // Formatear fecha
+                let fecha = new Date(fila[0]).toLocaleDateString();
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${fecha}</td>
+                        <td>${fila[1]}</td>
+                        <td>${fila[2]}</td>
+                        <td>${fila[3]}</td>
+                        <td><span class="badge bg-secondary">${fila[4]}</span></td>
+                    </tr>
+                `;
+            });
+
+            // Calcular Promedios y Generar Gráficas
+            let sumas = [0,0,0,0,0,0,0,0];
+            
+            // Recorrer todas las filas para sumar
+            filas.forEach(fila => {
+                for(let i=0; i<8; i++) {
+                    // Las respuestas numéricas empiezan en el índice 5 (Columna F)
+                    sumas[i] += Number(fila[i+5]); 
+                }
+            });
+
+            const promedios = sumas.map(s => (s/total).toFixed(1));
+            
+            // Calcular Promedio Global KPI
+            let sumaGlobal = promedios.reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
+            document.getElementById('promedioGlobal').innerText = (sumaGlobal / 8).toFixed(1);
+
+            actualizarMatriz(promedios);
+            generarGraficas(promedios);
+        }
+
+        function actualizarMatriz(promedios) {
+            const tbody = document.getElementById('matrixBody');
+            tbody.innerHTML = "";
+            
+            promedios.forEach((p, i) => {
+                let clase = "bg-critico";
+                let texto = "ÁREA DE MEJORA CRÍTICA";
+                
+                if(p >= 4) { clase = "bg-fortaleza"; texto = "FORTALEZA CONSOLIDADA"; }
+                else if(p >= 3) { clase = "bg-mejora"; texto = "ALERTA / OPORTUNIDAD DE MEJORA"; }
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="fw-bold text-start">${config[i].label}</td>
+                        <td class="fw-bold fs-5">${p}</td>
+                        <td class="${clase} fw-bold small">${texto}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function generarGraficas(promedios) {
+            const container = document.getElementById('chartsContainer');
+            container.innerHTML = "";
+
+            promedios.forEach((p, i) => {
+                // Determinar análisis dinámico
+                let analisisTexto = (p >= 3.5) ? config[i].analisis.high : config[i].analisis.low;
+                let colorBarra = (p >= 4) ? '#198754' : (p >= 3) ? '#ffc107' : '#dc3545';
+
+                // Crear ID único para el canvas
+                let canvasId = `chart-${i}`;
+
+                container.innerHTML += `
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 p-3">
+                            <h6 class="fw-bold text-center mb-3" style="font-size:0.85rem">${config[i].label}</h6>
+                            <div style="height: 150px; position: relative;">
+                                <canvas id="${canvasId}"></canvas>
+                            </div>
+                            <div class="analysis-box">
+                                <strong>Análisis:</strong> ${analisisTexto}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Esperar a que el DOM se actualice para dibujar
+                setTimeout(() => {
+                    new Chart(document.getElementById(canvasId), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Puntaje', 'Restante'],
+                            datasets: [{
+                                data: [p, 5-p],
+                                backgroundColor: [colorBarra, '#e9ecef'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '70%', // Dona más fina
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { enabled: false }
+                            }
+                        },
+                        plugins: [{
+                            id: 'textCenter',
+                            beforeDraw: function(chart) {
+                                var width = chart.width, height = chart.height, ctx = chart.ctx;
+                                ctx.restore();
+                                var fontSize = (height / 114).toFixed(2);
+                                ctx.font = "bold " + fontSize + "em sans-serif";
+                                ctx.textBaseline = "middle";
+                                ctx.fillStyle = colorBarra;
+                                var text = p,
+                                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                                    textY = height / 2;
+                                ctx.fillText(text, textX, textY);
+                                ctx.save();
+                            }
+                        }]
+                    });
+                }, 100);
+            });
+        }
+
+        // Buscador simple para la tabla
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.getElementById('participantsTable').getElementsByTagName('tr');
+            for (let row of rows) {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            }
+        });
+    </script>
+</body>
+</html>
