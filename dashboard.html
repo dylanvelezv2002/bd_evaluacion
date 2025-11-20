@@ -5,22 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitor de Riesgos | UEB - GAD</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root {
-            --bg-app: #f3f4f6; /* Gris muy suave para el fondo */
+            --bg-app: #f3f4f6;
             --white: #ffffff;
-            --primary: #1e40af; /* Azul institucional fuerte */
+            --primary: #1e40af;
             --text-dark: #111827;
             --text-gray: #6b7280;
             --border: #e5e7eb;
-            --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
         }
 
         body {
@@ -30,54 +32,46 @@
             padding-bottom: 50px;
         }
 
-        /* --- HEADER LIMPIO --- */
+        /* --- HEADER --- */
         .top-bar {
             background: var(--white);
             border-bottom: 1px solid var(--border);
-            padding: 15px 30px;
+            padding: 15px 20px;
             margin-bottom: 30px;
-            display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .project-title { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
-        .project-subtitle { font-size: 0.8rem; color: var(--text-gray); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+        .project-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+        .project-subtitle { font-size: 0.75rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; }
 
-        /* --- TARJETAS (CARDS) CON ESPACIO --- */
+        /* --- TARJETAS LIMPIAS --- */
         .clean-card {
             background: var(--white);
             border-radius: 12px;
             border: 1px solid var(--border);
             padding: 25px;
-            height: 100%; /* Para que se alineen */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            height: 100%;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-        .clean-card:hover { transform: translateY(-2px); }
         
         .card-title-custom {
-            font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-gray);
-            margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-gray);
+            margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border); padding-bottom: 10px;
         }
 
         /* --- KPIS --- */
-        .kpi-big { font-size: 2.5rem; font-weight: 800; color: var(--text-dark); line-height: 1; }
-        .kpi-desc { font-size: 0.8rem; color: var(--text-gray); font-weight: 500; margin-top: 5px; }
+        .kpi-big { font-size: 2.2rem; font-weight: 900; color: var(--text-dark); line-height: 1; }
+        .kpi-desc { font-size: 0.75rem; color: var(--text-gray); font-weight: 600; margin-top: 5px; text-transform: uppercase; }
 
-        /* --- MAPA --- */
-        #map { height: 400px; width: 100%; border-radius: 8px; border: 1px solid var(--border); z-index: 1; }
+        /* --- MAPA & MONITOR --- */
+        #map { height: 450px; width: 100%; border-radius: 8px; border: 1px solid var(--border); z-index: 1; }
+        .monitor-scroll { max-height: 455px; overflow-y: auto; }
 
-        /* --- ANÁLISIS TÉCNICO (El recuadro gris) --- */
+        /* --- ANÁLISIS BOX --- */
         .analysis-box {
-            background-color: #f9fafb;
-            border-left: 4px solid var(--primary);
-            padding: 15px;
-            font-size: 0.85rem;
-            color: #374151;
-            line-height: 1.6;
-            margin-top: 20px;
-            border-radius: 0 6px 6px 0;
-            text-align: justify;
+            background-color: #f9fafb; border-left: 4px solid var(--primary);
+            padding: 12px; font-size: 0.8rem; color: #374151; line-height: 1.5;
+            margin-top: 20px; border-radius: 0 6px 6px 0; text-align: justify;
         }
         .analysis-label { font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase; display: block; margin-bottom: 5px; }
 
@@ -88,17 +82,26 @@
         }
         .btn-download:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* --- TABLAS --- */
-        .table-clean th { background: #f9fafb; font-size: 0.75rem; text-transform: uppercase; padding: 12px; }
-        .table-clean td { padding: 12px; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
-        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        /* --- RESPONSIVE (MÓVIL) --- */
+        @media (max-width: 768px) {
+            .top-bar { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .top-bar .d-flex { width: 100%; justify-content: space-between; }
+            #map { height: 300px; }
+            .monitor-scroll { max-height: 300px; }
+            .kpi-big { font-size: 1.8rem; }
+        }
 
-        /* --- IMPRESIÓN --- */
+        /* --- IMPRESIÓN PROFESIONAL --- */
         @media print {
             .no-print { display: none !important; }
-            body { background: white; padding: 0; }
-            .clean-card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px; }
-            .analysis-box { background: #eee !important; -webkit-print-color-adjust: exact; }
+            body { background: white; padding: 0; font-size: 10pt; }
+            .container-fluid { max-width: 100% !important; padding: 0 !important; }
+            .clean-card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; margin-bottom: 15px; page-break-inside: avoid; }
+            #map { height: 300px; }
+            .analysis-box { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            /* Forzar 2 columnas para gráficas en impresión */
+            .col-xl-3 { width: 50% !important; float: left; }
+            .row { display: flex; flex-wrap: wrap; }
         }
     </style>
 </head>
@@ -109,21 +112,22 @@
             <div class="project-title">GUÍA DE CONFORMACIÓN DE COMITÉS COMUNITARIOS</div>
             <div class="project-subtitle">Prácticas Pre-Profesionales | UEB & GAD Provincial SDT</div>
         </div>
-        <div class="d-flex gap-3 align-items-center">
-            <select id="parroquiaFilter" class="form-select form-select-sm" style="width: 200px; font-weight: 600;" onchange="applyFilter()">
+        <div class="d-flex gap-2 align-items-center">
+            <select id="parroquiaFilter" class="form-select form-select-sm fw-bold" style="width: 180px;" onchange="applyFilter()">
                 <option value="ALL">Provincia Completa</option>
                 </select>
-            <button onclick="window.print()" class="btn btn-dark btn-sm fw-bold px-3">Imprimir PDF</button>
+            <button onclick="window.print()" class="btn btn-dark btn-sm fw-bold px-3"><i class="bi bi-printer me-1"></i> Imprimir</button>
         </div>
     </div>
 
     <div class="container-fluid px-4" style="max-width: 1600px;">
         
         <div class="mb-4 pb-2 border-bottom">
-            <div class="d-flex justify-content-between align-items-end">
-                <h2 class="fw-bold m-0 text-dark" id="reportTitle">Reporte Consolidado</h2>
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2">
+                <h3 class="fw-bold m-0 text-dark" id="reportTitle">Reporte Consolidado</h3>
                 <div class="text-end text-muted">
-                    <small>Fecha de Corte: <script>document.write(new Date().toLocaleDateString())</script></small>
+                    <span class="badge bg-primary mb-1">COBERTURA RURAL</span>
+                    <div class="small fw-bold">Fecha Corte: <script>document.write(new Date().toLocaleDateString())</script></div>
                 </div>
             </div>
         </div>
@@ -162,60 +166,49 @@
             <div class="col-lg-8">
                 <div class="clean-card p-0 overflow-hidden">
                     <div class="p-3 bg-white border-bottom d-flex justify-content-between align-items-center">
-                        <span class="fw-bold text-secondary small">MAPA DE GESTIÓN</span>
-                        <span class="badge bg-light text-dark border">Santo Domingo de los Tsáchilas</span>
+                        <span class="fw-bold text-secondary small"><i class="bi bi-geo-alt-fill me-1"></i>MAPA DE GESTIÓN TERRITORIAL</span>
                     </div>
                     <div id="map"></div>
                 </div>
             </div>
             
             <div class="col-lg-4">
-                <div class="clean-card p-0 overflow-hidden" style="max-height: 455px; display:flex; flex-direction:column;">
+                <div class="clean-card p-0 overflow-hidden d-flex flex-column">
                     <div class="p-3 bg-white border-bottom">
                         <span class="fw-bold text-secondary small">MONITOR PARROQUIAL</span>
                     </div>
-                    <div id="territoryGrid" style="overflow-y: auto; flex-grow: 1;">
+                    <div id="territoryGrid" class="monitor-scroll flex-grow-1">
                         </div>
                 </div>
             </div>
         </div>
 
-        <h5 class="fw-bold text-secondary mb-4 pb-2 border-bottom">ANÁLISIS TÉCNICO DE RESULTADOS</h5>
+        <h5 class="fw-bold text-secondary mb-4 pb-2 border-bottom">ANÁLISIS TÉCNICO DE RESULTADOS (OBJETIVO 2)</h5>
         
         <div class="row g-4 mb-5" id="chartsGrid">
             </div>
 
         <div class="row g-4 mb-5">
-            <div class="col-lg-8">
-                <div class="clean-card bg-light border-primary">
-                    <h6 class="fw-bold text-primary mb-3"><i class="bi bi-lightbulb-fill me-2"></i>RECOMENDACIÓN ESTRATÉGICA PARA EL GAD:</h6>
-                    <p id="globalRecommendation" style="font-size: 0.95rem; line-height: 1.6; color: #374151;">
-                        Cargando datos para generar recomendación...
-                    </p>
-                </div>
-                
-                <div class="clean-card mt-4 p-0 overflow-hidden">
-                    <div class="p-3 border-bottom"><span class="fw-bold small text-secondary">BASE DE DATOS</span></div>
-                    <div class="table-responsive" style="max-height: 300px;">
-                        <table class="table table-clean mb-0 w-100">
-                            <thead><tr><th>Fecha</th><th>Parroquia</th><th>Comunidad</th><th>Cargo</th><th>Nota</th></tr></thead>
-                            <tbody id="tableBody"></tbody>
-                        </table>
+            <div class="col-lg-4">
+                <div class="clean-card" id="cardRadar">
+                    <div class="card-title-custom">
+                        PERFIL DE COMPETENCIAS
+                        <button class="btn-download" onclick="downloadCard('cardRadar')"><i class="bi bi-download"></i></button>
+                    </div>
+                    <div style="height: 280px;">
+                        <canvas id="radarChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-4">
-                <div class="clean-card">
-                    <div class="card-title-custom">
-                        PERFIL DE COMPETENCIAS
-                        <button class="btn-download" onclick="downloadCanvas('radarChart')"><i class="bi bi-download"></i></button>
-                    </div>
-                    <div style="height: 250px;">
-                        <canvas id="radarChart"></canvas>
-                    </div>
-                    <div class="text-center mt-3 small text-muted">
-                        <em>Gráfico Radial de Capacidades Instaladas</em>
+            <div class="col-lg-8">
+                 <div class="clean-card p-0 overflow-hidden">
+                    <div class="p-3 border-bottom"><span class="fw-bold small text-secondary">BASE DE DATOS DE ACTORES</span></div>
+                    <div class="table-responsive" style="max-height: 350px;">
+                        <table class="table table-hover mb-0 w-100" style="font-size: 0.85rem;">
+                            <thead class="table-light small text-uppercase"><tr><th>Fecha</th><th>Parroquia</th><th>Comunidad</th><th>Cargo</th><th>Nota</th></tr></thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -227,14 +220,14 @@
         // ============================================
         // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
         // ============================================
-        const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+        const API_URL = "PEGA_AQUI_TU_URL_DEL_SCRIPT";
 
         const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
         const labels = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
         
         let RAW_DATA = [], FILTERED_DATA = [], map, markersLayer = new L.LayerGroup(), chartInstances = {};
 
-        // --- BASE DE DATOS DE TEXTOS TÉCNICOS LARGOS ---
+        // --- TEXTOS TÉCNICOS ---
         const analysisDB = {
             low: "Vulnerabilidad Crítica. El indicador muestra deficiencias estructurales graves. La falta de gestión efectiva en este componente compromete la operatividad del comité ante eventos adversos. Se recomienda una intervención correctiva inmediata mediante talleres focalizados.",
             mid: "Estabilidad Operativa Parcial. Si bien existen capacidades instaladas, estas son insuficientes para escenarios de alta complejidad. El comité cumple con los mínimos normativos, pero carece de la robustez necesaria para garantizar sostenibilidad sin apoyo externo.",
@@ -268,7 +261,6 @@
             FILTERED_DATA = val === 'ALL' ? RAW_DATA : RAW_DATA.filter(r => r[1] === val);
             document.getElementById('reportTitle').innerText = val === 'ALL' ? "Reporte Consolidado Provincial" : `Reporte Situacional: ${val}`;
             
-            // Zoom mapa
             if(val !== 'ALL' && FILTERED_DATA.length > 0 && FILTERED_DATA[0][5]) {
                 map.setView([FILTERED_DATA[0][5], FILTERED_DATA[0][6]], 13);
             } else {
@@ -279,11 +271,11 @@
 
         function updateDashboard() {
             const total = FILTERED_DATA.length;
-            if(total === 0) return; // Manejar vacío
-
             markersLayer.clearLayers();
             const tbody = document.getElementById('tableBody'); tbody.innerHTML = "";
             let sums = new Array(8).fill(0);
+
+            if(total === 0) { resetDashboard(); return; }
 
             FILTERED_DATA.forEach(row => {
                 let s=0; for(let i=0;i<8;i++) s+=Number(row[i+7]);
@@ -292,25 +284,33 @@
 
                 // Tabla
                 tbody.innerHTML += `<tr>
-                    <td>${new Date(row[0]).toLocaleDateString()}</td>
-                    <td>${row[1]}</td>
-                    <td>${row[2]}</td>
-                    <td><span class="badge bg-light text-dark border">${row[4]}</span></td>
-                    <td><b>${avg}</b></td>
+                    <td>${new Date(row[0]).toLocaleDateString()}</td><td>${row[1]}</td><td>${row[2]}</td>
+                    <td><span class="badge bg-light text-dark border">${row[4]}</span></td><td><b>${avg}</b></td>
                 </tr>`;
 
-                // Mapa
+                // Mapa Popup Completo
                 if(row[5] && row[6]) {
                     let color = avg>=4 ? '#10b981' : (avg>=3 ? '#f59e0b' : '#ef4444');
+                    let popupContent = `
+                        <div style="font-family:Inter; min-width:200px;">
+                            <div style="border-bottom:2px solid ${color}; font-weight:bold; margin-bottom:5px;">${row[2]}</div>
+                            <table style="width:100%; font-size:11px; color:#374151;">
+                                <tr><td><b>Rep:</b></td><td>${row[3]}</td></tr>
+                                <tr><td><b>Cargo:</b></td><td>${row[4]}</td></tr>
+                                <tr><td><b>Parr:</b></td><td>${row[1]}</td></tr>
+                                <tr><td><b>Fecha:</b></td><td>${new Date(row[0]).toLocaleDateString()}</td></tr>
+                                <tr><td><b>Lat/Lng:</b></td><td>${Number(row[5]).toFixed(3)}, ${Number(row[6]).toFixed(3)}</td></tr>
+                            </table>
+                            <div style="background:${color}; color:white; text-align:center; border-radius:3px; margin-top:5px; font-weight:bold;">NOTA FINAL: ${avg} / 5.0</div>
+                        </div>`;
                     L.circleMarker([row[5], row[6]], {radius:8, fillColor:color, color:'white', weight:2, fillOpacity:1})
-                     .bindPopup(`<b>${row[2]}</b><br>Nota: ${avg}`).addTo(markersLayer);
+                     .bindPopup(popupContent).addTo(markersLayer);
                 }
             });
 
             const avgs = sums.map(s => (s/total).toFixed(1));
             const global = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
             
-            // KPIs
             document.getElementById('kpiTotal').innerText = total;
             document.getElementById('kpiPromedio').innerText = global;
             const st = document.getElementById('kpiEstado');
@@ -318,15 +318,19 @@
             else if(global>=3) { st.innerText="EN PROCESO"; st.className="fw-bold text-warning"; }
             else { st.innerText="CRÍTICO"; st.className="fw-bold text-danger"; }
 
-            // Recomendación
-            const recText = global>=3.5 ? 
-                "El proceso de conformación ha sido exitoso. Se recomienda al GAD Provincial iniciar la fase de dotación de equipamiento básico y simulacros, dado que la estructura social está consolidada." : 
-                "Se detectan debilidades estructurales. Se recomienda NO avanzar a la fase de equipamiento hasta reforzar el componente de capacitación y compromiso en las directivas mediante un re-entrenamiento.";
-            document.getElementById('globalRecommendation').innerText = recText;
-
             renderCharts(avgs);
             renderMonitor();
             renderRadar(avgs);
+        }
+
+        function resetDashboard() {
+             document.getElementById('kpiTotal').innerText = "0";
+             document.getElementById('kpiPromedio').innerText = "0.0";
+             document.getElementById('kpiEstado').innerText = "-";
+             document.getElementById('chartsGrid').innerHTML = "<p class='col-12 text-muted'>No hay datos disponibles para esta selección.</p>";
+             document.getElementById('territoryGrid').innerHTML = "";
+             document.getElementById('tableBody').innerHTML = "";
+             if(chartInstances['radar']) chartInstances['radar'].destroy();
         }
 
         function renderCharts(avgs) {
@@ -335,21 +339,23 @@
                 const level = avg>=4 ? 'high' : (avg>=3 ? 'mid' : 'low');
                 const color = avg>=4 ? '#10b981' : (avg>=3 ? '#f59e0b' : '#ef4444');
                 const text = analysisDB[level];
-                const id = `chart${i}`;
+                const cardId = `cardChart${i}`;
+                const canvasId = `canvasChart${i}`;
 
                 c.innerHTML += `
-                <div class="col-md-6 col-xl-3"> <div class="clean-card d-flex flex-column justify-content-between">
+                <div class="col-md-6 col-xl-3">
+                    <div class="clean-card d-flex flex-column justify-content-between" id="${cardId}">
                         <div>
                             <div class="card-title-custom">
                                 ${labels[i]}
-                                <button class="btn-download" onclick="downloadCanvas('${id}')" title="Descargar Gráfica"><i class="bi bi-download"></i></button>
+                                <button class="btn-download no-print" onclick="downloadCard('${cardId}', '${labels[i]}')" title="Descargar Imagen"><i class="bi bi-camera"></i></button>
                             </div>
                             <div class="d-flex justify-content-between align-items-end mb-3">
                                 <span class="display-6 fw-bold" style="color:${color}">${avg}</span>
                                 <span class="text-muted small">/ 5.0</span>
                             </div>
                             <div style="height: 60px;">
-                                <canvas id="${id}"></canvas>
+                                <canvas id="${canvasId}"></canvas>
                             </div>
                         </div>
                         <div class="analysis-box">
@@ -360,13 +366,13 @@
                 </div>`;
 
                 setTimeout(() => {
-                    new Chart(document.getElementById(id), {
+                    new Chart(document.getElementById(canvasId), {
                         type: 'bar',
-                        data: { labels: [''], datasets: [{ data: [avg], backgroundColor: color, borderRadius: 4, barThickness: 20 }] },
+                        data: { labels: [''], datasets: [{ data: [avg], backgroundColor: color, borderRadius: 4, barThickness: 25 }] },
                         options: { 
                             indexAxis: 'y', maintainAspectRatio: false, 
                             scales: { x:{min:0, max:5, display:false}, y:{display:false} }, 
-                            plugins: { legend: {display:false}, tooltip: {enabled: false} } // Tooltip desactivado para limpieza
+                            plugins: { legend: {display:false}, tooltip: {enabled: false} }
                         }
                     });
                 }, 0);
@@ -381,13 +387,12 @@
             Object.keys(g).sort().forEach(p => {
                 const d = g[p]; const s = d.c>0 ? (d.s/d.c).toFixed(1) : "0.0";
                 const color = d.c===0 ? '#9ca3af' : (s>=4 ? '#10b981' : (s>=3 ? '#f59e0b' : '#ef4444'));
-                const dot = `<span class="status-dot" style="background:${color}"></span>`;
                 
                 c.innerHTML += `
-                <div style="padding: 12px; border-bottom:1px solid #f3f4f6; cursor:pointer; display:flex; justify-content:space-between;" 
+                <div style="padding: 12px; border-bottom:1px solid #f3f4f6; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" 
                      onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();">
-                    <span style="font-size:0.8rem; font-weight:600; color:#374151;">${dot} ${p}</span>
-                    <span style="font-weight:800; color:${color}">${s}</span>
+                    <span style="font-size:0.85rem; font-weight:600; color:#374151;">${p}</span>
+                    <span class="badge" style="background:${color}; font-size:0.9rem">${s}</span>
                 </div>`;
             });
         }
@@ -402,9 +407,19 @@
             });
         }
 
-        function downloadCanvas(id) {
-            const link = document.createElement('a'); link.download = `grafica_${id}.png`;
-            link.href = document.getElementById(id).toDataURL(); link.click();
+        // --- FUNCIÓN DE DESCARGA PRO (html2canvas) ---
+        function downloadCard(cardId, title) {
+            const element = document.getElementById(cardId);
+            const btn = element.querySelector('.btn-download');
+            btn.style.display = 'none'; // Ocultar botón temporalmente
+            
+            html2canvas(element, { backgroundColor: '#ffffff', scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Analisis_${title.replace(' ','_')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                btn.style.display = 'block'; // Mostrar botón de nuevo
+            });
         }
     </script>
 </body>
