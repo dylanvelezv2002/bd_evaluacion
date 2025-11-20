@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Gestión de Riesgos | UEB - GAD</title>
+    <title>Dashboard Técnico de Riesgos | UEB - GAD</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,186 +12,154 @@
 
     <style>
         :root {
-            --primary-color: #0f172a; /* Azul Oscuro Corporativo */
-            --secondary-color: #334155;
-            --accent-color: #2563eb; /* Azul Brillante UI */
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
+            --primary: #0f172a; 
+            --secondary: #334155;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--primary); }
+
+        /* PRELOADER */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
+        .loader-spinner {
+            width: 50px; height: 50px; border: 4px solid #e2e8f0;
+            border-top: 4px solid var(--accent); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* NAVBAR */
-        .navbar {
-            background-color: var(--card-bg);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            padding: 15px 20px;
-        }
-        .brand-title {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
+        .navbar { background: var(--card); border-bottom: 1px solid #e2e8f0; padding: 15px 20px; }
+        .brand-text { font-weight: 700; letter-spacing: -0.5px; color: var(--primary); }
 
-        /* TARJETAS (CARDS) */
-        .kpi-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 20px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
+        /* CARDS */
+        .tech-card {
+            background: var(--card); border: 1px solid #e2e8f0; border-radius: 8px;
+            padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            break-inside: avoid; /* Evita que se corte al imprimir */
         }
-        .kpi-title { font-size: 0.85rem; color: #64748b; font-weight: 600; text-transform: uppercase; }
-        .kpi-value { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); margin-top: 5px; }
+        .card-header-custom {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;
+        }
+        .card-title { font-size: 0.95rem; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin: 0; }
         
-        /* SECCIONES */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            margin-top: 30px;
+        /* ANÁLISIS TÉCNICO (IA Style) */
+        .ai-analysis-box {
+            background-color: #f8fafc; border-left: 3px solid var(--accent);
+            padding: 12px; font-size: 0.85rem; color: #475569; margin-top: 15px;
+            border-radius: 0 4px 4px 0;
         }
-        .section-title { font-size: 1.1rem; font-weight: 700; color: var(--secondary-color); }
+        .ai-label { font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 4px; }
 
-        /* TABLAS */
-        .custom-table thead { background-color: #f8fafc; }
-        .custom-table th { 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-            color: #64748b; 
-            font-weight: 700; 
-            border-bottom: 2px solid #e2e8f0;
-        }
-        .custom-table td { font-size: 0.9rem; vertical-align: middle; border-color: #f1f5f9; }
-        
-        /* STATUS BADGES (Profesionales) */
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .status-success { background-color: #dcfce7; color: #166534; } /* Verde suave */
-        .status-warning { background-color: #fef9c3; color: #854d0e; } /* Amarillo suave */
-        .status-danger { background-color: #fee2e2; color: #991b1b; } /* Rojo suave */
-
-        /* ANALISIS BOX */
-        .tech-analysis {
-            background-color: #f8fafc;
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            font-size: 0.9rem;
-            color: #475569;
-            margin-top: 10px;
+        /* ESTILOS DE IMPRESIÓN */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; font-size: 12px; }
+            .tech-card { border: 1px solid #ccc; box-shadow: none; margin-bottom: 15px; page-break-inside: avoid; }
+            .container-fluid { padding: 0; max-width: 100%; }
+            /* Forzar impresión de fondos de colores */
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .ai-analysis-box { background-color: #f0f0f0 !important; }
+            /* Ocultar scroll en tabla */
+            .table-responsive { overflow: visible; max-height: none !important; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar fixed-top">
+    <div id="preloader">
+        <div class="loader-spinner"></div>
+        <h6 class="fw-bold text-secondary">Procesando Datos...</h6>
+        <small class="text-muted">Conectando con Base de Datos UEB-GAD</small>
+    </div>
+
+    <nav class="navbar fixed-top no-print">
         <div class="container-fluid">
-            <span class="brand-title">
-                <i class="bi bi-bar-chart-fill text-primary me-2"></i>
-                Sistema de Monitoreo de Comités
-            </span>
+            <span class="brand-text"><i class="bi bi-layers-fill text-primary me-2"></i> Gestión de Riesgos - Panel Técnico</span>
             <div class="d-flex gap-2">
-                <button onclick="window.print()" class="btn btn-outline-secondary btn-sm fw-bold">
-                    <i class="bi bi-printer"></i> PDF
-                </button>
-                <button onclick="location.reload()" class="btn btn-primary btn-sm fw-bold">
-                    <i class="bi bi-arrow-clockwise"></i> Actualizar
-                </button>
+                <button onclick="window.print()" class="btn btn-outline-dark btn-sm fw-bold"><i class="bi bi-printer"></i> Imprimir Reporte</button>
+                <button onclick="location.reload()" class="btn btn-primary btn-sm fw-bold"><i class="bi bi-arrow-clockwise"></i> Actualizar</button>
             </div>
         </div>
     </nav>
 
     <div class="container-fluid px-4" style="margin-top: 80px; max-width: 1400px;">
         
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h4 class="fw-bold text-primary">INFORME TÉCNICO DE EVALUACIÓN COMUNITARIA</h4>
+                <p class="text-muted m-0 small">Proyecto de Vinculación: Conformación de Comités de Gestión de Riesgos</p>
+                <p class="text-muted small">Fecha de Corte: <script>document.write(new Date().toLocaleDateString())</script></p>
+            </div>
+        </div>
+
         <div class="row g-3 mb-4">
             <div class="col-md-3">
-                <div class="kpi-card">
-                    <div class="kpi-title">Comités Evaluados</div>
-                    <div class="kpi-value" id="totalEncuestas">0</div>
+                <div class="tech-card text-center py-3 h-100">
+                    <small class="text-muted fw-bold text-uppercase">Muestra (Encuestas)</small>
+                    <h2 class="fw-bold text-dark m-0" id="kpiTotal">0</h2>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="kpi-card">
-                    <div class="kpi-title">Índice General de Gestión</div>
-                    <div class="kpi-value" id="promedioGlobal">0.0</div>
+                <div class="tech-card text-center py-3 h-100">
+                    <small class="text-muted fw-bold text-uppercase">Promedio Global</small>
+                    <h2 class="fw-bold text-primary m-0" id="kpiPromedio">0.0</h2>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="kpi-card">
-                    <div class="kpi-title">Indicador Más Alto</div>
-                    <div class="kpi-value text-success" style="font-size: 1.2rem;" id="bestIndicator">-</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="kpi-card">
-                    <div class="kpi-title">Área Crítica</div>
-                    <div class="kpi-value text-danger" style="font-size: 1.2rem;" id="worstIndicator">-</div>
+            <div class="col-md-6">
+                <div class="tech-card py-3 h-100 d-flex align-items-center justify-content-between px-4">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Estado General del Piloto</small>
+                        <h4 class="fw-bold m-0" id="kpiEstado">-</h4>
+                    </div>
+                    <i class="bi bi-activity fs-1 text-secondary opacity-25"></i>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-8">
+                <h6 class="text-primary fw-bold mb-3 border-bottom pb-2">ANÁLISIS DETALLADO POR INDICADOR</h6>
                 
-                <div class="kpi-card mb-4">
-                    <h6 class="section-title mb-3">Perfil de Capacidades del Comité (Radar)</h6>
-                    <div style="height: 350px; width: 100%;">
-                        <canvas id="radarChart"></canvas>
-                    </div>
-                    <div class="tech-analysis mt-3">
-                        <strong>Interpretación Técnica:</strong> 
-                        <span id="radarAnalysis">Cargando datos para generar interpretación...</span>
-                    </div>
-                </div>
-
-                <div class="kpi-card">
-                    <h6 class="section-title mb-3">Matriz de Evaluación (Objetivo 2)</h6>
-                    <div class="table-responsive">
-                        <table class="table custom-table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Variable / Indicador</th>
-                                    <th class="text-center">Puntaje (1-5)</th>
-                                    <th>Estado</th>
-                                    <th>Observación Técnica</th>
-                                </tr>
-                            </thead>
-                            <tbody id="matrixBody">
-                                </tbody>
-                        </table>
-                    </div>
-                </div>
+                <div class="row" id="chartsGrid"></div>
             </div>
 
             <div class="col-lg-4">
-                <div class="kpi-card h-100">
-                    <h6 class="section-title mb-3">Registro de Participantes</h6>
-                    <input type="text" id="searchBox" class="form-control form-control-sm mb-3" placeholder="Filtrar por Parroquia...">
+                <div class="tech-card">
+                    <div class="card-header-custom">
+                        <h6 class="card-title">Perfil de Gestión (Radar)</h6>
+                    </div>
+                    <div style="height: 300px;">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                    <div class="ai-analysis-box">
+                        <span class="ai-label">DIAGNÓSTICO DE PERFIL</span>
+                        <span id="radarAnalysisText">Calculando perfil...</span>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <div class="card-header-custom">
+                        <h6 class="card-title">Registro de Asistencia</h6>
+                    </div>
+                    <input type="text" id="searchBox" class="form-control form-control-sm mb-3 no-print" placeholder="Filtrar tabla...">
                     
-                    <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
-                        <table class="table table-sm custom-table">
-                            <thead>
+                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <table class="table table-sm table-hover" style="font-size: 0.8rem;">
+                            <thead class="table-light">
                                 <tr>
-                                    <th>Fecha</th>
-                                    <th>Parroquia</th>
+                                    <th>Comunidad</th>
                                     <th>Cargo</th>
                                 </tr>
                             </thead>
-                            <tbody id="participantsTable">
+                            <tbody id="tableBody">
                                 </tbody>
                         </table>
                     </div>
@@ -201,168 +169,217 @@
     </div>
 
     <script>
-        // ===================================================
-        // ⚠️ PEGA AQUÍ TU URL DEL SCRIPT DE GOOGLE
-        // ===================================================
+        // =======================================================
+        // ⚠️ PEGA AQUÍ TU URL DEL SCRIPT DE GOOGLE (APPS SCRIPT)
+        // =======================================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
-        // Configuración de Variables (Labels)
-        const labels = [
-            "1. Participación", "2. Compromiso", "3. Capacitación", 
-            "4. Plan (Herramienta)", "5. Comunicación", "6. Articulación Inst.", 
-            "7. Inclusión", "8. Replicabilidad"
-        ];
-
-        // Configuración de Análisis Automático
-        const analysisConfig = [
-            { id: 0, msgLow: "Baja convocatoria.", msgHigh: "Alta legitimidad social." },
-            { id: 1, msgLow: "Liderazgo débil.", msgHigh: "Directiva empoderada." },
-            { id: 2, msgLow: "Falta reforzar conocimientos.", msgHigh: "Conceptos claros." },
-            { id: 3, msgLow: "Resistencia al Plan.", msgHigh: "Plan validado." },
-            { id: 4, msgLow: "Tensión interna.", msgHigh: "Confianza alta." },
-            { id: 5, msgLow: "Desconexión institucional.", msgHigh: "Sinergia GAD-UEB." },
-            { id: 6, msgLow: "Directiva poco diversa.", msgHigh: "Inclusión efectiva." },
-            { id: 7, msgLow: "Iniciativa aislada.", msgHigh: "Modelo replicable." }
-        ];
-
-        // Cargar Datos
-        window.onload = () => {
-            fetch(API_URL)
-            .then(res => res.json())
-            .then(response => {
-                if(response.data) processData(response.data);
-            })
-            .catch(err => console.error("Error:", err));
+        // --- CONFIGURACIÓN DEL ANÁLISIS TÉCNICO (SIMULACIÓN IA) ---
+        // Este objeto contiene las frases "inteligentes" según el puntaje.
+        const techAnalysisDB = {
+            p1: { // Participación
+                low: "Se detecta una convocatoria ineficaz (ausentismo crítico). Se recomienda revisar canales de difusión y horarios.",
+                mid: "Convocatoria aceptable pero sectorizada. Faltan actores clave. Se sugiere reforzar invitaciones personalizadas.",
+                high: "Alta legitimidad social. La convocatoria fue masiva, garantizando el quórum necesario para la toma de decisiones."
+            },
+            p2: { // Compromiso
+                low: "Riesgo Operativo Alto: La directiva muestra apatía. Es probable que el comité se disuelva sin seguimiento externo.",
+                mid: "Compromiso condicionado. Los líderes requieren motivación constante y acompañamiento técnico cercano.",
+                high: "Liderazgo Consolidado. La directiva muestra autonomía y voluntad política para gestionar riesgos."
+            },
+            p3: { // Capacitación
+                low: "Brecha de Conocimiento Crítica. Los conceptos de autoprotección no fueron asimilados. Repetir taller urgente.",
+                mid: "Asimilación parcial. Entienden la teoría pero fallan en la aplicación práctica de medidas de seguridad.",
+                high: "Transferencia de conocimientos exitosa. La comunidad domina los protocolos de autoprotección impartidos."
+            },
+            p4: { // El Plan
+                low: "Resistencia al modelo de gestión. El Plan Comunitario es percibido como burocracia innecesaria.",
+                mid: "Validación formal pero no operativa. Aceptan el Plan pero dudan de su aplicabilidad real sin recursos.",
+                high: "Apropiación de la Herramienta. El Plan es validado como el instrumento rector para emergencias locales."
+            },
+            p5: { // Comunicación
+                low: "Conflictividad Latente. El flujo de información está roto. Se requiere mediación urgente.",
+                mid: "Comunicación vertical. La información fluye pero hay poca retroalimentación de las bases.",
+                high: "Sinergia Comunicacional. Existe un clima de confianza y canales abiertos para la resolución de conflictos."
+            },
+            p6: { // Articulación
+                low: "Desconfianza Institucional. La comunidad se siente abandonada por los entes rectores (GAD/SNGR).",
+                mid: "Relación asistencialista. Esperan todo de la institución sin aportar contraparte local.",
+                high: "Alianza Estratégica Efectiva. Alta confianza en el trinomio Universidad-GAD-Comunidad."
+            },
+            p7: { // Inclusión
+                low: "Exclusión Estructural. El comité carece de representatividad de género y grupos vulnerables.",
+                mid: "Inclusión Simbólica. Hay presencia de mujeres/jóvenes pero sin poder de decisión real.",
+                high: "Representatividad Plena. El comité refleja la diversidad demográfica de la comunidad."
+            },
+            p8: { // Replicabilidad
+                low: "Iniciativa Aislada. Bajo potencial de expansión a zonas aledañas.",
+                mid: "Potencial moderado. Requiere consolidar este piloto antes de intentar replicarlo.",
+                high: "Efecto Multiplicador Alto. Esta comunidad está lista para mentorear a recintos vecinos."
+            }
         };
 
-        function processData(rows) {
-            // 1. KPIs Básicos
-            document.getElementById('totalEncuestas').innerText = rows.length;
-            
-            // 2. Procesar Participantes (Tabla Derecha)
-            const pTable = document.getElementById('participantsTable');
-            pTable.innerHTML = "";
-            rows.forEach(row => {
-                let fecha = new Date(row[0]).toLocaleDateString();
-                pTable.innerHTML += `
-                    <tr>
-                        <td style="font-size:0.8rem text-muted">${fecha}</td>
-                        <td class="fw-bold">${row[1]}</td>
-                        <td><span class="badge bg-light text-dark border">${row[4]}</span></td>
-                    </tr>
-                `;
-            });
+        const labels = [
+            "1. Participación", "2. Compromiso", "3. Capacitación", "4. Plan Comunitario",
+            "5. Comunicación", "6. Articulación", "7. Inclusión", "8. Replicabilidad"
+        ];
 
-            // 3. Calcular Promedios
+        // INICIO
+        window.onload = () => {
+            fetch(API_URL)
+                .then(res => res.json())
+                .then(response => {
+                    // Ocultar Preloader
+                    document.getElementById('preloader').style.display = 'none';
+                    if(response.data) initDashboard(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.querySelector('#preloader h6').innerText = "Error de Conexión";
+                });
+        };
+
+        function initDashboard(data) {
+            // 1. PROCESAR DATOS
+            const total = data.length;
             let sums = new Array(8).fill(0);
-            rows.forEach(row => {
-                for(let i=0; i<8; i++) sums[i] += Number(row[i+5]); // Datos empiezan en col 5 (F)
-            });
             
-            const avgs = sums.map(s => (s / rows.length).toFixed(1));
-
-            // 4. KPI Global
-            const globalAvg = (avgs.reduce((a,b) => parseFloat(a)+parseFloat(b), 0) / 8).toFixed(1);
-            document.getElementById('promedioGlobal').innerText = globalAvg;
-
-            // 5. Encontrar Mejor y Peor
-            let maxVal = Math.max(...avgs);
-            let minVal = Math.min(...avgs);
-            document.getElementById('bestIndicator').innerText = labels[avgs.indexOf(maxVal.toFixed(1))];
-            document.getElementById('worstIndicator').innerText = labels[avgs.indexOf(minVal.toFixed(1))];
-
-            // 6. Renderizar Matriz
-            renderMatrix(avgs);
-            
-            // 7. Renderizar Radar Chart
-            renderRadar(avgs);
-        }
-
-        function renderMatrix(avgs) {
-            const tbody = document.getElementById('matrixBody');
+            // Llenar Tabla y Sumar
+            const tbody = document.getElementById('tableBody');
             tbody.innerHTML = "";
             
-            avgs.forEach((val, i) => {
-                let badgeClass = "status-danger";
-                let statusText = "ÁREA DE MEJORA";
-                let obs = analysisConfig[i].msgLow;
+            data.forEach(row => {
+                // Tabla
+                tbody.innerHTML += `<tr><td class="fw-bold">${row[2]}</td><td>${row[4]}</td></tr>`;
+                // Sumas (Datos empiezan en índice 5)
+                for(let i=0; i<8; i++) sums[i] += Number(row[i+5]);
+            });
 
-                if(val >= 4.0) {
-                    badgeClass = "status-success";
-                    statusText = "FORTALEZA";
-                    obs = analysisConfig[i].msgHigh;
-                } else if(val >= 3.0) {
-                    badgeClass = "status-warning";
-                    statusText = "ALERTA";
-                    obs = "Requiere seguimiento.";
-                }
+            const averages = sums.map(s => (s/total).toFixed(1));
+            const globalAvg = (averages.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
 
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${labels[i]}</td>
-                        <td class="text-center fw-bold">${val}</td>
-                        <td><span class="status-badge ${badgeClass}">${statusText}</span></td>
-                        <td class="text-muted small">${obs}</td>
-                    </tr>
+            // 2. RENDERIZAR KPIS
+            document.getElementById('kpiTotal').innerText = total;
+            document.getElementById('kpiPromedio').innerText = globalAvg;
+            
+            let estadoEl = document.getElementById('kpiEstado');
+            if(globalAvg >= 4) { estadoEl.innerText = "ÓPTIMO / SOSTENIBLE"; estadoEl.classList.add("text-success"); }
+            else if(globalAvg >= 3) { estadoEl.innerText = "REGULAR / EN DESARROLLO"; estadoEl.classList.add("text-warning"); }
+            else { estadoEl.innerText = "CRÍTICO / REQUIERE INTERVENCIÓN"; estadoEl.classList.add("text-danger"); }
+
+            // 3. RENDERIZAR GRÁFICAS INDIVIDUALES (GRID)
+            renderDetailedCharts(averages);
+
+            // 4. RENDERIZAR RADAR
+            renderRadar(averages);
+        }
+
+        function renderDetailedCharts(avgs) {
+            const container = document.getElementById('chartsGrid');
+            container.innerHTML = "";
+
+            avgs.forEach((avg, i) => {
+                // Lógica de Análisis "IA"
+                let analysisKey = "low";
+                let color = "#dc3545"; // Rojo
+                
+                if(avg >= 4) { analysisKey = "high"; color = "#198754"; } // Verde
+                else if(avg >= 3) { analysisKey = "mid"; color = "#ffc107"; } // Amarillo
+
+                // Texto Técnico
+                const text = techAnalysisDB[`p${i+1}`][analysisKey];
+
+                // ID único
+                const canvasId = `chartMini${i}`;
+
+                container.innerHTML += `
+                    <div class="col-md-6 mb-3"> <div class="tech-card h-100 p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="fw-bold m-0" style="font-size:0.8rem">${labels[i]}</h6>
+                                <span class="badge" style="background:${color}">${avg}/5.0</span>
+                            </div>
+                            
+                            <div style="height: 40px;">
+                                <canvas id="${canvasId}"></canvas>
+                            </div>
+
+                            <div class="ai-analysis-box mt-2">
+                                <span class="ai-label">ANÁLISIS TÉCNICO:</span>
+                                ${text}
+                            </div>
+                        </div>
+                    </div>
                 `;
+
+                // Dibujar gráfica de barra horizontal simple
+                setTimeout(() => {
+                    new Chart(document.getElementById(canvasId), {
+                        type: 'bar',
+                        data: {
+                            labels: [''],
+                            datasets: [{
+                                label: 'Puntaje',
+                                data: [avg],
+                                backgroundColor: color,
+                                borderRadius: 4,
+                                barThickness: 20
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: { x: { min: 0, max: 5, display: false }, y: { display: false } },
+                            plugins: { legend: { display: false }, tooltip: { enabled: false } }
+                        }
+                    });
+                }, 100);
             });
         }
 
-        function renderRadar(dataValues) {
+        function renderRadar(avgs) {
             const ctx = document.getElementById('radarChart').getContext('2d');
             
-            // Análisis Automático del Radar
-            const avg = dataValues.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8;
-            let analysisText = "";
-            if(avg > 4) analysisText = "El comité presenta un perfil equilibrado y sólido en la mayoría de áreas.";
-            else if(avg > 3) analysisText = "El comité es funcional pero presenta asimetrías en capacidades técnicas vs. sociales.";
-            else analysisText = "El comité se encuentra en estado crítico y requiere intervención inmediata.";
-            document.getElementById('radarAnalysis').innerText = analysisText;
+            // Texto automático del Radar
+            const avg = avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8;
+            let radarText = "";
+            if(avg > 4) radarText = "El comité presenta capacidades consolidadas. Se recomienda pasar a fase de simulacros.";
+            else if(avg > 3) radarText = "Capacidades en desarrollo. Se requiere reforzar la capacitación teórica antes de operar.";
+            else radarText = "Capacidades insuficientes. No iniciar operaciones hasta reestructurar la directiva.";
+            
+            document.getElementById('radarAnalysisText').innerText = radarText;
 
             new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: labels.map(l => l.substring(3)), // Quitar el numero para la grafica
+                    labels: labels.map(l => l.split(". ")[1]), // Solo nombre corto
                     datasets: [{
-                        label: 'Nivel de Gestión',
-                        data: dataValues,
-                        fill: true,
-                        backgroundColor: 'rgba(37, 99, 235, 0.2)', // Azul transparente
-                        borderColor: 'rgb(37, 99, 235)',
-                        pointBackgroundColor: 'rgb(37, 99, 235)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(37, 99, 235)'
+                        label: 'Nivel Actual',
+                        data: avgs,
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        borderColor: '#2563eb',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#2563eb'
                     }]
                 },
                 options: {
-                    elements: { line: { borderWidth: 3 } },
                     scales: {
                         r: {
-                            angleLines: { display: true, color: '#e2e8f0' },
-                            grid: { color: '#e2e8f0' },
-                            pointLabels: {
-                                font: { size: 11, family: 'Inter' },
-                                color: '#64748b'
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 5,
-                            ticks: { stepSize: 1, backdropColor: 'transparent' }
+                            suggestedMin: 0, suggestedMax: 5,
+                            ticks: { stepSize: 1, display: false },
+                            grid: { color: '#e2e8f0' }
                         }
                     },
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     maintainAspectRatio: false
                 }
             });
         }
 
-        // Buscador Simple
+        // Filtro de Tabla
         document.getElementById('searchBox').addEventListener('keyup', function() {
             let val = this.value.toLowerCase();
-            let rows = document.querySelectorAll('#participantsTable tr');
-            rows.forEach(r => {
+            document.querySelectorAll('#tableBody tr').forEach(r => {
                 r.style.display = r.innerText.toLowerCase().includes(val) ? '' : 'none';
             });
         });
