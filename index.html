@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Levantamiento de Información | Riesgos</title>
+    <title>Evaluación de Campo | UEB - GAD</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -117,18 +117,28 @@
 
         /* PREGUNTAS */
         .question-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 0; border-bottom: 1px solid #f1f5f9;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 15px 0; 
+            border-bottom: 1px solid #f1f5f9;
         }
         .question-row:last-child { border-bottom: none; }
-        .q-text { font-size: 0.9rem; font-weight: 500; color: #334155; width: 70%; }
+        
+        .q-text { 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            color: #1e293b; 
+            width: 75%; 
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
 
     <div id="preloader">
         <div class="loader-spinner"></div>
-        <h6 class="fw-bold text-secondary">Cargando Sistema...</h6>
+        <h6 class="fw-bold text-secondary">Cargando...</h6>
     </div>
 
     <nav class="navbar fixed-top">
@@ -193,7 +203,7 @@
                 <div class="card-header-title"><i class="bi bi-geo-alt-fill"></i> 2. Ubicación Satelital (GPS)</div>
                 
                 <div id="gpsBox" class="gps-container">
-                    <p class="small text-muted mb-3">Es necesario capturar las coordenadas de la reunión para validar el informe.</p>
+                    <p class="small text-muted mb-3">Debes capturar las coordenadas de la reunión para validar el informe.</p>
                     <button type="button" class="btn-gps" onclick="getGPS()" id="btnGPS">
                         <i class="bi bi-crosshair"></i> Activar GPS
                     </button>
@@ -208,7 +218,7 @@
             <div class="form-card">
                 <div class="card-header-title"><i class="bi bi-list-check"></i> 3. Evaluación Técnica (1-5)</div>
                 <div class="alert alert-light border mb-3 py-2 px-3">
-                    <small class="text-muted"><i class="bi bi-info-circle me-1"></i> <strong>Escala:</strong> 1 (Deficiente) - 5 (Excelente)</small>
+                    <small class="text-muted"><i class="bi bi-info-circle me-1"></i> <strong>Instrucciones:</strong> Marque la opción que mejor refleje su experiencia hoy. (1 = Deficiente, 5 = Excelente)</small>
                 </div>
                 <div id="questionsList"></div>
             </div>
@@ -217,33 +227,32 @@
                 <button type="submit" class="btn-submit" id="btnSubmit" disabled>
                     <i class="bi bi-send-fill me-2"></i> ENVIAR REPORTE
                 </button>
-                <p class="text-center small text-muted mt-2">* El botón se activará al capturar el GPS</p>
+                <p class="text-center small text-muted mt-2">* El botón se activa al capturar el GPS</p>
             </div>
 
         </form>
     </div>
 
     <script>
-        // ==========================================================
-        // ⚠️ TU URL DE GOOGLE APPS SCRIPT VA AQUÍ
-        // ==========================================================
+        // ======================================================
+        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+        // ======================================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
-        // Preguntas del Formulario
+        // LISTADO DE PREGUNTAS COMPLETAS
         const questions = [
-            { id: "p1", label: "1. Participación de la comunidad" },
-            { id: "p2", label: "2. Compromiso de la directiva" },
-            { id: "p3", label: "3. Claridad de la capacitación" },
-            { id: "p4", label: "4. Utilidad del Plan Comunitario" },
-            { id: "p5", label: "5. Ambiente de comunicación" },
-            { id: "p6", label: "6. Apoyo Institucional (UEB-GAD)" },
-            { id: "p7", label: "7. Inclusión (Género/Edad)" },
-            { id: "p8", label: "8. Potencial de replicabilidad" }
+            { id: "p1", label: "1. ¿Cómo califica la respuesta y participación de su comunidad el día de hoy?" },
+            { id: "p2", label: "2. ¿Cómo evalúa el nivel de compromiso e interés de los líderes elegidos?" },
+            { id: "p3", label: "3. ¿Qué tan clara y útil fue la capacitación sobre medidas de autoprotección?" },
+            { id: "p4", label: "4. ¿Considera que el Plan Comunitario elaborado hoy es una herramienta útil?" },
+            { id: "p5", label: "5. ¿Cómo califica el ambiente de confianza y comunicación durante el taller?" },
+            { id: "p6", label: "6. ¿Cómo evalúa el apoyo brindado por el equipo (UEB, GAD, SNGR)?" },
+            { id: "p7", label: "7. ¿Considera que hubo inclusión de diversos grupos (mujeres, jóvenes)?" },
+            { id: "p8", label: "8. ¿Cree que este trabajo servirá de ejemplo para que otras comunidades se organicen?" }
         ];
 
         // INICIALIZAR
         window.onload = () => {
-            // Ocultar Preloader
             setTimeout(() => document.getElementById('preloader').style.display = 'none', 800);
             renderQuestions();
         };
@@ -254,7 +263,7 @@
                 container.innerHTML += `
                     <div class="question-row">
                         <label class="q-text">${q.label}</label>
-                        <select class="form-select form-select-sm" name="${q.id}" style="width: 90px;" required>
+                        <select class="form-select form-select-sm" name="${q.id}" style="width: 80px; flex-shrink: 0;" required>
                             <option value="" selected disabled>-</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -273,27 +282,26 @@
             const box = document.getElementById('gpsBox');
             
             if (!navigator.geolocation) {
-                Swal.fire('Error', 'Tu dispositivo no tiene GPS.', 'error');
+                Swal.fire('Dispositivo no compatible', 'Tu navegador no soporta geolocalización.', 'error');
                 return;
             }
 
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Conectando Satélites...';
             btn.disabled = true;
 
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
-                    // Éxito
+                    // ÉXITO
                     document.getElementById('lat').value = pos.coords.latitude;
                     document.getElementById('lng').value = pos.coords.longitude;
                     
-                    // Cambio visual
                     box.classList.add('gps-success');
-                    btn.style.display = 'none'; // Ocultar botón
+                    btn.style.display = 'none'; 
                     document.getElementById('gpsData').style.display = 'block';
                     document.getElementById('coordsText').innerText = 
                         `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
 
-                    // Activar Submit
+                    // ACTIVAR BOTÓN ENVIAR
                     const submitBtn = document.getElementById('btnSubmit');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<i class="bi bi-check-lg me-2"></i> ENVIAR REPORTE';
@@ -301,12 +309,17 @@
                     submitBtn.classList.add('btn-primary');
                 },
                 (err) => {
-                    // Error
+                    // ERROR
                     btn.disabled = false;
                     btn.innerHTML = '<i class="bi bi-arrow-counterclockwise"></i> Reintentar GPS';
-                    Swal.fire('Acceso Denegado', 'Debes permitir el acceso a la ubicación para guardar el reporte.', 'warning');
+                    Swal.fire({
+                        title: 'Acceso Denegado',
+                        text: 'Necesitas activar la ubicación de tu celular y dar permiso al navegador.',
+                        icon: 'warning',
+                        confirmButtonText: 'Entendido'
+                    });
                 },
-                { enableHighAccuracy: true, timeout: 10000 }
+                { enableHighAccuracy: true, timeout: 15000 }
             );
         }
 
@@ -314,9 +327,8 @@
         document.getElementById('mainForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Mostrar Loader de nuevo
             const loader = document.getElementById('preloader');
-            loader.querySelector('h6').innerText = "Enviando Datos...";
+            loader.querySelector('h6').innerText = "Sincronizando...";
             loader.style.display = 'flex';
 
             const formData = new FormData(this);
@@ -331,12 +343,12 @@
                 loader.style.display = 'none';
                 if(res.status === 'success') {
                     Swal.fire({
-                        title: '¡Registro Exitoso!',
-                        text: 'La información ha sido sincronizada con la base de datos.',
+                        title: '¡Datos Guardados!',
+                        text: 'Evaluación registrada correctamente en el sistema.',
                         icon: 'success',
                         confirmButtonColor: '#2563eb'
                     }).then(() => {
-                        window.location.reload(); // Recargar para nuevo registro
+                        window.location.reload();
                     });
                 } else {
                     throw new Error(res.message);
@@ -344,7 +356,7 @@
             })
             .catch(err => {
                 loader.style.display = 'none';
-                Swal.fire('Error de Conexión', 'No se pudo guardar. Verifica tu internet.', 'error');
+                Swal.fire('Error de Red', 'No se pudo conectar con el servidor. Revisa tu internet.', 'error');
             });
         });
     </script>
