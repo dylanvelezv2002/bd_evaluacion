@@ -15,472 +15,355 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        :root {
-            --bg-app: #f8f9fa;
-            --white: #ffffff;
-            --primary: #1e40af; /* Azul Institucional */
-            --text-dark: #111827;
-            --text-gray: #6b7280;
-            --border: #e5e7eb;
-        }
+        :root { --bg-app: #f8f9fa; --white: #ffffff; --primary: #1e40af; --text-dark: #111827; --text-gray: #6b7280; --border: #e5e7eb; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-app); color: var(--text-dark); padding-bottom: 50px; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-app);
-            color: var(--text-dark);
-            padding-bottom: 50px;
-        }
-
-        /* --- HEADER --- */
-        .top-bar {
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 40px;
-            margin-bottom: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.04);
-            min-height: 90px;
-        }
+        /* HEADER & NAV */
+        .top-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 15px 40px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.04); min-height: 80px; }
+        .nav-pills .nav-link { color: #64748b; font-weight: 700; padding: 10px 20px; border-radius: 8px; margin-right: 10px; border: 1px solid transparent; transition:0.2s; }
+        .nav-pills .nav-link.active { background-color: var(--primary); color: white; box-shadow: 0 4px 6px rgba(30,64,175,0.3); }
         
-        .header-content-left {
-            display: flex; flex-direction: column; justify-content: center;
-        }
-
-        .header-content-right {
-            display: flex; align-items: center; gap: 20px;
-        }
-
-        .project-title { 
-            font-size: 1.4rem; font-weight: 800; color: var(--primary); 
-            letter-spacing: -0.5px; line-height: 1.2;
-        }
-        .project-subtitle { 
-            font-size: 0.85rem; color: var(--text-gray); font-weight: 600; 
-            text-transform: uppercase; margin-top: 4px;
-        }
-
-        /* --- TARJETAS --- */
-        .clean-card {
+        /* CARDS ESTÁNDAR */
+        .clean-card { background: var(--white); border-radius: 12px; border: 1px solid var(--border); padding: 20px; height: 100%; box-shadow: 0 2px 4px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+        
+        /* CARD ESPECIAL PARA MAPA (CORRECCIÓN DEL HUECO) */
+        .card-map {
             background: var(--white); border-radius: 12px; border: 1px solid var(--border);
-            padding: 25px; height: 100%; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            display: flex; flex-direction: column; justify-content: space-between;
+            height: 100%; min-height: 400px; /* Altura fija asegurada */
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; overflow: hidden; padding: 0; /* Sin padding para que el mapa toque los bordes */
         }
-        
-        .card-header-custom {
-            border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 15px;
+        .card-map-header {
+            padding: 15px 20px; border-bottom: 1px solid var(--border); background: white; flex-shrink: 0;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .card-title-text { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-gray); }
+        .map-container { flex-grow: 1; width: 100%; height: 100%; background: #e5e7eb; z-index: 1; }
 
-        /* --- ETIQUETAS --- */
-        .badge-status { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .bg-fortaleza { background-color: #dcfce7; color: #166534; border: 1px solid #86efac; }
-        .bg-mejora { background-color: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
-        .bg-critico { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        /* TEXTOS & KPIS */
+        .card-header-custom { border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .card-title-text { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-gray); letter-spacing: 0.5px; }
+        .kpi-val { font-size: 2.5rem; font-weight: 900; color: var(--text-dark); line-height: 1; }
+        .kpi-lbl { font-size: 0.7rem; color: var(--text-gray); font-weight: 700; text-transform: uppercase; margin-top: 5px; }
 
-        /* --- KPIS --- */
-        .kpi-val { font-size: 3rem; font-weight: 900; color: var(--text-dark); line-height: 1; letter-spacing: -1px; }
-        .kpi-lbl { font-size: 0.8rem; color: var(--text-gray); font-weight: 700; text-transform: uppercase; margin-top: 5px; }
+        /* INFORME TÉCNICO */
+        .audit-box { background-color: #fff; border: 1px solid #cbd5e1; border-top: 4px solid var(--primary); padding: 25px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        .audit-title { color: var(--primary); font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        .audit-text { font-size: 0.95rem; line-height: 1.8; color: #334155; text-align: justify; white-space: pre-line; font-family: 'Inter', sans-serif; }
+        .analysis-box { background-color: #f8fafc; border-left: 4px solid var(--primary); padding: 12px; font-size: 0.75rem; margin-top: 10px; border-radius: 0 4px 4px 0; }
 
-        /* --- MAPA --- */
-        #map { height: 420px; width: 100%; border-radius: 8px; border: 1px solid var(--border); z-index: 1; }
+        /* TABLAS */
+        .inv-table th { background: #f8f9fa; font-size: 0.7rem; text-transform: uppercase; padding: 12px; text-align: center; color: var(--text-gray); font-weight: 700; }
+        .inv-table td { font-size: 0.8rem; text-align: center; vertical-align: middle; border-bottom: 1px solid #f1f5f9; padding: 10px; }
+        .check-ok { color: #166534; font-size: 1.1rem; } .check-no { color: #ef4444; font-size: 1.1rem; opacity: 0.3; }
 
-        /* --- ANÁLISIS BOX --- */
-        .analysis-box {
-            background-color: #f8fafc; border-left: 4px solid var(--primary);
-            padding: 15px; font-size: 0.85rem; color: #334155; line-height: 1.6;
-            margin-top: 15px; border-radius: 0 6px 6px 0; text-align: justify;
-        }
-        .analysis-label { font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase; display: block; margin-bottom: 5px; }
-
-        /* --- PRELOADER --- */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff; z-index: 99999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid #e5e7eb;
-            border-top: 5px solid var(--primary); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 15px;
-        }
+        /* PRELOADER */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
+        .spinner-custom { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        #loaderText { font-size: 0.9rem; color: #64748b; font-weight: 500; letter-spacing: 0.5px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- BOTÓN DESCARGA --- */
-        .btn-icon { border: 1px solid #e5e7eb; background: white; color: #6b7280; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-        .btn-icon:hover { background: var(--primary); color: white; border-color: var(--primary); }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 992px) {
-            .top-bar { flex-direction: column; align-items: flex-start; gap: 20px; padding: 20px; }
-            .header-content-right { width: 100%; justify-content: space-between; }
-            .project-title { font-size: 1.2rem; }
-        }
-
+        /* IMPRESIÓN (CORREGIDO) */
         @media print {
             .no-print { display: none !important; }
-            body { padding: 0; background: white; }
-            .clean-card { border: 1px solid #ccc; break-inside: avoid; box-shadow: none; margin-bottom: 20px; }
-            .col-xl-3 { width: 48% !important; float: left; margin: 1%; }
-            #map { height: 300px; }
-            .analysis-box { background-color: #f0f0f0 !important; -webkit-print-color-adjust: exact; }
+            .nav-pills { display: none !important; }
+            .tab-pane { display: block !important; page-break-after: always; margin-bottom: 0; padding-bottom: 0; }
+            .clean-card, .audit-box, .card-map { border: 1px solid #ccc !important; break-inside: avoid; box-shadow: none !important; margin-bottom: 20px; page-break-inside: avoid; }
+            body { background: white; font-size: 10pt; padding: 0; }
+            .container-fluid { padding: 0 !important; max-width: 100% !important; }
+            .col-md-4, .col-lg-4 { width: 33% !important; float: left; }
+            .col-lg-8 { width: 66% !important; float: left; }
+            .col-md-3 { width: 25% !important; float: left; }
+            .map-container { height: 300px !important; width: 100% !important; }
+            .kpi-val { font-size: 1.8rem !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
+        
+        /* UTILS */
+        .badge-status { padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .bg-fortaleza { background-color: #dcfce7; color: #166534; }
+        .bg-mejora { background-color: #fef9c3; color: #854d0e; }
+        .bg-critico { background-color: #fee2e2; color: #991b1b; }
+        .btn-icon { border: 1px solid #e5e7eb; background: white; color: #6b7280; padding: 4px 8px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="spinner"></div>
-        <h6 class="fw-bold text-secondary">Cargando Datos...</h6>
+        <div class="spinner-custom"></div>
+        <div id="loaderText">CARGANDO SISTEMA...</div>
     </div>
 
     <div class="top-bar no-print">
-        <div class="header-content-left">
-            <div class="project-title">GUÍA DE CONFORMACIÓN DE COMITÉS COMUNITARIOS</div>
-            <div class="project-subtitle">PRÁCTICAS PRE-PROFESIONALES | UEB & GAD PROVINCIAL SDT</div>
+        <div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: var(--primary);">MONITOR DE RIESGOS</div>
+            <div style="font-size: 0.75rem; color: var(--text-gray); font-weight: 600;">UEB & GAD PROVINCIAL SDT | Prácticas Pre-Profesionales</div>
         </div>
-        <div class="header-content-right">
-            <select id="parroquiaFilter" class="form-select fw-bold border-secondary" style="width: 220px; height: 45px;" onchange="applyFilter()">
-                <option value="ALL">Provincia Completa</option>
+        <div class="d-flex gap-3 align-items-center">
+            <select id="parroquiaFilter" class="form-select fw-bold border-secondary form-select-sm" style="width: 200px;" onchange="applyFilter()">
+                <option value="ALL">Vista Provincial</option>
             </select>
-            <button onclick="window.print()" class="btn btn-dark fw-bold px-4" style="height: 45px; display: flex; align-items: center; gap: 8px;">
-                <i class="bi bi-printer-fill"></i> PDF
-            </button>
+            <button onclick="window.print()" class="btn btn-dark btn-sm fw-bold px-3"><i class="bi bi-printer-fill me-1"></i> PDF</button>
         </div>
     </div>
 
     <div class="container-fluid px-5" style="max-width: 1800px;">
         
-        <div class="mb-5 pb-3 border-bottom">
-            <div class="d-flex flex-wrap justify-content-between align-items-end">
-                <div>
-                    <h2 class="fw-bold m-0 text-dark" id="reportTitle">Reporte Consolidado</h2>
-                    <p class="text-muted m-0 mt-1">Evaluación de Fortalezas y Áreas de Mejora</p>
-                </div>
-                <div class="text-end text-muted">
-                    <span class="badge bg-primary mb-2">GESTIÓN DE RIESGOS</span>
-                    <div class="fw-bold">Fecha de Corte: <script>document.write(new Date().toLocaleDateString())</script></div>
-                </div>
-            </div>
-        </div>
+        <ul class="nav nav-pills mb-4 no-print" id="pills-tab" role="tablist">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-obj1"><i class="bi bi-building-check me-2"></i>1. DIAGNÓSTICO GAD</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-obj2"><i class="bi bi-people-fill me-2"></i>2. EVALUACIÓN COMUNITARIA</button></li>
+        </ul>
 
-        <div class="row g-4 mb-5">
-            <div class="col-md-4">
-                <div class="clean-card flex-row align-items-center justify-content-between px-5 py-4">
-                    <div>
-                        <div class="kpi-lbl">COMUNIDADES EVALUADAS</div>
-                        <div class="kpi-val" id="kpiTotal">0</div>
-                    </div>
-                    <i class="bi bi-people fs-1 text-secondary opacity-25" style="font-size: 3.5rem !important;"></i>
+        <div class="tab-content" id="pills-tabContent">
+            
+            <div class="tab-pane fade show active" id="pills-obj1">
+                <div class="mb-4 pb-2 border-bottom d-flex justify-content-between align-items-end">
+                    <div><h3 class="fw-bold m-0 text-dark" id="titleObj1">Informe de Capacidades</h3><p class="text-muted m-0 small">Inventario de Recursos GAD Parroquial (Objetivo 1)</p></div>
+                    <div class="text-end"><span class="badge bg-primary mb-1">OBJETIVO 1</span><div class="small fw-bold text-muted">Fecha: <script>document.write(new Date().toLocaleDateString())</script></div></div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="clean-card flex-row align-items-center justify-content-between px-5 py-4">
-                    <div>
-                        <div class="kpi-lbl">ÍNDICE DE GESTIÓN (1-5)</div>
-                        <div class="kpi-val text-primary" id="kpiPromedio">0.0</div>
-                    </div>
-                    <i class="bi bi-bar-chart fs-1 text-primary opacity-25" style="font-size: 3.5rem !important;"></i>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="clean-card flex-row align-items-center justify-content-between px-5 py-4">
-                    <div>
-                        <div class="kpi-lbl">ESTADO DEL PROYECTO</div>
-                        <div class="fw-bold text-uppercase" id="kpiEstado" style="font-size: 2rem;">-</div>
-                    </div>
-                    <i class="bi bi-shield-check fs-1 opacity-25" style="font-size: 3.5rem !important;"></i>
-                </div>
-            </div>
-        </div>
 
-        <div class="row g-4 mb-5">
-            <div class="col-lg-8">
-                <div class="clean-card p-0 overflow-hidden">
-                    <div class="p-4 bg-white border-bottom d-flex justify-content-between align-items-center">
-                        <span class="fw-bold text-secondary"><i class="bi bi-geo-alt-fill me-2"></i>MONITOR GEOREFERENCIADO</span>
-                        <span class="badge bg-light text-dark border">Santo Domingo + La Concordia</span>
-                    </div>
-                    <div id="map"></div>
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-5 py-4"><div><div class="kpi-lbl">GADs REGISTRADOS</div><div class="kpi-val" id="capTotal">0</div></div><i class="bi bi-building-check fs-1 text-secondary opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-5 py-4"><div><div class="kpi-lbl">COBERTURA ALARMAS</div><div class="kpi-val text-primary" id="capAlarma">0%</div></div><i class="bi bi-megaphone fs-1 text-primary opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-5 py-4"><div><div class="kpi-lbl">COBERTURA VEHICULAR</div><div class="kpi-val text-success" id="capVehiculo">0%</div></div><i class="bi bi-truck fs-1 text-success opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="clean-card p-0 overflow-hidden d-flex flex-column" style="max-height: 490px;">
-                    <div class="p-4 bg-white border-bottom"><span class="fw-bold text-secondary">SEMÁFORO POR PARROQUIAS</span></div>
-                    <div id="territoryGrid" style="overflow-y: auto; flex-grow: 1;"></div>
-                </div>
-            </div>
-        </div>
 
-        <h4 class="fw-bold text-secondary mb-4 pb-3 border-bottom text-uppercase">Matriz de Fortalezas y Áreas de Mejora (Objetivo 2)</h4>
-        
-        <div class="row g-4 mb-5" id="chartsGrid">
-            </div>
-
-        <div class="row g-4 mb-5">
-            <div class="col-lg-4">
-                <div class="clean-card" id="cardRadar">
-                    <div class="card-header-custom">
-                        <span class="card-title-text">PERFIL DE COMPETENCIAS</span>
-                        <button class="btn-icon no-print" onclick="downloadCard('cardRadar', 'Radar')"><i class="bi bi-camera"></i></button>
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-8">
+                        <div class="card-map">
+                            <div class="card-map-header"><span class="card-title-text"><i class="bi bi-geo-alt-fill me-2"></i>MAPA DE RECURSOS</span></div>
+                            <div id="mapCap" class="map-container"></div>
+                        </div>
                     </div>
-                    <div style="height: 300px;"><canvas id="radarChart"></canvas></div>
+                    <div class="col-lg-4">
+                        <div class="clean-card mb-4" style="height: auto;"><div class="card-header-custom"><span class="card-title-text">TALENTO HUMANO</span></div><div style="height:150px"><canvas id="chartTalento"></canvas></div></div>
+                        <div class="clean-card" style="height: auto;"><div class="card-header-custom"><span class="card-title-text">LOGÍSTICA</span></div><div style="height:150px"><canvas id="chartLogistica"></canvas></div></div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-8">
-                 <div class="clean-card p-0 overflow-hidden">
-                    <div class="p-4 border-bottom"><span class="fw-bold small text-secondary">BASE DE DATOS DE ACTORES</span></div>
-                    <div class="table-responsive" style="max-height: 400px;">
-                        <table class="table table-hover mb-0 w-100">
-                            <thead class="table-light"><tr><th class="p-3">Fecha</th><th class="p-3">Parroquia</th><th class="p-3">Comunidad</th><th class="p-3">Cargo</th><th class="p-3">Nota</th></tr></thead>
-                            <tbody id="tableBody"></tbody>
+
+                <div class="audit-box">
+                    <div class="audit-title"><i class="bi bi-file-text-fill"></i> DICTAMEN TÉCNICO DE CAPACIDADES</div>
+                    <div id="obj1ReportText" class="audit-text">Esperando datos...</div>
+                </div>
+
+                <div class="clean-card p-0 overflow-hidden mb-5">
+                    <div class="p-3 border-bottom bg-white d-flex justify-content-between align-items-center"><span class="card-title-text">MATRIZ DE RECURSOS DISPONIBLES</span><button class="btn-icon no-print" onclick="downloadCard('capTableBody', 'Inventario')"><i class="bi bi-camera"></i></button></div>
+                    <div class="table-responsive">
+                        <table class="table inv-table mb-0 w-100 table-hover">
+                            <thead><tr><th class="text-start ps-4">PARROQUIA</th><th>MÉDICO</th><th>BOMBERO</th><th>SEGURIDAD</th><th>ALARMA</th><th>ALBERGUE</th><th>VEHÍCULO</th></tr></thead>
+                            <tbody id="capTableBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <div class="tab-pane fade" id="pills-obj2">
+                <div class="mb-4 pb-2 border-bottom d-flex justify-content-between align-items-end">
+                    <div><h3 class="fw-bold m-0 text-dark" id="reportTitle">Evaluación Comunitaria</h3><p class="text-muted m-0 small">Matriz de Fortalezas y Áreas de Mejora (Objetivo 2)</p></div>
+                    <div class="text-end"><span class="badge bg-primary mb-1">OBJETIVO 2</span><div class="small fw-bold text-muted">Fecha: <script>document.write(new Date().toLocaleDateString())</script></div></div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-4 py-4"><div><div class="kpi-lbl">COMUNIDADES</div><div class="kpi-val" id="kpiTotal">0</div></div><i class="bi bi-people fs-1 text-secondary opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-4 py-4"><div><div class="kpi-lbl">ÍNDICE GESTIÓN</div><div class="kpi-val text-primary" id="kpiPromedio">0.0</div></div><i class="bi bi-bar-chart fs-1 text-primary opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-4 py-4"><div><div class="kpi-lbl">ESTADO</div><div class="fw-bold text-uppercase" id="kpiEstado" style="font-size: 2rem;">-</div></div><i class="bi bi-shield-check fs-1 opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-8">
+                        <div class="card-map">
+                            <div class="card-map-header"><span class="card-title-text"><i class="bi bi-geo-alt-fill me-2"></i>MAPA DE PERCEPCIÓN</span></div>
+                            <div id="mapEval" class="map-container"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4"><div class="clean-card p-0 overflow-hidden d-flex flex-column" style="max-height:420px"><div class="p-3 bg-white border-bottom"><span class="card-title-text">SEMÁFORO</span></div><div id="territoryGrid" style="overflow-y:auto;flex-grow:1"></div></div></div>
+                </div>
+
+                <h6 class="fw-bold text-secondary mb-3 border-bottom pb-2 text-uppercase" style="font-size:0.85rem">Análisis por Indicadores</h6>
+                <div class="row g-4 mb-4" id="chartsGrid"></div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-4"><div class="clean-card" id="cardRadar"><div class="card-header-custom"><span class="card-title-text">PERFIL</span><button class="btn-icon no-print" onclick="downloadCard('cardRadar','Radar')"><i class="bi bi-camera"></i></button></div><div style="height:280px"><canvas id="radarChart"></canvas></div></div></div>
+                    <div class="col-lg-8"><div class="clean-card p-0 overflow-hidden"><div class="p-3 border-bottom"><span class="card-title-text">BASE DE DATOS</span></div><div class="table-responsive" style="max-height:350px"><table class="table table-hover mb-0 w-100 small"><thead class="table-light"><tr><th class="p-3">Fecha</th><th class="p-3">Parroquia</th><th class="p-3">Comunidad</th><th class="p-3">Cargo</th><th class="p-3">Nota</th></tr></thead><tbody id="tableBody"></tbody></table></div></div></div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ==========================================================
-        // ⚠️ TU URL DE GOOGLE APPS SCRIPT
-        // ==========================================================
+        // ⚠️ PEGA AQUÍ TU URL
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
         const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
-        const labels = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
-        
-        let RAW_DATA = [], FILTERED_DATA = [], map, markersLayer = new L.LayerGroup(), chartInstances = {};
+        const LABELS_OBJ2 = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
+        const TIPS = ["Cargando capacidades institucionales...", "Procesando indicadores de gestión...", "Validando cobertura territorial...", "Conectando con base de datos..."];
 
-        // MOTOR DE DICTAMEN TÉCNICO
-        const techDB = {
-            p1: { // Participación
-                low: ["Fractura del tejido social evidenciada. La convocatoria no alcanzó el umbral mínimo de representatividad, deslegitimando el proceso inicial.", "Ausentismo crítico. Se requiere replantear los canales de difusión y realizar un mapeo de actores clave urgente."],
-                mid: ["Convocatoria sectorizada. Asistencia parcial que no garantiza la participación de grupos vulnerables. Se sugiere reforzar la invitación personalizada.", "Nivel de participación estándar. Suficiente para validación formal, pero carece de la masa crítica necesaria para sostenibilidad operativa."],
-                high: ["Alta legitimidad social. La convocatoria masiva valida plenamente la conformación del comité y garantiza el respaldo comunitario.", "Excelente poder de movilización. La comunidad demuestra interés activo, constituyendo un activo fundamental para la resiliencia local."]
-            },
-            p2: { // Compromiso
-                low: ["Riesgo de acefalía. La directiva muestra apatía y desconocimiento de roles, lo que augura una disolución temprana del comité.", "Liderazgo débil. Los cargos fueron asumidos por presión y no por convicción. Se requiere intervención motivacional inmediata."],
-                mid: ["Compromiso condicionado. La directiva tiene voluntad política pero depende del acompañamiento técnico externo para operar.", "Liderazgo en desarrollo. Existen dudas sobre el alcance de funciones que limitan la autonomía de gestión."],
-                high: ["Gobernanza local fortalecida. La directiva muestra empoderamiento y proactividad en la toma de decisiones.", "Liderazgo consolidado. Los actores clave asumen su rol de primeros respondientes con responsabilidad y autonomía."]
-            },
-            p3: { // Capacitación
-                low: ["Brecha cognitiva crítica. Los conceptos de autoprotección no fueron asimilados, manteniendo la vulnerabilidad ante amenazas.", "Falla en transferencia de conocimientos. Se requiere repetir el taller con metodología lúdica adaptada al territorio."],
-                mid: ["Asimilación teórica parcial. Comprenden los riesgos pero fallan en la aplicación práctica de protocolos de seguridad.", "Competencias básicas. El nivel es suficiente para prevención, pero insuficiente para respuesta ante eventos adversos."],
-                high: ["Apropiación del conocimiento. La comunidad domina los protocolos y demuestra capacidad de réplica familiar.", "Capacidades instaladas exitosas. El proceso formativo logró modificar la percepción del riesgo en la población."]
-            },
-            p4: { // Plan Local
-                low: ["Instrumento inoperante. El Plan es visto como un requisito burocrático sin valor práctico para la comunidad.", "Falta de validación. El documento no refleja la realidad territorial y será ignorado en una emergencia real."],
-                mid: ["Validación formal. El Plan existe y está firmado, pero falta socialización masiva para que sea efectivo.", "Planificación reactiva. El documento se enfoca en respuesta y descuida las fases de prevención y mitigación."],
-                high: ["Herramienta de gestión validada. El Plan es reconocido por la comunidad como la hoja de ruta oficial ante desastres.", "Planificación participativa. La construcción colectiva asegura la aplicabilidad y respeto de los protocolos."]
-            },
-            p5: { // Comunicación
-                low: ["Canales rotos. Existe desconfianza y rumores que impiden el flujo de información oficial.", "Silencio organizativo. La falta de comunicación interna genera duplicidad de esfuerzos y conflictos."],
-                mid: ["Comunicación vertical. La información fluye de los líderes hacia abajo, pero falta retroalimentación de las bases.", "Flujo intermitente. Los canales existen pero no se activan de manera preventiva, solo reactiva."],
-                high: ["Sinergia comunicacional. Clima de confianza que permite el flujo transparente de información crítica.", "Redes activas. Los canales de alerta temprana comunitarios están operativos y verificados."]
-            },
-            p6: { // Articulación
-                low: ["Aislamiento institucional. La comunidad percibe abandono por parte de los entes rectores.", "Desarticulación total. No existen puentes de comunicación con el GAD o cuerpos de respuesta."],
-                mid: ["Relación asistencialista. Esperan recursos del GAD sin aportar contraparte organizativa local.", "Articulación formal. Existen convenios pero falta operatividad en el territorio."],
-                high: ["Alianza estratégica. Relación de corresponsabilidad efectiva entre Comunidad, Universidad y GAD.", "Gobernanza multinivel. La comunidad se integra activamente al Sistema Descentralizado de Gestión de Riesgos."]
-            },
-            p7: { // Inclusión
-                low: ["Exclusión estructural. El comité no representa a la diversidad demográfica del sector.", "Ausencia de enfoque de género. La toma de decisiones está masculinizada y centralizada."],
-                mid: ["Inclusión simbólica. Participan mujeres y jóvenes pero sin poder real de decisión en la directiva.", "Representatividad parcial. Faltan sectores periféricos o grupos prioritarios en la mesa."],
-                high: ["Enfoque integral. El comité refleja la diversidad de la comunidad, garantizando atención a grupos vulnerables.", "Participación equitativa. Liderazgos femeninos y juveniles fortalecidos y activos."]
-            },
-            p8: { // Réplica
-                low: ["Iniciativa aislada. El proceso no genera interés en comunidades vecinas.", "Modelo no transferible. La experiencia se percibe como un evento único y no como un proceso continuo."],
-                mid: ["Potencial moderado. Se requiere consolidar resultados internos antes de intentar exportar el modelo.", "Visibilidad limitada. Los logros del comité no han sido suficientemente difundidos."],
-                high: ["Efecto multiplicador. La comunidad se convierte en referente y mentora para recintos aledaños.", "Sostenibilidad garantizada. El modelo de gestión es robusto y fácilmente replicable en otros contextos."]
-            },
-            generic: {
-                low: ["Indicador en estado crítico. Requiere intervención inmediata.", "Deficiencia estructural detectada."],
-                mid: ["Desempeño estándar con oportunidades de mejora.", "Estabilidad operativa parcial."],
-                high: ["Fortaleza estratégica consolidada.", "Excelente desempeño técnico."]
-            }
+        let DATA_CAP=[], DATA_EVAL=[], mapCap, mapEval, markersCap=new L.LayerGroup(), markersEval=new L.LayerGroup(), chartInstances={};
+
+        // REDACCIÓN TÉCNICA (OBJ 1)
+        function generateObj1Report(data, isProv, name, alarmas, total) {
+            if(data.length===0) return "No existe información registrada para procesar el análisis.";
+            
+            let salud = data.filter(r=>r[6]==='SI').length;
+            let veh = data.filter(r=>r[13]==='SI').length;
+            let pctAlarma = Math.round((alarmas/total)*100);
+            let pctSalud = Math.round((salud/total)*100);
+            
+            let txt = `De conformidad con el diagnóstico institucional realizado ${isProv ? 'a nivel provincial' : 'en la parroquia ' + name}, se observa que el ${pctSalud}% del territorio dispone de talento humano en salud para la primera respuesta. `;
+            
+            txt += (pctAlarma < 50) 
+                ? `No obstante, se identifica una vulnerabilidad tecnológica crítica, dado que apenas el ${pctAlarma}% cuenta con sistemas de alerta temprana funcionales, lo cual incumple los estándares mínimos de prevención establecidos en la normativa vigente. ` 
+                : `Asimismo, la infraestructura de alerta temprana muestra una cobertura sólida del ${pctAlarma}%, fortaleciendo la capacidad de aviso oportuno ante amenazas naturales. `;
+            
+            txt += `En términos de movilidad logística, el ${Math.round((veh/total)*100)}% de los GADs posee vehículos operativos. Por consiguiente, se recomienda ${veh<total ? 'establecer convenios de transporte de emergencia' : 'mantener el plan de mantenimiento vehicular'} y priorizar la dotación de equipamiento en las zonas con mayores brechas identificadas.`;
+            return txt;
+        }
+
+        const textObj2 = {
+            low: ["Vulnerabilidad Crítica.", "Falla Estructural."],
+            mid: ["Estabilidad Parcial.", "En Desarrollo."],
+            high: ["Fortaleza Consolidada.", "Alta Resiliencia."]
         };
 
         function getAnalysisText(key, score) {
-            const level = score >= 4 ? 'high' : (score >= 3 ? 'mid' : 'low');
-            let texts = techDB[key] ? techDB[key][level] : techDB.generic[level];
-            return texts[Math.floor(Math.random() * texts.length)];
+            let lvl = score >= 4 ? 'high' : (score >= 3 ? 'mid' : 'low');
+            return textObj2[lvl][Math.floor(Math.random() * textObj2[lvl].length)];
         }
 
         window.onload = () => {
-            initMap();
-            initFilters();
+            runPreloader(); initMaps();
+            const sel = document.getElementById('parroquiaFilter');
+            PARROQUIAS.sort().forEach(p => sel.add(new Option(p, p)));
             fetch(API_URL).then(r => r.json()).then(d => {
-                document.getElementById('preloader').style.display = 'none';
-                if(d.data) { RAW_DATA = d.data; applyFilter(); }
-            }).catch(e => {
-                document.getElementById('preloader').innerHTML = "<h5 class='text-danger fw-bold'>Error de Conexión</h5>";
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(()=>document.getElementById('preloader').style.display='none', 500);
+                if(d.status==='success') { DATA_CAP=d.dataCap||[]; DATA_EVAL=d.dataEval||[]; applyFilter(); }
             });
         };
 
-        function initMap() {
-            map = L.map('map', {zoomControl: false}).setView([-0.2530, -79.1754], 10);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO', maxZoom: 18 }).addTo(map);
-            markersLayer.addTo(map);
-            L.control.zoom({position: 'bottomright'}).addTo(map);
+        function runPreloader() {
+            let i=0; setInterval(()=>{document.getElementById('loaderText').innerText=TIPS[i];i=(i+1)%TIPS.length}, 2000);
+            setTimeout(()=>document.getElementById('preloader').style.display='none',5000);
         }
 
-        function initFilters() {
-            const sel = document.getElementById('parroquiaFilter');
-            PARROQUIAS.sort().forEach(p => sel.add(new Option(p, p)));
+        function initMaps() {
+            mapCap = L.map('mapCap', {zoomControl:false}).setView([-0.2530, -79.1754], 10);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {attribution:'CARTO'}).addTo(mapCap);
+            markersCap.addTo(mapCap);
+            mapEval = L.map('mapEval', {zoomControl:false}).setView([-0.2530, -79.1754], 10);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {attribution:'CARTO'}).addTo(mapEval);
+            markersEval.addTo(mapEval);
+            document.querySelectorAll('button[data-bs-toggle="pill"]').forEach(el => { el.addEventListener('shown.bs.tab', () => { mapCap.invalidateSize(); mapEval.invalidateSize(); fitBounds(mapCap, markersCap); fitBounds(mapEval, markersEval); }); });
+        }
+
+        function fitBounds(map, layer) {
+            if (layer.getLayers().length > 0) map.fitBounds(layer.getBounds());
+            else map.setView([-0.2530, -79.1754], 10);
         }
 
         function applyFilter() {
             const val = document.getElementById('parroquiaFilter').value;
-            FILTERED_DATA = val === 'ALL' ? RAW_DATA : RAW_DATA.filter(r => r[1] === val);
-            document.getElementById('reportTitle').innerText = val === 'ALL' ? "Reporte Consolidado Provincial" : `Reporte: ${val}`;
-            
-            if(val !== 'ALL' && FILTERED_DATA.length > 0 && FILTERED_DATA[0][5]) map.setView([FILTERED_DATA[0][5], FILTERED_DATA[0][6]], 13);
-            else map.setView([-0.2530, -79.1754], 10);
-            
-            updateDashboard();
+            const isProv = val === 'ALL';
+            const t = isProv ? "Consolidado Provincial" : val;
+            document.getElementById('titleObj1').innerText = "Informe: " + t;
+            document.getElementById('titleObj2').innerText = "Evaluación: " + t;
+            document.getElementById('reportTitle').innerText = "Reporte: " + t;
+
+            const fCap = isProv ? DATA_CAP : DATA_CAP.filter(r => r[1] === val);
+            const fEval = isProv ? DATA_EVAL : DATA_EVAL.filter(r => r[1] === val);
+
+            renderObj1(fCap, isProv, val);
+            renderObj2(fEval);
+            setTimeout(() => { fitBounds(mapCap, markersCap); fitBounds(mapEval, markersEval); }, 500);
         }
 
-        function updateDashboard() {
-            const total = FILTERED_DATA.length;
-            markersLayer.clearLayers();
-            const tbody = document.getElementById('tableBody'); tbody.innerHTML = "";
-            let sums = new Array(8).fill(0);
-
-            if(total === 0) { resetDashboard(); return; }
-
-            FILTERED_DATA.forEach(row => {
-                let s=0; for(let i=0;i<8;i++) s+=Number(row[i+7]);
-                let avg = (s/8).toFixed(1);
-                for(let i=0;i<8;i++) sums[i]+=Number(row[i+7]);
-
-                tbody.innerHTML += `<tr><td class="p-3">${new Date(row[0]).toLocaleDateString()}</td><td class="p-3">${row[1]}</td><td class="p-3">${row[2]}</td><td class="p-3"><span class="badge bg-light text-dark border">${row[4]}</span></td><td class="p-3"><b>${avg}</b></td></tr>`;
-
-                if(row[5] && row[6]) {
-                    // DISPERSIÓN (JITTER) para evitar solapamiento
-                    let latJitter = parseFloat(row[5]) + (Math.random() - 0.5) * 0.0006;
-                    let lngJitter = parseFloat(row[6]) + (Math.random() - 0.5) * 0.0006;
-
-                    let color = avg>=4 ? '#10b981' : (avg>=3 ? '#f59e0b' : '#ef4444');
-                    let popup = `
-                        <div style="font-family:Inter; min-width:200px; font-size:12px;">
-                            <div style="border-bottom:2px solid ${color}; font-weight:bold; margin-bottom:5px; padding-bottom:3px;">${row[2]}</div>
-                            <div><b>Rep:</b> ${row[3]}</div>
-                            <div><b>Cargo:</b> ${row[4]}</div>
-                            <div><b>Parroquia:</b> ${row[1]}</div>
-                            <div class="mt-2 p-1 text-center text-white rounded fw-bold" style="background:${color}">NOTA: ${avg} / 5.0</div>
-                        </div>`;
-                    L.circleMarker([latJitter, lngJitter], {radius:8, fillColor:color, color:'white', weight:2, fillOpacity:1}).bindPopup(popup).addTo(markersLayer);
+        function renderObj1(data, isProv, name) {
+            document.getElementById('capTotal').innerText = data.length;
+            markersCap.clearLayers();
+            const tbody = document.getElementById('capTableBody'); tbody.innerHTML="";
+            
+            let alarmas=0, vehiculos=0, salud=0, fuego=0;
+            data.forEach(r => {
+                if(r[6]==='SI') salud++; if(r[8]==='SI') fuego++;
+                if(r[11]==='SI') alarmas++; if(r[13]==='SI') vehiculos++;
+                const i=(v)=>v==='SI'?'<i class="bi bi-check-circle-fill check-ok"></i>':'<i class="bi bi-x-circle-fill check-no"></i>';
+                tbody.innerHTML += `<tr><td class="text-start ps-4 fw-bold text-secondary">${r[1]}</td><td>${i(r[6])}</td><td>${i(r[8])}</td><td>${i(r[9])}</td><td>${i(r[11])}</td><td>${i(r[12])}</td><td>${i(r[13])}</td></tr>`;
+                if(r[4]&&r[5]) {
+                    let lat = parseFloat(r[4])+(Math.random()-0.5)*0.0005; let lng = parseFloat(r[5])+(Math.random()-0.5)*0.0005;
+                    let score=0; if(r[6]==='SI')score++; if(r[11]==='SI')score++; if(r[13]==='SI')score++;
+                    let c=score>=2?'#10b981':(score===1?'#f59e0b':'#ef4444');
+                    L.circleMarker([lat, lng], {radius:7, fillColor:c, color:'white', weight:2, fillOpacity:0.9}).bindPopup(`<b>${r[1]}</b><br>Recursos: ${score}/3`).addTo(markersCap);
                 }
             });
 
-            const avgs = sums.map(s => (s/total).toFixed(1));
-            const global = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
+            const t = data.length || 1;
+            document.getElementById('capAlarma').innerText = Math.round((alarmas/t)*100)+"%";
+            document.getElementById('capVehiculo').innerText = Math.round((vehiculos/t)*100)+"%";
             
-            document.getElementById('kpiTotal').innerText = total;
-            document.getElementById('kpiPromedio').innerText = global;
-            
-            const st = document.getElementById('kpiEstado');
-            if(global>=4) { st.innerText="RESILIENTE"; st.className="fw-bold text-success"; }
-            else if(global>=3) { st.innerText="EN PROCESO"; st.className="fw-bold text-warning"; }
-            else { st.innerText="CRÍTICO"; st.className="fw-bold text-danger"; }
-
-            renderCharts(avgs);
-            renderMonitor();
-            renderRadar(avgs);
+            renderBarChart('chartTalento', ['Salud', 'Fuego'], [salud, fuego], t, '#1e40af');
+            renderBarChart('chartLogistica', ['Alarma', 'Vehículo'], [alarmas, vehiculos], t, '#10b981');
+            document.getElementById('obj1ReportText').innerHTML = generateObj1Report(data, isProv, name, alarmas, t);
         }
 
-        function resetDashboard() {
-             document.getElementById('kpiTotal').innerText = "0";
-             document.getElementById('kpiPromedio').innerText = "0.0";
-             document.getElementById('kpiEstado').innerText = "-";
-             document.getElementById('chartsGrid').innerHTML = "<p class='col-12 text-muted p-4'>No hay datos disponibles para esta selección.</p>";
-             document.getElementById('territoryGrid').innerHTML = "";
-             document.getElementById('tableBody').innerHTML = "";
-             if(chartInstances['radar']) chartInstances['radar'].destroy();
-        }
+        function renderObj2(data) {
+            markersEval.clearLayers();
+            const grid = document.getElementById('chartsGrid'); grid.innerHTML="";
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML="";
+            let sums = new Array(8).fill(0);
+            if(data.length === 0) { document.getElementById('kpiTotal').innerText="0"; return; }
 
-        function renderCharts(avgs) {
-            const c = document.getElementById('chartsGrid'); c.innerHTML = "";
-            avgs.forEach((avg, i) => {
-                const level = avg>=4 ? 'high' : (avg>=3 ? 'mid' : 'low');
-                const color = avg>=4 ? '#10b981' : (avg>=3 ? '#f59e0b' : '#ef4444');
-                const label = avg>=4 ? 'FORTALEZA' : (avg>=3 ? 'ÁREA DE MEJORA' : 'ÁREA CRÍTICA');
-                const badgeClass = avg>=4 ? 'bg-fortaleza' : (avg>=3 ? 'bg-mejora' : 'bg-critico');
-                const cardId = `cardChart${i}`;
-                const qKey = `p${i+1}`;
-                const text = getAnalysisText(qKey, avg);
-
-                c.innerHTML += `
-                <div class="col-md-6 col-xl-3">
-                    <div class="clean-card" id="${cardId}">
-                        <div class="card-header-custom">
-                            <span class="card-title-text">${labels[i]}</span>
-                            <button class="btn-icon no-print" onclick="downloadCard('${cardId}', '${labels[i]}')" title="Descargar Gráfica"><i class="bi bi-camera"></i></button>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h2 class="fw-bold m-0" style="color:${color}">${avg}</h2>
-                            <span class="badge-status ${badgeClass}">${label}</span>
-                        </div>
-                        <div style="height: 60px;"><canvas id="canvasChart${i}"></canvas></div>
-                        <div class="analysis-box">
-                            <span class="analysis-label">DICTAMEN TÉCNICO:</span>
-                            ${text}
-                        </div>
-                    </div>
-                </div>`;
-
-                setTimeout(() => {
-                    new Chart(document.getElementById(`canvasChart${i}`), {
-                        type: 'bar',
-                        data: { labels: [''], datasets: [{ data: [avg], backgroundColor: color, borderRadius: 4, barThickness: 20 }] },
-                        options: { indexAxis: 'y', maintainAspectRatio: false, scales: { x:{min:0, max:5, display:false}, y:{display:false} }, plugins: { legend: {display:false} } }
-                    });
-                }, 0);
+            data.forEach(r => {
+                for(let i=0;i<8;i++) sums[i]+=Number(r[i+7]);
+                let lat = parseFloat(r[5])+(Math.random()-0.5)*0.0005; let lng = parseFloat(r[6])+(Math.random()-0.5)*0.0005;
+                let rowAvg=0; for(let i=0;i<8;i++) rowAvg+=Number(r[i+7]); rowAvg=(rowAvg/8).toFixed(1);
+                tbody.innerHTML += `<tr><td class="p-2">${new Date(r[0]).toLocaleDateString()}</td><td class="p-2">${r[1]}</td><td class="p-2">${r[2]}</td><td class="p-2">${r[4]}</td><td class="p-2 fw-bold">${rowAvg}</td></tr>`;
+                let color = rowAvg>=4?'#10b981':(rowAvg>=3?'#f59e0b':'#ef4444');
+                L.circleMarker([lat, lng], {radius:6, fillColor:color, color:'white', weight:1, fillOpacity:0.9}).bindPopup(`<b>${r[2]}</b><br>Nota: ${rowAvg}`).addTo(markersEval);
             });
+
+            const avgs = sums.map(s => (s/data.length).toFixed(1));
+            const global = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
+            document.getElementById('kpiTotal').innerText = data.length;
+            document.getElementById('kpiPromedio').innerText = global;
+            const st = document.getElementById('kpiEstado');
+            if(global>=4) { st.innerText="RESILIENTE"; st.className="fw-bold text-success"; } else if(global>=3) { st.innerText="EN PROCESO"; st.className="fw-bold text-warning"; } else { st.innerText="CRÍTICO"; st.className="fw-bold text-danger"; }
+
+            avgs.forEach((avg, i) => {
+                let lvl = avg>=4?'high':(avg>=3?'mid':'low'); let color = avg>=4?'#10b981':(avg>=3?'#f59e0b':'#ef4444');
+                let text = getAnalysisText('p'+(i+1), avg);
+                grid.innerHTML += `<div class="col-md-3"><div class="clean-card" id="c${i}"><div class="card-header-custom"><span class="card-title-text">${LABELS_OBJ2[i]}</span><button class="btn-icon no-print" onclick="downloadCard('c${i}','${LABELS_OBJ2[i]}')"><i class="bi bi-camera"></i></button></div><div class="d-flex justify-content-between align-items-center mb-2"><h2 class="fw-bold m-0" style="color:${color}">${avg}</h2><span class="badge-status ${avg>=4?'bg-fortaleza':(avg>=3?'bg-mejora':'bg-critico')}">${avg>=4?'FORTALEZA':'MEJORA'}</span></div><div style="height:50px"><canvas id="cv${i}"></canvas></div><div class="analysis-box mt-2">${text}</div></div></div>`;
+                setTimeout(()=>new Chart(document.getElementById(`cv${i}`), {type:'bar', data:{labels:[''], datasets:[{data:[avg], backgroundColor:color, borderRadius:4}]}, options:{indexAxis:'y', maintainAspectRatio:false, scales:{x:{min:0,max:5,display:false},y:{display:false}}, plugins:{legend:{display:false}}}}),0);
+            });
+            renderMonitor(data); renderRadar(avgs);
         }
 
-        function renderMonitor() {
-            const c = document.getElementById('territoryGrid'); c.innerHTML = "";
-            const g = {}; PARROQUIAS.forEach(p => g[p]={s:0,c:0});
-            RAW_DATA.forEach(r => { if(g[r[1]]) { let s=0;for(let i=0;i<8;i++)s+=Number(r[i+7]); g[r[1]].s+=s/8; g[r[1]].c++; }});
-
-            Object.keys(g).sort().forEach(p => {
-                const d = g[p]; const s = d.c>0 ? (d.s/d.c).toFixed(1) : "0.0";
-                const color = d.c===0 ? '#9ca3af' : (s>=4 ? '#10b981' : (s>=3 ? '#f59e0b' : '#ef4444'));
-                
-                c.innerHTML += `
-                <div style="padding: 12px 15px; border-bottom:1px solid #f3f4f6; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();">
-                    <span style="font-size:0.85rem; font-weight:600; color:#374151;">${p}</span>
-                    <span class="badge" style="background:${color}; font-size:0.9rem">${s}</span>
-                </div>`;
+        function renderMonitor(data) {
+            const c = document.getElementById('territoryGrid'); c.innerHTML="";
+            const g={}; PARROQUIAS.forEach(p=>g[p]={s:0,c:0});
+            data.forEach(r=>{if(g[r[1]]){let s=0;for(let i=0;i<8;i++)s+=Number(r[i+7]);g[r[1]].s+=s/8;g[r[1]].c++;}});
+            Object.keys(g).sort().forEach(p=>{
+                let d=g[p], s=d.c>0?(d.s/d.c).toFixed(1):"0.0", color=d.c===0?'#9ca3af':(s>=4?'#10b981':(s>=3?'#f59e0b':'#ef4444'));
+                c.innerHTML+=`<div class="p-2 border-bottom d-flex justify-content-between align-items-center" onclick="document.getElementById('parroquiaFilter').value='${p}'; applyFilter();" style="cursor:pointer"><span class="small fw-bold text-secondary">${p}</span><span class="badge" style="background:${color};font-size:0.8rem">${s}</span></div>`;
             });
         }
 
         function renderRadar(avgs) {
-            const ctx = document.getElementById('radarChart');
             if(chartInstances['radar']) chartInstances['radar'].destroy();
-            chartInstances['radar'] = new Chart(ctx, {
-                type: 'radar',
-                data: { labels: labels, datasets: [{ label: 'Nivel', data: avgs, backgroundColor: 'rgba(30, 64, 175, 0.2)', borderColor: '#1e40af', borderWidth: 2 }] },
-                options: { scales: { r: { suggestedMin: 0, suggestedMax: 5, ticks:{display:false} } }, plugins: { legend: {display:false} }, maintainAspectRatio: false }
+            chartInstances['radar'] = new Chart(document.getElementById('radarChart'), {type:'radar', data:{labels:LABELS_OBJ2, datasets:[{label:'Nivel', data:avgs, backgroundColor:'rgba(30,64,175,0.2)', borderColor:'#1e40af'}]}});
+        }
+
+        function renderBarChart(id, lbls, vals, max, color) {
+            if(chartInstances[id]) chartInstances[id].destroy();
+            chartInstances[id] = new Chart(document.getElementById(id), {
+                type: 'bar', data: { labels: lbls, datasets: [{ label: 'Cobertura', data: vals, backgroundColor: color, borderRadius: 4 }] },
+                options: { indexAxis: 'y', scales: { x: { max: max, ticks: { stepSize: 1 } } }, plugins: { legend: { display: false } }, maintainAspectRatio: false }
             });
         }
 
-        function downloadCard(cardId, title) {
-            const element = document.getElementById(cardId);
-            const btn = element.querySelector('.btn-icon');
-            btn.style.display = 'none'; 
-            html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Analisis_${title.replace(/ /g,'_')}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                btn.style.display = 'block';
-            });
+        function downloadCard(id, t) {
+            const el = document.getElementById(id), btn = el.querySelector('.btn-icon'); btn.style.display='none';
+            html2canvas(el, {scale:2, backgroundColor:'#fff'}).then(c=>{ const l=document.createElement('a'); l.download=`${t}.png`; l.href=c.toDataURL(); l.click(); btn.style.display='block'; });
         }
     </script>
 </body>
