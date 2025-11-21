@@ -15,122 +15,152 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        :root { --bg-app: #f8f9fa; --white: #ffffff; --primary: #1e40af; --text-dark: #111827; --text-gray: #6b7280; --border: #e5e7eb; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-app); color: var(--text-dark); padding-bottom: 50px; }
-
-        /* HEADER & NAV */
-        .top-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 15px 40px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.04); min-height: 80px; }
-        .nav-pills .nav-link { color: #64748b; font-weight: 700; padding: 10px 20px; border-radius: 8px; margin-right: 10px; border: 1px solid transparent; transition:0.2s; }
-        .nav-pills .nav-link.active { background-color: var(--primary); color: white; box-shadow: 0 4px 6px rgba(30,64,175,0.3); }
-        
-        /* CARDS ESTÁNDAR */
-        .clean-card { background: var(--white); border-radius: 12px; border: 1px solid var(--border); padding: 20px; height: 100%; box-shadow: 0 2px 4px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-        
-        /* CARD ESPECIAL PARA MAPA (CORRECCIÓN DEL HUECO) */
-        .card-map {
-            background: var(--white); border-radius: 12px; border: 1px solid var(--border);
-            height: 100%; min-height: 400px; /* Altura fija asegurada */
-            box-shadow: 0 2px 4px -1px rgba(0,0,0,0.05);
-            display: flex; flex-direction: column; overflow: hidden; padding: 0; /* Sin padding para que el mapa toque los bordes */
+        :root {
+            --bg-body: #f0f2f5;
+            --card-bg: #ffffff;
+            --primary: #1e3a8a; 
+            --accent: #3b82f6;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
-        .card-map-header {
-            padding: 15px 20px; border-bottom: 1px solid var(--border); background: white; flex-shrink: 0;
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); padding-bottom: 60px; }
+
+        /* --- HEADER --- */
+        .top-bar {
+            background: var(--card-bg); border-bottom: 1px solid var(--border);
+            padding: 15px 40px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000;
+        }
+        .project-title { font-size: 1.2rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; }
+        .project-subtitle { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        /* --- TABS --- */
+        .nav-pills .nav-link {
+            color: var(--text-muted); font-weight: 600; padding: 10px 24px; border-radius: 30px; margin-right: 10px;
+            border: 1px solid transparent; transition: all 0.2s ease; font-size: 0.9rem;
+        }
+        .nav-pills .nav-link.active {
+            background-color: var(--primary); color: white; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        }
+        .nav-pills .nav-link:hover:not(.active) { background-color: #eef2ff; color: var(--primary); }
+
+        /* --- CARDS --- */
+        .clean-card {
+            background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border);
+            padding: 24px; height: 100%; box-shadow: var(--shadow);
+            display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s;
+        }
+        .clean-card:hover { border-color: #dbeafe; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+        
+        .card-header-custom {
+            border-bottom: 1px solid #f3f4f6; padding-bottom: 12px; margin-bottom: 16px;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .map-container { flex-grow: 1; width: 100%; height: 100%; background: #e5e7eb; z-index: 1; }
+        .card-title-text { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; }
 
-        /* TEXTOS & KPIS */
-        .card-header-custom { border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .card-title-text { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-gray); letter-spacing: 0.5px; }
-        .kpi-val { font-size: 2.5rem; font-weight: 900; color: var(--text-dark); line-height: 1; }
-        .kpi-lbl { font-size: 0.7rem; color: var(--text-gray); font-weight: 700; text-transform: uppercase; margin-top: 5px; }
+        /* --- KPIS --- */
+        .kpi-val { font-size: 2.5rem; font-weight: 800; color: var(--text-main); line-height: 1; letter-spacing: -0.03em; }
+        .kpi-lbl { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-top: 8px; }
 
-        /* INFORME TÉCNICO */
-        .audit-box { background-color: #fff; border: 1px solid #cbd5e1; border-top: 4px solid var(--primary); padding: 25px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .audit-title { color: var(--primary); font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
-        .audit-text { font-size: 0.95rem; line-height: 1.8; color: #334155; text-align: justify; white-space: pre-line; font-family: 'Inter', sans-serif; }
-        .analysis-box { background-color: #f8fafc; border-left: 4px solid var(--primary); padding: 12px; font-size: 0.75rem; margin-top: 10px; border-radius: 0 4px 4px 0; }
+        /* --- MAPAS --- */
+        .map-container { height: 400px; width: 100%; border-radius: 12px; border: 1px solid var(--border); z-index: 1; }
 
-        /* TABLAS */
-        .inv-table th { background: #f8f9fa; font-size: 0.7rem; text-transform: uppercase; padding: 12px; text-align: center; color: var(--text-gray); font-weight: 700; }
-        .inv-table td { font-size: 0.8rem; text-align: center; vertical-align: middle; border-bottom: 1px solid #f1f5f9; padding: 10px; }
-        .check-ok { color: #166534; font-size: 1.1rem; } .check-no { color: #ef4444; font-size: 1.1rem; opacity: 0.3; }
+        /* --- INFORME TÉCNICO --- */
+        .audit-box {
+            background-color: #fff; border: 1px solid var(--border); border-left: 5px solid var(--primary);
+            padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: var(--shadow);
+        }
+        .audit-title { color: var(--primary); font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; border-bottom: 1px solid #f3f4f6; padding-bottom: 10px; }
+        .audit-text { font-size: 0.95rem; line-height: 1.7; color: #374151; text-align: justify; white-space: pre-line; }
 
-        /* PRELOADER */
+        /* --- TABLAS --- */
+        .table-clean th { background: #f8fafc; font-size: 0.7rem; text-transform: uppercase; padding: 12px; color: var(--text-muted); font-weight: 700; border-bottom: 1px solid var(--border); }
+        .table-clean td { font-size: 0.85rem; vertical-align: middle; padding: 12px; border-bottom: 1px solid #f3f4f6; color: #4b5563; }
+        .check-ok { color: #10b981; font-size: 1.1rem; } .check-no { color: #ef4444; font-size: 1.1rem; opacity: 0.3; }
+
+        /* --- ANALYSIS BOX --- */
+        .analysis-card {
+            background: #f8fafc; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #e2e8f0;
+        }
+        .analysis-text { font-size: 0.75rem; color: #475569; line-height: 1.5; text-align: justify; }
+
+        /* --- PRELOADER --- */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
-        .spinner-custom { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
-        #loaderText { font-size: 0.9rem; color: #64748b; font-weight: 500; letter-spacing: 0.5px; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #f3f4f6; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
+        #loaderText { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.02em; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* IMPRESIÓN (CORREGIDO) */
+        /* --- UTILS --- */
+        .badge-status { padding: 5px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .bg-fortaleza { background-color: #dcfce7; color: #166534; } .bg-mejora { background-color: #fef9c3; color: #854d0e; } .bg-critico { background-color: #fee2e2; color: #991b1b; }
+        .btn-icon { border: 1px solid var(--border); background: white; color: var(--text-muted); padding: 5px 10px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .btn-icon:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* --- IMPRESIÓN --- */
         @media print {
             .no-print { display: none !important; }
             .nav-pills { display: none !important; }
-            .tab-pane { display: block !important; page-break-after: always; margin-bottom: 0; padding-bottom: 0; }
-            .clean-card, .audit-box, .card-map { border: 1px solid #ccc !important; break-inside: avoid; box-shadow: none !important; margin-bottom: 20px; page-break-inside: avoid; }
+            .tab-pane { display: block !important; page-break-after: always; margin: 0; padding: 0; }
+            .clean-card, .audit-box { border: 1px solid #ccc !important; break-inside: avoid; box-shadow: none !important; margin-bottom: 15px; page-break-inside: avoid; }
             body { background: white; font-size: 10pt; padding: 0; }
             .container-fluid { padding: 0 !important; max-width: 100% !important; }
             .col-md-4, .col-lg-4 { width: 33% !important; float: left; }
-            .col-lg-8 { width: 66% !important; float: left; }
+            .col-lg-8 { width: 60% !important; float: left; }
             .col-md-3 { width: 25% !important; float: left; }
-            .map-container { height: 300px !important; width: 100% !important; }
-            .kpi-val { font-size: 1.8rem !important; }
+            .map-container { height: 280px !important; }
+            .kpi-val { font-size: 1.6rem !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
-        
-        /* UTILS */
-        .badge-status { padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
-        .bg-fortaleza { background-color: #dcfce7; color: #166534; }
-        .bg-mejora { background-color: #fef9c3; color: #854d0e; }
-        .bg-critico { background-color: #fee2e2; color: #991b1b; }
-        .btn-icon { border: 1px solid #e5e7eb; background: white; color: #6b7280; padding: 4px 8px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="spinner-custom"></div>
-        <div id="loaderText">CARGANDO SISTEMA...</div>
+        <div class="spinner"></div>
+        <div id="loaderText">ESTABLECIENDO CONEXIÓN SEGURA...</div>
     </div>
 
     <div class="top-bar no-print">
         <div>
-            <div style="font-size: 1.3rem; font-weight: 800; color: var(--primary);">MONITOR DE RIESGOS</div>
-            <div style="font-size: 0.75rem; color: var(--text-gray); font-weight: 600;">UEB & GAD PROVINCIAL SDT | Prácticas Pre-Profesionales</div>
+            <div class="project-title">MONITOR DE RIESGOS</div>
+            <div class="project-subtitle">UEB & GAD PROVINCIAL SDT | Prácticas Pre-Profesionales</div>
         </div>
         <div class="d-flex gap-3 align-items-center">
-            <select id="parroquiaFilter" class="form-select fw-bold border-secondary form-select-sm" style="width: 200px;" onchange="applyFilter()">
+            <select id="parroquiaFilter" class="form-select fw-bold border-secondary form-select-sm" style="width: 220px;" onchange="applyFilter()">
                 <option value="ALL">Vista Provincial</option>
             </select>
-            <button onclick="window.print()" class="btn btn-dark btn-sm fw-bold px-3"><i class="bi bi-printer-fill me-1"></i> PDF</button>
+            <button onclick="window.print()" class="btn btn-dark btn-sm fw-bold px-3 rounded-pill"><i class="bi bi-printer-fill me-2"></i>Reporte PDF</button>
         </div>
     </div>
 
     <div class="container-fluid px-5" style="max-width: 1800px;">
         
         <ul class="nav nav-pills mb-4 no-print" id="pills-tab" role="tablist">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-obj1"><i class="bi bi-building-check me-2"></i>1. DIAGNÓSTICO GAD</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-obj2"><i class="bi bi-people-fill me-2"></i>2. EVALUACIÓN COMUNITARIA</button></li>
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-obj1"><i class="bi bi-building-check me-2"></i>DIAGNÓSTICO INSTITUCIONAL</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-obj2"><i class="bi bi-people-fill me-2"></i>EVALUACIÓN COMUNITARIA</button></li>
         </ul>
 
         <div class="tab-content" id="pills-tabContent">
             
             <div class="tab-pane fade show active" id="pills-obj1">
-                <div class="mb-4 pb-2 border-bottom d-flex justify-content-between align-items-end">
+                <div class="mb-5 pb-3 border-bottom d-flex justify-content-between align-items-end">
                     <div><h3 class="fw-bold m-0 text-dark" id="titleObj1">Informe de Capacidades</h3><p class="text-muted m-0 small">Inventario de Recursos GAD Parroquial (Objetivo 1)</p></div>
                     <div class="text-end"><span class="badge bg-primary mb-1">OBJETIVO 1</span><div class="small fw-bold text-muted">Fecha: <script>document.write(new Date().toLocaleDateString())</script></div></div>
                 </div>
 
-                <div class="row g-4 mb-4">
+                <div class="row g-4 mb-5">
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-5 py-4"><div><div class="kpi-lbl">GADs REGISTRADOS</div><div class="kpi-val" id="capTotal">0</div></div><i class="bi bi-building-check fs-1 text-secondary opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-5 py-4"><div><div class="kpi-lbl">COBERTURA ALARMAS</div><div class="kpi-val text-primary" id="capAlarma">0%</div></div><i class="bi bi-megaphone fs-1 text-primary opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-5 py-4"><div><div class="kpi-lbl">COBERTURA VEHICULAR</div><div class="kpi-val text-success" id="capVehiculo">0%</div></div><i class="bi bi-truck fs-1 text-success opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
                 </div>
 
-                <div class="row g-4 mb-4">
+                <div class="row g-4 mb-5">
                     <div class="col-lg-8">
-                        <div class="card-map">
-                            <div class="card-map-header"><span class="card-title-text"><i class="bi bi-geo-alt-fill me-2"></i>MAPA DE RECURSOS</span></div>
+                        <div class="clean-card p-0 overflow-hidden">
+                            <div class="p-4 bg-white border-bottom"><span class="card-title-text">MAPA DE RECURSOS</span></div>
                             <div id="mapCap" class="map-container"></div>
                         </div>
                     </div>
@@ -142,13 +172,13 @@
 
                 <div class="audit-box">
                     <div class="audit-title"><i class="bi bi-file-text-fill"></i> DICTAMEN TÉCNICO DE CAPACIDADES</div>
-                    <div id="obj1ReportText" class="audit-text">Esperando datos...</div>
+                    <div id="obj1ReportText" class="audit-text">Cargando análisis...</div>
                 </div>
 
                 <div class="clean-card p-0 overflow-hidden mb-5">
-                    <div class="p-3 border-bottom bg-white d-flex justify-content-between align-items-center"><span class="card-title-text">MATRIZ DE RECURSOS DISPONIBLES</span><button class="btn-icon no-print" onclick="downloadCard('capTableBody', 'Inventario')"><i class="bi bi-camera"></i></button></div>
+                    <div class="p-4 border-bottom bg-white d-flex justify-content-between align-items-center"><span class="card-title-text">MATRIZ DE RECURSOS DISPONIBLES</span><button class="btn-icon no-print" onclick="downloadCard('capTableBody', 'Inventario')"><i class="bi bi-camera"></i></button></div>
                     <div class="table-responsive">
-                        <table class="table inv-table mb-0 w-100 table-hover">
+                        <table class="table table-clean mb-0 w-100 table-hover">
                             <thead><tr><th class="text-start ps-4">PARROQUIA</th><th>MÉDICO</th><th>BOMBERO</th><th>SEGURIDAD</th><th>ALARMA</th><th>ALBERGUE</th><th>VEHÍCULO</th></tr></thead>
                             <tbody id="capTableBody"></tbody>
                         </table>
@@ -157,51 +187,48 @@
             </div>
 
             <div class="tab-pane fade" id="pills-obj2">
-                <div class="mb-4 pb-2 border-bottom d-flex justify-content-between align-items-end">
+                <div class="mb-5 pb-3 border-bottom d-flex justify-content-between align-items-end">
                     <div><h3 class="fw-bold m-0 text-dark" id="reportTitle">Evaluación Comunitaria</h3><p class="text-muted m-0 small">Matriz de Fortalezas y Áreas de Mejora (Objetivo 2)</p></div>
-                    <div class="text-end"><span class="badge bg-primary mb-1">OBJETIVO 2</span><div class="small fw-bold text-muted">Fecha: <script>document.write(new Date().toLocaleDateString())</script></div></div>
+                    <div class="text-end"><span class="badge bg-primary mb-1">OBJETIVO 2</span></div>
                 </div>
 
-                <div class="row g-4 mb-4">
+                <div class="row g-4 mb-5">
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-4 py-4"><div><div class="kpi-lbl">COMUNIDADES</div><div class="kpi-val" id="kpiTotal">0</div></div><i class="bi bi-people fs-1 text-secondary opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-4 py-4"><div><div class="kpi-lbl">ÍNDICE GESTIÓN</div><div class="kpi-val text-primary" id="kpiPromedio">0.0</div></div><i class="bi bi-bar-chart fs-1 text-primary opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center justify-content-between px-4 py-4"><div><div class="kpi-lbl">ESTADO</div><div class="fw-bold text-uppercase" id="kpiEstado" style="font-size: 2rem;">-</div></div><i class="bi bi-shield-check fs-1 opacity-25" style="font-size: 3.5rem !important;"></i></div></div>
                 </div>
 
-                <div class="row g-4 mb-4">
-                    <div class="col-lg-8">
-                        <div class="card-map">
-                            <div class="card-map-header"><span class="card-title-text"><i class="bi bi-geo-alt-fill me-2"></i>MAPA DE PERCEPCIÓN</span></div>
-                            <div id="mapEval" class="map-container"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4"><div class="clean-card p-0 overflow-hidden d-flex flex-column" style="max-height:420px"><div class="p-3 bg-white border-bottom"><span class="card-title-text">SEMÁFORO</span></div><div id="territoryGrid" style="overflow-y:auto;flex-grow:1"></div></div></div>
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-8"><div class="clean-card p-0 overflow-hidden"><div class="p-4 bg-white border-bottom"><span class="card-title-text">MAPA DE PERCEPCIÓN SOCIAL</span></div><div id="mapEval" class="map-container"></div></div></div>
+                    <div class="col-lg-4"><div class="clean-card p-0 overflow-hidden d-flex flex-column" style="max-height:420px"><div class="p-4 bg-white border-bottom"><span class="card-title-text">SEMÁFORO</span></div><div id="territoryGrid" style="overflow-y:auto;flex-grow:1"></div></div></div>
                 </div>
 
-                <h6 class="fw-bold text-secondary mb-3 border-bottom pb-2 text-uppercase" style="font-size:0.85rem">Análisis por Indicadores</h6>
-                <div class="row g-4 mb-4" id="chartsGrid"></div>
+                <h4 class="fw-bold text-secondary mb-4 pb-3 border-bottom text-uppercase">Matriz de Fortalezas y Áreas de Mejora</h4>
+                <div class="row g-4 mb-5" id="chartsGrid"></div>
 
                 <div class="row g-4 mb-5">
                     <div class="col-lg-4"><div class="clean-card" id="cardRadar"><div class="card-header-custom"><span class="card-title-text">PERFIL</span><button class="btn-icon no-print" onclick="downloadCard('cardRadar','Radar')"><i class="bi bi-camera"></i></button></div><div style="height:280px"><canvas id="radarChart"></canvas></div></div></div>
-                    <div class="col-lg-8"><div class="clean-card p-0 overflow-hidden"><div class="p-3 border-bottom"><span class="card-title-text">BASE DE DATOS</span></div><div class="table-responsive" style="max-height:350px"><table class="table table-hover mb-0 w-100 small"><thead class="table-light"><tr><th class="p-3">Fecha</th><th class="p-3">Parroquia</th><th class="p-3">Comunidad</th><th class="p-3">Cargo</th><th class="p-3">Nota</th></tr></thead><tbody id="tableBody"></tbody></table></div></div></div>
+                    <div class="col-lg-8"><div class="clean-card p-0 overflow-hidden"><div class="p-4 border-bottom"><span class="card-title-text">BASE DE DATOS DE ACTORES</span></div><div class="table-responsive" style="max-height:350px"><table class="table table-hover mb-0 w-100 small"><thead class="table-light"><tr><th class="p-3">Fecha</th><th class="p-3">Parroquia</th><th class="p-3">Comunidad</th><th class="p-3">Cargo</th><th class="p-3">Nota</th></tr></thead><tbody id="tableBody"></tbody></table></div></div></div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ⚠️ PEGA AQUÍ TU URL
-        const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+        // ⚠️ ===========================================================================
+        // ⚠️ PEGA TU URL (LA QUE TERMINA EN /exec) AQUI ABAJO
+        // ⚠️ ===========================================================================
+        const BASE_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+        const PROXY_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(BASE_URL);
 
         const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
         const LABELS_OBJ2 = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
-        const TIPS = ["Cargando capacidades institucionales...", "Procesando indicadores de gestión...", "Validando cobertura territorial...", "Conectando con base de datos..."];
+        const TIPS = ["Cargando indicadores...", "Conectando al sistema...", "Procesando mapas..."];
 
         let DATA_CAP=[], DATA_EVAL=[], mapCap, mapEval, markersCap=new L.LayerGroup(), markersEval=new L.LayerGroup(), chartInstances={};
 
-        // REDACCIÓN TÉCNICA (OBJ 1)
+        // --- INFORME NARRATIVO OBJ 1 ---
         function generateObj1Report(data, isProv, name, alarmas, total) {
             if(data.length===0) return "No existe información registrada para procesar el análisis.";
             
@@ -211,40 +238,49 @@
             let pctSalud = Math.round((salud/total)*100);
             
             let txt = `De conformidad con el diagnóstico institucional realizado ${isProv ? 'a nivel provincial' : 'en la parroquia ' + name}, se observa que el ${pctSalud}% del territorio dispone de talento humano en salud para la primera respuesta. `;
-            
-            txt += (pctAlarma < 50) 
-                ? `No obstante, se identifica una vulnerabilidad tecnológica crítica, dado que apenas el ${pctAlarma}% cuenta con sistemas de alerta temprana funcionales, lo cual incumple los estándares mínimos de prevención establecidos en la normativa vigente. ` 
-                : `Asimismo, la infraestructura de alerta temprana muestra una cobertura sólida del ${pctAlarma}%, fortaleciendo la capacidad de aviso oportuno ante amenazas naturales. `;
-            
+            txt += (pctAlarma < 50) ? `No obstante, se identifica una vulnerabilidad tecnológica crítica, dado que apenas el ${pctAlarma}% cuenta con sistemas de alerta temprana funcionales, lo cual incumple los estándares mínimos de prevención establecidos en la normativa vigente. ` : `Asimismo, la infraestructura de alerta temprana muestra una cobertura sólida del ${pctAlarma}%, fortaleciendo la capacidad de aviso oportuno. `;
             txt += `En términos de movilidad logística, el ${Math.round((veh/total)*100)}% de los GADs posee vehículos operativos. Por consiguiente, se recomienda ${veh<total ? 'establecer convenios de transporte de emergencia' : 'mantener el plan de mantenimiento vehicular'} y priorizar la dotación de equipamiento en las zonas con mayores brechas identificadas.`;
             return txt;
         }
 
-        const textObj2 = {
-            low: ["Vulnerabilidad Crítica.", "Falla Estructural."],
-            mid: ["Estabilidad Parcial.", "En Desarrollo."],
-            high: ["Fortaleza Consolidada.", "Alta Resiliencia."]
+        // --- ANÁLISIS TÉCNICO ESPECÍFICO OBJ 2 ---
+        const specificTechDB = {
+            p1: { low: "Fractura en el tejido social. Convocatoria insuficiente.", mid: "Participación sectorizada. Ausencia de actores clave.", high: "Alta legitimidad social. Poder de convocatoria efectivo." },
+            p2: { low: "Riesgo de acefalía. Directiva apática.", mid: "Liderazgo en desarrollo. Voluntad política existente.", high: "Gobernanza fortalecida. Liderazgo proactivo." },
+            p3: { low: "Brecha cognitiva crítica. Desconocimiento de protocolos.", mid: "Asimilación parcial. Requiere refuerzo práctico.", high: "Apropiación del conocimiento. Dominio de protocolos." },
+            p4: { low: "Instrumento inoperante. Plan no reconocido.", mid: "Validación formal. Falta socialización.", high: "Planificación participativa. Hoja de ruta oficial." },
+            p5: { low: "Canales rotos. Desconfianza y rumores.", mid: "Comunicación vertical. Falta feedback.", high: "Sinergia comunicacional. Clima de confianza." },
+            p6: { low: "Aislamiento institucional. Abandono percibido.", mid: "Relación asistencialista. Articulación formal.", high: "Alianza estratégica. Corresponsabilidad efectiva." },
+            p7: { low: "Exclusión estructural. Comité no representativo.", mid: "Inclusión simbólica. Sin poder de decisión.", high: "Enfoque integral. Participación equitativa." },
+            p8: { low: "Iniciativa aislada. Modelo no transferible.", mid: "Potencial moderado. Visibilidad limitada.", high: "Efecto multiplicador. Sostenibilidad garantizada." },
+            generic: { low: "Deficiencia Estructural.", mid: "Nivel en Desarrollo.", high: "Fortaleza Consolidada." }
         };
 
         function getAnalysisText(key, score) {
             let lvl = score >= 4 ? 'high' : (score >= 3 ? 'mid' : 'low');
-            return textObj2[lvl][Math.floor(Math.random() * textObj2[lvl].length)];
+            let db = specificTechDB[key] || specificTechDB.generic;
+            return db[lvl];
         }
 
         window.onload = () => {
             runPreloader(); initMaps();
             const sel = document.getElementById('parroquiaFilter');
             PARROQUIAS.sort().forEach(p => sel.add(new Option(p, p)));
-            fetch(API_URL).then(r => r.json()).then(d => {
-                document.getElementById('preloader').style.opacity = '0';
+            // Usamos el PROXY para evitar el error de conexión
+            fetch(PROXY_URL).then(r => r.json()).then(d => {
+                document.getElementById('preloader').style.opacity='0';
                 setTimeout(()=>document.getElementById('preloader').style.display='none', 500);
                 if(d.status==='success') { DATA_CAP=d.dataCap||[]; DATA_EVAL=d.dataEval||[]; applyFilter(); }
+                else { Swal.fire("Aviso", "No hay datos disponibles.", "info"); }
+            }).catch(e => { 
+                document.getElementById('preloader').style.display='none';
+                Swal.fire("Error de Conexión", "No se pudo conectar. Intentando modo offline...", "warning"); 
             });
         };
 
         function runPreloader() {
             let i=0; setInterval(()=>{document.getElementById('loaderText').innerText=TIPS[i];i=(i+1)%TIPS.length}, 2000);
-            setTimeout(()=>document.getElementById('preloader').style.display='none',5000);
+            setTimeout(()=>document.getElementById('preloader').style.display='none', 8000);
         }
 
         function initMaps() {
@@ -254,7 +290,7 @@
             mapEval = L.map('mapEval', {zoomControl:false}).setView([-0.2530, -79.1754], 10);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {attribution:'CARTO'}).addTo(mapEval);
             markersEval.addTo(mapEval);
-            document.querySelectorAll('button[data-bs-toggle="pill"]').forEach(el => { el.addEventListener('shown.bs.tab', () => { mapCap.invalidateSize(); mapEval.invalidateSize(); fitBounds(mapCap, markersCap); fitBounds(mapEval, markersEval); }); });
+            document.querySelectorAll('button[data-bs-toggle="pill"]').forEach(el => { el.addEventListener('shown.bs.tab', () => { mapCap.invalidateSize(); mapEval.invalidateSize(); }); });
         }
 
         function fitBounds(map, layer) {
@@ -282,7 +318,6 @@
             document.getElementById('capTotal').innerText = data.length;
             markersCap.clearLayers();
             const tbody = document.getElementById('capTableBody'); tbody.innerHTML="";
-            
             let alarmas=0, vehiculos=0, salud=0, fuego=0;
             data.forEach(r => {
                 if(r[6]==='SI') salud++; if(r[8]==='SI') fuego++;
@@ -293,14 +328,14 @@
                     let lat = parseFloat(r[4])+(Math.random()-0.5)*0.0005; let lng = parseFloat(r[5])+(Math.random()-0.5)*0.0005;
                     let score=0; if(r[6]==='SI')score++; if(r[11]==='SI')score++; if(r[13]==='SI')score++;
                     let c=score>=2?'#10b981':(score===1?'#f59e0b':'#ef4444');
-                    L.circleMarker([lat, lng], {radius:7, fillColor:c, color:'white', weight:2, fillOpacity:0.9}).bindPopup(`<b>${r[1]}</b><br>Recursos: ${score}/3`).addTo(markersCap);
+                    L.circleMarker([lat, lng], {radius:7, fillColor:c, color:'white', weight:2, fillOpacity:0.9})
+                     .bindPopup(`<b>${r[1]}</b><br>⚕️ Salud: ${r[6]}<br>🔥 Fuego: ${r[8]}<br>📢 Alarma: ${r[11]}<br>🚑 Veh: ${r[13]}`).addTo(markersCap);
                 }
             });
 
             const t = data.length || 1;
             document.getElementById('capAlarma').innerText = Math.round((alarmas/t)*100)+"%";
             document.getElementById('capVehiculo').innerText = Math.round((vehiculos/t)*100)+"%";
-            
             renderBarChart('chartTalento', ['Salud', 'Fuego'], [salud, fuego], t, '#1e40af');
             renderBarChart('chartLogistica', ['Alarma', 'Vehículo'], [alarmas, vehiculos], t, '#10b981');
             document.getElementById('obj1ReportText').innerHTML = generateObj1Report(data, isProv, name, alarmas, t);
@@ -319,7 +354,8 @@
                 let rowAvg=0; for(let i=0;i<8;i++) rowAvg+=Number(r[i+7]); rowAvg=(rowAvg/8).toFixed(1);
                 tbody.innerHTML += `<tr><td class="p-2">${new Date(r[0]).toLocaleDateString()}</td><td class="p-2">${r[1]}</td><td class="p-2">${r[2]}</td><td class="p-2">${r[4]}</td><td class="p-2 fw-bold">${rowAvg}</td></tr>`;
                 let color = rowAvg>=4?'#10b981':(rowAvg>=3?'#f59e0b':'#ef4444');
-                L.circleMarker([lat, lng], {radius:6, fillColor:color, color:'white', weight:1, fillOpacity:0.9}).bindPopup(`<b>${r[2]}</b><br>Nota: ${rowAvg}`).addTo(markersEval);
+                L.circleMarker([lat, lng], {radius:6, fillColor:color, color:'white', weight:1, fillOpacity:0.9})
+                 .bindPopup(`<b>${r[2]}</b><br>👤 ${r[3]}<br>📅 ${new Date(r[0]).toLocaleDateString()}<br>⭐ Nota: ${rowAvg}`).addTo(markersEval);
             });
 
             const avgs = sums.map(s => (s/data.length).toFixed(1));
@@ -332,7 +368,8 @@
             avgs.forEach((avg, i) => {
                 let lvl = avg>=4?'high':(avg>=3?'mid':'low'); let color = avg>=4?'#10b981':(avg>=3?'#f59e0b':'#ef4444');
                 let text = getAnalysisText('p'+(i+1), avg);
-                grid.innerHTML += `<div class="col-md-3"><div class="clean-card" id="c${i}"><div class="card-header-custom"><span class="card-title-text">${LABELS_OBJ2[i]}</span><button class="btn-icon no-print" onclick="downloadCard('c${i}','${LABELS_OBJ2[i]}')"><i class="bi bi-camera"></i></button></div><div class="d-flex justify-content-between align-items-center mb-2"><h2 class="fw-bold m-0" style="color:${color}">${avg}</h2><span class="badge-status ${avg>=4?'bg-fortaleza':(avg>=3?'bg-mejora':'bg-critico')}">${avg>=4?'FORTALEZA':'MEJORA'}</span></div><div style="height:50px"><canvas id="cv${i}"></canvas></div><div class="analysis-box mt-2">${text}</div></div></div>`;
+                let badge = avg>=4?'FORTALEZA':(avg>=3?'MEJORA':'CRÍTICO');
+                grid.innerHTML += `<div class="col-md-6 col-xl-3"><div class="clean-card" id="c${i}"><div class="card-header-custom"><span class="card-title-text">${LABELS_OBJ2[i]}</span><button class="btn-icon no-print" onclick="downloadCard('c${i}','${LABELS_OBJ2[i]}')"><i class="bi bi-camera"></i></button></div><div class="d-flex justify-content-between align-items-center mb-2"><h2 class="fw-bold m-0" style="color:${color}">${avg}</h2><span class="badge-status ${avg>=4?'bg-fortaleza':(avg>=3?'bg-mejora':'bg-critico')}">${badge}</span></div><div style="height:50px"><canvas id="cv${i}"></canvas></div><div class="analysis-box mt-2"><span class="analysis-label">DICTAMEN TÉCNICO:</span>${text}</div></div></div>`;
                 setTimeout(()=>new Chart(document.getElementById(`cv${i}`), {type:'bar', data:{labels:[''], datasets:[{data:[avg], backgroundColor:color, borderRadius:4}]}, options:{indexAxis:'y', maintainAspectRatio:false, scales:{x:{min:0,max:5,display:false},y:{display:false}}, plugins:{legend:{display:false}}}}),0);
             });
             renderMonitor(data); renderRadar(avgs);
@@ -363,7 +400,7 @@
 
         function downloadCard(id, t) {
             const el = document.getElementById(id), btn = el.querySelector('.btn-icon'); btn.style.display='none';
-            html2canvas(el, {scale:2, backgroundColor:'#fff'}).then(c=>{ const l=document.createElement('a'); l.download=`${t}.png`; l.href=c.toDataURL(); l.click(); btn.style.display='block'; });
+            html2canvas(el, {scale:2, backgroundColor:'#fff'}).then(c=>{ const l=document.createElement('a'); l.download=`Analisis_${t}.png`; l.href=c.toDataURL(); l.click(); btn.style.display='block'; });
         }
     </script>
 </body>
