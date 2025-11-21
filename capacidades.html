@@ -3,135 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha Técnica de Capacidades | UEB - GAD</title>
+    <title>Ficha de Capacidades | UEB - GAD</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
     <style>
-        :root {
-            --primary: #0f172a; 
-            --accent: #2563eb;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --border: #e2e8f0;
-        }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg); 
-            color: var(--primary);
-            padding-bottom: 60px;
-        }
-
-        /* --- PRELOADER --- */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff; z-index: 99999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid #e5e7eb;
-            border-top: 5px solid var(--accent); border-radius: 50%;
-            animation: spin 0.8s linear infinite; margin-bottom: 15px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
+        :root { --primary: #0f172a; --accent: #2563eb; --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--primary); padding-bottom: 60px; }
+        
         /* HEADER */
-        .header-bar { 
-            background: var(--card); 
-            border-bottom: 1px solid var(--border); 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        .title-main { font-weight: 800; color: var(--primary); font-size: 1.1rem; margin: 0; letter-spacing: -0.5px; }
+        .header-bar { background: var(--card); border-bottom: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .title-main { font-weight: 800; color: var(--primary); font-size: 1.1rem; margin: 0; }
         .title-sub { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-top: 4px; text-transform: uppercase; }
 
-        /* AVISO LEGAL (NUEVO) */
-        .legal-box {
-            background-color: #fff;
-            border-left: 5px solid #0d6efd;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-size: 0.85rem;
-            color: #334155;
-        }
-        .legal-title { font-weight: 800; text-transform: uppercase; color: #0d6efd; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .legal-text { text-align: justify; line-height: 1.5; font-style: italic; }
+        /* AVISO LEGAL */
+        .legal-box { background-color: #fff; border-left: 5px solid #0d6efd; padding: 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.85rem; color: #334155; }
+        .legal-title { font-weight: 800; text-transform: uppercase; color: #0d6efd; margin-bottom: 8px; }
 
         /* TARJETAS */
-        .form-card { 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 8px; 
-            padding: 25px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .section-title { 
-            font-size: 0.85rem; font-weight: 700; color: #475569; 
-            border-bottom: 1px solid var(--bg); padding-bottom: 10px; margin-bottom: 20px; 
-            text-transform: uppercase; display: flex; align-items: center; gap: 10px;
-        }
+        .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .section-title { font-size: 0.85rem; font-weight: 700; color: #475569; border-bottom: 1px solid var(--bg); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
 
-        /* INPUTS */
+        /* INPUTS Y BOTONES */
         .form-label { font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 8px; }
-        .form-control, .form-select { 
-            border-radius: 6px; padding: 10px 12px; font-size: 0.9rem; border-color: #cbd5e1; 
-        }
-        .form-control:focus, .form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-
-        /* SELECCIÓN VISUAL (CORREGIDO) */
+        .form-control, .form-select { border-radius: 6px; padding: 10px 12px; font-size: 0.9rem; border-color: #cbd5e1; }
+        
+        /* OPCIONES (Radio Buttons Mejorados) */
         .option-group { display: flex; gap: 10px; }
-        
-        /* Estilo base del botón */
-        .option-btn { 
-            flex: 1; text-align: center; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; 
-            cursor: pointer; font-weight: 600; font-size: 0.9rem; color: #64748b; background: white; transition: 0.2s;
-        }
-        
-        /* Estilo cuando está SELECCIONADO (CHECKED) */
-        .btn-check:checked + .option-btn { 
-            background-color: var(--primary); 
-            color: white; 
-            border-color: var(--primary); 
-            box-shadow: 0 4px 6px rgba(15, 23, 42, 0.3);
-            transform: translateY(-2px);
-        }
+        .option-btn { flex: 1; text-align: center; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; color: #64748b; background: white; transition: 0.2s; }
+        .btn-check:checked + .option-btn { background-color: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 6px rgba(15, 23, 42, 0.3); transform: translateY(-2px); }
 
-        /* GPS BUTTON */
+        /* GPS */
         .gps-container { background: #eff6ff; border: 1px dashed #93c5fd; border-radius: 8px; padding: 20px; text-align: center; }
         .btn-gps { background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; transition: all 0.2s; }
         .gps-success { background-color: #dcfce7; border-color: #86efac; color: #166534; }
 
         /* BOTÓN ENVIAR */
-        .btn-submit { 
-            background: var(--accent); color: white; width: 100%; padding: 15px; 
-            font-weight: 700; border: none; border-radius: 8px; font-size: 1rem; 
-            box-shadow: 0 4px 6px rgba(15, 23, 42, 0.2); transition: 0.2s;
-        }
+        .btn-submit { background: var(--accent); color: white; width: 100%; padding: 15px; font-weight: 700; border: none; border-radius: 8px; font-size: 1rem; box-shadow: 0 4px 6px rgba(15, 23, 42, 0.2); transition: 0.2s; }
         .btn-submit:hover { background: #1d4ed8; transform: translateY(-2px); }
         .btn-submit:disabled { background: #cbd5e1; transform: none; cursor: not-allowed; }
 
-        /* BARRA OFFLINE */
+        /* EXTRA */
         #syncBar { display: none; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; border-radius: 8px; margin-bottom: 20px; align-items: center; justify-content: space-between; }
+        #loader { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.9); z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #e5e7eb; border-top: 5px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
+    <div id="loader">
         <div class="spinner"></div>
-        <h6 class="fw-bold text-secondary">Cargando...</h6>
+        <h6 class="fw-bold text-secondary">Cargando Sistema...</h6>
     </div>
 
     <div class="header-bar">
         <div class="container" style="max-width: 700px;">
-            <h1 class="title-main">FICHA DE CAPACIDADES TERRITORIALES</h1>
+            <h1 class="title-main">FICHA DE CAPACIDADES</h1>
             <div class="title-sub">Diagnóstico Institucional | Objetivo 1</div>
         </div>
     </div>
@@ -139,21 +70,13 @@
     <div class="container" style="max-width: 700px;">
         
         <div id="syncBar">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-wifi-off fs-4 me-3"></i>
-                <div><strong id="syncCount">0</strong> registros pendientes.</div>
-            </div>
-            <button class="btn btn-warning btn-sm fw-bold" onclick="syncOfflineData()">SUBIR AHORA</button>
+            <div class="d-flex align-items-center"><i class="bi bi-wifi-off fs-4 me-3"></i><div><strong id="syncCount">0</strong> pendientes.</div></div>
+            <button class="btn btn-warning btn-sm fw-bold" onclick="syncOfflineData()">SUBIR</button>
         </div>
 
         <div class="legal-box">
-            <div class="legal-title"><i class="bi bi-journal-bookmark-fill"></i> Marco Legal Obligatorio</div>
-            <div class="legal-text">
-                <strong>Reglamento Ley para la Gestión Integral del Riesgo de Desastres (Art. 4, Num. 7):</strong><br>
-                "Las entidades deben capacitar a las servidoras y servidores públicos [...] con la finalidad de reducir los riesgos de desastres y prevenir potenciales vulneraciones a la población."
-                <br><br>
-                <span class="text-primary fw-bold"><i class="bi bi-info-circle-fill"></i> Importante:</span> La información recabada en esta ficha valida el cumplimiento de esta normativa en su administración parroquial.
-            </div>
+            <div class="legal-title"><i class="bi bi-journal-bookmark-fill"></i> Marco Legal (Art. 4 Ley SGR)</div>
+            <div>"Las entidades deben capacitar a los actores del Sistema [...] con la finalidad de reducir riesgos y prevenir vulneraciones." <br><b>Esta ficha valida el cumplimiento en su parroquia.</b></div>
         </div>
 
         <form id="capForm">
@@ -161,11 +84,10 @@
 
             <div class="form-card">
                 <h6 class="section-title"><i class="bi bi-building-fill-check"></i> 1. Datos de la Autoridad</h6>
-                
                 <div class="mb-3">
                     <label class="form-label">Parroquia Rural <span class="text-danger">*</span></label>
                     <select class="form-select" name="parroquia" required>
-                        <option value="" selected disabled>Seleccione territorio...</option>
+                        <option value="" selected disabled>Seleccione...</option>
                         <option value="Alluriquín">Alluriquín</option>
                         <option value="Puerto Limón">Puerto Limón</option>
                         <option value="Luz de América">Luz de América</option>
@@ -178,14 +100,9 @@
                         <option value="Plan Piloto">Plan Piloto</option>
                     </select>
                 </div>
-                
                 <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Nombre del Representante <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="nombre" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Cargo <span class="text-danger">*</span></label>
+                    <div class="col-md-6"><label class="form-label">Nombre <span class="text-danger">*</span></label><input type="text" class="form-control" name="nombre" required></div>
+                    <div class="col-md-6"><label class="form-label">Cargo <span class="text-danger">*</span></label>
                         <select class="form-select" name="cargo" required>
                             <option value="Presidente GAD">Presidente GAD</option>
                             <option value="Vicepresidente">Vicepresidente</option>
@@ -198,68 +115,63 @@
             </div>
 
             <div class="form-card">
-                <h6 class="section-title"><i class="bi bi-geo-alt-fill"></i> 2. Validación de Ubicación (GPS)</h6>
+                <h6 class="section-title"><i class="bi bi-geo-alt-fill"></i> 2. Ubicación (GPS)</h6>
                 <div id="gpsBox" class="gps-container">
-                    <p class="small text-muted mb-3">Es necesario validar que el reporte se genera desde territorio.</p>
+                    <p class="small text-muted mb-3">Capture la ubicación de la reunión.</p>
                     <button type="button" class="btn-gps" onclick="getGPS()" id="btnGPS"><i class="bi bi-crosshair"></i> Activar GPS</button>
                     <div id="gpsData" class="mt-2 small fw-bold text-success" style="display:none;">
-                        <i class="bi bi-check-circle-fill"></i> Coordenadas capturadas: <span id="coordsText"></span>
+                        <i class="bi bi-check-circle-fill"></i> <span id="coordsText"></span>
                     </div>
                 </div>
-                <input type="hidden" name="latitud" id="lat" required>
-                <input type="hidden" name="longitud" id="lng" required>
+                <input type="hidden" name="latitud" id="lat">
+                <input type="hidden" name="longitud" id="lng">
             </div>
 
             <div class="form-card">
-                <h6 class="section-title"><i class="bi bi-people-fill"></i> 3. Mapeo de Actores Clave</h6>
+                <h6 class="section-title"><i class="bi bi-people-fill"></i> 3. Mapeo de Actores</h6>
                 
                 <div class="mb-4 border-bottom pb-4">
-                    <label class="form-label mb-3 d-block">A. ¿Cuentan con personal de salud residente (médico/enfermera) para la Brigada de Primeros Auxilios? <span class="text-danger">*</span></label>
+                    <label class="form-label mb-3 d-block">A. ¿Personal de salud residente (médico/enfermera)? <span class="text-danger">*</span></label>
                     <div class="option-group mb-3">
                         <input type="radio" class="btn-check" name="salud" id="saludSi" value="SI" onclick="toggleInput('boxSalud', true)" required>
-                        <label class="option-btn" for="saludSi">SÍ, tenemos</label>
-
+                        <label class="option-btn" for="saludSi">SÍ</label>
                         <input type="radio" class="btn-check" name="salud" id="saludNo" value="NO" onclick="toggleInput('boxSalud', false)" required>
-                        <label class="option-btn" for="saludNo">NO contamos</label>
+                        <label class="option-btn" for="saludNo">NO</label>
                     </div>
-                    <div id="boxSalud" style="display:none;">
-                        <input type="text" class="form-control bg-light border-primary" name="salud_det" placeholder="Nombre y contacto del personal médico (Opcional)">
-                    </div>
+                    <div id="boxSalud" style="display:none;"><input type="text" class="form-control bg-light" name="salud_det" placeholder="Detalle (Opcional)"></div>
                 </div>
 
                 <div class="mb-4 border-bottom pb-4">
-                    <label class="form-label mb-3 d-block">B. ¿Existe personal con experiencia en manejo de fuego (bomberos, ex-militares) para la Brigada? <span class="text-danger">*</span></label>
+                    <label class="form-label mb-3 d-block">B. ¿Personal con experiencia en fuego (bomberos/ex-militares)? <span class="text-danger">*</span></label>
                     <div class="option-group">
                         <input type="radio" class="btn-check" name="fuego" id="fuegoSi" value="SI" required>
                         <label class="option-btn" for="fuegoSi">SÍ</label>
-                        
                         <input type="radio" class="btn-check" name="fuego" id="fuegoNo" value="NO" required>
                         <label class="option-btn" for="fuegoNo">NO</label>
                     </div>
                 </div>
 
                 <div class="mb-4 border-bottom pb-4">
-                    <label class="form-label mb-3 d-block">C. ¿Existe presencia activa de Policía o Tenencia Política para coordinar seguridad? <span class="text-danger">*</span></label>
+                    <label class="form-label mb-3 d-block">C. ¿Presencia de Policía o Tenencia Política? <span class="text-danger">*</span></label>
                     <div class="option-group">
                         <input type="radio" class="btn-check" name="seguridad" id="segSi" value="SI" required>
                         <label class="option-btn" for="segSi">SÍ</label>
-                        
                         <input type="radio" class="btn-check" name="seguridad" id="segNo" value="NO" required>
                         <label class="option-btn" for="segNo">NO</label>
                     </div>
                 </div>
 
                 <div class="mb-2">
-                    <label class="form-label">D. Coordinación Operativa: Aparte de usted, ¿quién es la persona de confianza para operar en campo? <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="coordinador" placeholder="Ej. Lcdo. Juan Perez (Vocal de Obras)" required>
+                    <label class="form-label">D. Coordinador Operativo (Persona de Confianza) <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="coordinador" placeholder="Nombre y Cargo" required>
                 </div>
             </div>
 
             <div class="form-card">
-                <h6 class="section-title"><i class="bi bi-box-seam-fill"></i> 4. Logística Institucional</h6>
+                <h6 class="section-title"><i class="bi bi-box-seam-fill"></i> 4. Logística</h6>
                 
                 <div class="mb-4">
-                    <label class="form-label d-block">Sistema de Alarma Comunitaria funcional <span class="text-danger">*</span></label>
+                    <label class="form-label d-block">Sistema de Alarma Comunitaria <span class="text-danger">*</span></label>
                     <div class="option-group">
                         <input type="radio" class="btn-check" name="alarma" id="alSi" value="SI" required>
                         <label class="option-btn" for="alSi">SÍ</label>
@@ -269,7 +181,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label d-block">Albergue Temporal Identificado (Escuela/Casa Comunal) <span class="text-danger">*</span></label>
+                    <label class="form-label d-block">Albergue Temporal Identificado <span class="text-danger">*</span></label>
                     <div class="option-group">
                         <input type="radio" class="btn-check" name="albergue" id="albSi" value="SI" required>
                         <label class="option-btn" for="albSi">SÍ</label>
@@ -290,22 +202,18 @@
             </div>
 
             <div class="d-grid gap-2 mb-5">
-                <button type="submit" class="btn-submit" id="btnSubmit" disabled>
-                    ENVIAR REPORTE OFICIAL
-                </button>
-                <p class="text-center small text-muted mt-2">* El botón se activa al capturar el GPS</p>
+                <button type="submit" class="btn-submit" id="btnSubmit" disabled>ENVIAR REPORTE OFICIAL</button>
+                <p class="text-center small text-muted mt-2">* Capture GPS para activar el envío</p>
             </div>
-
         </form>
     </div>
 
     <script>
         // ========================================
-        // ⚠️ PEGA AQUÍ TU URL DE APPS SCRIPT
+        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
         // ========================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
-        // INICIO
         window.onload = () => {
             document.getElementById('preloader').style.display = 'none';
             checkOfflineQueue();
@@ -316,50 +224,40 @@
             if(!show) document.querySelector(`input[name="salud_det"]`).value = "";
         }
 
-        // GPS
         function getGPS() {
             const btn = document.getElementById('btnGPS');
             const box = document.getElementById('gpsBox');
+            if (!navigator.geolocation) { Swal.fire('Error', 'Sin GPS.', 'error'); return; }
             
-            if (!navigator.geolocation) {
-                Swal.fire('Error', 'Tu dispositivo no tiene GPS.', 'error');
-                return;
-            }
-
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando Satélites...';
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
             btn.disabled = true;
 
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    document.getElementById('lat').value = pos.coords.latitude;
-                    document.getElementById('lng').value = pos.coords.longitude;
-                    
-                    box.classList.add('gps-success');
-                    btn.style.display = 'none'; 
-                    document.getElementById('gpsData').style.display = 'block';
-                    document.getElementById('coordsText').innerText = 
-                        `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
-
-                    const submitBtn = document.getElementById('btnSubmit');
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('btn-secondary');
-                },
-                (err) => {
-                    btn.disabled = false;
-                    btn.innerHTML = 'Reintentar GPS';
-                    Swal.fire('Acceso Denegado', 'Es obligatorio activar la ubicación para enviar el reporte.', 'warning');
-                },
-                { enableHighAccuracy: true, timeout: 15000 }
-            );
+            navigator.geolocation.getCurrentPosition((pos) => {
+                document.getElementById('lat').value = pos.coords.latitude;
+                document.getElementById('lng').value = pos.coords.longitude;
+                
+                box.classList.add('gps-success');
+                btn.style.display = 'none';
+                document.getElementById('gpsData').style.display = 'block';
+                document.getElementById('coordsText').innerText = `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+                
+                const sBtn = document.getElementById('btnSubmit');
+                sBtn.disabled = false; sBtn.classList.remove('btn-secondary');
+            }, (err) => {
+                btn.disabled = false; btn.innerHTML = 'Reintentar GPS';
+                Swal.fire('Acceso Denegado', 'Active el GPS para continuar.', 'warning');
+            }, { enableHighAccuracy: true, timeout: 15000 });
         }
 
-        // ENVÍO PRINCIPAL
+        // ENVÍO CON VALIDACIÓN MANUAL
         document.getElementById('capForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // VALIDACIÓN DE GPS MANUAL (Por si acaso)
+            // 1. VALIDAR GPS MANUALMENTE
             if(!document.getElementById('lat').value) {
-                Swal.fire('Falta Ubicación', 'Por favor capture el GPS antes de enviar.', 'warning');
+                Swal.fire('Falta Ubicación', 'Por favor capture el GPS (Botón Arriba).', 'warning');
+                // Scroll hacia el botón de GPS
+                document.getElementById('gpsBox').scrollIntoView({behavior: "smooth"});
                 return;
             }
 
@@ -367,72 +265,45 @@
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
 
-            fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify(data)
-            })
+            fetch(API_URL, { method: "POST", body: JSON.stringify(data) })
             .then(r => r.json())
             .then(res => {
                 document.getElementById('loader').style.display = 'none';
                 if(res.status === 'success') {
-                    Swal.fire({
-                        title: '¡Reporte Registrado!',
-                        html: `La ficha de <b>${data.parroquia}</b> se ha guardado exitosamente.<br>Se cumple con el Art. 4 de la Ley SGR.`,
-                        icon: 'success',
-                        confirmButtonColor: '#0f172a'
-                    }).then(() => window.location.reload());
-                } else {
-                    throw new Error('Error del servidor');
-                }
+                    Swal.fire({title: '¡Reporte Guardado!', text: `Ficha de ${data.parroquia} registrada exitosamente.`, icon: 'success', confirmButtonColor: '#0f172a'}).then(() => window.location.reload());
+                } else { throw new Error('Error servidor'); }
             })
             .catch(err => {
                 document.getElementById('loader').style.display = 'none';
                 saveToLocalStorage(data);
-                Swal.fire({
-                    title: 'Modo Sin Conexión',
-                    text: 'No hay internet. La ficha se guardó en el celular y se enviará automáticamente cuando tengas red.',
-                    icon: 'info',
-                    confirmButtonColor: '#d97706'
-                }).then(() => window.location.reload());
+                Swal.fire({title: 'Sin Conexión', text: 'Guardado en celular. Se subirá luego.', icon: 'info', confirmButtonColor: '#d97706'}).then(() => window.location.reload());
             });
         });
 
-        // GESTIÓN OFFLINE
         function saveToLocalStorage(data) {
-            let queue = JSON.parse(localStorage.getItem('offlineCap')) || [];
-            queue.push(data);
-            localStorage.setItem('offlineCap', JSON.stringify(queue));
+            let q = JSON.parse(localStorage.getItem('offlineCap')) || [];
+            q.push(data); localStorage.setItem('offlineCap', JSON.stringify(q));
         }
-
         function checkOfflineQueue() {
-            let queue = JSON.parse(localStorage.getItem('offlineCap')) || [];
-            if (queue.length > 0) {
+            let q = JSON.parse(localStorage.getItem('offlineCap')) || [];
+            if (q.length > 0) {
                 document.getElementById('syncBar').style.display = 'flex';
-                document.getElementById('syncCount').innerText = queue.length;
+                document.getElementById('syncCount').innerText = q.length;
             }
         }
-
         function syncOfflineData() {
-            let queue = JSON.parse(localStorage.getItem('offlineCap')) || [];
-            if(queue.length === 0) return;
-
+            let q = JSON.parse(localStorage.getItem('offlineCap')) || [];
+            if(q.length === 0) return;
             document.getElementById('loader').style.display = 'flex';
-            document.querySelector('#loader h6').innerText = "Sincronizando...";
-
-            const promises = queue.map(data => 
-                fetch(API_URL, { method: "POST", body: JSON.stringify(data) })
-            );
-
-            Promise.all(promises)
-            .then(() => {
+            const promises = q.map(data => fetch(API_URL, { method: "POST", body: JSON.stringify(data) }));
+            Promise.all(promises).then(() => {
                 document.getElementById('loader').style.display = 'none';
                 localStorage.removeItem('offlineCap');
                 document.getElementById('syncBar').style.display = 'none';
-                Swal.fire('Sincronización Completa', 'Todas las fichas pendientes han sido subidas.', 'success');
-            })
-            .catch(() => {
+                Swal.fire('Sincronizado', 'Datos subidos.', 'success');
+            }).catch(() => {
                 document.getElementById('loader').style.display = 'none';
-                Swal.fire('Error', 'Aún no tienes conexión estable.', 'error');
+                Swal.fire('Error', 'Sin conexión.', 'error');
             });
         }
     </script>
