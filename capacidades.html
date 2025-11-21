@@ -31,7 +31,7 @@
         .form-label { font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 8px; }
         .form-control, .form-select { border-radius: 6px; padding: 10px 12px; font-size: 0.9rem; border-color: #cbd5e1; }
         
-        /* OPCIONES (Radio Buttons Mejorados) */
+        /* OPCIONES (Radio Buttons) */
         .option-group { display: flex; gap: 10px; }
         .option-btn { flex: 1; text-align: center; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; color: #64748b; background: white; transition: 0.2s; }
         .btn-check:checked + .option-btn { background-color: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 6px rgba(15, 23, 42, 0.3); transform: translateY(-2px); }
@@ -48,14 +48,16 @@
 
         /* EXTRA */
         #syncBar { display: none; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; border-radius: 8px; margin-bottom: 20px; align-items: center; justify-content: space-between; }
-        #loader { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.9); z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+        
+        /* PRELOADER FIXED */
+        #preloader { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,1); z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; }
         .spinner { width: 50px; height: 50px; border: 5px solid #e5e7eb; border-top: 5px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="loader">
+    <div id="preloader">
         <div class="spinner"></div>
         <h6 class="fw-bold text-secondary">Cargando Sistema...</h6>
     </div>
@@ -75,7 +77,7 @@
         </div>
 
         <div class="legal-box">
-            <div class="legal-title"><i class="bi bi-journal-bookmark-fill"></i> Marco Legal (Art. 4 Ley SGR)</div>
+            <div class="legal-title"><i class="bi bi-journal-bookmark-fill"></i> Marco Legal (Art. 4 Reglamento ley para la gestión integral del riesgo de desastres)</div>
             <div>"Las entidades deben capacitar a los actores del Sistema [...] con la finalidad de reducir riesgos y prevenir vulneraciones." <br><b>Esta ficha valida el cumplimiento en su parroquia.</b></div>
         </div>
 
@@ -214,16 +216,33 @@
         // ========================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
-        window.onload = () => {
-            document.getElementById('preloader').style.display = 'none';
+        // --- INICIALIZACIÓN RÁPIDA ---
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Quitar el preloader inmediatamente
+            const preloader = document.getElementById('preloader');
+            if(preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => { preloader.style.display = 'none'; }, 500);
+            }
+            
+            // 2. Revisar datos offline
             checkOfflineQueue();
-        };
+        });
 
+        // --- SEGURO DE VIDA: SI ALGO FALLA, QUITAR PRELOADER A LOS 2 SEGUNDOS ---
+        setTimeout(() => {
+            const p = document.getElementById('preloader');
+            if(p && p.style.display !== 'none') p.style.display = 'none';
+        }, 2000);
+
+
+        // LÓGICA INTERFAZ
         function toggleInput(id, show) {
             document.getElementById(id).style.display = show ? 'block' : 'none';
             if(!show) document.querySelector(`input[name="salud_det"]`).value = "";
         }
 
+        // GPS
         function getGPS() {
             const btn = document.getElementById('btnGPS');
             const box = document.getElementById('gpsBox');
@@ -249,32 +268,34 @@
             }, { enableHighAccuracy: true, timeout: 15000 });
         }
 
-        // ENVÍO CON VALIDACIÓN MANUAL
+        // ENVÍO
         document.getElementById('capForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // 1. VALIDAR GPS MANUALMENTE
             if(!document.getElementById('lat').value) {
-                Swal.fire('Falta Ubicación', 'Por favor capture el GPS (Botón Arriba).', 'warning');
-                // Scroll hacia el botón de GPS
+                Swal.fire('Falta Ubicación', 'Por favor capture el GPS.', 'warning');
                 document.getElementById('gpsBox').scrollIntoView({behavior: "smooth"});
                 return;
             }
 
-            document.getElementById('loader').style.display = 'flex';
+            // MOSTRAR PRELOADER AL ENVIAR
+            document.getElementById('preloader').style.display = 'flex';
+            document.getElementById('preloader').style.opacity = '1';
+            document.querySelector('#preloader h6').innerText = "Enviando...";
+
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
 
             fetch(API_URL, { method: "POST", body: JSON.stringify(data) })
             .then(r => r.json())
             .then(res => {
-                document.getElementById('loader').style.display = 'none';
+                document.getElementById('preloader').style.display = 'none';
                 if(res.status === 'success') {
-                    Swal.fire({title: '¡Reporte Guardado!', text: `Ficha de ${data.parroquia} registrada exitosamente.`, icon: 'success', confirmButtonColor: '#0f172a'}).then(() => window.location.reload());
+                    Swal.fire({title: '¡Reporte Guardado!', text: `Ficha de ${data.parroquia} registrada.`, icon: 'success', confirmButtonColor: '#0f172a'}).then(() => window.location.reload());
                 } else { throw new Error('Error servidor'); }
             })
             .catch(err => {
-                document.getElementById('loader').style.display = 'none';
+                document.getElementById('preloader').style.display = 'none';
                 saveToLocalStorage(data);
                 Swal.fire({title: 'Sin Conexión', text: 'Guardado en celular. Se subirá luego.', icon: 'info', confirmButtonColor: '#d97706'}).then(() => window.location.reload());
             });
@@ -294,15 +315,18 @@
         function syncOfflineData() {
             let q = JSON.parse(localStorage.getItem('offlineCap')) || [];
             if(q.length === 0) return;
-            document.getElementById('loader').style.display = 'flex';
+            
+            document.getElementById('preloader').style.display = 'flex';
+            document.querySelector('#loader h6').innerText = "Sincronizando...";
+
             const promises = q.map(data => fetch(API_URL, { method: "POST", body: JSON.stringify(data) }));
             Promise.all(promises).then(() => {
-                document.getElementById('loader').style.display = 'none';
+                document.getElementById('preloader').style.display = 'none';
                 localStorage.removeItem('offlineCap');
                 document.getElementById('syncBar').style.display = 'none';
                 Swal.fire('Sincronizado', 'Datos subidos.', 'success');
             }).catch(() => {
-                document.getElementById('loader').style.display = 'none';
+                document.getElementById('preloader').style.display = 'none';
                 Swal.fire('Error', 'Sin conexión.', 'error');
             });
         }
