@@ -216,33 +216,29 @@
         // ========================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
 
-        // --- INICIALIZACIÓN RÁPIDA ---
+        // --- INICIALIZACIÓN ---
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. Quitar el preloader inmediatamente
+            // Forzar ocultar preloader tras 0.5s
             const preloader = document.getElementById('preloader');
-            if(preloader) {
-                preloader.style.opacity = '0';
-                setTimeout(() => { preloader.style.display = 'none'; }, 500);
-            }
+            if(preloader) setTimeout(() => { preloader.style.display = 'none'; }, 500);
             
-            // 2. Revisar datos offline
+            // Chequear cola offline
             checkOfflineQueue();
         });
 
-        // --- SEGURO DE VIDA: SI ALGO FALLA, QUITAR PRELOADER A LOS 2 SEGUNDOS ---
+        // --- SEGURO DE VIDA (Anti-Bloqueo) ---
         setTimeout(() => {
             const p = document.getElementById('preloader');
             if(p && p.style.display !== 'none') p.style.display = 'none';
-        }, 2000);
+        }, 3000); // Si en 3s no carga, forzar apertura
 
-
-        // LÓGICA INTERFAZ
+        // --- LÓGICA INTERFAZ ---
         function toggleInput(id, show) {
             document.getElementById(id).style.display = show ? 'block' : 'none';
             if(!show) document.querySelector(`input[name="salud_det"]`).value = "";
         }
 
-        // GPS
+        // --- GPS ---
         function getGPS() {
             const btn = document.getElementById('btnGPS');
             const box = document.getElementById('gpsBox');
@@ -268,7 +264,7 @@
             }, { enableHighAccuracy: true, timeout: 15000 });
         }
 
-        // ENVÍO
+        // --- ENVÍO ---
         document.getElementById('capForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -278,7 +274,7 @@
                 return;
             }
 
-            // MOSTRAR PRELOADER AL ENVIAR
+            // Mostrar Loader
             document.getElementById('preloader').style.display = 'flex';
             document.getElementById('preloader').style.opacity = '1';
             document.querySelector('#preloader h6').innerText = "Enviando...";
@@ -301,6 +297,7 @@
             });
         });
 
+        // --- FUNCIONES OFFLINE (CORREGIDO: UNO A LA VEZ) ---
         function saveToLocalStorage(data) {
             let q = JSON.parse(localStorage.getItem('offlineCap')) || [];
             q.push(data); localStorage.setItem('offlineCap', JSON.stringify(q));
@@ -312,23 +309,45 @@
                 document.getElementById('syncCount').innerText = q.length;
             }
         }
-        function syncOfflineData() {
-            let q = JSON.parse(localStorage.getItem('offlineCap')) || [];
-            if(q.length === 0) return;
-            
-            document.getElementById('preloader').style.display = 'flex';
-            document.querySelector('#loader h6').innerText = "Sincronizando...";
+        
+        async function syncOfflineData() {
+            let queue = JSON.parse(localStorage.getItem('offlineCap')) || [];
+            if(queue.length === 0) return;
 
-            const promises = q.map(data => fetch(API_URL, { method: "POST", body: JSON.stringify(data) }));
-            Promise.all(promises).then(() => {
-                document.getElementById('preloader').style.display = 'none';
-                localStorage.removeItem('offlineCap');
+            // Mostrar loader
+            document.getElementById('preloader').style.display = 'flex';
+            document.getElementById('preloader').style.opacity = '1';
+            document.querySelector('#preloader h6').innerText = "Subiendo pendientes...";
+
+            try {
+                // ENVIAR UNO POR UNO (SECUENCIAL) PARA EVITAR BLOQUEOS
+                for (const data of queue) {
+                    await fetch(API_URL, {
+                        method: "POST",
+                        body: JSON.stringify(data)
+                    });
+                }
+
+                // Si termina sin errores
+                localStorage.removeItem('offlineCap'); // Borrar cola
                 document.getElementById('syncBar').style.display = 'none';
-                Swal.fire('Sincronizado', 'Datos subidos.', 'success');
-            }).catch(() => {
                 document.getElementById('preloader').style.display = 'none';
-                Swal.fire('Error', 'Sin conexión.', 'error');
-            });
+                
+                Swal.fire({
+                    title: '¡Sincronización Exitosa!',
+                    text: 'Todos los registros pendientes se han subido.',
+                    icon: 'success',
+                    confirmButtonColor: '#0f172a'
+                }).then(() => window.location.reload());
+
+            } catch (error) {
+                document.getElementById('preloader').style.display = 'none';
+                Swal.fire({
+                    title: 'Error de Conexión',
+                    text: 'Hubo un problema al subir. Verifica tu internet e intenta de nuevo.',
+                    icon: 'error'
+                });
+            }
         }
     </script>
 </body>
