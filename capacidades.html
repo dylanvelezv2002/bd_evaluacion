@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Capacidades | UEB - GAD</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary: #0f172a; 
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--primary);
+            padding-bottom: 60px;
+        }
+
+        /* HEADER */
+        .header-bar { 
+            background: var(--card); 
+            border-bottom: 1px solid var(--border); 
+            padding: 20px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .title-main { font-weight: 800; color: var(--primary); font-size: 1.1rem; margin: 0; letter-spacing: -0.5px; }
+        .title-sub { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-top: 4px; text-transform: uppercase; }
+
+        /* TARJETAS */
+        .form-card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 25px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .section-title { 
+            font-size: 0.85rem; font-weight: 700; color: #475569; 
+            border-bottom: 1px solid var(--bg); padding-bottom: 10px; margin-bottom: 20px; 
+            text-transform: uppercase; display: flex; align-items: center; gap: 10px;
+        }
+
+        /* INPUTS */
+        .form-label { font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 8px; }
+        .form-control, .form-select { 
+            border-radius: 6px; padding: 10px 12px; font-size: 0.9rem; border-color: #cbd5e1; 
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        /* BOTONES RADIO (SELECCIÓN) */
+        .option-group { display: flex; gap: 10px; }
+        .btn-check:checked + .btn-outline-primary { background-color: var(--accent); border-color: var(--accent); color: white; }
+        .option-btn { 
+            flex: 1; text-align: center; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; 
+            cursor: pointer; font-weight: 600; font-size: 0.9rem; color: #64748b; background: white; transition: 0.2s;
+        }
+        .option-btn:hover { background: #f1f5f9; }
+
+        /* BOTÓN ENVIAR */
+        .btn-submit { 
+            background: var(--primary); color: white; width: 100%; padding: 15px; 
+            font-weight: 700; border: none; border-radius: 8px; font-size: 1rem; 
+            box-shadow: 0 4px 6px rgba(15, 23, 42, 0.2); transition: 0.2s;
+        }
+        .btn-submit:hover { background: #1e293b; transform: translateY(-2px); }
+
+        /* OFFLINE BAR */
+        #syncBar {
+            display: none; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404;
+            padding: 15px; border-radius: 8px; margin-bottom: 20px; 
+            align-items: center; justify-content: space-between;
+        }
+
+        /* LOADING */
+        #loader { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.9); z-index:999; display:none; flex-direction:column; justify-content:center; align-items:center; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <h6 class="fw-bold text-secondary">Procesando...</h6>
+    </div>
+
+    <div class="header-bar">
+        <div class="container" style="max-width: 700px;">
+            <h1 class="title-main">FICHA DE CAPACIDADES TERRITORIALES</h1>
+            <div class="title-sub">Diagnóstico Institucional | Objetivo 1</div>
+        </div>
+    </div>
+
+    <div class="container" style="max-width: 700px;">
+        
+        <div id="syncBar">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-wifi-off fs-4 me-3"></i>
+                <div><strong id="syncCount">0</strong> fichas pendientes de envío.</div>
+            </div>
+            <button class="btn btn-warning btn-sm fw-bold" onclick="syncOfflineData()">SUBIR AHORA</button>
+        </div>
+
+        <form id="capForm">
+            
+            <input type="hidden" name="tipo" value="capacidades">
+
+            <div class="form-card">
+                <h6 class="section-title"><i class="bi bi-building-fill-check"></i> 1. Datos de la Autoridad</h6>
+                
+                <div class="mb-3">
+                    <label class="form-label">Parroquia Rural</label>
+                    <select class="form-select" name="parroquia" required>
+                        <option value="" selected disabled>Seleccione territorio...</option>
+                        <option value="Alluriquín">Alluriquín</option>
+                        <option value="Puerto Limón">Puerto Limón</option>
+                        <option value="Luz de América">Luz de América</option>
+                        <option value="San Jacinto del Búa">San Jacinto del Búa</option>
+                        <option value="Valle Hermoso">Valle Hermoso</option>
+                        <option value="El Esfuerzo">El Esfuerzo</option>
+                        <option value="Santa María del Toachi">Santa María del Toachi</option>
+                        <option value="La Villegas">La Villegas</option>
+                        <option value="Monterrey">Monterrey</option>
+                        <option value="Plan Piloto">Plan Piloto</option>
+                    </select>
+                </div>
+                
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre del Representante</label>
+                        <input type="text" class="form-control" name="nombre" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Cargo</label>
+                        <select class="form-select" name="cargo" required>
+                            <option value="Presidente GAD">Presidente GAD</option>
+                            <option value="Vicepresidente">Vicepresidente</option>
+                            <option value="Vocal">Vocal</option>
+                            <option value="Secretario/a">Secretario/a</option>
+                            <option value="Delegado Técnico">Delegado Técnico</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h6 class="section-title"><i class="bi bi-people-fill"></i> 2. Mapeo de Actores Clave</h6>
+                
+                <div class="mb-4 border-bottom pb-4">
+                    <label class="form-label mb-3 d-block">A. ¿Cuentan con personal de salud residente (médico/enfermera) para la Brigada de Primeros Auxilios?</label>
+                    <div class="option-group mb-3">
+                        <input type="radio" class="btn-check" name="salud" id="saludSi" value="SI" onclick="toggleInput('boxSalud', true)" required>
+                        <label class="option-btn" for="saludSi">SÍ, tenemos</label>
+
+                        <input type="radio" class="btn-check" name="salud" id="saludNo" value="NO" onclick="toggleInput('boxSalud', false)">
+                        <label class="option-btn" for="saludNo">NO contamos</label>
+                    </div>
+                    <div id="boxSalud" style="display:none;">
+                        <input type="text" class="form-control bg-light border-primary" name="salud_det" placeholder="Nombre y contacto (Opcional)">
+                    </div>
+                </div>
+
+                <div class="mb-4 border-bottom pb-4">
+                    <label class="form-label mb-3 d-block">B. ¿Existe personal con experiencia en manejo de fuego (bomberos, ex-militares) para la Brigada?</label>
+                    <div class="option-group">
+                        <input type="radio" class="btn-check" name="fuego" id="fuegoSi" value="SI" required>
+                        <label class="option-btn" for="fuegoSi">SÍ</label>
+                        <input type="radio" class="btn-check" name="fuego" id="fuegoNo" value="NO">
+                        <label class="option-btn" for="fuegoNo">NO</label>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">C. Coordinación Operativa: Aparte de usted, ¿quién es la persona de confianza para operar en campo?</label>
+                    <input type="text" class="form-control" name="coordinador" placeholder="Nombre y Cargo (Ej. Vocal de Obras)" required>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h6 class="section-title"><i class="bi bi-box-seam-fill"></i> 3. Recursos Logísticos</h6>
+                
+                <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
+                    <label class="form-label m-0 w-75">Sistema de Alarma Comunitaria funcional</label>
+                    <div class="d-flex gap-2">
+                        <input type="radio" class="btn-check" name="alarma" id="alSi" value="SI" required>
+                        <label class="btn btn-outline-success btn-sm fw-bold" for="alSi">SÍ</label>
+                        <input type="radio" class="btn-check" name="alarma" id="alNo" value="NO">
+                        <label class="btn btn-outline-secondary btn-sm fw-bold" for="alNo">NO</label>
+                    </div>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
+                    <label class="form-label m-0 w-75">Albergue Temporal Identificado (Escuela/Casa Comunal)</label>
+                    <div class="d-flex gap-2">
+                        <input type="radio" class="btn-check" name="albergue" id="albSi" value="SI" required>
+                        <label class="btn btn-outline-success btn-sm fw-bold" for="albSi">SÍ</label>
+                        <input type="radio" class="btn-check" name="albergue" id="albNo" value="NO">
+                        <label class="btn btn-outline-secondary btn-sm fw-bold" for="albNo">NO</label>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <label class="form-label m-0 w-75">Vehículo institucional disponible 24/7</label>
+                    <div class="d-flex gap-2">
+                        <input type="radio" class="btn-check" name="vehiculo" id="vehSi" value="SI" required>
+                        <label class="btn btn-outline-success btn-sm fw-bold" for="vehSi">SÍ</label>
+                        <input type="radio" class="btn-check" name="vehiculo" id="vehNo" value="NO">
+                        <label class="btn btn-outline-secondary btn-sm fw-bold" for="vehNo">NO</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 mb-5">
+                <button type="submit" class="btn-submit">
+                    REGISTRAR CAPACIDADES
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // ========================================
+        // ⚠️ PEGA TU URL DE GOOGLE APPS SCRIPT
+        // ========================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+
+        // INICIALIZACIÓN
+        window.onload = () => {
+            checkOfflineQueue();
+        };
+
+        function toggleInput(id, show) {
+            document.getElementById(id).style.display = show ? 'block' : 'none';
+            if(!show) document.querySelector(`input[name="salud_det"]`).value = "";
+        }
+
+        // ENVÍO PRINCIPAL
+        document.getElementById('capForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('loader').style.display = 'flex';
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            // Intentar enviar
+            fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify(data)
+            })
+            .then(r => r.json())
+            .then(res => {
+                document.getElementById('loader').style.display = 'none';
+                if(res.status === 'success') {
+                    Swal.fire({
+                        title: 'Registro Exitoso',
+                        html: `Se ha guardado la ficha de <b>${data.parroquia}</b>.`,
+                        icon: 'success',
+                        confirmButtonColor: '#0f172a'
+                    }).then(() => window.location.reload());
+                } else {
+                    throw new Error('Error del servidor');
+                }
+            })
+            .catch(err => {
+                document.getElementById('loader').style.display = 'none';
+                // LÓGICA OFFLINE
+                saveToLocalStorage(data);
+                Swal.fire({
+                    title: 'Sin Conexión',
+                    text: 'No hay internet. La ficha se guardó en el dispositivo y se enviará cuando tengas señal.',
+                    icon: 'warning',
+                    confirmButtonColor: '#d97706'
+                }).then(() => window.location.reload());
+            });
+        });
+
+        // --- GESTIÓN OFFLINE ---
+        function saveToLocalStorage(data) {
+            let queue = JSON.parse(localStorage.getItem('offlineCapacidades')) || [];
+            queue.push(data);
+            localStorage.setItem('offlineCapacidades', JSON.stringify(queue));
+        }
+
+        function checkOfflineQueue() {
+            let queue = JSON.parse(localStorage.getItem('offlineCapacidades')) || [];
+            if (queue.length > 0) {
+                document.getElementById('syncBar').style.display = 'flex';
+                document.getElementById('syncCount').innerText = queue.length;
+            }
+        }
+
+        function syncOfflineData() {
+            let queue = JSON.parse(localStorage.getItem('offlineCapacidades')) || [];
+            if(queue.length === 0) return;
+
+            document.getElementById('loader').style.display = 'flex';
+            document.querySelector('#loader h6').innerText = "Sincronizando...";
+
+            const promises = queue.map(data => 
+                fetch(API_URL, { method: "POST", body: JSON.stringify(data) })
+            );
+
+            Promise.all(promises)
+            .then(() => {
+                document.getElementById('loader').style.display = 'none';
+                localStorage.removeItem('offlineCapacidades');
+                document.getElementById('syncBar').style.display = 'none';
+                Swal.fire('Sincronización Completa', 'Todas las fichas pendientes han sido subidas.', 'success');
+            })
+            .catch(() => {
+                document.getElementById('loader').style.display = 'none';
+                Swal.fire('Error', 'Aún no tienes conexión estable. Intenta luego.', 'error');
+            });
+        }
+    </script>
+</body>
+</html>
