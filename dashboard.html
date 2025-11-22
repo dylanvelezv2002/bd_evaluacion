@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor de Riesgos | UEB - GAD</title>
+    <title>Monitor Integral v3.1 | UEB</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,96 +12,127 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* --- ESTILO CLEAN UI (APROBADO) --- */
-        :root { --bg: #f8fafc; --white: #ffffff; --primary: #2563eb; --text: #0f172a; --gray: #64748b; --radius: 12px; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 50px; }
+        /* --- DISEÑO UI LIMPIO --- */
+        :root { --primary: #2563eb; --dark: #0f172a; --gray: #64748b; --bg: #f1f5f9; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 60px; }
 
         /* HEADER */
-        .top-bar { background: var(--white); padding: 1rem 2rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .project-title { font-weight: 800; color: #1e3a8a; font-size: 1.1rem; }
-        .form-select { background: #f1f5f9; border: 1px solid #e2e8f0; font-weight: 600; }
-
-        /* TABS */
-        .nav-pills { background: #e2e8f0; padding: 4px; border-radius: 10px; display: inline-flex; }
-        .nav-pills .nav-link { color: var(--gray); font-weight: 600; font-size: 0.85rem; padding: 8px 20px; border-radius: 8px; }
-        .nav-pills .nav-link.active { background: var(--white); color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .top-bar { background: #fff; padding: 15px 30px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .app-title { font-weight: 900; font-size: 1.1rem; color: #1e3a8a; letter-spacing: -0.5px; }
+        .nav-pills { background: #e2e8f0; padding: 4px; border-radius: 10px; }
+        .nav-link { color: var(--gray); font-weight: 600; border-radius: 8px; padding: 8px 20px; transition: 0.2s; font-size: 0.9rem; }
+        .nav-link.active { background: #fff; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
         /* CARDS & MAPS */
-        .clean-card { background: var(--white); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #e2e8f0; height: 100%; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; }
-        .kpi-val { font-size: 2.2rem; font-weight: 800; line-height: 1; margin-bottom: 5px; }
-        .map-container { height: 350px; width: 100%; border-radius: var(--radius); background: #e2e8f0; z-index: 1; }
-        
-        /* --- ESTILOS DE REPORTE (HOJA A4) --- */
-        .report-wrapper { display: flex; gap: 2rem; justify-content: center; padding: 20px; overflow-x: auto; }
-        .a4-container { width: 210mm; min-height: 297mm; background: white; padding: 15mm; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; transform-origin: top center; }
-        
-        /* Header Reporte */
-        .rep-header { border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; }
-        .rep-title { font-size: 1.4rem; font-weight: 900; text-transform: uppercase; color: #1e3a8a; }
-        
-        /* Grid Reporte */
-        .rep-kpi-row { display: flex; justify-content: space-between; text-align: center; margin-bottom: 20px; background: #f8fafc; padding: 15px; border-radius: 8px; }
-        .rep-val { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-        .rep-lbl { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--gray); }
-        .rep-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin-top: 15px; }
-        .rep-table th { background: #f1f5f9; padding: 8px; text-align: left; border-bottom: 2px solid #cbd5e1; }
-        .rep-table td { padding: 8px; border-bottom: 1px solid #e2e8f0; }
+        .clean-card { background: #fff; border-radius: 12px; padding: 20px; height: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; border: 1px solid #f1f5f9; }
+        .kpi-val { font-size: 2.2rem; font-weight: 800; line-height: 1; margin-bottom: 5px; color: var(--dark); }
+        .map-container { height: 380px; width: 100%; border-radius: 12px; background: #e2e8f0; z-index: 1; overflow: hidden; }
 
-        /* CONTROL DE IMPRESIÓN */
+        /* --- ESTILOS DE REPORTE (VISTA PREVIA VS IMPRESIÓN) --- */
+        
+        /* Contenedor visual en pantalla: Centrado y con scroll si es necesario */
+        .report-view-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        /* La hoja A4 en PANTALLA (Escalada para que quepa) */
+        .a4-sheet {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            /* TRUCO VISUAL: Escalar al 75% para que no sea gigante en monitor */
+            transform: scale(0.75);
+            transform-origin: top center;
+            margin-bottom: -70mm; /* Compensar el espacio blanco del scale */
+        }
+
+        /* Header del Reporte */
+        .rep-header { border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .rep-title { font-size: 1.5rem; font-weight: 900; color: #1e3a8a; text-transform: uppercase; line-height: 1; }
+        .rep-loc { font-weight: 800; color: var(--primary); font-size: 0.9rem; }
+        
+        /* Tablas y Grid Reporte */
+        .rep-kpi-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; flex: 1; }
+        .rep-kpi-num { font-size: 1.8rem; font-weight: 800; color: var(--primary); line-height: 1; }
+        .rep-kpi-txt { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: #64748b; }
+        
+        .rep-table { width: 100%; font-size: 0.75rem; border-collapse: collapse; margin-top: 10px; }
+        .rep-table th { background: #f1f5f9; padding: 8px; text-align: left; border-bottom: 2px solid #cbd5e1; font-weight: 700; color: #475569; }
+        .rep-table td { padding: 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+
+        /* --- MODO IMPRESIÓN (ESTRICTO) --- */
         @media print {
-            body * { visibility: hidden; }
-            .printable, .printable * { visibility: visible; }
-            .printable { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; box-shadow: none; transform: none !important; }
+            body * { visibility: hidden; } /* Ocultar todo el sitio web */
+            
+            /* Mostrar solo el reporte activo */
+            .printable.active, .printable.active * { visibility: visible; }
+            
+            .printable.active {
+                position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0;
+                transform: none !important; /* Quitar el scale al imprimir */
+                box-shadow: none;
+                margin-bottom: 0;
+            }
             @page { size: A4; margin: 10mm; }
             .no-print { display: none !important; }
         }
-        
+
         /* PRELOADER */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; }
-        .loader { width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="loader mb-3"></div>
-        <div class="small fw-bold text-secondary">CARGANDO SISTEMA...</div>
+        <div class="spinner mb-3"></div>
+        <div id="loaderMsg" class="small fw-bold text-secondary ls-1">CONECTANDO A GOOGLE SHEETS...</div>
+        <button id="retryBtn" onclick="location.reload()" class="btn btn-outline-primary btn-sm mt-4" style="display:none;">REINTENTAR CONEXIÓN</button>
     </div>
 
     <div class="top-bar no-print">
         <div>
-            <div class="project-title">MONITOR DE RIESGOS</div>
-            <div class="small text-muted fw-bold">UEB - GAD PROVINCIAL SDT</div>
+            <div class="app-title"><i class="bi bi-activity me-2"></i>SISTEMA DE RIESGOS</div>
+            <div class="small text-muted fw-bold">UEB & GAD PROVINCIAL</div>
         </div>
-        <select id="parroquiaFilter" class="form-select" style="width: 250px;" onchange="applyFilter()">
-            <option value="ALL">Vista Provincial</option>
-        </select>
+        <div class="d-flex gap-3">
+            <select id="parroquiaFilter" class="form-select border-secondary" style="width: 250px; font-weight: 600;" onchange="applyFilter()">
+                <option value="ALL">VISTA PROVINCIAL</option>
+            </select>
+        </div>
     </div>
 
-    <div class="container-fluid px-4 mt-4">
+    <div class="container-fluid px-4 mt-3">
+        
         <div class="d-flex justify-content-center mb-4 no-print">
-            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills shadow-sm" id="mainTabs">
                 <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab1">1. DIAGNÓSTICO</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab2">2. EVALUACIÓN</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab2">2. EVALUACIÓN SOCIAL</button></li>
                 <li class="nav-item"><button class="nav-link bg-dark text-white ms-3" data-bs-toggle="pill" data-bs-target="#tab3">3. REPORTES PDF</button></li>
             </ul>
         </div>
 
         <div class="tab-content">
-            
+
             <div class="tab-pane fade show active" id="tab1">
                 <div class="row g-4 mb-4">
-                    <div class="col-md-4"><div class="clean-card align-items-center flex-row"><div><div class="small fw-bold text-muted">GADs TOTALES</div><div class="kpi-val" id="c1_total">0</div></div><i class="bi bi-building fs-1 text-secondary opacity-25"></i></div></div>
-                    <div class="col-md-4"><div class="clean-card align-items-center flex-row"><div><div class="small fw-bold text-muted">SIST. ALARMA</div><div class="kpi-val text-primary" id="c1_alarma">0%</div></div><i class="bi bi-broadcast fs-1 text-primary opacity-25"></i></div></div>
-                    <div class="col-md-4"><div class="clean-card align-items-center flex-row"><div><div class="small fw-bold text-muted">VEHÍCULOS</div><div class="kpi-val text-success" id="c1_veh">0%</div></div><i class="bi bi-truck fs-1 text-success opacity-25"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center"><div><div class="small text-muted fw-bold">GADs TOTALES</div><div class="kpi-val" id="c1_total">0</div></div><i class="bi bi-building fs-1 opacity-25"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center"><div><div class="small text-muted fw-bold">SIST. ALARMA</div><div class="kpi-val text-primary" id="c1_alarma">0%</div></div><i class="bi bi-broadcast fs-1 text-primary opacity-25"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center"><div><div class="small text-muted fw-bold">VEHÍCULOS</div><div class="kpi-val text-success" id="c1_veh">0%</div></div><i class="bi bi-truck fs-1 text-success opacity-25"></i></div></div>
                 </div>
                 <div class="row g-4">
-                    <div class="col-lg-8"><div class="clean-card p-0"><div class="p-3 border-bottom small fw-bold bg-light">MAPA DE RECURSOS</div><div id="map1" class="map-container"></div></div></div>
+                    <div class="col-lg-8"><div class="clean-card p-0"><div class="p-3 border-bottom bg-light small fw-bold">MAPA DE RECURSOS</div><div id="map1" class="map-container"></div></div></div>
                     <div class="col-lg-4 d-flex flex-column gap-3">
                         <div class="clean-card flex-grow-1"><div class="small fw-bold mb-2">TALENTO HUMANO</div><div class="flex-grow-1"><canvas id="chart1a"></canvas></div></div>
                         <div class="clean-card flex-grow-1"><div class="small fw-bold mb-2">LOGÍSTICA</div><div class="flex-grow-1"><canvas id="chart1b"></canvas></div></div>
@@ -111,115 +142,154 @@
 
             <div class="tab-pane fade" id="tab2">
                 <div class="row g-4 mb-4">
-                    <div class="col-md-4"><div class="clean-card align-items-center flex-row"><div><div class="small fw-bold text-muted">COMUNIDADES</div><div class="kpi-val" id="c2_total">0</div></div><i class="bi bi-people fs-1 text-secondary opacity-25"></i></div></div>
-                    <div class="col-md-4"><div class="clean-card align-items-center flex-row"><div><div class="small fw-bold text-muted">ÍNDICE GLOBAL</div><div class="kpi-val text-primary" id="c2_index">0.0</div></div><i class="bi bi-bar-chart fs-1 text-primary opacity-25"></i></div></div>
-                    <div class="col-md-4"><div class="clean-card align-items-center flex-row"><div><div class="small fw-bold text-muted">ESTADO</div><div class="kpi-val" id="c2_status">-</div></div><i class="bi bi-shield-check fs-1 opacity-25"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center"><div><div class="small text-muted fw-bold">COMUNIDADES</div><div class="kpi-val" id="c2_total">0</div></div><i class="bi bi-people fs-1 opacity-25"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center"><div><div class="small text-muted fw-bold">ÍNDICE GLOBAL</div><div class="kpi-val text-primary" id="c2_index">0.0</div></div><i class="bi bi-bar-chart fs-1 text-primary opacity-25"></i></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center"><div><div class="small text-muted fw-bold">ESTADO</div><div class="kpi-val" id="c2_status">-</div></div><i class="bi bi-shield-check fs-1 opacity-25"></i></div></div>
                 </div>
                 <div class="row g-4">
-                    <div class="col-lg-8"><div class="clean-card p-0"><div class="p-3 border-bottom small fw-bold bg-light">MAPA SOCIAL</div><div id="map2" class="map-container"></div></div></div>
+                    <div class="col-lg-8"><div class="clean-card p-0"><div class="p-3 border-bottom bg-light small fw-bold">MAPA SOCIAL</div><div id="map2" class="map-container"></div></div></div>
                     <div class="col-lg-4"><div class="clean-card"><div class="small fw-bold mb-3">RADAR DE VARIABLES</div><div class="h-100 d-flex justify-content-center align-items-center"><canvas id="chart2"></canvas></div></div></div>
                 </div>
             </div>
 
             <div class="tab-pane fade" id="tab3">
-                <div class="report-wrapper">
+                <div class="alert alert-info text-center no-print fw-bold">
+                    <i class="bi bi-info-circle-fill me-2"></i>VISTA PREVIA REDUCIDA (75%) - AL IMPRIMIR SALDRÁ A TAMAÑO REAL
+                </div>
+
+                <div class="report-view-container">
                     
-                    <div class="d-flex flex-column gap-2 align-items-center">
-                        <button onclick="printDiv('rep1')" class="btn btn-dark btn-sm fw-bold w-100 no-print"><i class="bi bi-printer me-2"></i>IMPRIMIR REPORTE 1</button>
-                        <div id="rep1" class="a4-container printable">
+                    <div class="d-flex flex-column align-items-center gap-2">
+                        <button onclick="printSheet('sheet1')" class="btn btn-primary shadow-sm w-100 fw-bold no-print"><i class="bi bi-printer-fill me-2"></i>IMPRIMIR DIAGNÓSTICO</button>
+                        
+                        <div id="sheet1" class="a4-sheet printable">
                             <div class="rep-header">
-                                <div><div class="rep-title">INFORME DE CAPACIDADES</div><div class="small text-muted">DIAGNÓSTICO INSTITUCIONAL (OBJ 1)</div></div>
-                                <div class="text-end fw-bold text-primary rep-loc">UBICACIÓN</div>
+                                <div><div class="rep-title">INFORME DE CAPACIDADES</div><div class="small text-muted">DIAGNÓSTICO INSTITUCIONAL</div></div>
+                                <div class="text-end"><div class="rep-loc" id="r1_loc">UBICACIÓN</div><div class="small text-muted" id="r1_date">Fecha: --/--/----</div></div>
                             </div>
-                            <div class="rep-kpi-row">
-                                <div><div class="rep-lbl">SALUD</div><div class="rep-val" id="r1_salud">0%</div></div>
-                                <div><div class="rep-lbl">ALARMAS</div><div class="rep-val text-danger" id="r1_alarma">0%</div></div>
-                                <div><div class="rep-lbl">VEHÍCULOS</div><div class="rep-val text-success" id="r1_veh">0%</div></div>
+                            <div class="d-flex gap-3 mb-4">
+                                <div class="rep-kpi-box"><div>SALUD</div><div class="rep-kpi-num" id="r1_salud">0%</div></div>
+                                <div class="rep-kpi-box"><div>ALARMAS</div><div class="rep-kpi-num text-danger" id="r1_alarma">0%</div></div>
+                                <div class="rep-kpi-box"><div>VEHÍCULOS</div><div class="rep-kpi-num text-success" id="r1_veh">0%</div></div>
                             </div>
                             <div style="height: 200px; margin-bottom: 20px;"><canvas id="chartR1"></canvas></div>
-                            <div class="p-3 bg-light border rounded mb-3 text-muted small text-justify" id="r1_text">Cargando análisis...</div>
-                            <div style="height: 350px; border:1px solid #ddd; border-radius:8px; overflow:hidden;"><div id="mapR1" style="width:100%; height:100%"></div></div>
+                            <div style="height: 380px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 20px;">
+                                <div id="mapR1" style="width: 100%; height: 100%;"></div>
+                            </div>
+                            <div class="p-3 bg-light border rounded small text-muted text-justify" id="r1_text">Cargando análisis...</div>
                         </div>
                     </div>
 
-                    <div class="d-flex flex-column gap-2 align-items-center">
-                        <button onclick="printDiv('rep2')" class="btn btn-dark btn-sm fw-bold w-100 no-print"><i class="bi bi-printer me-2"></i>IMPRIMIR REPORTE 2</button>
-                        <div id="rep2" class="a4-container printable">
-                            <div class="rep-header">
-                                <div><div class="rep-title" style="color:#dc2626">INFORME COMUNITARIO</div><div class="small text-muted">EVALUACIÓN SOCIAL (OBJ 2)</div></div>
-                                <div class="text-end fw-bold text-danger rep-loc">UBICACIÓN</div>
+                    <div class="d-flex flex-column align-items-center gap-2">
+                        <button onclick="printSheet('sheet2')" class="btn btn-danger shadow-sm w-100 fw-bold no-print"><i class="bi bi-printer-fill me-2"></i>IMPRIMIR EVALUACIÓN</button>
+                        
+                        <div id="sheet2" class="a4-sheet printable">
+                            <div class="rep-header" style="border-color: #dc2626;">
+                                <div><div class="rep-title" style="color:#dc2626">INFORME COMUNITARIO</div><div class="small text-muted">EVALUACIÓN SOCIAL</div></div>
+                                <div class="text-end"><div class="rep-loc text-danger" id="r2_loc">UBICACIÓN</div><div class="small text-muted">Fecha: Hoy</div></div>
                             </div>
-                            <div class="rep-kpi-row">
-                                <div><div class="rep-lbl">COMUNIDADES</div><div class="rep-val" id="r2_total">0</div></div>
-                                <div><div class="rep-lbl">ÍNDICE</div><div class="rep-val text-primary" id="r2_index">0.0</div></div>
-                                <div><div class="rep-lbl">ESTADO</div><div class="rep-val text-warning" id="r2_status">-</div></div>
+                            <div class="d-flex gap-3 mb-4">
+                                <div class="rep-kpi-box"><div>TOTAL</div><div class="rep-kpi-num" id="r2_total">0</div></div>
+                                <div class="rep-kpi-box"><div>ÍNDICE</div><div class="rep-kpi-num text-primary" id="r2_index">0.0</div></div>
+                                <div class="rep-kpi-box"><div>ESTADO</div><div class="rep-kpi-num text-warning" id="r2_status">-</div></div>
                             </div>
-                            <div class="d-flex gap-3 mb-4" style="height: 220px;">
-                                <div style="flex:1; border:1px solid #ddd; border-radius:8px; overflow:hidden;"><div id="mapR2" style="width:100%; height:100%"></div></div>
+                            <div class="d-flex gap-3 mb-4" style="height: 240px;">
+                                <div style="flex:1; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;"><div id="mapR2" style="width:100%; height:100%"></div></div>
                                 <div style="flex:1; display:flex; justify-content:center;"><canvas id="chartR2"></canvas></div>
                             </div>
-                            <div class="small fw-bold text-muted mb-1">REGISTROS:</div>
+                            <div class="small fw-bold text-muted mb-2 border-bottom pb-1">REGISTRO DE EVALUACIONES</div>
                             <table class="rep-table">
                                 <thead><tr><th>Comunidad</th><th>Responsable</th><th>Fecha</th><th>Nota</th></tr></thead>
-                                <tbody id="r2_body"></tbody>
+                                <tbody id="r2_table"></tbody>
                             </table>
                         </div>
                     </div>
 
                 </div>
             </div>
+
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const PROXY = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec");
+        // URL DEL SCRIPT CON ANTI-CACHÉ (Random Timestamp)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+        const PROXY_BASE = "https://api.allorigins.win/raw?url=";
         
-        // DATOS DE RESPALDO (Por si falla la conexión)
-        const BACKUP = {
-            cap: [["","Alluriquín","","","-.29","-79.05","SI","NO","SI","SI","NO","SI","NO","SI"], ["","Puerto Limón","","","-.20","-79.25","NO","NO","NO","SI","NO","NO","NO","NO"]],
-            eval: [["2025-11-22","Alluriquín","Centro","Lider","Juan",-.29,-79.05,4,5,3,4,5,4,3,5], ["2025-11-22","Puerto Limón","Norte","Presi","Ana",-.20,-79.25,2,3,2,3,2,3,2,3]]
-        };
-
         const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
-        const LBLS = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
+        const LABELS = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
 
-        let DATA_CAP=[], DATA_EVAL=[];
+        let DATA_CAP = [], DATA_EVAL = [];
         let maps = {}, charts = {};
 
         window.onload = () => {
             const sel = document.getElementById('parroquiaFilter');
             PARROQUIAS.sort().forEach(p => sel.add(new Option(p, p)));
             
-            initMaps();
+            initAllMaps();
+            loadData();
 
-            fetch(PROXY).then(r=>r.ok?r.json():Promise.reject()).then(d => {
-                if(d.status==='success') loadData(d.dataCap, d.dataEval);
-                else loadData(BACKUP.cap, BACKUP.eval);
-            }).catch(() => {
-                Swal.fire({toast:true, position:'top-end', icon:'warning', title:'Modo Offline', showConfirmButton:false, timer:3000});
-                loadData(BACKUP.cap, BACKUP.eval);
-            });
-
-            // Arreglar mapas al cambiar pestaña
+            // Reparar mapas al cambiar pestaña
             document.querySelectorAll('button[data-bs-toggle="pill"]').forEach(el => {
                 el.addEventListener('shown.bs.tab', () => {
                     for(let k in maps) maps[k].invalidateSize();
+                    if(el.dataset.bsTarget === '#tab3') {
+                         setTimeout(()=> { fitMap(maps['mapR1']); fitMap(maps['mapR2']); }, 300);
+                    }
                 });
             });
         };
 
-        function loadData(cap, ev) {
-            DATA_CAP = cap||[]; DATA_EVAL = ev||[];
+        function loadData() {
+            // Añadimos timestamp para evitar caché
+            const finalUrl = PROXY_BASE + encodeURIComponent(SCRIPT_URL + "?t=" + Date.now());
+            
+            fetch(finalUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error("Error HTTP");
+                    return response.json();
+                })
+                .then(d => {
+                    if (d.status === 'success') {
+                        DATA_CAP = d.dataCap || [];
+                        DATA_EVAL = d.dataEval || [];
+                        document.getElementById('preloader').style.opacity='0';
+                        setTimeout(()=>document.getElementById('preloader').style.display='none', 500);
+                        applyFilter();
+                    } else {
+                        throw new Error("Estructura JSON inválida");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('loaderMsg').innerText = "ERROR DE CONEXIÓN";
+                    document.getElementById('loaderMsg').classList.add('text-danger');
+                    document.getElementById('retryBtn').style.display = 'block';
+                    // Cargar datos dummy para que no se vea roto mientras arreglan la conexión
+                    Swal.fire("Modo Offline", "No se pudo conectar. Mostrando datos de ejemplo.", "warning");
+                    loadDummyData();
+                });
+        }
+
+        function loadDummyData() {
+            DATA_CAP = [["","Alluriquín","","","-.29","-79.05","SI","NO","SI","SI","NO","SI","NO","SI"], ["","Puerto Limón","","","-.20","-79.25","NO","NO","NO","SI","NO","NO","NO","NO"]];
+            DATA_EVAL = [["2025-11-22","Alluriquín","Centro","Lider","Juan",-.29,-79.05,4,5,3,4,5,4,3,5], ["2025-11-22","Puerto Limón","Norte","Presi","Ana",-.20,-79.25,2,3,2,3,2,3,2,3]];
             document.getElementById('preloader').style.display='none';
             applyFilter();
         }
 
-        function initMaps() {
-            ['map1','map2','mapR1','mapR2'].forEach(id => {
+        function initAllMaps() {
+            const ids = ['map1', 'map2', 'mapR1', 'mapR2'];
+            ids.forEach(id => {
                 maps[id] = L.map(id, {zoomControl:false, attributionControl:false}).setView([-0.25, -79.17], 10);
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(maps[id]);
             });
+        }
+
+        function fitMap(map) {
+            // Pequeño hack para recentrar el mapa si tiene marcadores
+            map.setView([-0.25, -79.17], 10);
         }
 
         function applyFilter() {
@@ -227,16 +297,17 @@
             const isProv = val === 'ALL';
             const fCap = isProv ? DATA_CAP : DATA_CAP.filter(r => r[1] === val);
             const fEval = isProv ? DATA_EVAL : DATA_EVAL.filter(r => r[1] === val);
-            const name = isProv ? "PROVINCIA STO. DOMINGO" : "PARROQUIA " + val.toUpperCase();
+            const name = isProv ? "CONSOLIDADO PROVINCIAL" : "PARROQUIA " + val.toUpperCase();
 
-            // ACTUALIZAR TODO (SIN IMPORTAR PESTAÑA)
-            updateTab1(fCap, isProv, name);
+            updateTab1(fCap);
             updateTab2(fEval);
             updateReport1(fCap, name);
             updateReport2(fEval, name);
         }
 
-        function updateTab1(data, isProv, name) {
+        // --- LOGICA ACTUALIZACION UI ---
+        
+        function updateTab1(data) {
             document.getElementById('c1_total').innerText = data.length;
             let s=0, a=0, v=0, f=0;
             let lg = L.layerGroup();
@@ -247,26 +318,21 @@
                 if(lat) {
                     let sc = (r[6]==='SI'?1:0)+(r[11]==='SI'?1:0)+(r[13]==='SI'?1:0);
                     let c = sc>=2?'#16a34a':(sc===1?'#f59e0b':'#dc2626');
-                    L.circleMarker([lat, lng], {radius:6, color:'white', fillColor:c, fillOpacity:0.9, weight:1}).addTo(lg).bindPopup(`<b>${r[1]}</b><br>Salud: ${r[6]}`);
+                    L.circleMarker([lat, lng], {radius:6, color:'white', fillColor:c, fillOpacity:0.9, weight:1}).addTo(lg).bindPopup(`<b>${r[1]}</b>`);
                 }
             });
-
-            // Update Map
-            maps['map1'].eachLayer(l => { if(!!l.toGeoJSON) maps['map1'].removeLayer(l); });
-            lg.addTo(maps['map1']);
-            if(data.length>0) maps['map1'].fitBounds(lg.getBounds());
-
+            
+            updateMap('map1', lg);
             let t = data.length||1;
             document.getElementById('c1_alarma').innerText = Math.round((a/t)*100)+"%";
             document.getElementById('c1_veh').innerText = Math.round((v/t)*100)+"%";
-            
             renderBar('chart1a', ['Salud','Fuego'], [s,f], '#2563eb');
             renderBar('chart1b', ['Alarma','Vehículo'], [a,v], '#16a34a');
         }
 
         function updateTab2(data) {
             document.getElementById('c2_total').innerText = data.length;
-            let sums = new Array(8).fill(0);
+            let sums=new Array(8).fill(0);
             let lg = L.layerGroup();
 
             data.forEach(r => {
@@ -279,60 +345,47 @@
                 }
             });
 
-            maps['map2'].eachLayer(l => { if(!!l.toGeoJSON) maps['map2'].removeLayer(l); });
-            lg.addTo(maps['map2']);
-            if(data.length>0) maps['map2'].fitBounds(lg.getBounds());
-
+            updateMap('map2', lg);
             let avgs = sums.map(s => (s/(data.length||1)).toFixed(1));
             let global = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
-            
             document.getElementById('c2_index').innerText = global;
-            let st = document.getElementById('c2_status');
-            st.innerText = global>=4?"SÓLIDO":(global>=3?"REGULAR":"CRÍTICO");
-            st.className = "kpi-val " + (global>=4?"text-success":(global>=3?"text-warning":"text-danger"));
-
+            document.getElementById('c2_status').innerText = global>=4?"SÓLIDO":(global>=3?"REGULAR":"CRÍTICO");
             renderRadar('chart2', avgs, '#2563eb', 'rgba(37,99,235,0.2)');
         }
 
         function updateReport1(data, name) {
-            document.querySelectorAll('.rep-loc').forEach(e=>e.innerText=name);
+            document.getElementById('r1_loc').innerText = name;
+            document.getElementById('r1_date').innerText = "Fecha: " + new Date().toLocaleDateString();
             let t = data.length||1;
             let s=data.filter(r=>r[6]==='SI').length, a=data.filter(r=>r[11]==='SI').length, v=data.filter(r=>r[13]==='SI').length;
             
             document.getElementById('r1_salud').innerText = Math.round((s/t)*100)+"%";
             document.getElementById('r1_alarma').innerText = Math.round((a/t)*100)+"%";
             document.getElementById('r1_veh').innerText = Math.round((v/t)*100)+"%";
-            document.getElementById('r1_text').innerText = `Se analizan ${t} registros en ${name}. La cobertura operativa es del ${Math.round((s/t)*100)}% en salud y ${Math.round((v/t)*100)}% en movilidad.`;
-
+            document.getElementById('r1_text').innerText = `Análisis realizado en ${name}. De ${t} registros analizados, se observa una cobertura de salud del ${Math.round((s/t)*100)}% y logística del ${Math.round((v/t)*100)}%.`;
+            
             renderBar('chartR1', ['Salud','Alarma','Vehículo'], [s,a,v], '#1e3a8a');
             
-            // Mapa Reporte 1
-            maps['mapR1'].eachLayer(l => { if(!!l.toGeoJSON) maps['mapR1'].removeLayer(l); });
             let lg = L.layerGroup();
             data.forEach(r => {
                 let lat=parseFloat(r[4]), lng=parseFloat(r[5]);
                 if(lat) L.circleMarker([lat, lng], {radius:5, color:'#333', weight:1, fillColor:'#2563eb', fillOpacity:1}).addTo(lg);
             });
-            lg.addTo(maps['mapR1']);
-            if(data.length>0) setTimeout(()=>maps['mapR1'].fitBounds(lg.getBounds()), 500);
+            updateMap('mapR1', lg);
         }
 
         function updateReport2(data, name) {
+            document.getElementById('r2_loc').innerText = name;
             document.getElementById('r2_total').innerText = data.length;
-            let sums = new Array(8).fill(0);
+            let sums=new Array(8).fill(0);
             data.forEach(r => { for(let i=0;i<8;i++) sums[i]+=Number(r[i+7]); });
             let avgs = sums.map(s => (s/(data.length||1)).toFixed(1));
             let global = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
             
             document.getElementById('r2_index').innerText = global;
-            let st = document.getElementById('r2_status');
-            st.innerText = global>=3 ? "MEDIA" : "BAJA";
-            st.className = "rep-val " + (global>=3 ? "text-warning" : "text-danger");
-
+            document.getElementById('r2_status').innerText = global>=3 ? "MEDIA" : "BAJA";
             renderRadar('chartR2', avgs, '#dc2626', 'rgba(220,38,38,0.1)');
-
-            // Mapa Reporte 2
-            maps['mapR2'].eachLayer(l => { if(!!l.toGeoJSON) maps['mapR2'].removeLayer(l); });
+            
             let lg = L.layerGroup();
             data.forEach(r => {
                 let lat=parseFloat(r[5]), lng=parseFloat(r[6]);
@@ -342,14 +395,19 @@
                     L.circleMarker([lat, lng], {radius:5, color:'#333', weight:1, fillColor:c, fillOpacity:1}).addTo(lg);
                 }
             });
-            lg.addTo(maps['mapR2']);
-            if(data.length>0) setTimeout(()=>maps['mapR2'].fitBounds(lg.getBounds()), 500);
+            updateMap('mapR2', lg);
 
-            const tb = document.getElementById('r2_body'); tb.innerHTML="";
-            data.slice(0,5).forEach(r => {
+            const tb = document.getElementById('r2_table'); tb.innerHTML="";
+            data.slice(0,6).forEach(r => {
                 let avg=0; for(let i=0;i<8;i++) avg+=Number(r[i+7]); avg=(avg/8).toFixed(1);
                 tb.innerHTML += `<tr><td>${r[2]}</td><td>${r[4]}</td><td>${new Date(r[0]).toLocaleDateString()}</td><td><b>${avg}</b></td></tr>`;
             });
+        }
+
+        function updateMap(id, lg) {
+            maps[id].eachLayer(l => { if(!!l.toGeoJSON) maps[id].removeLayer(l); });
+            lg.addTo(maps[id]);
+            if(lg.getLayers().length>0) setTimeout(()=>maps[id].fitBounds(lg.getBounds(), {padding:[20,20]}), 200);
         }
 
         function renderBar(id, l, d, c) {
@@ -358,15 +416,13 @@
         }
         function renderRadar(id, d, c, bg) {
             if(charts[id]) charts[id].destroy();
-            charts[id] = new Chart(document.getElementById(id), {type:'radar', data:{labels:LBLS, datasets:[{data:d, borderColor:c, backgroundColor:bg, pointRadius:2}]}, options:{maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{r:{min:0, max:5, ticks:{display:false}, pointLabels:{font:{size:8}}}}}});
+            charts[id] = new Chart(document.getElementById(id), {type:'radar', data:{labels:LABELS, datasets:[{data:d, borderColor:c, backgroundColor:bg, pointRadius:2}]}, options:{maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{r:{min:0, max:5, ticks:{display:false}, pointLabels:{font:{size:8}}}}}});
         }
 
-        function printDiv(id) {
-            document.querySelectorAll('.a4-container').forEach(e => e.style.display = 'none');
-            const el = document.getElementById(id);
-            el.style.display = 'block';
+        function printSheet(id) {
+            document.querySelectorAll('.printable').forEach(e => e.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
             window.print();
-            setTimeout(() => document.querySelectorAll('.a4-container').forEach(e => e.style.display = 'block'), 1000);
         }
     </script>
 </body>
