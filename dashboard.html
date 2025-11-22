@@ -16,67 +16,65 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* --- DISEÑO ORIGINAL RESTAURADO (V2.1 CLEAN UI) --- */
+        /* --- DISEÑO CLEAN UI (ESTILO V2.1 RECUPERADO) --- */
         :root {
-            --bg-body: #f1f5f9; --surface: #ffffff; --primary: #2563eb; --primary-dark: #1e3a8a;
-            --text-main: #0f172a; --text-muted: #64748b; --border-light: #e2e8f0;
-            --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.03); --radius: 16px;
+            --bg-body: #f1f5f9; --surface: #ffffff; 
+            --primary: #2563eb; --primary-dark: #1e3a8a;
+            --text-main: #0f172a; --text-muted: #64748b; 
+            --border-light: #e2e8f0; --radius: 16px;
         }
 
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); padding-bottom: 60px; }
 
-        /* HEADER & NAV */
-        .top-bar { background: var(--surface); padding: 1.2rem 3rem; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 1000; }
-        .project-title { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); }
-        .project-subtitle { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-        .form-select { background-color: #f8fafc; border: 1px solid var(--border-light); border-radius: 10px; font-weight: 600; cursor: pointer; }
-        .nav-pills { background: #e2e8f0; padding: 4px; border-radius: 12px; display: inline-flex; }
-        .nav-pills .nav-link { color: var(--text-muted); font-weight: 600; font-size: 0.85rem; padding: 8px 20px; border-radius: 9px; }
-        .nav-pills .nav-link.active { background-color: var(--surface); color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-weight: 700; }
-
-        /* CARDS, KPIS, MAPS */
-        .clean-card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; height: 100%; box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-        .kpi-val { font-size: 2.5rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
-        .kpi-lbl { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-        .map-container { height: 450px; width: 100%; border-radius: var(--radius); background: #e2e8f0; z-index: 1; }
-        .badge-status { padding: 6px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
-        
-        /* POPUPS MAPA */
-        .leaflet-popup-content-wrapper { border-radius: 12px !important; padding: 0 !important; overflow: hidden; }
-        .popup-header { background: var(--primary); color: white; padding: 10px 15px; font-size: 0.85rem; font-weight: 700; }
-        .popup-body { padding: 12px 15px; font-size: 0.9rem; background: white; }
-        .popup-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
-
-        /* PRELOADER RESTAURADO */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
+        /* PRELOADER */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
         .spinner-custom { width: 50px; height: 50px; border: 4px solid #e2e8f0; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- ESTILOS ESPECÍFICOS PARA EL REPORTE (HOJA A4) --- */
+        /* TOP BAR */
+        .top-bar { background: var(--surface); padding: 1.2rem 3rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 1000; }
+        .project-title { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); }
+        .project-subtitle { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .form-select { background-color: #f8fafc; border: 1px solid var(--border-light); border-radius: 10px; font-weight: 600; cursor: pointer; }
+
+        /* TABS */
+        .nav-pills { background: #e2e8f0; padding: 4px; border-radius: 12px; display: inline-flex; }
+        .nav-pills .nav-link { color: var(--text-muted); font-weight: 600; font-size: 0.85rem; padding: 8px 20px; border-radius: 9px; transition: 0.2s; }
+        .nav-pills .nav-link.active { background-color: var(--surface); color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-weight: 700; }
+
+        /* CARDS */
+        .clean-card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; height: 100%; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.03); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid transparent; }
+        .kpi-val { font-size: 2.5rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+        .kpi-lbl { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        .map-container { height: 420px; width: 100%; border-radius: var(--radius); background: #e2e8f0; z-index: 1; overflow: hidden; }
+
+        /* POPUPS MAPA */
+        .leaflet-popup-content-wrapper { border-radius: 12px; padding: 0; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .popup-header { background: var(--primary); color: white; padding: 8px 12px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+        .popup-body { padding: 10px 12px; font-size: 0.85rem; background: white; }
+        .popup-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+
+        /* --- ESTILOS DE HOJA A4 PARA REPORTE --- */
         .a4-sheet {
             background: white; width: 210mm; min-height: 297mm; margin: 0 auto; padding: 15mm;
-            box-shadow: 0 0 25px rgba(0,0,0,0.1); position: relative; color: #1e293b; font-family: 'Inter', sans-serif;
+            box-shadow: 0 0 25px rgba(0,0,0,0.1); position: relative; color: #1e293b; display: none; /* Oculto por defecto */
         }
+        .a4-sheet.active { display: block; } /* Mostrar solo el activo */
+
         .rep-header { border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: flex-end; }
         .rep-title { font-size: 1.6rem; font-weight: 900; color: #0f172a; text-transform: uppercase; line-height: 1; }
-        .rep-subtitle { font-size: 0.8rem; color: #64748b; font-weight: 600; margin-top: 5px; }
-        .rep-section { margin-bottom: 25px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; }
-        .rep-sec-title { background: #f8fafc; color: var(--primary-dark); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; padding: 8px 12px; margin: -15px -15px 15px -15px; border-bottom: 1px solid #e2e8f0; border-radius: 8px 8px 0 0; }
-        
-        .rep-kpi-row { display: flex; justify-content: space-around; text-align: center; margin-bottom: 15px; }
-        .rep-kpi-val { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-        .rep-kpi-lbl { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; }
-        
-        .rep-grid-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 220px; }
-        .rep-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-        .rep-table th { background: #f1f5f9; padding: 8px; text-align: left; font-weight: 700; color: #475569; }
+        .rep-kpi-row { display: flex; justify-content: space-around; text-align: center; margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; }
+        .rep-kpi-val { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .rep-kpi-lbl { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; }
+        .rep-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin-top: 15px; }
+        .rep-table th { background: #f1f5f9; padding: 8px; text-align: left; font-weight: 700; color: #475569; border-bottom: 2px solid #e2e8f0; }
         .rep-table td { padding: 8px; border-bottom: 1px solid #f1f5f9; color: #334155; }
-
-        /* IMPRESIÓN: SOLO MUESTRA LA HOJA A4 */
+        
+        /* IMPRESIÓN */
         @media print {
             body * { visibility: hidden; }
-            #pills-report, #pills-report * { visibility: visible; }
-            .a4-sheet { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 10mm; box-shadow: none; }
+            .a4-sheet.active, .a4-sheet.active * { visibility: visible; }
+            .a4-sheet.active { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 10mm; box-shadow: none; }
             .no-print { display: none !important; }
             @page { size: A4; margin: 0; }
         }
@@ -92,11 +90,11 @@
     <div class="top-bar no-print">
         <div class="header-content-left">
             <div class="project-title"><i class="bi bi-shield-check text-primary me-2"></i>MONITOR DE RIESGOS</div>
-            <div class="project-subtitle ps-1">UEB & GAD PROVINCIAL SDT | GESTIÓN 2025</div>
+            <div class="project-subtitle ps-1">UEB & GAD PROVINCIAL SDT</div>
         </div>
-        <div class="header-content-right d-flex gap-3">
+        <div class="header-content-right">
             <select id="parroquiaFilter" class="form-select" style="width: 240px;" onchange="applyFilter()">
-                <option value="ALL">Vista General Provincial</option>
+                <option value="ALL">Vista Provincial</option>
             </select>
         </div>
     </div>
@@ -105,9 +103,9 @@
         
         <div class="d-flex justify-content-center justify-content-lg-start mb-4 no-print">
             <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-obj1">1. DIAGNÓSTICO INSTITUCIONAL</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-obj2">2. EVALUACIÓN COMUNITARIA</button></li>
-                <li class="nav-item"><button class="nav-link ms-3 bg-dark text-white" data-bs-toggle="pill" data-bs-target="#pills-report" onclick="prepareReport()">3. GENERAR REPORTE PDF</button></li>
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-obj1">1. DIAGNÓSTICO</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-obj2">2. EVALUACIÓN</button></li>
+                <li class="nav-item"><button class="nav-link bg-dark text-white ms-3" data-bs-toggle="pill" data-bs-target="#pills-report">3. REPORTES PDF</button></li>
             </ul>
         </div>
 
@@ -115,20 +113,16 @@
             
             <div class="tab-pane fade show active" id="pills-obj1">
                 <div class="row g-4 mb-4">
-                    <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Total GADs</div><div class="kpi-val" id="capTotal">0</div></div><div class="fs-1 text-secondary opacity-25"><i class="bi bi-building"></i></div></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Registros</div><div class="kpi-val" id="capTotal">0</div></div><div class="fs-1 text-secondary opacity-25"><i class="bi bi-building"></i></div></div></div>
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Sist. Alerta</div><div class="kpi-val text-primary" id="capAlarma">0%</div></div><div class="fs-1 text-primary opacity-25"><i class="bi bi-broadcast"></i></div></div></div>
-                    <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Flota Vehicular</div><div class="kpi-val text-success" id="capVehiculo">0%</div></div><div class="fs-1 text-success opacity-25"><i class="bi bi-truck"></i></div></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Vehículos</div><div class="kpi-val text-success" id="capVehiculo">0%</div></div><div class="fs-1 text-success opacity-25"><i class="bi bi-truck"></i></div></div></div>
                 </div>
-                <div class="row g-4 mb-4">
-                    <div class="col-lg-8"><div class="clean-card p-0"><div class="p-3 px-4 border-bottom bg-white"><span class="text-muted small fw-bold">MAPA DE RECURSOS</span></div><div id="mapCap" class="map-container" style="border-radius: 0 0 16px 16px;"></div></div></div>
-                    <div class="col-lg-4 d-flex flex-column gap-4">
-                        <div class="clean-card flex-grow-1"><div class="text-muted small fw-bold mb-2">TALENTO HUMANO</div><div class="flex-grow-1 d-flex align-items-center"><canvas id="chartTalento"></canvas></div></div>
-                        <div class="clean-card flex-grow-1"><div class="text-muted small fw-bold mb-2">LOGÍSTICA</div><div class="flex-grow-1 d-flex align-items-center"><canvas id="chartLogistica"></canvas></div></div>
+                <div class="row g-4">
+                    <div class="col-lg-8"><div class="clean-card p-0"><div class="p-3 px-4 border-bottom bg-white"><span class="text-muted small fw-bold">MAPA DE RECURSOS</span></div><div id="mapCap" class="map-container"></div></div></div>
+                    <div class="col-lg-4 d-flex flex-column gap-3">
+                        <div class="clean-card flex-grow-1"><div class="text-muted small fw-bold mb-2">TALENTO HUMANO</div><div class="flex-grow-1"><canvas id="chartTalento"></canvas></div></div>
+                        <div class="clean-card flex-grow-1"><div class="text-muted small fw-bold mb-2">LOGÍSTICA</div><div class="flex-grow-1"><canvas id="chartLogistica"></canvas></div></div>
                     </div>
-                </div>
-                <div class="clean-card p-4 mb-4 border-start border-5 border-primary">
-                    <h5 class="fw-bold text-primary mb-2 small text-uppercase">Dictamen Técnico</h5>
-                    <div id="obj1ReportText" class="small text-secondary" style="line-height: 1.6;">Cargando análisis...</div>
                 </div>
             </div>
 
@@ -136,71 +130,62 @@
                 <div class="row g-4 mb-4">
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Comunidades</div><div class="kpi-val" id="kpiTotal">0</div></div><div class="fs-1 text-secondary opacity-25"><i class="bi bi-people"></i></div></div></div>
                     <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Índice Global</div><div class="kpi-val text-primary" id="kpiPromedio">0.0</div></div><div class="fs-1 text-primary opacity-25"><i class="bi bi-bar-chart"></i></div></div></div>
-                    <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Estado</div><div class="fw-bold text-uppercase mt-1" id="kpiEstado" style="font-size: 1.5rem;">-</div></div><div class="fs-1 text-secondary opacity-25"><i class="bi bi-shield-check"></i></div></div></div>
+                    <div class="col-md-4"><div class="clean-card flex-row align-items-center p-4"><div><div class="kpi-lbl">Estado</div><div class="kpi-val text-uppercase" id="kpiEstado" style="font-size: 1.5rem;">-</div></div><div class="fs-1 text-secondary opacity-25"><i class="bi bi-shield-check"></i></div></div></div>
                 </div>
-                <div class="row g-4 mb-5">
-                    <div class="col-lg-8"><div class="clean-card p-0"><div class="p-3 px-4 border-bottom bg-white"><span class="text-muted small fw-bold">MAPA DE CALOR SOCIAL</span></div><div id="mapEval" class="map-container" style="border-radius: 0 0 16px 16px;"></div></div></div>
-                    <div class="col-lg-4"><div class="clean-card"><div class="text-muted small fw-bold mb-3">PERFIL DE RESILIENCIA</div><div class="d-flex align-items-center justify-content-center h-100"><canvas id="radarChart"></canvas></div></div></div>
+                <div class="row g-4">
+                    <div class="col-lg-8"><div class="clean-card p-0"><div class="p-3 px-4 border-bottom bg-white"><span class="text-muted small fw-bold">MAPA SOCIAL</span></div><div id="mapEval" class="map-container"></div></div></div>
+                    <div class="col-lg-4"><div class="clean-card"><div class="text-muted small fw-bold mb-3">RADAR DE VARIABLES</div><div class="h-100 d-flex justify-content-center align-items-center"><canvas id="radarChart"></canvas></div></div></div>
                 </div>
-                <h4 class="fw-bold text-secondary mb-4 small text-uppercase">Desglose de Indicadores</h4>
-                <div class="row g-4" id="chartsGrid"></div>
             </div>
 
             <div class="tab-pane fade" id="pills-report">
                 <div class="d-flex flex-column align-items-center">
-                    <button onclick="window.print()" class="btn btn-dark fw-bold mb-4 shadow-sm px-5 py-2 rounded-pill no-print"><i class="bi bi-printer-fill me-2"></i>IMPRIMIR REPORTE FINAL</button>
                     
-                    <div class="a4-sheet">
-                        <div class="rep-header">
-                            <div>
-                                <div class="rep-title">INFORME DE EVALUACIÓN INTEGRAL</div>
-                                <div class="rep-subtitle">GAD PROVINCIAL SDT | GESTIÓN DE RIESGOS</div>
-                            </div>
-                            <div class="text-end">
-                                <div class="fw-bold text-primary" id="repLocation">CONSOLIDADO</div>
-                                <div class="small text-muted" id="repDate">Fecha: --/--/----</div>
-                            </div>
+                    <div class="bg-white p-4 rounded-4 shadow-sm mb-4 no-print text-center border">
+                        <h5 class="fw-bold text-primary mb-3">SELECCIONAR MÓDULO A IMPRIMIR</h5>
+                        <div class="d-flex gap-3">
+                            <button onclick="showReport(1)" class="btn btn-outline-primary fw-bold px-4"><i class="bi bi-file-earmark-bar-graph me-2"></i>REPORTE 1: CAPACIDADES</button>
+                            <button onclick="showReport(2)" class="btn btn-outline-danger fw-bold px-4"><i class="bi bi-file-earmark-person me-2"></i>REPORTE 2: EVALUACIÓN</button>
                         </div>
-
-                        <div class="rep-section">
-                            <div class="rep-sec-title">1. CAPACIDADES INSTITUCIONALES (OBJETIVO 1)</div>
-                            <div class="rep-kpi-row">
-                                <div><div class="rep-kpi-lbl">COBERTURA SALUD</div><div class="rep-kpi-val" id="repValSalud">0%</div></div>
-                                <div><div class="rep-kpi-lbl">SIST. ALARMA</div><div class="rep-kpi-val text-danger" id="repValAlarma">0%</div></div>
-                                <div><div class="rep-kpi-lbl">VEHÍCULOS</div><div class="rep-kpi-val text-success" id="repValVeh">0%</div></div>
-                            </div>
-                            <div class="d-flex gap-4" style="height: 150px;">
-                                <div style="flex:1; display:flex; justify-content:center;"><canvas id="repChartBars"></canvas></div>
-                                <div style="flex:1; font-size:0.75rem; color:#475569; text-align:justify; border-left:2px solid #e2e8f0; padding-left:15px; display:flex; align-items:center;">
-                                    <span id="repTxtDiag">El análisis de recursos muestra...</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="rep-section">
-                            <div class="rep-sec-title">2. EVALUACIÓN COMUNITARIA (OBJETIVO 2)</div>
-                            <div class="rep-grid-visual mb-3">
-                                <div style="border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
-                                    <div id="mapRep" style="width:100%; height:100%;"></div>
-                                </div>
-                                <div style="display:flex; justify-content:center; align-items:center;">
-                                    <canvas id="repChartRadar"></canvas>
-                                </div>
-                            </div>
-                            
-                            <div class="small fw-bold text-muted mb-2 text-uppercase">Resumen de Evaluaciones Recientes:</div>
-                            <table class="rep-table">
-                                <thead><tr><th>Comunidad</th><th>Responsable</th><th>Fecha</th><th>Puntaje</th></tr></thead>
-                                <tbody id="repTableBody"></tbody>
-                            </table>
-                        </div>
-
-                        <div class="position-absolute bottom-0 start-0 w-100 p-5 text-center">
-                            <div style="border-top: 1px solid #e2e8f0; padding-top: 10px;" class="small text-muted fst-italic">
-                                Sistema de Monitoreo de Riesgos - Universidad Estatal de Bolívar
-                            </div>
-                        </div>
+                        <div class="mt-3 small text-muted"><i class="bi bi-info-circle me-1"></i>Selecciona uno y luego presiona Ctrl+P para imprimir</div>
                     </div>
+
+                    <div id="report-sheet-1" class="a4-sheet active">
+                        <div class="rep-header">
+                            <div><div class="rep-title">INFORME DE CAPACIDADES</div><div class="rep-subtitle">DIAGNÓSTICO INSTITUCIONAL (OBJ 1)</div></div>
+                            <div class="text-end"><div class="fw-bold text-primary rep-loc">UBICACIÓN</div><div class="small text-muted rep-date">Fecha: --/--/----</div></div>
+                        </div>
+                        <div class="rep-kpi-row">
+                            <div><div class="rep-kpi-lbl">SALUD</div><div class="rep-kpi-val" id="r1-salud">0%</div></div>
+                            <div><div class="rep-kpi-lbl">ALARMAS</div><div class="rep-kpi-val text-danger" id="r1-alarma">0%</div></div>
+                            <div><div class="rep-kpi-lbl">VEHÍCULOS</div><div class="rep-kpi-val text-success" id="r1-veh">0%</div></div>
+                        </div>
+                        <div style="height: 250px; margin-bottom: 20px;"><canvas id="chartRep1"></canvas></div>
+                        <div class="p-3 bg-light border rounded text-muted small text-justify mb-4" id="r1-text">Análisis...</div>
+                        <div style="height: 300px; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;"><div id="mapRep1" style="width:100%; height:100%"></div></div>
+                    </div>
+
+                    <div id="report-sheet-2" class="a4-sheet">
+                        <div class="rep-header" style="border-color: #dc2626;">
+                            <div><div class="rep-title" style="color:#dc2626">INFORME COMUNITARIO</div><div class="rep-subtitle">EVALUACIÓN SOCIAL (OBJ 2)</div></div>
+                            <div class="text-end"><div class="fw-bold text-danger rep-loc">UBICACIÓN</div><div class="small text-muted rep-date">Fecha: --/--/----</div></div>
+                        </div>
+                        <div class="rep-kpi-row">
+                            <div><div class="rep-kpi-lbl">COMUNIDADES</div><div class="rep-kpi-val" id="r2-total">0</div></div>
+                            <div><div class="rep-kpi-lbl">ÍNDICE</div><div class="rep-kpi-val text-primary" id="r2-index">0.0</div></div>
+                            <div><div class="rep-kpi-lbl">ESTADO</div><div class="rep-kpi-val text-warning" id="r2-status">-</div></div>
+                        </div>
+                        <div class="rep-grid-visual mb-4">
+                            <div style="border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;"><div id="mapRep2" style="width:100%; height:100%"></div></div>
+                            <div class="d-flex justify-content-center"><canvas id="chartRep2"></canvas></div>
+                        </div>
+                        <div class="small fw-bold text-muted mb-2">REGISTRO DE EVALUACIONES:</div>
+                        <table class="rep-table">
+                            <thead><tr><th>Comunidad</th><th>Responsable</th><th>Fecha</th><th>Nota</th></tr></thead>
+                            <tbody id="r2-table"></tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
 
@@ -209,227 +194,214 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // --- CONFIGURACIÓN Y CONEXIÓN ---
-        const BASE_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
-        // Usamos AllOrigins para evitar bloqueos de CORS
-        const PROXY_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(BASE_URL);
+        // --- CONFIG Y DATOS DE RESPALDO (POR SI FALLA LA CONEXIÓN) ---
+        const PROXY_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec");
         
-        const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
-        const LABELS_OBJ2 = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
-        const TIPS = ["Conectando con Google Sheets...", "Procesando datos geográficos...", "Generando indicadores..."];
-
-        let DATA_CAP=[], DATA_EVAL=[], mapCap, mapEval, mapRep;
-        let layerCap=L.layerGroup(), layerEval=L.layerGroup(), layerRep=L.layerGroup();
-        let charts = {};
-
-        // --- INICIALIZACIÓN ---
-        window.onload = () => {
-            runPreloader();
-            const sel = document.getElementById('parroquiaFilter');
-            PARROQUIAS.sort().forEach(p => sel.add(new Option(p, p)));
-            document.getElementById('repDate').innerText = "Fecha: " + new Date().toLocaleDateString();
-            
-            initMaps();
-            
-            // FETCH DE DATOS
-            fetch(PROXY_URL).then(r => r.json()).then(d => {
-                document.getElementById('preloader').style.opacity = '0';
-                setTimeout(()=>document.getElementById('preloader').style.display='none', 500);
-                
-                if(d.status === 'success') {
-                    DATA_CAP = d.dataCap || [];
-                    DATA_EVAL = d.dataEval || [];
-                    applyFilter();
-                } else {
-                    Swal.fire("Aviso", "Base de datos vacía o inaccesible.", "warning");
-                }
-            }).catch(e => {
-                document.getElementById('preloader').style.display='none';
-                Swal.fire("Error de Conexión", "No se pudo conectar. Revisa tu internet.", "error");
-            });
-
-            // FIX: Refrescar mapas al cambiar de pestaña
-            document.querySelectorAll('button[data-bs-toggle="pill"]').forEach(el => {
-                el.addEventListener('shown.bs.tab', () => {
-                    mapCap.invalidateSize();
-                    mapEval.invalidateSize();
-                    if(el.getAttribute('data-bs-target')==='#pills-report') {
-                        setTimeout(() => { mapRep.invalidateSize(); fitMap(mapRep, layerRep); }, 200);
-                    }
-                });
-            });
+        const FALLBACK_DATA = {
+            dataCap: [
+                ["2025-11-01", "Alluriquín", "", "", -0.30, -79.05, "SI", "NO", "SI", "SI", "NO", "SI", "NO", "SI"],
+                ["2025-11-01", "Puerto Limón", "", "", -0.20, -79.25, "NO", "NO", "NO", "SI", "NO", "NO", "NO", "NO"]
+            ],
+            dataEval: [
+                ["2025-11-20", "Alluriquín", "La Palma", "Lider", "Juan P.", -0.301, -79.051, 4, 4, 3, 5, 4, 4, 3, 5],
+                ["2025-11-21", "Puerto Limón", "Centro", "Presidente", "Ana M.", -0.201, -79.251, 3, 2, 3, 3, 2, 3, 3, 2]
+            ]
         };
 
-        function runPreloader() {
-            let i=0; setInterval(()=>{ document.getElementById('loaderText').innerText=TIPS[i]; i=(i+1)%TIPS.length; }, 1500);
-            setTimeout(()=>document.getElementById('preloader').style.display='none', 10000); // Fallback por si falla fetch
+        const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
+        const LABELS_OBJ2 = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
+
+        let DATA_CAP=[], DATA_EVAL=[];
+        let mapCap, mapEval, mapRep1, mapRep2;
+        let lCap=L.layerGroup(), lEval=L.layerGroup(), lRep1=L.layerGroup(), lRep2=L.layerGroup();
+        let charts={};
+
+        window.onload = () => {
+            const sel = document.getElementById('parroquiaFilter');
+            PARROQUIAS.sort().forEach(p => sel.add(new Option(p, p)));
+            
+            initMaps();
+
+            // INTENTO DE CONEXIÓN CON FALLBACK
+            fetch(PROXY_URL)
+                .then(r => { if(!r.ok) throw new Error("Error Red"); return r.json(); })
+                .then(d => {
+                    finishLoad(d.dataCap || [], d.dataEval || [], "Conexión Exitosa");
+                })
+                .catch(e => {
+                    console.warn("Usando datos de respaldo", e);
+                    finishLoad(FALLBACK_DATA.dataCap, FALLBACK_DATA.dataEval, "Modo Sin Conexión (Datos Locales)");
+                    Swal.fire({icon: 'warning', title: 'Aviso de Conexión', text: 'No se pudo conectar a la base en vivo. Se cargaron datos de respaldo para demostración.', timer: 3000});
+                });
+        };
+
+        function finishLoad(dc, de, msg) {
+            DATA_CAP = dc; DATA_EVAL = de;
+            document.getElementById('preloader').style.opacity = '0';
+            setTimeout(()=>document.getElementById('preloader').style.display='none', 500);
+            applyFilter();
         }
 
         function initMaps() {
             const tiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+            const opts = {zoomControl:false, attributionControl:false};
             
-            mapCap = L.map('mapCap', {zoomControl:false}).setView([-0.253, -79.17], 10);
-            L.tileLayer(tiles).addTo(mapCap); layerCap.addTo(mapCap);
+            mapCap = L.map('mapCap', opts).setView([-0.25, -79.17], 10); L.tileLayer(tiles).addTo(mapCap); lCap.addTo(mapCap);
+            mapEval = L.map('mapEval', opts).setView([-0.25, -79.17], 10); L.tileLayer(tiles).addTo(mapEval); lEval.addTo(mapEval);
+            
+            // Mapas de Reporte
+            mapRep1 = L.map('mapRep1', opts).setView([-0.25, -79.17], 10); L.tileLayer(tiles).addTo(mapRep1); lRep1.addTo(mapRep1);
+            mapRep2 = L.map('mapRep2', opts).setView([-0.25, -79.17], 10); L.tileLayer(tiles).addTo(mapRep2); lRep2.addTo(mapRep2);
 
-            mapEval = L.map('mapEval', {zoomControl:false}).setView([-0.253, -79.17], 10);
-            L.tileLayer(tiles).addTo(mapEval); layerEval.addTo(mapEval);
-
-            mapRep = L.map('mapRep', {zoomControl:false, attributionControl:false}).setView([-0.253, -79.17], 10);
-            L.tileLayer(tiles).addTo(mapRep); layerRep.addTo(mapRep);
-        }
-
-        function createPopup(title, rows) {
-            let body = rows.map(r => `<div class="popup-row"><span>${r[0]}</span><strong>${r[1]}</strong></div>`).join('');
-            return `<div class="popup-header">${title}</div><div class="popup-body">${body}</div>`;
+            // Fix resize bug
+            document.querySelectorAll('button[data-bs-toggle="pill"]').forEach(el => {
+                el.addEventListener('shown.bs.tab', () => {
+                    mapCap.invalidateSize(); mapEval.invalidateSize();
+                    if(el.dataset.bsTarget === '#pills-report') {
+                        setTimeout(()=>{ mapRep1.invalidateSize(); mapRep2.invalidateSize(); fitMap(mapRep1, lRep1); fitMap(mapRep2, lRep2); }, 300);
+                    }
+                });
+            });
         }
 
         function fitMap(map, layer) {
             if(layer.getLayers().length > 0) map.fitBounds(layer.getBounds(), {padding:[20,20]});
-            else map.setView([-0.253, -79.17], 10);
+            else map.setView([-0.25, -79.17], 10);
         }
 
-        // --- LÓGICA PRINCIPAL DE FILTRO ---
+        function createPopup(t, rows) {
+            return `<div class="popup-header">${t}</div><div class="popup-body">${rows.map(r=>`<div class="popup-row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}</div>`;
+        }
+
         function applyFilter() {
             const val = document.getElementById('parroquiaFilter').value;
             const isProv = val === 'ALL';
             const fCap = isProv ? DATA_CAP : DATA_CAP.filter(r => r[1] === val);
             const fEval = isProv ? DATA_EVAL : DATA_EVAL.filter(r => r[1] === val);
 
-            // Renderizar pestañas
+            // RENDERIZAR TABS
             renderTab1(fCap, isProv, val);
             renderTab2(fEval);
-            
-            // Guardar datos para el reporte (se renderiza al dar click en tab 3)
-            window.REP_DATA = { cap: fCap, eval: fEval, name: isProv ? "CONSOLIDADO PROVINCIAL" : "PARROQUIA " + val };
-            if(document.querySelector('#pills-report').classList.contains('active')) prepareReport();
+            renderReports(fCap, fEval, isProv ? "CONSOLIDADO PROVINCIAL" : "PARROQUIA " + val);
         }
 
-        // --- RENDERIZADO TAB 1 (DIAGNÓSTICO) ---
+        // --- LOGICA TAB 1 ---
         function renderTab1(data, isProv, name) {
             document.getElementById('capTotal').innerText = data.length;
-            let salud=0, alarma=0, veh=0, fuego=0;
+            let s=0, a=0, v=0, f=0;
+            lCap.clearLayers();
             
-            layerCap.clearLayers();
             data.forEach(r => {
-                if(r[6]==='SI') salud++; if(r[8]==='SI') fuego++; if(r[11]==='SI') alarma++; if(r[13]==='SI') veh++;
+                if(r[6]==='SI') s++; if(r[8]==='SI') f++; if(r[11]==='SI') a++; if(r[13]==='SI') v++;
                 let lat = parseFloat(r[4]), lng = parseFloat(r[5]);
-                if(lat && lng) {
-                    let score = (r[6]==='SI'?1:0) + (r[11]==='SI'?1:0) + (r[13]==='SI'?1:0);
-                    let color = score>=2?'#16a34a':(score===1?'#f59e0b':'#dc2626');
-                    L.circleMarker([lat+(Math.random()-0.5)*0.001, lng], {radius:8, fillColor:color, color:'white', weight:2, fillOpacity:0.9})
-                    .bindPopup(createPopup(r[1], [['Salud',r[6]],['Alarma',r[11]],['Vehículo',r[13]]])).addTo(layerCap);
+                if(lat) {
+                    let sc = (r[6]==='SI'?1:0)+(r[11]==='SI'?1:0)+(r[13]==='SI'?1:0);
+                    let c = sc>=2?'#16a34a':(sc===1?'#f59e0b':'#dc2626');
+                    L.circleMarker([lat+(Math.random()-0.5)*0.001, lng], {radius:8, fillColor:c, color:'white', weight:2, fillOpacity:0.9})
+                    .bindPopup(createPopup(r[1], [['Salud',r[6]],['Alarma',r[11]],['Vehículo',r[13]]])).addTo(lCap);
                 }
             });
-            fitMap(mapCap, layerCap);
+            fitMap(mapCap, lCap);
 
             let t = data.length||1;
-            document.getElementById('capAlarma').innerText = Math.round((alarma/t)*100)+"%";
-            document.getElementById('capVehiculo').innerText = Math.round((veh/t)*100)+"%";
+            document.getElementById('capAlarma').innerText = Math.round((a/t)*100)+"%";
+            document.getElementById('capVehiculo').innerText = Math.round((v/t)*100)+"%";
             
-            renderBar('chartTalento', ['Salud','Fuego'], [salud, fuego], '#2563eb');
-            renderBar('chartLogistica', ['Alarma','Vehículo'], [alarma, veh], '#16a34a');
-            
-            document.getElementById('obj1ReportText').innerText = `Análisis ${isProv?'Provincial':name}: Se registran ${t} puntos. Cobertura de salud al ${Math.round((salud/t)*100)}% y sistemas de alerta al ${Math.round((alarma/t)*100)}%.`;
+            renderBar('chartTalento', ['Salud','Fuego'], [s,f], '#2563eb');
+            renderBar('chartLogistica', ['Alarma','Vehículo'], [a,v], '#16a34a');
+            document.getElementById('obj1ReportText').innerText = `En ${isProv?'la provincia':name}, de ${t} GADs, el ${Math.round((s/t)*100)}% cuenta con salud y el ${Math.round((a/t)*100)}% con alarmas.`;
         }
 
-        // --- RENDERIZADO TAB 2 (EVALUACIÓN) ---
+        // --- LOGICA TAB 2 ---
         function renderTab2(data) {
             document.getElementById('kpiTotal').innerText = data.length;
-            let sums = new Array(8).fill(0);
-            
-            layerEval.clearLayers();
+            let sums=new Array(8).fill(0);
+            lEval.clearLayers();
+
             data.forEach(r => {
                 for(let i=0;i<8;i++) sums[i]+=Number(r[i+7]);
-                let lat = parseFloat(r[5]), lng = parseFloat(r[6]);
-                if(lat && lng) {
+                let lat=parseFloat(r[5]), lng=parseFloat(r[6]);
+                if(lat) {
                     let avg=0; for(let i=0;i<8;i++) avg+=Number(r[i+7]); avg=(avg/8).toFixed(1);
-                    let color = avg>=4?'#16a34a':(avg>=3?'#f59e0b':'#dc2626');
-                    L.circleMarker([lat+(Math.random()-0.5)*0.001, lng], {radius:7, fillColor:color, color:'white', weight:1, fillOpacity:0.9})
-                    .bindPopup(createPopup(r[2], [['Parroquia',r[1]],['Nota',avg]])).addTo(layerEval);
+                    let c = avg>=4?'#16a34a':(avg>=3?'#f59e0b':'#dc2626');
+                    L.circleMarker([lat+(Math.random()-0.5)*0.001, lng], {radius:7, fillColor:c, color:'white', weight:1, fillOpacity:0.9})
+                    .bindPopup(createPopup(r[2], [['Parroquia',r[1]],['Nota',avg]])).addTo(lEval);
                 }
             });
-            fitMap(mapEval, layerEval);
+            fitMap(mapEval, lEval);
 
             let avgs = sums.map(s => (s/(data.length||1)).toFixed(1));
             let global = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
-            
             document.getElementById('kpiPromedio').innerText = global;
-            let st = document.getElementById('kpiEstado');
-            st.innerText = global>=4 ? "SÓLIDO" : (global>=3 ? "REGULAR" : "CRÍTICO");
-            st.className = "fw-bold text-uppercase mt-1 " + (global>=4?"text-success":(global>=3?"text-warning":"text-danger"));
-
-            renderRadar('radarChart', avgs, '#2563eb', 'rgba(37, 99, 235, 0.2)');
             
-            // Mini charts
-            const grid = document.getElementById('chartsGrid'); grid.innerHTML="";
-            avgs.forEach((v, i) => {
-                let color = v>=4?'#16a34a':(v>=3?'#f59e0b':'#dc2626');
-                grid.innerHTML += `<div class="col-md-3"><div class="clean-card p-3"><div class="d-flex justify-content-between"><span class="text-muted small fw-bold">${LABELS_OBJ2[i]}</span><span style="color:${color};font-weight:800">${v}</span></div><div style="height:40px"><canvas id="mini${i}"></canvas></div></div></div>`;
-                setTimeout(()=>renderBar(`mini${i}`, [''], [v], color), 0);
-            });
+            let st = document.getElementById('kpiEstado');
+            st.innerText = global>=4?"SÓLIDO":(global>=3?"REGULAR":"CRÍTICO");
+            st.className = "kpi-val mt-1 " + (global>=4?"text-success":(global>=3?"text-warning":"text-danger"));
+
+            renderRadar('radarChart', avgs, '#2563eb', 'rgba(37,99,235,0.2)');
         }
 
-        // --- RENDERIZADO TAB 3 (REPORTE UNIFICADO) ---
-        function prepareReport() {
-            const d = window.REP_DATA;
-            if(!d) return;
-            
-            document.getElementById('repLocation').innerText = d.name;
+        // --- LOGICA REPORTES (1 y 2) ---
+        function showReport(n) {
+            document.querySelectorAll('.a4-sheet').forEach(el => el.classList.remove('active'));
+            document.getElementById('report-sheet-'+n).classList.add('active');
+        }
 
-            // DATOS OBJ 1
-            let t = d.cap.length||1;
-            let salud = d.cap.filter(r=>r[6]==='SI').length;
-            let alarma = d.cap.filter(r=>r[11]==='SI').length;
-            let veh = d.cap.filter(r=>r[13]==='SI').length;
-            
-            document.getElementById('repValSalud').innerText = Math.round((salud/t)*100)+"%";
-            document.getElementById('repValAlarma').innerText = Math.round((alarma/t)*100)+"%";
-            document.getElementById('repValVeh').innerText = Math.round((veh/t)*100)+"%";
-            
-            renderBar('repChartBars', ['Salud', 'Alarma', 'Vehículo'], [salud, alarma, veh], '#475569');
-            document.getElementById('repTxtDiag').innerText = `Diagnóstico realizado sobre ${t} registros. Se evidencia una cobertura de salud del ${Math.round((salud/t)*100)}% y una capacidad logística vehicular del ${Math.round((veh/t)*100)}%. El sistema de alarmas opera al ${Math.round((alarma/t)*100)}%.`;
+        function renderReports(dCap, dEval, name) {
+            // Common
+            document.querySelectorAll('.rep-loc').forEach(e => e.innerText = name);
+            document.querySelectorAll('.rep-date').forEach(e => e.innerText = "Emisión: " + new Date().toLocaleDateString());
 
-            // DATOS OBJ 2
-            let sums = new Array(8).fill(0);
-            d.eval.forEach(r => { for(let i=0;i<8;i++) sums[i]+=Number(r[i+7]); });
-            let avgs = sums.map(s => (s/(d.eval.length||1)).toFixed(1));
+            // REPORTE 1
+            let t1 = dCap.length||1;
+            let s=dCap.filter(r=>r[6]==='SI').length, a=dCap.filter(r=>r[11]==='SI').length, v=dCap.filter(r=>r[13]==='SI').length;
+            document.getElementById('r1-salud').innerText = Math.round((s/t1)*100)+"%";
+            document.getElementById('r1-alarma').innerText = Math.round((a/t1)*100)+"%";
+            document.getElementById('r1-veh').innerText = Math.round((v/t1)*100)+"%";
+            document.getElementById('r1-text').innerText = `Se han analizado ${t1} territorios. La capacidad de respuesta en salud es del ${Math.round((s/t1)*100)}%. La disponibilidad de vehículos de emergencia alcanza el ${Math.round((v/t1)*100)}%.`;
+            renderBar('chartRep1', ['Salud','Alarma','Vehículo'], [s,a,v], '#1e3a8a');
             
-            renderRadar('repChartRadar', avgs, '#dc2626', 'rgba(220, 38, 38, 0.1)');
+            lRep1.clearLayers();
+            dCap.forEach(r => {
+                let lat=parseFloat(r[4]), lng=parseFloat(r[5]);
+                if(lat) L.circleMarker([lat, lng], {radius:5, color:'#333', weight:1, fillColor:'#2563eb', fillOpacity:1}).addTo(lRep1);
+            });
 
-            // MAPA REPORTE (Puntos Evaluados)
-            layerRep.clearLayers();
-            d.eval.forEach(r => {
-                let lat = parseFloat(r[5]), lng = parseFloat(r[6]);
-                if(lat && lng) {
+            // REPORTE 2
+            document.getElementById('r2-total').innerText = dEval.length;
+            let sums=new Array(8).fill(0);
+            dEval.forEach(r => { for(let i=0;i<8;i++) sums[i]+=Number(r[i+7]); });
+            let avgs = sums.map(s => (s/(dEval.length||1)).toFixed(1));
+            let global = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
+            document.getElementById('r2-index').innerText = global;
+            document.getElementById('r2-status').innerText = global>=3 ? "MEDIA" : "BAJA";
+            
+            renderRadar('chartRep2', avgs, '#dc2626', 'rgba(220,38,38,0.1)');
+            
+            lRep2.clearLayers();
+            dEval.forEach(r => {
+                let lat=parseFloat(r[5]), lng=parseFloat(r[6]);
+                if(lat) {
                     let avg=0; for(let i=0;i<8;i++) avg+=Number(r[i+7]); avg=(avg/8).toFixed(1);
-                    let color = avg>=4?'#16a34a':(avg>=3?'#f59e0b':'#dc2626');
-                    L.circleMarker([lat, lng], {radius:5, fillColor:color, color:'#333', weight:1, fillOpacity:1}).addTo(layerRep);
+                    let c = avg>=4?'#16a34a':(avg>=3?'#f59e0b':'#dc2626');
+                    L.circleMarker([lat, lng], {radius:5, color:'#333', weight:1, fillColor:c, fillOpacity:1}).addTo(lRep2);
                 }
             });
-            setTimeout(() => fitMap(mapRep, layerRep), 500);
 
-            // TABLA REPORTE
-            const tbody = document.getElementById('repTableBody'); tbody.innerHTML = "";
-            d.eval.slice(0, 5).forEach(r => {
+            const tb = document.getElementById('r2-table'); tb.innerHTML="";
+            dEval.slice(0,6).forEach(r => {
                 let avg=0; for(let i=0;i<8;i++) avg+=Number(r[i+7]); avg=(avg/8).toFixed(1);
-                tbody.innerHTML += `<tr><td>${r[2]}</td><td>${r[4]}</td><td>${new Date(r[0]).toLocaleDateString()}</td><td><strong>${avg}</strong></td></tr>`;
+                tb.innerHTML += `<tr><td>${r[2]}</td><td>${r[4]}</td><td>${new Date(r[0]).toLocaleDateString()}</td><td><strong>${avg}</strong></td></tr>`;
             });
         }
 
-        // --- HELPERS CHARTS ---
-        function renderBar(id, lbls, vals, color) {
+        function renderBar(id, l, d, c) {
             if(charts[id]) charts[id].destroy();
-            charts[id] = new Chart(document.getElementById(id), {
-                type: 'bar', data: { labels: lbls, datasets: [{ data: vals, backgroundColor: color, borderRadius: 4 }] },
-                options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { display: false } } } }
-            });
+            charts[id] = new Chart(document.getElementById(id), {type:'bar', data:{labels:l, datasets:[{data:d, backgroundColor:c}]}, options:{indexAxis:'y', maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{grid:{display:false}}}}});
         }
-        function renderRadar(id, data, color, bg) {
+        function renderRadar(id, d, c, bg) {
             if(charts[id]) charts[id].destroy();
-            charts[id] = new Chart(document.getElementById(id), {
-                type: 'radar', data: { labels: LABELS_OBJ2, datasets: [{ data: data, borderColor: color, backgroundColor: bg, pointBackgroundColor: color, pointRadius: 2 }] },
-                options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { min: 0, max: 5, ticks: { display: false }, pointLabels: { font: { size: 8 } } } } }
-            });
+            charts[id] = new Chart(document.getElementById(id), {type:'radar', data:{labels:LABELS_OBJ2, datasets:[{data:d, borderColor:c, backgroundColor:bg, pointRadius:2}]}, options:{maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{r:{min:0, max:5, ticks:{display:false}, pointLabels:{font:{size:9}}}}}});
         }
     </script>
 </body>
