@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor de Capacidades | Prácticas Pre-Profesionales</title>
+    <title>Monitor de Riesgos | UEB</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,6 +14,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
+        /* --- ESTILO LIMPIO Y ELEGANTE (DISEÑO QUE TE GUSTÓ) --- */
         :root {
             --primary: #0f172a; 
             --accent: #3b82f6; 
@@ -23,101 +24,63 @@
             --sidebar-width: 280px;
         }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-body);
-            color: #334155;
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: #334155; margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
-        /* --- SIDEBAR --- */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: white;
-            border-right: 1px solid #e2e8f0;
-            display: flex; flex-direction: column; padding: 1.5rem;
-            flex-shrink: 0; z-index: 50;
-        }
+        /* SIDEBAR */
+        .sidebar { width: var(--sidebar-width); background: white; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; padding: 1.5rem; flex-shrink: 0; z-index: 50; }
         .brand { margin-bottom: 2rem; }
-        .brand h4 { font-weight: 800; letter-spacing: -0.5px; margin: 0; color: var(--primary); }
-        .brand span { font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        .nav-btn {
-            padding: 12px 16px; margin-bottom: 8px; border-radius: 10px; cursor: pointer;
-            display: flex; align-items: center; gap: 12px; color: #64748b; font-weight: 600; font-size: 0.9rem;
-            transition: all 0.2s;
-        }
+        .brand h4 { font-weight: 800; margin: 0; color: var(--primary); }
+        .brand span { font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; }
+        .nav-btn { padding: 12px 16px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 12px; color: #64748b; font-weight: 600; font-size: 0.9rem; transition: 0.2s; }
         .nav-btn:hover { background: #f1f5f9; color: var(--accent); }
         .nav-btn.active { background: #eff6ff; color: var(--accent); }
 
-        /* --- MAIN CONTENT --- */
+        /* CONTENIDO */
         .main-content { flex-grow: 1; overflow-y: auto; padding: 2rem; position: relative; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
         .page-title h2 { font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--primary); }
-        .select-custom {
-            border: 1px solid #cbd5e1; padding: 0.6rem 1rem; border-radius: 8px;
-            font-weight: 700; color: var(--primary); outline: none; min-width: 260px;
-            background-color: white; cursor: pointer;
-        }
+        .select-custom { border: 1px solid #cbd5e1; padding: 0.6rem 1rem; border-radius: 8px; font-weight: 700; color: var(--primary); outline: none; min-width: 260px; background-color: white; cursor: pointer; }
 
-        /* --- CARDS & UI --- */
-        .card-modern {
-            background: white; border-radius: 12px; padding: 1.5rem;
-            border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.03);
-            height: 100%; display: flex; flex-direction: column;
-        }
+        /* TARJETAS */
+        .card-modern { background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.03); height: 100%; display: flex; flex-direction: column; }
         .card-header-custom { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
         .card-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; }
         .kpi-big { font-size: 2.2rem; font-weight: 800; line-height: 1; margin-bottom: 0.5rem; color: var(--primary); }
         
+        /* MAPAS Y GRÁFICOS */
         .map-wrapper { height: 350px; width: 100%; border-radius: 0 0 12px 12px; overflow: hidden; background: #e2e8f0; z-index: 1; }
         .chart-wrapper { position: relative; height: 200px; width: 100%; }
 
-        /* --- POPUPS ELEGANTES (SIN ANIMACIÓN PESADA) --- */
-        .custom-popup .leaflet-popup-content-wrapper { background: rgba(255, 255, 255, 0.98); border-radius: 8px; padding: 0; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        /* POPUPS (Etiquetas del mapa) */
+        .custom-popup .leaflet-popup-content-wrapper { padding: 0; border-radius: 8px; overflow: hidden; }
         .custom-popup .leaflet-popup-content { margin: 0; width: 200px !important; }
-        .pop-header { background: var(--primary); color: white; padding: 8px 12px; font-weight: 700; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+        .pop-header { background: var(--primary); color: white; padding: 8px 12px; font-weight: 700; font-size: 0.8rem; display: flex; justify-content: space-between; }
         .pop-body { padding: 10px; font-size: 0.75rem; color: #334155; }
-        .pop-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dashed #eee; padding-bottom: 2px; }
+        .pop-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dashed #eee; }
 
-        /* --- REPORTES A4 --- */
-        .report-bg { background: #e2e8f0; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; min-height: 100%; }
-        .a4-sheet {
-            width: 210mm; min-height: 297mm; background: white; padding: 15mm;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative;
-            display: block; box-sizing: border-box;
-        }
+        /* --- ESTILOS DE IMPRESIÓN (SOLUCIÓN BLANCA) --- */
+        .report-bg { background: #e2e8f0; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+        .a4-sheet { width: 210mm; min-height: 297mm; background: white; padding: 15mm; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: block; box-sizing: border-box; }
+        
         .doc-header { border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .doc-title { font-size: 1.6rem; font-weight: 900; color: var(--primary); line-height: 1; text-transform: uppercase; }
-        .doc-sub { font-size: 0.8rem; font-weight: 700; color: #64748b; margin-top: 5px; letter-spacing: 1px; }
-        .doc-meta { text-align: right; font-size: 0.7rem; color: #475569; line-height: 1.4; }
+        .doc-title { font-size: 1.6rem; font-weight: 900; color: var(--primary); text-transform: uppercase; }
+        .doc-meta { text-align: right; font-size: 0.7rem; color: #475569; }
         .kpi-row-doc { display: flex; gap: 15px; margin-bottom: 20px; }
         .kpi-box-doc { flex: 1; background: #f8fafc; padding: 10px; text-align: center; border: 1px solid #e2e8f0; border-radius: 6px; }
         .kpi-doc-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
         .kpi-doc-lbl { font-size: 0.6rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
 
-        .auto-text-box { font-size: 0.8rem; color: #334155; text-align: justify; line-height: 1.5; }
-        
-        /* LISTA EVALUACIÓN (2 COLUMNAS) */
         .analysis-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.7rem; }
-        .analysis-item { background: #f8fafc; padding: 8px; border-radius: 4px; border-left: 3px solid #cbd5e1; text-align: justify; line-height: 1.3; }
+        .analysis-item { background: #f8fafc; padding: 8px; border-radius: 4px; border-left: 3px solid #cbd5e1; text-align: justify; }
         .analysis-item strong { display: block; margin-bottom: 2px; font-size: 0.75rem; text-transform: uppercase; }
 
-        .doc-footer {
-            position: absolute; bottom: 15mm; left: 15mm; right: 15mm;
-            border-top: 1px solid #e2e8f0; padding-top: 10px;
-            display: flex; justify-content: space-between; align-items: flex-end;
-        }
+        .doc-footer { position: absolute; bottom: 15mm; left: 15mm; right: 15mm; border-top: 1px solid #e2e8f0; padding-top: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
         .footer-info { font-size: 0.65rem; color: #94a3b8; }
         .qr-box { width: 50px; height: 50px; background: url('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ValidadoUEB') no-repeat center/cover; opacity: 0.8; }
 
-        /* --- IMPRESIÓN BLINDADA --- */
         @media print {
             @page { size: A4; margin: 0; }
-            html, body { background: #ffffff !important; height: 100%; margin: 0 !important; padding: 0 !important; }
+            html, body { background: white !important; height: 100%; margin: 0 !important; padding: 0 !important; }
             body * { visibility: hidden; }
             .print-overlay, .print-overlay * { visibility: visible; }
             .print-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white !important; z-index: 99999; padding: 0; margin: 0; }
@@ -232,7 +195,7 @@
         <div id="view-strat" class="tab-pane hidden">
             <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 border rounded bg-white shadow-sm">
                 <h3 class="fw-bold text-primary">Estrategias de Vinculación</h3>
-                <p class="text-muted w-50">Generación automática de planes comunitarios.</p>
+                <p class="text-muted w-50">Generación automática de planes comunitarios disponible tras completar el diagnóstico.</p>
             </div>
         </div>
 
@@ -265,10 +228,10 @@
                             <div style="width: 40%; display:flex; align-items:center;"><canvas id="chR1"></canvas></div>
                         </div>
                         <div class="mb-2 fw-bold text-primary small border-bottom pb-1">ANÁLISIS SITUACIONAL Y TÉCNICO</div>
-                        <div id="r1_txt" class="auto-text-box"></div>
+                        <div id="r1_txt" class="auto-text-box" style="font-size: 0.85rem;"></div>
                         <div class="doc-footer">
                             <div class="footer-info">
-                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>Prácticas Pre-Profesionales: "Fortalecimiento de capacidades ante riesgos."<br>Estudiantes: Dylan Vélez & Jordan Sanabria
+                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>Prácticas Pre-Profesionales<br>Estudiantes: Dylan Vélez & Jordan Sanabria
                             </div>
                             <div class="qr-box"></div>
                         </div>
@@ -304,7 +267,7 @@
                         <div id="r2_list" class="analysis-list"></div>
                         <div class="doc-footer">
                             <div class="footer-info">
-                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>Prácticas Pre-Profesionales: "Fortalecimiento de capacidades ante riesgos."<br>Estudiantes: Dylan Vélez & Jordan Sanabria
+                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>Prácticas Pre-Profesionales<br>Estudiantes: Dylan Vélez & Jordan Sanabria
                             </div>
                             <div class="qr-box"></div>
                         </div>
@@ -316,12 +279,51 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const API = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec");
+        // LINK DE APPSCRIPT (SIN MODIFICAR)
+        const SCRIPT_ID = "AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B";
+        
         const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
         const VARS = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
         let DC=[], DE=[], maps={}, charts={};
 
-        // --- TEXTOS AUTOMÁTICOS ---
+        // --- CARGA DE DATOS (MÉTODO RAW - EL MÁS SEGURO) ---
+        window.onload = () => {
+            const s = document.getElementById('filter');
+            PARROQUIAS.sort().forEach(p => s.add(new Option(p, p)));
+            initMaps();
+            
+            const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://script.google.com/macros/s/${SCRIPT_ID}/exec`)}`;
+            
+            fetch(url + "&t=" + Date.now())
+                .then(r => r.json())
+                .then(d => {
+                    if(d.status === 'success') {
+                        DC = d.dataCap || [];
+                        DE = d.dataEval || [];
+                        document.getElementById('loader').classList.add('hidden');
+                        applyFilter();
+                    } else {
+                        throw new Error("Data incorrecta");
+                    }
+                })
+                .catch(e => {
+                    console.warn("Usando backup local por error de conexión", e);
+                    let bk = getBackup();
+                    DC = bk.dataCap;
+                    DE = bk.dataEval;
+                    document.getElementById('loader').classList.add('hidden');
+                    applyFilter();
+                });
+        };
+
+        function getBackup() { 
+            return { 
+                dataCap: [["","Alluriquín","Recinto 1","","-.29","-79.05","SI","NO","SI","SI","NO","SI","NO","SI"]], 
+                dataEval: [["2025","Alluriquín","Recinto 1","Lider","Juan",-.29,-79.05,4,5,3,4,5,4,3,5]] 
+            }; 
+        }
+
+        // --- TEXTOS DE ANÁLISIS (RECUPERADOS) ---
         function getTxtObj1(sat, veh) {
             let p1 = sat < 0.7 ? "La cobertura de Sistemas de Alerta Temprana (SAT) es parcial, lo que representa una vulnerabilidad ante eventos súbitos." : "Se cuenta con una red robusta de SAT, garantizando una buena capacidad de aviso a la población.";
             let p2 = veh < 0.7 ? "La capacidad logística de vehículos es limitada para una respuesta masiva, requiriendo apoyo externo." : "El parque automotor muestra operatividad adecuada para una primera respuesta en territorio.";
@@ -341,27 +343,15 @@
             return html;
         }
 
+        // --- POPUPS SIMPLES (SOLUCIÓN "DONDE ES") ---
         function createPopup(title, rows, color) {
             let c = `<div class="pop-header" style="background:${color}"><span>${title}</span><i class="bi bi-geo-alt-fill"></i></div><div class="pop-body">`;
             rows.forEach(r => c += `<div class="pop-row"><span>${r.l}</span><strong>${r.v}</strong></div>`);
             return c + `</div>`;
         }
 
-        // --- FUNCIÓN DISPERSIÓN (NUBE) PARA EVITAR LÍNEAS RECTAS ---
-        // Agrega una variación pequeña aleatoria a Lat y Lng de forma independiente
-        function getJitterLat(val) { return parseFloat(val) + (Math.random() - 0.5) * 0.0025; } // ~250m
-        function getJitterLng(val) { return parseFloat(val) + (Math.random() - 0.5) * 0.0025; } // ~250m
-
-        window.onload = () => {
-            const s = document.getElementById('filter');
-            PARROQUIAS.sort().forEach(p => s.add(new Option(p, p)));
-            initMaps();
-            const t = setTimeout(() => loadData(getBackup()), 4000);
-            fetch(API + "&t=" + Date.now()).then(r => r.ok ? r.json() : Promise.reject()).then(d => { clearTimeout(t); loadData(d.status==='success' ? d : getBackup()); }).catch(() => {});
-        };
-
-        function getBackup() { return { dataCap: [["","Alluriquín","Recinto 1","","-.29","-79.05","SI","NO","SI","SI","NO","SI","NO","SI"]], dataEval: [["2025","Alluriquín","Recinto 1","Lider","Juan",-.29,-79.05,4,5,3,4,5,4,3,5]] }; }
-        function loadData(d) { DC=d.dataCap||[]; DE=d.dataEval||[]; document.getElementById('loader').classList.add('hidden'); applyFilter(); }
+        // --- DISPERSIÓN (JITTER) PARA QUE NO SE APILE ---
+        function getJitter(val) { return parseFloat(val) + (Math.random() - 0.5) * 0.005; }
 
         function initMaps() { ['mapDiag','mapEval','mapR1','mapR2'].forEach(id => { maps[id] = L.map(id, {zoomControl:false, attributionControl:false}).setView([-0.25, -79.17], 10); L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(maps[id]); }); }
 
@@ -380,26 +370,23 @@
             document.getElementById('d_tot').innerText = d.length;
             let s=0, a=0, v=0, f=0; let lg = L.layerGroup();
             d.forEach(r => {
-                if(r[6]==='SI')s++; if(r[8]==='SI')f++; if(r[11]==='SI')a++; if(r[13]==='SI')v++;
                 if(parseFloat(r[4])) {
                     let hasSat = r[11]==='SI';
                     let color = hasSat ? '#10b981' : '#ef4444';
                     let pop = createPopup(r[2] || r[1], [{l:'SAT',v:r[11]}, {l:'Vehículos',v:r[13]}], color);
-                    // USAMOS CÍRCULOS SÓLIDOS (SIN RADAR)
-                    L.circleMarker([getJitterLat(r[4]), getJitterLng(r[5])], {
-                        radius: 7,
-                        fillColor: color,
-                        color: "#fff",
-                        weight: 2,
-                        fillOpacity: 0.9
+                    
+                    // PUNTO SÓLIDO + DISPERSIÓN
+                    L.circleMarker([getJitter(r[4]), getJitter(r[5])], {
+                        radius: 6, fillColor: color, color: "#fff", weight: 2, fillOpacity: 0.9
                     }).bindPopup(pop, {className: 'custom-popup'}).addTo(lg);
+
+                    if(r[6]==='SI')s++; if(r[8]==='SI')f++; if(r[11]==='SI')a++; if(r[13]==='SI')v++;
                 }
             });
-            // LIMPIEZA DE MAPA Y ZOOM AUTOMÁTICO
-            if(maps.mapDiag) {
-                maps.mapDiag.eachLayer(l=>{if(!!l.toGeoJSON)maps.mapDiag.removeLayer(l)});
-                lg.addTo(maps.mapDiag);
-                if(lg.getLayers().length > 0) maps.mapDiag.fitBounds(lg.getBounds(), {padding: [50, 50]});
+            if(maps.mapDiag) { 
+                maps.mapDiag.eachLayer(l=>{if(!!l.toGeoJSON)maps.mapDiag.removeLayer(l)}); 
+                lg.addTo(maps.mapDiag); 
+                if(lg.getLayers().length > 0) maps.mapDiag.fitBounds(lg.getBounds(), {padding: [20, 20]}); 
             }
             let t = d.length||1; document.getElementById('d_sat').innerText = Math.round(a/t*100)+'%'; document.getElementById('d_veh').innerText = Math.round(v/t*100)+'%';
             renderBar('chD1', ['Salud','Bomberos'], [s,f], '#3b82f6'); renderBar('chD2', ['SAT','Vehículos'], [a,v], '#1e293b');
@@ -409,26 +396,22 @@
             document.getElementById('e_tot').innerText = d.length;
             let sums=new Array(8).fill(0); let lg = L.layerGroup();
             d.forEach(r => {
-                for(let i=0;i<8;i++) sums[i]+=Number(r[i+7]);
                 if(parseFloat(r[5])) {
+                    for(let i=0;i<8;i++) sums[i]+=Number(r[i+7]);
                     let avg=0; for(let i=0;i<8;i++) avg+=Number(r[i+7]); avg/=8;
                     let color = avg>=3.5 ? '#3b82f6' : '#f59e0b';
                     let pop = createPopup(r[2], [{l:'Rol',v:r[3]}, {l:'Nota',v:avg.toFixed(1)}], color);
                     
-                    L.circleMarker([getJitterLat(r[5]), getJitterLng(r[6])], {
-                        radius: 7,
-                        fillColor: color,
-                        color: "#fff",
-                        weight: 2,
-                        fillOpacity: 0.9
+                    // PUNTO SÓLIDO + DISPERSIÓN
+                    L.circleMarker([getJitter(r[5]), getJitter(r[6])], {
+                        radius: 6, fillColor: color, color: "#fff", weight: 2, fillOpacity: 0.9
                     }).bindPopup(pop, {className: 'custom-popup'}).addTo(lg);
                 }
             });
-            // LIMPIEZA DE MAPA Y ZOOM AUTOMÁTICO
-            if(maps.mapEval) {
-                maps.mapEval.eachLayer(l=>{if(!!l.toGeoJSON)maps.mapEval.removeLayer(l)});
-                lg.addTo(maps.mapEval);
-                if(lg.getLayers().length > 0) maps.mapEval.fitBounds(lg.getBounds(), {padding: [50, 50]});
+            if(maps.mapEval) { 
+                maps.mapEval.eachLayer(l=>{if(!!l.toGeoJSON)maps.mapEval.removeLayer(l)}); 
+                lg.addTo(maps.mapEval); 
+                if(lg.getLayers().length > 0) maps.mapEval.fitBounds(lg.getBounds(), {padding: [20, 20]}); 
             }
             let avgs = sums.map(x=>(x/(d.length||1)).toFixed(1));
             let glob = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
@@ -444,7 +427,7 @@
             document.getElementById('r1_sal').innerText=Math.round(s/t1*100)+'%'; document.getElementById('r1_sat').innerText=Math.round(a/t1*100)+'%'; document.getElementById('r1_veh').innerText=Math.round(v/t1*100)+'%';
             document.getElementById('r1_txt').innerHTML = getTxtObj1(a/t1, v/t1);
             renderBar('chR1', ['Salud','SAT','Vehículo'], [s,a,v], '#1e293b');
-            let lg1=L.layerGroup(); dc.forEach(r=>{if(parseFloat(r[4])) L.circleMarker([getJitterLat(r[4]),getJitterLng(r[5])],{radius:3,color:'#000',weight:0.5,fillColor:'#1e293b',fillOpacity:1}).addTo(lg1)});
+            let lg1=L.layerGroup(); dc.forEach(r=>{if(parseFloat(r[4])) L.circleMarker([getJitter(r[4]),getJitter(r[5])],{radius:3,color:'#000',weight:0.5,fillColor:'#1e293b',fillOpacity:1}).addTo(lg1)});
             updMap('mapR1', lg1);
 
             document.getElementById('r2_tot').innerText=de.length;
@@ -455,7 +438,7 @@
             document.getElementById('r2_st').innerText=glob>=3.5?"ALTO":(glob>=2.5?"MEDIO":"BAJO");
             document.getElementById('r2_list').innerHTML = getTxtObj2(avgs);
             renderRadar('chR2', avgs, '#3b82f6', 'rgba(59, 130, 246, 0.1)');
-            let lg2=L.layerGroup(); de.forEach(r=>{let avg=0;for(let i=0;i<8;i++)avg+=Number(r[i+7]); avg/=8; if(parseFloat(r[5])) L.circleMarker([getJitterLat(r[5]),getJitterLng(r[6])],{radius:3,color:'#000',weight:0.5,fillColor:avg>=3.5?'#3b82f6':'#dc2626',fillOpacity:1}).addTo(lg2);});
+            let lg2=L.layerGroup(); de.forEach(r=>{let avg=0;for(let i=0;i<8;i++)avg+=Number(r[i+7]); avg/=8; if(parseFloat(r[5])) L.circleMarker([getJitter(r[5]),getJitter(r[6])],{radius:3,color:'#000',weight:0.5,fillColor:avg>=3.5?'#3b82f6':'#dc2626',fillOpacity:1}).addTo(lg2);});
             updMap('mapR2', lg2);
         }
 
@@ -463,7 +446,15 @@
         function fit(m) { if(m) m.invalidateSize(); }
         function renderBar(id, l, d, c) { if(charts[id]) charts[id].destroy(); charts[id]=new Chart(document.getElementById(id), {type:'bar',data:{labels:l,datasets:[{data:d,backgroundColor:c,borderRadius:4}]},options:{responsive:true, maintainAspectRatio:false, indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{display:false},y:{grid:{display:false},ticks:{font:{family:'Plus Jakarta Sans',weight:600}}}}}}); }
         function renderRadar(id, d, c, bg) { if(charts[id]) charts[id].destroy(); charts[id]=new Chart(document.getElementById(id), {type:'radar',data:{labels:VARS,datasets:[{data:d,borderColor:c,backgroundColor:bg,pointRadius:2}]},options:{responsive:true, maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:5,ticks:{display:false},pointLabels:{font:{size:8,family:'Plus Jakarta Sans'}}}}}}); }
-        window.safePrint = (c, s) => { document.querySelectorAll('.print-overlay').forEach(e => e.classList.remove('print-overlay')); const container = document.getElementById(c); container.classList.add('print-overlay'); if(s === 'doc1') fit(maps.mapR1); if(s === 'doc2') fit(maps.mapR2); setTimeout(() => { window.print(); container.classList.remove('print-overlay'); }, 500); }
+        
+        window.safePrint = (c, s) => { 
+            document.querySelectorAll('.print-overlay').forEach(e => e.classList.remove('print-overlay')); 
+            const container = document.getElementById(c); 
+            container.classList.add('print-overlay'); 
+            if(s === 'doc1') fit(maps.mapR1); 
+            if(s === 'doc2') fit(maps.mapR2); 
+            setTimeout(() => { window.print(); container.classList.remove('print-overlay'); }, 500); 
+        }
     </script>
 </body>
 </html>
