@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor de Riesgos | UEB - Prácticas</title>
+    <title>Monitor de Capacidades | Prácticas Pre-Profesionales</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,12 +15,11 @@
 
     <style>
         :root {
-            --primary: #1e293b; 
+            --primary: #0f172a; 
             --accent: #3b82f6; 
             --danger: #ef4444;
             --success: #10b981;
-            --warning: #f59e0b;
-            --bg-body: #f1f5f9;
+            --bg-body: #f8fafc;
             --sidebar-width: 280px;
         }
 
@@ -39,50 +38,32 @@
             width: var(--sidebar-width);
             background: white;
             border-right: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            padding: 1.5rem;
-            flex-shrink: 0;
-            z-index: 1000;
+            display: flex; flex-direction: column; padding: 1.5rem;
+            flex-shrink: 0; z-index: 50;
         }
-
-        .brand { margin-bottom: 2.5rem; }
+        .brand { margin-bottom: 2rem; }
         .brand h4 { font-weight: 800; letter-spacing: -0.5px; margin: 0; color: var(--primary); }
-        .brand span { font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .brand span { font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .nav-btn {
-            padding: 12px 16px;
-            margin-bottom: 8px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #64748b;
-            font-weight: 600;
-            font-size: 0.9rem;
+            padding: 12px 16px; margin-bottom: 8px; border-radius: 10px; cursor: pointer;
+            display: flex; align-items: center; gap: 12px; color: #64748b; font-weight: 600; font-size: 0.9rem;
             transition: all 0.2s;
         }
-        .nav-btn:hover { background: #f8fafc; color: var(--accent); }
+        .nav-btn:hover { background: #f1f5f9; color: var(--accent); }
         .nav-btn.active { background: #eff6ff; color: var(--accent); }
-        .nav-btn i { font-size: 1.1rem; }
 
         /* --- MAIN CONTENT --- */
         .main-content { flex-grow: 1; overflow-y: auto; padding: 2rem; position: relative; }
-
-        .top-bar {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;
-        }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
         .page-title h2 { font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--primary); }
-        .page-title p { margin: 0; font-size: 0.85rem; color: #64748b; }
-
         .select-custom {
             border: 1px solid #cbd5e1; padding: 0.6rem 1rem; border-radius: 8px;
             font-weight: 700; color: var(--primary); outline: none; min-width: 260px;
             background-color: white; cursor: pointer;
         }
 
-        /* --- CARDS --- */
+        /* --- CARDS & UI --- */
         .card-modern {
             background: white; border-radius: 12px; padding: 1.5rem;
             border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.03);
@@ -92,42 +73,68 @@
         .card-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; }
         .kpi-big { font-size: 2.2rem; font-weight: 800; line-height: 1; margin-bottom: 0.5rem; color: var(--primary); }
         
-        /* --- MAPS & CHARTS --- */
-        .map-wrapper { height: 350px; width: 100%; border-radius: 0 0 12px 12px; overflow: hidden; background: #e2e8f0; }
+        .map-wrapper { height: 350px; width: 100%; border-radius: 0 0 12px 12px; overflow: hidden; background: #e2e8f0; z-index: 1; }
         .chart-wrapper { position: relative; height: 200px; width: 100%; }
 
-        /* --- REPORTES A4 (ESTRUCTURA) --- */
-        .report-bg { background: #e2e8f0; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; min-height: 100%; }
+        /* --- ANIMACIÓN DE RADAR (MEJORADA) --- */
+        .radar-marker { position: relative; }
+        .radar-core {
+            width: 12px; height: 12px; border-radius: 50%;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 2; border: 2px solid white;
+        }
+        .radar-pulse {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 30px; height: 30px; border-radius: 50%;
+            opacity: 0; z-index: 1;
+            animation: radarWave 2s infinite ease-out;
+        }
         
+        /* Colores */
+        .bg-green { background-color: #10b981; }
+        .bg-red { background-color: #ef4444; }
+        .bg-blue { background-color: #3b82f6; }
+        .bg-orange { background-color: #f59e0b; }
+
+        .wave-green { border: 2px solid #10b981; background-color: rgba(16, 185, 129, 0.3); }
+        .wave-red { border: 2px solid #ef4444; background-color: rgba(239, 68, 68, 0.3); }
+        .wave-blue { border: 2px solid #3b82f6; background-color: rgba(59, 130, 246, 0.3); }
+        .wave-orange { border: 2px solid #f59e0b; background-color: rgba(245, 158, 11, 0.3); }
+
+        @keyframes radarWave {
+            0% { width: 10px; height: 10px; opacity: 0.8; }
+            100% { width: 50px; height: 50px; opacity: 0; }
+        }
+
+        /* --- POPUPS --- */
+        .custom-popup .leaflet-popup-content-wrapper { background: rgba(255, 255, 255, 0.98); border-radius: 10px; padding: 0; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .custom-popup .leaflet-popup-content { margin: 0; width: 200px !important; }
+        .pop-header { background: var(--primary); color: white; padding: 8px 12px; font-weight: 700; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+        .pop-body { padding: 10px; font-size: 0.75rem; color: #334155; }
+        .pop-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dashed #eee; padding-bottom: 2px; }
+
+        /* --- REPORTES A4 --- */
+        .report-bg { background: #e2e8f0; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; min-height: 100%; }
         .a4-sheet {
             width: 210mm; min-height: 297mm; background: white; padding: 15mm;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative;
-            box-sizing: border-box;
-            /* Asegura que Leaflet se renderice bien dentro */
-            display: block; 
+            display: block; box-sizing: border-box;
         }
-
-        .doc-header { 
-            border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; 
-            display: flex; justify-content: space-between; align-items: flex-end; 
-        }
+        .doc-header { border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
         .doc-title { font-size: 1.6rem; font-weight: 900; color: var(--primary); line-height: 1; text-transform: uppercase; }
         .doc-sub { font-size: 0.8rem; font-weight: 700; color: #64748b; margin-top: 5px; letter-spacing: 1px; }
         .doc-meta { text-align: right; font-size: 0.7rem; color: #475569; line-height: 1.4; }
-
         .kpi-row-doc { display: flex; gap: 15px; margin-bottom: 20px; }
         .kpi-box-doc { flex: 1; background: #f8fafc; padding: 10px; text-align: center; border: 1px solid #e2e8f0; border-radius: 6px; }
         .kpi-doc-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
         .kpi-doc-lbl { font-size: 0.6rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
 
-        /* Texto Generado */
         .auto-text-box { font-size: 0.8rem; color: #334155; text-align: justify; line-height: 1.5; }
-        .auto-text-box p { margin-bottom: 10px; }
         
-        /* Lista de Análisis Eval */
-        .analysis-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.7rem; }
-        .analysis-item { background: #f8fafc; padding: 8px; border-radius: 4px; border-left: 3px solid #cbd5e1; }
-        .analysis-item strong { display: block; color: var(--primary); margin-bottom: 3px; font-size: 0.75rem; }
+        /* LISTA EVALUACIÓN (2 COLUMNAS) */
+        .analysis-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.7rem; }
+        .analysis-item { background: #f8fafc; padding: 8px; border-radius: 4px; border-left: 3px solid #cbd5e1; text-align: justify; line-height: 1.3; }
+        .analysis-item strong { display: block; margin-bottom: 2px; font-size: 0.75rem; text-transform: uppercase; }
 
         .doc-footer {
             position: absolute; bottom: 15mm; left: 15mm; right: 15mm;
@@ -137,33 +144,16 @@
         .footer-info { font-size: 0.65rem; color: #94a3b8; }
         .qr-box { width: 50px; height: 50px; background: url('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ValidadoUEB') no-repeat center/cover; opacity: 0.8; }
 
-        /* --- IMPRESIÓN SEGURA (FIX WHITE PAGE) --- */
+        /* --- IMPRESIÓN BLINDADA --- */
         @media print {
             @page { size: A4; margin: 0; }
-            body { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            
-            /* Ocultamos todo lo que NO sea la hoja activa */
-            .sidebar, .top-bar, .no-print, .report-bg { display: none !important; }
-            .main-content { padding: 0 !important; margin: 0 !important; overflow: visible !important; }
-            .tab-pane { display: none !important; }
-            
-            /* Forzamos la visualización del contenedor de reportes */
-            #view-rep { display: block !important; }
-            
-            /* Ocultamos todas las hojas y botones */
-            .a4-sheet, button { display: none !important; }
-            
-            /* Mostramos SOLO la hoja con la clase 'printing' */
-            .a4-sheet.printing {
-                display: block !important;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                margin: 0;
-                box-shadow: none;
-                z-index: 9999;
-            }
+            html, body { background: #ffffff !important; height: 100%; margin: 0 !important; padding: 0 !important; }
+            body * { visibility: hidden; }
+            .print-overlay, .print-overlay * { visibility: visible; }
+            .print-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white !important; z-index: 99999; padding: 0; margin: 0; }
+            .no-print-btn { display: none !important; }
+            .a4-sheet { box-shadow: none; margin: 0; width: 210mm; height: 297mm; }
+            -webkit-print-color-adjust: exact; print-color-adjust: exact;
         }
 
         .hidden { display: none !important; }
@@ -174,33 +164,29 @@
 
     <div id="loader">
         <div class="spinner-border text-primary mb-3"></div>
-        <div class="fw-bold small">CONECTANDO AL GAD...</div>
+        <div class="fw-bold small">CONECTANDO SATÉLITE...</div>
     </div>
 
     <div class="sidebar no-print">
         <div class="brand">
-            <h4>MONITOR DE RIESGOS</h4>
+            <h4>MONITOR RIESGOS</h4>
             <span>PRÁCTICAS PRE-PROFESIONALES</span>
         </div>
-        
-        <div class="nav-btn active" onclick="nav('diag', this)"><i class="bi bi-clipboard-data"></i> 1. Diagnóstico</div>
-        <div class="nav-btn" onclick="nav('eval', this)"><i class="bi bi-people"></i> 2. Evaluación Social</div>
+        <div class="nav-btn active" onclick="nav('diag', this)"><i class="bi bi-grid-1x2"></i> 1. Diagnóstico</div>
+        <div class="nav-btn" onclick="nav('eval', this)"><i class="bi bi-people"></i> 2. Evaluación</div>
         <div class="nav-btn" onclick="nav('strat', this)"><i class="bi bi-signpost-split"></i> 3. Estrategias</div>
-        <div class="nav-btn" onclick="nav('rep', this)"><i class="bi bi-printer"></i> 4. Informes Finales</div>
-
+        <div class="nav-btn" onclick="nav('rep', this)"><i class="bi bi-printer"></i> 4. Impresión</div>
         <div class="mt-auto pt-4 border-top text-center" style="font-size: 0.7rem; color: #64748b;">
-            <p class="mb-1 fw-bold">Responsables:</p>
-            Dylan Vélez & Jordan Sanabria<br>
-            Ing. Riesgos de Desastres (UEB)
+            <p class="mb-1 fw-bold">Estudiantes:</p>
+            Dylan Vélez & Jordan Sanabria<br>Ing. Riesgos de Desastres
         </div>
     </div>
 
     <div class="main-content">
-        
         <div class="top-bar no-print">
             <div class="page-title">
                 <h2 id="pageTitle">Panel de Control</h2>
-                <p>Monitor de Capacidades Territoriales - SDT</p>
+                <p>Gestión de Capacidades Territoriales - SDT</p>
             </div>
             <select id="filter" class="select-custom shadow-sm" onchange="applyFilter()">
                 <option value="ALL">CONSOLIDADO PROVINCIAL</option>
@@ -212,23 +198,23 @@
                 <div class="col-md-4"><div class="card-modern">
                     <div class="card-header-custom"><span class="card-label">REGISTROS</span></div>
                     <div class="kpi-big" id="d_tot">0</div>
-                    <small class="text-muted">GADs Parroquiales</small>
+                    <small class="text-muted">Puntos de Control</small>
                 </div></div>
                 <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">SISTEMA ALERTAS (SAT)</span></div>
+                    <div class="card-header-custom"><span class="card-label">SISTEMA ALERTAS</span></div>
                     <div class="kpi-big text-danger" id="d_sat">0%</div>
-                    <small class="text-danger">Cobertura Crítica</small>
+                    <small class="text-danger">Cobertura SAT</small>
                 </div></div>
                 <div class="col-md-4"><div class="card-modern">
                     <div class="card-header-custom"><span class="card-label">LOGÍSTICA</span></div>
                     <div class="kpi-big text-success" id="d_veh">0%</div>
-                    <small class="text-success">Parque Automotor</small>
+                    <small class="text-success">Vehículos</small>
                 </div></div>
             </div>
             <div class="row g-4">
                 <div class="col-lg-8">
                     <div class="card-modern p-0">
-                        <div class="p-3 border-bottom fw-bold text-primary small">MAPA DE RECURSOS TÉCNICOS</div>
+                        <div class="p-3 border-bottom fw-bold text-primary small">UBICACIÓN EN TIEMPO REAL</div>
                         <div id="mapDiag" class="map-wrapper"></div>
                     </div>
                 </div>
@@ -244,29 +230,29 @@
                 <div class="col-md-4"><div class="card-modern">
                     <div class="card-header-custom"><span class="card-label">ÍNDICE RESILIENCIA</span></div>
                     <div class="kpi-big text-primary" id="e_idx">0.0</div>
-                    <small class="text-primary">Escala de 1 a 5</small>
+                    <small class="text-primary">Promedio / 5.0</small>
                 </div></div>
                 <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">MUESTRA SOCIAL</span></div>
+                    <div class="card-header-custom"><span class="card-label">MUESTRA</span></div>
                     <div class="kpi-big" id="e_tot">0</div>
-                    <small class="text-muted">Actores Locales</small>
+                    <small class="text-muted">Actores Evaluados</small>
                 </div></div>
                 <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">NIVEL MADUREZ</span></div>
+                    <div class="card-header-custom"><span class="card-label">ESTADO GENERAL</span></div>
                     <div class="kpi-big" id="e_st">-</div>
-                    <small>Clasificación Técnica</small>
+                    <small>Nivel de Madurez</small>
                 </div></div>
             </div>
             <div class="row g-4">
                 <div class="col-lg-7">
                     <div class="card-modern p-0">
-                        <div class="p-3 border-bottom fw-bold text-primary small">MAPA DE ACTORES SOCIALES</div>
+                        <div class="p-3 border-bottom fw-bold text-primary small">MAPA DE ACTORES</div>
                         <div id="mapEval" class="map-wrapper" style="height:400px"></div>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="card-modern">
-                        <div class="card-header-custom"><span class="card-label">ANÁLISIS MULTIDIMENSIONAL</span></div>
+                        <div class="card-header-custom"><span class="card-label">RADAR DE FORTALEZAS</span></div>
                         <div class="chart-wrapper h-100 d-flex align-items-center"><canvas id="chEval"></canvas></div>
                     </div>
                 </div>
@@ -274,20 +260,19 @@
         </div>
 
         <div id="view-strat" class="tab-pane hidden">
-            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 border rounded bg-white">
-                <h3 class="fw-bold text-primary">Generador de Planes Comunitarios</h3>
-                <p class="text-muted">Este módulo se activará al completar la fase de diagnóstico.</p>
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 border rounded bg-white shadow-sm">
+                <h3 class="fw-bold text-primary">Estrategias de Vinculación</h3>
+                <p class="text-muted w-50">Generación automática de planes comunitarios.</p>
             </div>
         </div>
 
         <div id="view-rep" class="tab-pane hidden">
             <div class="report-bg">
                 
-                <div class="w-100 d-flex flex-column align-items-center gap-3">
-                    <button onclick="printMe('doc1')" class="btn btn-dark w-50 shadow fw-bold no-print">
-                        <i class="bi bi-printer-fill me-2"></i>IMPRIMIR OBJETIVO 1
+                <div id="print-area-1" class="w-100 d-flex flex-column align-items-center gap-3">
+                    <button onclick="safePrint('print-area-1', 'doc1')" class="btn btn-dark w-50 shadow fw-bold no-print no-print-btn">
+                        <i class="bi bi-printer-fill me-2"></i>IMPRIMIR INFORME TÉCNICO (OBJ 1)
                     </button>
-                    
                     <div class="a4-sheet" id="doc1">
                         <div class="doc-header">
                             <div>
@@ -300,42 +285,30 @@
                                 <strong>Fecha:</strong> <span id="r1_date"></span>
                             </div>
                         </div>
-
                         <div class="kpi-row-doc">
                             <div class="kpi-box-doc"><div class="kpi-doc-val" id="r1_sal">0%</div><div class="kpi-doc-lbl">SALUD</div></div>
                             <div class="kpi-box-doc"><div class="kpi-doc-val text-danger" id="r1_sat">0%</div><div class="kpi-doc-lbl">ALERTAS (SAT)</div></div>
                             <div class="kpi-box-doc"><div class="kpi-doc-val text-success" id="r1_veh">0%</div><div class="kpi-doc-lbl">LOGÍSTICA</div></div>
                         </div>
-
                         <div class="d-flex gap-3 mb-4" style="height: 240px;">
-                            <div style="width: 60%; border:1px solid #e2e8f0; border-radius:4px; overflow:hidden;">
-                                <div id="mapR1" style="width:100%; height:100%"></div>
-                            </div>
-                            <div style="width: 40%; display:flex; align-items:center;">
-                                <canvas id="chR1"></canvas>
-                            </div>
+                            <div style="width: 60%; border:1px solid #e2e8f0; border-radius:4px; overflow:hidden;"><div id="mapR1" style="width:100%; height:100%"></div></div>
+                            <div style="width: 40%; display:flex; align-items:center;"><canvas id="chR1"></canvas></div>
                         </div>
-
                         <div class="mb-2 fw-bold text-primary small border-bottom pb-1">ANÁLISIS SITUACIONAL Y TÉCNICO</div>
-                        <div id="r1_txt" class="auto-text-box">
-                            </div>
-
+                        <div id="r1_txt" class="auto-text-box"></div>
                         <div class="doc-footer">
                             <div class="footer-info">
-                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>
-                                Prácticas Pre-Profesionales: "Fortalecimiento de capacidades ante riesgos."<br>
-                                Estudiantes: Dylan Vélez & Jordan Sanabria
+                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>Prácticas Pre-Profesionales: "Fortalecimiento de capacidades ante riesgos."<br>Estudiantes: Dylan Vélez & Jordan Sanabria
                             </div>
                             <div class="qr-box"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="w-100 d-flex flex-column align-items-center gap-3">
-                    <button onclick="printMe('doc2')" class="btn btn-primary w-50 shadow fw-bold no-print">
-                        <i class="bi bi-printer-fill me-2"></i>IMPRIMIR OBJETIVO 2
+                <div id="print-area-2" class="w-100 d-flex flex-column align-items-center gap-3 mt-5">
+                    <button onclick="safePrint('print-area-2', 'doc2')" class="btn btn-primary w-50 shadow fw-bold no-print no-print-btn">
+                        <i class="bi bi-printer-fill me-2"></i>IMPRIMIR INFORME SOCIAL (OBJ 2)
                     </button>
-
                     <div class="a4-sheet" id="doc2">
                         <div class="doc-header" style="border-color: var(--accent);">
                             <div>
@@ -348,40 +321,27 @@
                                 <strong>Fecha:</strong> <span id="r2_date"></span>
                             </div>
                         </div>
-
                         <div class="kpi-row-doc">
                             <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_tot">0</div><div class="kpi-doc-lbl">ACTORES</div></div>
-                            <div class="kpi-box-doc"><div class="kpi-doc-val text-primary" id="r2_idx">0.0</div><div class="kpi-doc-lbl">ÍNDICE GLOBAL</div></div>
-                            <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_st">-</div><div class="kpi-doc-lbl">NIVEL MADUREZ</div></div>
+                            <div class="kpi-box-doc"><div class="kpi-doc-val text-primary" id="r2_idx">0.0</div><div class="kpi-doc-lbl">ÍNDICE</div></div>
+                            <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_st">-</div><div class="kpi-doc-lbl">ESTADO</div></div>
                         </div>
-
                         <div class="d-flex gap-3 mb-4" style="height: 200px;">
-                            <div style="width: 50%; border:1px solid #e2e8f0; border-radius:4px; overflow:hidden;">
-                                <div id="mapR2" style="width:100%; height:100%"></div>
-                            </div>
-                            <div style="width: 50%; display:flex; align-items:center; justify-content:center;">
-                                <canvas id="chR2"></canvas>
-                            </div>
+                            <div style="width: 50%; border:1px solid #e2e8f0; border-radius:4px; overflow:hidden;"><div id="mapR2" style="width:100%; height:100%"></div></div>
+                            <div style="width: 50%; display:flex; align-items:center; justify-content:center;"><canvas id="chR2"></canvas></div>
                         </div>
-
-                        <div class="mb-2 fw-bold text-accent small border-bottom pb-1" style="color: var(--accent);">ANÁLISIS POR VARIABLE (DETALLADO)</div>
-                        <div id="r2_list" class="analysis-list">
-                            </div>
-
+                        <div class="mb-2 fw-bold text-accent small border-bottom pb-1" style="color: var(--accent);">MATRIZ DE FORTALEZAS Y ÁREAS DE MEJORA</div>
+                        <div id="r2_list" class="analysis-list"></div>
                         <div class="doc-footer">
                             <div class="footer-info">
-                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>
-                                Prácticas Pre-Profesionales: "Fortalecimiento de capacidades ante riesgos."<br>
-                                Estudiantes: Dylan Vélez & Jordan Sanabria
+                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>Prácticas Pre-Profesionales: "Fortalecimiento de capacidades ante riesgos."<br>Estudiantes: Dylan Vélez & Jordan Sanabria
                             </div>
                             <div class="qr-box"></div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -389,107 +349,95 @@
         const API = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec");
         const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
         const VARS = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
-
         let DC=[], DE=[], maps={}, charts={};
 
-        // --- GENERADORES DE TEXTO ---
+        // --- TEXTOS AUTOMÁTICOS ---
         function getTxtObj1(sat, veh) {
-            let p1, p2, p3;
-            if(sat < 0.4) p1 = "El análisis de infraestructura revela una carencia crítica en Sistemas de Alerta Temprana (SAT). La cobertura es insuficiente, elevando la vulnerabilidad ante eventos súbitos. Es urgente priorizar sirenas en zonas de riesgo.";
-            else if(sat < 0.7) p1 = "Se observa un avance moderado en Sistemas de Alerta Temprana. Existen dispositivos, pero la cobertura no es integral. Se requiere mantenimiento y expansión hacia comunidades periféricas.";
-            else p1 = "La zona cuenta con una red robusta de SAT, cumpliendo estándares de seguridad. El desafío es mantener la operatividad mediante simulacros periódicos.";
-
-            if(veh < 0.4) p2 = "La capacidad logística es limitada. El parque automotor no cubre la demanda potencial, generando dependencia de vehículos externos. Esto podría retrasar tiempos de respuesta.";
-            else p2 = "La movilidad presenta operatividad aceptable para una primera respuesta, aunque podría saturarse en emergencias múltiples. Se sugiere fortalecer convenios de transporte.";
-
-            p3 = "En conclusión, se requiere intervención interinstitucional para cerrar las brechas identificadas, alineándose con las normativas de la SNGR para salvaguardar la integridad ciudadana.";
+            let p1 = sat < 0.7 ? "La cobertura de Sistemas de Alerta Temprana (SAT) es parcial, lo que representa una vulnerabilidad ante eventos súbitos." : "Se cuenta con una red robusta de SAT, garantizando una buena capacidad de aviso a la población.";
+            let p2 = veh < 0.7 ? "La capacidad logística de vehículos es limitada para una respuesta masiva, requiriendo apoyo externo." : "El parque automotor muestra operatividad adecuada para una primera respuesta en territorio.";
+            let p3 = "Se concluye que es necesario fortalecer la coordinación interinstitucional para cubrir las brechas identificadas en equipamiento.";
             return `<p>${p1}</p><p>${p2}</p><p>${p3}</p>`;
         }
 
         function getTxtObj2(scores) {
             let html = "";
             scores.forEach((s, i) => {
-                let txt = s >= 4 ? "Fortaleza significativa. Liderazgo autónomo evidente." : (s >= 3 ? "Nivel regular. Requiere acompañamiento técnico." : "Debilidad crítica. Urge sensibilización.");
-                let color = s >= 3 ? (s>=4 ? '#10b981' : '#f59e0b') : '#ef4444';
-                html += `<div class="analysis-item" style="border-left-color: ${color}"><strong style="color:${color}">${VARS[i]} (${s})</strong>${txt}</div>`;
+                let isStrength = s >= 3.5;
+                let label = isStrength ? "FORTALEZA" : "ÁREA DE MEJORA";
+                let color = isStrength ? "#16a34a" : "#dc2626";
+                let txt = isStrength ? "Gestión comunitaria eficiente y proactiva." : "Requiere intervención técnica urgente.";
+                html += `<div class="analysis-item" style="border-left-color: ${color}"><strong style="color:${color}">[${label}] ${VARS[i]} (${s})</strong>${txt}</div>`;
             });
             return html;
+        }
+
+        function createPopup(title, rows, color) {
+            let c = `<div class="pop-header" style="background:${color}"><span>${title}</span><i class="bi bi-geo-alt-fill"></i></div><div class="pop-body">`;
+            rows.forEach(r => c += `<div class="pop-row"><span>${r.l}</span><strong>${r.v}</strong></div>`);
+            return c + `</div>`;
+        }
+
+        // --- FUNCIÓN DE DISPERSIÓN (JITTER) ---
+        // Separa los puntos aunque tengan la misma coordenada base
+        function getJitter(val) {
+            return parseFloat(val) + (Math.random() - 0.5) * 0.005; // ~500m de dispersión
+        }
+
+        // --- CREAR MARCADOR CON RADAR ---
+        function createRadarMarker(lat, lng, colorClass, popupHTML, tooltipText, lg) {
+            let icon = L.divIcon({
+                className: 'radar-marker',
+                html: `<div class="radar-pulse wave-${colorClass}"></div><div class="radar-core bg-${colorClass}"></div>`,
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+            
+            L.marker([getJitter(lat), getJitter(lng)], {icon: icon})
+                .bindPopup(popupHTML, {className: 'custom-popup'})
+                .bindTooltip(tooltipText, {direction: 'top', offset: [0, -10], opacity: 0.9})
+                .addTo(lg);
         }
 
         window.onload = () => {
             const s = document.getElementById('filter');
             PARROQUIAS.sort().forEach(p => s.add(new Option(p, p)));
             initMaps();
-            
-            // Fetch Data con Backup
             const t = setTimeout(() => loadData(getBackup()), 4000);
-            fetch(API + "&t=" + Date.now())
-                .then(r => r.ok ? r.json() : Promise.reject())
-                .then(d => { clearTimeout(t); loadData(d.status==='success' ? d : getBackup()); })
-                .catch(() => {});
+            fetch(API + "&t=" + Date.now()).then(r => r.ok ? r.json() : Promise.reject()).then(d => { clearTimeout(t); loadData(d.status==='success' ? d : getBackup()); }).catch(() => {});
         };
 
-        function getBackup() {
-            return {
-                dataCap: [["","Alluriquín","","","-.29","-79.05","SI","NO","SI","SI","NO","SI","NO","SI"]], 
-                dataEval: [["2025-11-22","Alluriquín","Centro","Lider","Juan",-.29,-79.05,4,5,3,4,5,4,3,5]]
-            };
-        }
+        function getBackup() { return { dataCap: [["","Alluriquín","Recinto 1","","-.29","-79.05","SI","NO","SI","SI","NO","SI","NO","SI"]], dataEval: [["2025","Alluriquín","Recinto 1","Lider","Juan",-.29,-79.05,4,5,3,4,5,4,3,5]] }; }
+        function loadData(d) { DC=d.dataCap||[]; DE=d.dataEval||[]; document.getElementById('loader').classList.add('hidden'); applyFilter(); }
 
-        function loadData(d) {
-            DC=d.dataCap||[]; DE=d.dataEval||[];
-            document.getElementById('loader').classList.add('hidden');
-            applyFilter();
-        }
+        function initMaps() { ['mapDiag','mapEval','mapR1','mapR2'].forEach(id => { maps[id] = L.map(id, {zoomControl:false, attributionControl:false}).setView([-0.25, -79.17], 10); L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(maps[id]); }); }
 
-        function initMaps() {
-            ['mapDiag','mapEval','mapR1','mapR2'].forEach(id => {
-                maps[id] = L.map(id, {zoomControl:false, attributionControl:false}).setView([-0.25, -79.17], 10);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(maps[id]);
-            });
-        }
-
-        window.nav = (id, el) => {
-            document.querySelectorAll('.tab-pane').forEach(d => d.classList.add('hidden'));
-            document.getElementById('view-'+id).classList.remove('hidden');
-            document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
-            el.classList.add('active');
-            const titles = {diag:"Diagnóstico Institucional", eval:"Evaluación Social", strat:"Estrategias", rep:"Informes PDF"};
-            document.getElementById('pageTitle').innerText = titles[id];
-            
-            // Re-renderizado seguro de mapas
-            setTimeout(() => { for(let k in maps) maps[k].invalidateSize(); if(id==='rep'){fit(maps.mapR1); fit(maps.mapR2);} }, 200);
-        };
-
+        window.nav = (id, el) => { document.querySelectorAll('.tab-pane').forEach(d => d.classList.add('hidden')); document.getElementById('view-'+id).classList.remove('hidden'); document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active')); el.classList.add('active'); document.getElementById('pageTitle').innerText = {diag:"Diagnóstico", eval:"Evaluación", strat:"Estrategias", rep:"Informes"}[id]; setTimeout(() => { for(let k in maps) maps[k].invalidateSize(); if(id==='rep'){fit(maps.mapR1); fit(maps.mapR2);} }, 200); };
+        
         window.applyFilter = () => {
             const val = document.getElementById('filter').value;
             const isProv = val === 'ALL';
             const name = isProv ? "Santo Domingo de los Tsáchilas" : val;
-            
             const fC = isProv ? DC : DC.filter(r => r[1] === val);
             const fE = isProv ? DE : DE.filter(r => r[1] === val);
-
-            updDiag(fC);
-            updEval(fE);
-            updRep(fC, fE, name);
+            updDiag(fC); updEval(fE); updRep(fC, fE, name);
         };
 
-        // LOGICA DASHBOARDS
         function updDiag(d) {
             document.getElementById('d_tot').innerText = d.length;
             let s=0, a=0, v=0, f=0; let lg = L.layerGroup();
             d.forEach(r => {
                 if(r[6]==='SI')s++; if(r[8]==='SI')f++; if(r[11]==='SI')a++; if(r[13]==='SI')v++;
                 if(parseFloat(r[4])) {
-                    L.circleMarker([parseFloat(r[4]), parseFloat(r[5])], {radius:6, color:'white', weight:1, fillColor:r[11]==='SI'?'#10b981':'#ef4444', fillOpacity:0.8}).addTo(lg);
+                    let hasSat = r[11]==='SI';
+                    let color = hasSat ? 'green' : 'red';
+                    let hex = hasSat ? '#10b981' : '#ef4444';
+                    let pop = createPopup(r[2] || r[1], [{l:'SAT',v:r[11]}, {l:'Vehículos',v:r[13]}], hex);
+                    createRadarMarker(r[4], r[5], color, pop, r[2]||r[1], lg);
                 }
             });
             updMap('mapDiag', lg);
-            let t = d.length||1;
-            document.getElementById('d_sat').innerText = Math.round(a/t*100)+'%';
-            document.getElementById('d_veh').innerText = Math.round(v/t*100)+'%';
-            renderBar('chD1', ['Salud','Bomberos'], [s,f], '#3b82f6');
-            renderBar('chD2', ['SAT','Vehículos'], [a,v], '#1e293b');
+            let t = d.length||1; document.getElementById('d_sat').innerText = Math.round(a/t*100)+'%'; document.getElementById('d_veh').innerText = Math.round(v/t*100)+'%';
+            renderBar('chD1', ['Salud','Bomberos'], [s,f], '#3b82f6'); renderBar('chD2', ['SAT','Vehículos'], [a,v], '#1e293b');
         }
 
         function updEval(d) {
@@ -499,38 +447,30 @@
                 for(let i=0;i<8;i++) sums[i]+=Number(r[i+7]);
                 if(parseFloat(r[5])) {
                     let avg=0; for(let i=0;i<8;i++) avg+=Number(r[i+7]); avg/=8;
-                    L.circleMarker([parseFloat(r[5]), parseFloat(r[6])], {radius:6, color:'white', weight:1, fillColor: avg>=3.5?'#3b82f6':'#ef4444', fillOpacity:0.8}).addTo(lg);
+                    let color = avg>=3.5 ? 'blue' : 'orange'; // Azul (Bien) Naranja (Regular)
+                    let hex = avg>=3.5 ? '#3b82f6' : '#f59e0b';
+                    let pop = createPopup(r[2], [{l:'Rol',v:r[3]}, {l:'Nota',v:avg.toFixed(1)}], hex);
+                    createRadarMarker(r[5], r[6], color, pop, r[2]||r[1], lg);
                 }
             });
             updMap('mapEval', lg);
             let avgs = sums.map(x=>(x/(d.length||1)).toFixed(1));
             let glob = (avgs.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/8).toFixed(1);
             document.getElementById('e_idx').innerText = glob;
-            document.getElementById('e_st').innerText = glob>=4?"ALTO":(glob>=3?"MEDIO":"BAJO");
+            document.getElementById('e_st').innerText = glob>=3.5?"ALTO":(glob>=2.5?"MEDIO":"BAJO");
             renderRadar('chEval', avgs, '#3b82f6', 'rgba(59, 130, 246, 0.2)');
         }
 
-        // LOGICA REPORTES
         function updRep(dc, de, name) {
             document.querySelectorAll('#r1_loc, #r2_loc').forEach(e=>e.innerText=name);
             document.querySelectorAll('#r1_date, #r2_date').forEach(e=>e.innerText=new Date().toLocaleDateString());
-
-            // R1
-            let t1=dc.length||1;
-            let s=dc.filter(r=>r[6]==='SI').length, a=dc.filter(r=>r[11]==='SI').length, v=dc.filter(r=>r[13]==='SI').length;
-            document.getElementById('r1_sal').innerText=Math.round(s/t1*100)+'%';
-            document.getElementById('r1_sat').innerText=Math.round(a/t1*100)+'%';
-            document.getElementById('r1_veh').innerText=Math.round(v/t1*100)+'%';
+            let t1=dc.length||1; let s=dc.filter(r=>r[6]==='SI').length, a=dc.filter(r=>r[11]==='SI').length, v=dc.filter(r=>r[13]==='SI').length;
+            document.getElementById('r1_sal').innerText=Math.round(s/t1*100)+'%'; document.getElementById('r1_sat').innerText=Math.round(a/t1*100)+'%'; document.getElementById('r1_veh').innerText=Math.round(v/t1*100)+'%';
             document.getElementById('r1_txt').innerHTML = getTxtObj1(a/t1, v/t1);
-            
             renderBar('chR1', ['Salud','SAT','Vehículo'], [s,a,v], '#1e293b');
-            let lg1=L.layerGroup(); 
-            dc.forEach(r=>{
-                if(parseFloat(r[4])) L.circleMarker([parseFloat(r[4]),parseFloat(r[5])],{radius:4,color:'#000',weight:0.5,fillColor:'#1e293b',fillOpacity:1}).addTo(lg1);
-            });
+            let lg1=L.layerGroup(); dc.forEach(r=>{if(parseFloat(r[4])) L.circleMarker([getJitter(r[4]),getJitter(r[5])],{radius:3,color:'#000',weight:0.5,fillColor:'#1e293b',fillOpacity:1}).addTo(lg1)});
             updMap('mapR1', lg1);
 
-            // R2
             document.getElementById('r2_tot').innerText=de.length;
             let sums=new Array(8).fill(0); de.forEach(r=>{for(let i=0;i<8;i++) sums[i]+=Number(r[i+7])});
             let avgs = sums.map(x=>Number((x/(de.length||1)).toFixed(1)));
@@ -538,48 +478,16 @@
             document.getElementById('r2_idx').innerText=glob;
             document.getElementById('r2_st').innerText=glob>=3.5?"ALTO":(glob>=2.5?"MEDIO":"BAJO");
             document.getElementById('r2_list').innerHTML = getTxtObj2(avgs);
-
             renderRadar('chR2', avgs, '#3b82f6', 'rgba(59, 130, 246, 0.1)');
-            let lg2=L.layerGroup(); 
-            de.forEach(r=>{
-                let avg=0;for(let i=0;i<8;i++)avg+=Number(r[i+7]); avg/=8;
-                if(parseFloat(r[5])) L.circleMarker([parseFloat(r[5]),parseFloat(r[6])],{radius:4,color:'#000',weight:0.5,fillColor:avg>=3.5?'#3b82f6':'#ef4444',fillOpacity:1}).addTo(lg2);
-            });
+            let lg2=L.layerGroup(); de.forEach(r=>{let avg=0;for(let i=0;i<8;i++)avg+=Number(r[i+7]); avg/=8; if(parseFloat(r[5])) L.circleMarker([getJitter(r[5]),getJitter(r[6])],{radius:3,color:'#000',weight:0.5,fillColor:avg>=3.5?'#3b82f6':'#dc2626',fillOpacity:1}).addTo(lg2);});
             updMap('mapR2', lg2);
         }
 
-        function updMap(id, lg) {
-            if(maps[id]) { maps[id].eachLayer(l=>{if(!!l.toGeoJSON)maps[id].removeLayer(l)}); lg.addTo(maps[id]); if(lg.getLayers().length) setTimeout(()=>fit(maps[id]), 200); }
-        }
+        function updMap(id, lg) { if(maps[id]) { maps[id].eachLayer(l=>{if(!!l.toGeoJSON)maps[id].removeLayer(l)}); lg.addTo(maps[id]); if(lg.getLayers().length) setTimeout(()=>fit(maps[id]), 200); } }
         function fit(m) { m.setView([-0.25, -79.17], 10); }
-        
-        function renderBar(id, l, d, c) {
-            if(charts[id]) charts[id].destroy();
-            charts[id]=new Chart(document.getElementById(id), {type:'bar',data:{labels:l,datasets:[{data:d,backgroundColor:c,borderRadius:4}]},options:{responsive:true, maintainAspectRatio:false, indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{display:false},y:{grid:{display:false},ticks:{font:{family:'Plus Jakarta Sans',weight:600}}}}}});
-        }
-        function renderRadar(id, d, c, bg) {
-            if(charts[id]) charts[id].destroy();
-            charts[id]=new Chart(document.getElementById(id), {type:'radar',data:{labels:VARS,datasets:[{data:d,borderColor:c,backgroundColor:bg,pointRadius:2}]},options:{responsive:true, maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:5,ticks:{display:false},pointLabels:{font:{size:8,family:'Plus Jakarta Sans'}}}}}});
-        }
-
-        // --- FUNCION DE IMPRESION CORREGIDA (TIMEOUT + CLASS SWAP) ---
-        window.printMe = (sheetId) => {
-            // 1. Quitamos la clase de impresion anterior
-            document.querySelectorAll('.a4-sheet').forEach(el => el.classList.remove('printing'));
-            
-            // 2. Asignamos la clase a la hoja deseada
-            const sheet = document.getElementById(sheetId);
-            sheet.classList.add('printing');
-            
-            // 3. Forzamos recalculo de mapas (CRUCIAL para que no salgan grises/blancos)
-            if(sheetId === 'doc1') fit(maps.mapR1);
-            if(sheetId === 'doc2') fit(maps.mapR2);
-
-            // 4. Pequeña pausa para que el navegador renderice el canvas antes de imprimir
-            setTimeout(() => {
-                window.print();
-            }, 500);
-        }
+        function renderBar(id, l, d, c) { if(charts[id]) charts[id].destroy(); charts[id]=new Chart(document.getElementById(id), {type:'bar',data:{labels:l,datasets:[{data:d,backgroundColor:c,borderRadius:4}]},options:{responsive:true, maintainAspectRatio:false, indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{display:false},y:{grid:{display:false},ticks:{font:{family:'Plus Jakarta Sans',weight:600}}}}}}); }
+        function renderRadar(id, d, c, bg) { if(charts[id]) charts[id].destroy(); charts[id]=new Chart(document.getElementById(id), {type:'radar',data:{labels:VARS,datasets:[{data:d,borderColor:c,backgroundColor:bg,pointRadius:2}]},options:{responsive:true, maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:5,ticks:{display:false},pointLabels:{font:{size:8,family:'Plus Jakarta Sans'}}}}}}); }
+        window.safePrint = (c, s) => { document.querySelectorAll('.print-overlay').forEach(e => e.classList.remove('print-overlay')); const container = document.getElementById(c); container.classList.add('print-overlay'); if(s === 'doc1') fit(maps.mapR1); if(s === 'doc2') fit(maps.mapR2); setTimeout(() => { window.print(); container.classList.remove('print-overlay'); }, 500); }
     </script>
 </body>
 </html>
