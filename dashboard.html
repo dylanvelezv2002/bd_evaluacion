@@ -55,25 +55,35 @@
         .pop-header { background: var(--primary); color: white; padding: 8px 12px; font-weight: 700; font-size: 0.75rem; }
         .pop-body { padding: 12px; font-size: 0.75rem; color: #334155; line-height: 1.4; background: white; }
 
-        /* REPORTES A4 */
+        /* REPORTES A4 (para mostrar en pantalla) */
         .report-bg { background: #e2e8f0; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
         .a4-sheet { 
-            width: 210mm; min-height: 297mm; background: white; padding: 15mm; 
-            position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            display: flex; flex-direction: column; box-sizing: border-box;
+            width: 210mm; 
+            min-height: 297mm; 
+            background: white; 
+            padding: 15mm; 
+            position: relative; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            display: flex; 
+            flex-direction: column; 
+            box-sizing: border-box;
             overflow: hidden; 
+            margin: 0 auto;
         }
         .doc-header { border-bottom: 3px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
         .doc-title { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-transform: uppercase; line-height: 1.1; }
         .doc-sub { font-size: 0.8rem; color: var(--accent); font-weight: 700; text-transform: uppercase; }
         .doc-meta { text-align: right; font-size: 0.65rem; color: #475569; line-height: 1.4; }
         
+        .doc-body { flex: 1; display: flex; flex-direction: column; }
+
         .kpi-row-doc { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .kpi-box-doc { background: #f8fafc; padding: 12px; text-align: center; border: 1px solid #e2e8f0; border-radius: 6px; }
         .kpi-doc-val { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
         .kpi-doc-lbl { font-size: 0.55rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-top: 4px; }
         
         .auto-text-box { font-size: 0.8rem; color: #334155; text-align: justify; line-height: 1.5; margin-bottom: 20px; padding: 10px; background: #f8fafc; border-radius: 6px; }
+        .analysis-text { font-size: 0.8rem; color: #334155; text-align: justify; line-height: 1.5; display: flex; flex-direction: column; gap: 6px; }
         .analysis-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.7rem; }
         .analysis-item { background: white; padding: 8px 10px; border: 1px solid #f1f5f9; border-radius: 4px; border-left-width: 4px; }
         
@@ -81,14 +91,58 @@
         .footer-info { font-size: 0.6rem; color: #94a3b8; line-height: 1.4; }
         .qr-box { width: 40px; height: 40px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 6px; color: #cbd5e1; border: 1px solid #e2e8f0; }
 
-        /* IMPRESIÓN */
+        .text-accent { color: var(--accent) !important; }
+
+        /* Tarjetas de variables: evitar corte entre páginas (para html2pdf también sirve) */
+        .var-card {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        /* Hackerman notification */
+        #hackermanBox {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #020617;
+            color: #22c55e;
+            border: 1px solid #22c55e;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 0.8rem;
+            font-family: 'Plus Jakarta Sans', monospace;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 10000;
+            display: none;
+        }
+        #hackermanBox strong {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        /* Reglas @media print ya NO son las principales (se queda por compatibilidad) */
         @media print {
             @page { size: A4; margin: 0; }
             body { background: white; display: block; height: auto; overflow: visible; }
-            .no-print, .sidebar, .top-bar, #loader, .tab-pane { display: none !important; }
+            .no-print, .sidebar, .top-bar, #loader, #hackermanBox { display: none !important; }
             .report-bg { padding: 0; background: white; }
-            .a4-sheet { margin: 0; box-shadow: none; page-break-after: always; display: none; width: 100% !important; height: 100% !important; }
-            .print-visible { display: flex !important; }
+            .a4-sheet { 
+                margin: 0; 
+                box-shadow: none; 
+                page-break-after: always; 
+                width: 100% !important; 
+                min-height: 100% !important;
+                padding: 15mm;
+            }
+            .doc-footer {
+                position: static;
+                margin-top: auto;
+            }
+            .var-card {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
         }
 
         .hidden { display: none !important; }
@@ -101,6 +155,11 @@
         <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div>
         <div class="fw-bold text-primary" style="letter-spacing: 1px;">CARGANDO SISTEMA</div>
         <div class="small text-muted mt-2">Conectando con Servidor UEB...</div>
+    </div>
+
+    <div id="hackermanBox">
+        <strong>Hackerman activado</strong>
+        <span>Intento de acceso restringido bloqueado.</span>
     </div>
 
     <div class="sidebar no-print">
@@ -130,6 +189,7 @@
             </select>
         </div>
 
+        <!-- DIAGNÓSTICO -->
         <div id="view-diag" class="tab-pane active">
             <div class="row g-3 mb-3">
                 <div class="col-md-4"><div class="card-modern">
@@ -168,6 +228,7 @@
             </div>
         </div>
 
+        <!-- EVALUACIÓN -->
         <div id="view-eval" class="tab-pane hidden">
             <div class="row g-3 mb-3">
                 <div class="col-md-4"><div class="card-modern">
@@ -202,6 +263,7 @@
             </div>
         </div>
 
+        <!-- ESTRATEGIAS -->
         <div id="view-strat" class="tab-pane hidden">
             <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 border rounded bg-white shadow-sm">
                 <div class="mb-3 p-3 bg-light rounded-circle"><i class="bi bi-cone-striped fs-1 text-warning"></i></div>
@@ -210,9 +272,11 @@
             </div>
         </div>
 
+        <!-- REPORTES -->
         <div id="view-rep" class="tab-pane hidden">
             <div class="report-bg">
                 
+                <!-- OBJETIVO 1 -->
                 <div class="w-100 d-flex flex-column align-items-center gap-3">
                     <button onclick="printReport('doc1')" class="btn btn-dark w-50 shadow fw-bold no-print py-2">
                         <i class="bi bi-file-earmark-pdf-fill me-2"></i>GENERAR INFORME TÉCNICO (OBJ 1)
@@ -229,26 +293,34 @@
                                 <strong>Área:</strong> <span id="r1_loc" class="text-uppercase fw-bold"></span>
                             </div>
                         </div>
-                        <div class="kpi-row-doc">
-                            <div class="kpi-box-doc"><div class="kpi-doc-val" id="r1_sal">0%</div><div class="kpi-doc-lbl">COBERTURA SALUD</div></div>
-                            <div class="kpi-box-doc"><div class="kpi-doc-val text-danger" id="r1_sat">0%</div><div class="kpi-doc-lbl">SISTEMA ALERTAS</div></div>
-                            <div class="kpi-box-doc"><div class="kpi-doc-val text-success" id="r1_veh">0%</div><div class="kpi-doc-lbl">LOGÍSTICA</div></div>
+
+                        <div class="doc-body">
+                            <div class="kpi-row-doc">
+                                <div class="kpi-box-doc"><div class="kpi-doc-val" id="r1_sal">0%</div><div class="kpi-doc-lbl">COBERTURA SALUD</div></div>
+                                <div class="kpi-box-doc"><div class="kpi-doc-val text-danger" id="r1_sat">0%</div><div class="kpi-doc-lbl">SISTEMA ALERTAS</div></div>
+                                <div class="kpi-box-doc"><div class="kpi-doc-val text-success" id="r1_veh">0%</div><div class="kpi-doc-lbl">LOGÍSTICA</div></div>
+                            </div>
+                            <div class="d-flex gap-3 mb-4" style="height: 250px;">
+                                <div style="width: 60%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;"><div id="mapR1" style="width:100%; height:100%"></div></div>
+                                <div style="width: 40%; display:flex; align-items:center;"><canvas id="chR1"></canvas></div>
+                            </div>
+                            <div class="mb-2 fw-bold text-primary small border-bottom pb-1">ANÁLISIS TÉCNICO DEL DIAGNÓSTICO</div>
+                            <div id="r1_txt" class="auto-text-box"></div>
                         </div>
-                        <div class="d-flex gap-3 mb-4" style="height: 250px;">
-                            <div style="width: 60%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;"><div id="mapR1" style="width:100%; height:100%"></div></div>
-                            <div style="width: 40%; display:flex; align-items:center;"><canvas id="chR1"></canvas></div>
-                        </div>
-                        <div class="mb-2 fw-bold text-primary small border-bottom pb-1">ANÁLISIS DE DATOS</div>
-                        <div id="r1_txt" class="auto-text-box"></div>
+
                         <div class="doc-footer">
                             <div class="footer-info">
-                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>Carrera de Gestión de Riesgos y Desastres<br>Elaborado por: Dylan Vélez & Jordan Sanabria
+                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>
+                                Carrera de Gestión de Riesgos y Desastres<br>
+                                Elaborado por: Dylan Vélez &amp; Jordan Sanabria<br>
+                                Tutor institucional: Ing. Mauricio Ledesma
                             </div>
                             <div class="qr-box">UEB</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- OBJETIVO 2 -->
                 <div class="w-100 d-flex flex-column align-items-center gap-3 mt-5">
                     <button onclick="printReport('doc2')" class="btn btn-primary w-50 shadow fw-bold no-print py-2">
                         <i class="bi bi-file-earmark-pdf-fill me-2"></i>GENERAR INFORME SOCIAL (OBJ 2)
@@ -265,20 +337,31 @@
                                 <strong>Área:</strong> <span id="r2_loc" class="text-uppercase fw-bold"></span>
                             </div>
                         </div>
-                        <div class="kpi-row-doc">
-                            <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_tot">0</div><div class="kpi-doc-lbl">TOTAL ACTORES</div></div>
-                            <div class="kpi-box-doc"><div class="kpi-doc-val text-primary" id="r2_idx">0.0</div><div class="kpi-doc-lbl">ÍNDICE PROMEDIO</div></div>
-                            <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_st">-</div><div class="kpi-doc-lbl">CALIFICACIÓN</div></div>
+
+                        <div class="doc-body">
+                            <div class="kpi-row-doc">
+                                <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_tot">0</div><div class="kpi-doc-lbl">TOTAL ACTORES</div></div>
+                                <div class="kpi-box-doc"><div class="kpi-doc-val text-primary" id="r2_idx">0.0</div><div class="kpi-doc-lbl">ÍNDICE PROMEDIO</div></div>
+                                <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_st">-</div><div class="kpi-doc-lbl">CALIFICACIÓN</div></div>
+                            </div>
+                            <div class="d-flex gap-3 mb-4" style="height: 220px;">
+                                <div style="width: 50%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;"><div id="mapR2" style="width:100%; height:100%"></div></div>
+                                <div style="width: 50%; display:flex; align-items:center; justify-content:center;"><canvas id="chR2"></canvas></div>
+                            </div>
+
+                            <div class="mb-2 fw-bold text-accent small border-bottom pb-1">ANÁLISIS POR VARIABLE (GRÁFICA Y ANÁLISIS)</div>
+                            <div id="r2_varCharts" class="row g-2 mb-3"></div>
+
+                            <div class="mb-2 fw-bold text-accent small border-bottom pb-1">ANÁLISIS GENERAL DE LA PERCEPCIÓN</div>
+                            <div id="r2_txt" class="auto-text-box"></div>
                         </div>
-                        <div class="d-flex gap-3 mb-4" style="height: 220px;">
-                            <div style="width: 50%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;"><div id="mapR2" style="width:100%; height:100%"></div></div>
-                            <div style="width: 50%; display:flex; align-items:center; justify-content:center;"><canvas id="chR2"></canvas></div>
-                        </div>
-                        <div class="mb-2 fw-bold text-accent small border-bottom pb-1" style="color: var(--accent);">MATRIZ DE HALLAZGOS</div>
-                        <div id="r2_list" class="analysis-list"></div>
+
                         <div class="doc-footer">
                             <div class="footer-info">
-                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>Carrera de Gestión de Riesgos y Desastres<br>Elaborado por: Dylan Vélez & Jordan Sanabria
+                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>
+                                Carrera de Gestión de Riesgos y Desastres<br>
+                                Elaborado por: Dylan Vélez &amp; Jordan Sanabria<br>
+                                Tutor institucional: Ing. Mauricio Ledesma
                             </div>
                             <div class="qr-box">UEB</div>
                         </div>
@@ -289,10 +372,14 @@
         </div>
     </div>
 
+    <!-- Librerías -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- html2pdf para exportar a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <script>
         // ==========================================
-        // CONFIGURACIÓN (YA CALIBRADA)
+        // CONFIGURACIÓN
         // ==========================================
         
         const C_CAP = {
@@ -319,18 +406,58 @@
         const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
         const VARS = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
         
-        let DC=[], DE=[], maps={}, charts={}, layerGroups={};
+        let DC = [], DE = [], maps = {}, charts = {}, layerGroups = {};
 
-        // --- SISTEMA ---
+        // --- HELPERS GENERALES ---
         function safeFloat(val) {
-            if (!val) return null;
-            let n = parseFloat(val.toString().replace(',', '.'));
+            if (val === null || val === undefined || val === '') return null;
+            const n = parseFloat(val.toString().replace(',', '.'));
             return isNaN(n) ? null : n;
         }
 
         function getJitter(val) {
-            let v = safeFloat(val);
-            return v ? v + (Math.random() - 0.5) * 0.003 : null;
+            const v = safeFloat(val);
+            if (v === null) return null;
+            return v + (Math.random() - 0.5) * 0.003;
+        }
+
+        function buildParagraphsHtml(paragraphs) {
+            return paragraphs
+                .map(p => `<p style="margin-bottom:6px;">${p}</p>`)
+                .join('');
+        }
+
+        function describeNivel(val) {
+            if (val >= 3.5) return 'alto, lo que refleja un desempeño consolidado en esta dimensión';
+            if (val >= 3.0) return 'medio, que evidencia capacidades básicas pero aún frágiles frente a emergencias';
+            if (val >= 2.0) return 'bajo, revelando debilidades importantes que incrementan la vulnerabilidad institucional y comunitaria';
+            return 'muy bajo, configurando una condición crítica que requiere atención inmediata desde la gestión de riesgos';
+        }
+
+        function paragraphForVar(name, val) {
+            const nivel = describeNivel(val);
+            const vStr = val.toFixed(2);
+
+            switch (name) {
+                case 'Participación':
+                    return `En la <strong>gráfica de la variable Participación</strong> se observa un promedio de <strong>${vStr} puntos</strong> sobre 5, un nivel ${nivel}. Este indicador muestra el grado en que los actores institucionales y comunitarios se involucran en espacios de planificación, simulacros y comités de gestión de riesgos, por lo que su fortalecimiento es clave para legitimar decisiones y asegurar que las medidas de prevención sean apropiadas por la población.`;
+                case 'Compromiso':
+                    return `En la <strong>gráfica de la variable Compromiso</strong> se registra un promedio de <strong>${vStr} puntos</strong>, valor que evidencia un nivel ${nivel}. Este resultado refleja la disposición real de las instituciones para asignar tiempo, personal y recursos a la gestión del riesgo, lo cual determina en gran medida la sostenibilidad de los planes y la continuidad de las acciones más allá de proyectos puntuales.`;
+                case 'Capacitación':
+                    return `La <strong>gráfica de la variable Capacitación</strong> muestra un promedio de <strong>${vStr} puntos</strong>, asociado a un nivel ${nivel}. Esta puntuación da cuenta del grado de formación técnica del personal en temas como primeros auxilios, manejo de emergencias y planificación ante desastres, por lo que un valor reducido implica la necesidad de implementar programas sistemáticos de actualización y entrenamiento.`;
+                case 'Plan Local':
+                    return `En la <strong>gráfica de la variable Plan Local</strong> el promedio alcanza <strong>${vStr} puntos</strong>, correspondiente a un nivel ${nivel}. Este indicador expresa la existencia y apropiación de instrumentos formales de planificación (planes de contingencia, mapas de riesgo, protocolos), así como su uso efectivo por parte de los responsables institucionales y comunitarios durante ejercicios y eventos reales.`;
+                case 'Comunicación':
+                    return `La <strong>gráfica de la variable Comunicación</strong> evidencia un promedio de <strong>${vStr} puntos</strong>, que se interpreta como un nivel ${nivel}. Esta dimensión refleja la claridad de los canales y mensajes utilizados para informar a la población antes, durante y después de un evento adverso, incluyendo la coordinación entre instituciones y la difusión de alertas y recomendaciones.`;
+                case 'Articulación':
+                    return `En la <strong>gráfica de la variable Articulación</strong> se observa un promedio de <strong>${vStr} puntos</strong>, indicando un nivel ${nivel}. Este resultado muestra qué tan coordinadas se encuentran las entidades del territorio entre sí y con los sistemas provinciales o nacionales, aspecto fundamental para evitar duplicidad de esfuerzos y garantizar una respuesta coherente y oportuna.`;
+                case 'Inclusión':
+                    return `La <strong>gráfica de la variable Inclusión</strong> presenta un promedio de <strong>${vStr} puntos</strong>, asociado a un nivel ${nivel}. El indicador permite valorar si la gestión del riesgo incorpora a grupos prioritarios (niñez, personas mayores, personas con discapacidad, pueblos y nacionalidades) en los procesos de diagnóstico, planificación y respuesta, evitando que queden al margen de las decisiones.`;
+                case 'Réplica':
+                    return `En la <strong>gráfica de la variable Réplica</strong> el promedio es de <strong>${vStr} puntos</strong>, correspondiente a un nivel ${nivel}. Esta dimensión mide la capacidad de los actores locales para replicar la información recibida, multiplicar las buenas prácticas y sostener procesos de formación interna, condición necesaria para que las capacidades construidas no dependan únicamente de la presencia de equipos externos.`;
+                default:
+                    return `En la gráfica de la variable <strong>${name}</strong> se observa un promedio de <strong>${vStr} puntos</strong>, lo que se interpreta como un nivel ${nivel}.`;
+            }
         }
 
         window.onload = () => {
@@ -347,24 +474,30 @@
                     return response.json();
                 })
                 .then(jsonData => {
-                    if(jsonData.status === 'success') {
+                    if (jsonData.status === 'success') {
                         DC = jsonData.dataCap || [];
                         DE = jsonData.dataEval || [];
                         document.getElementById('loader').classList.add('hidden');
                         applyFilter();
-                    } else { throw new Error("JSON sin status success"); }
+                    } else {
+                        throw new Error("JSON sin status success");
+                    }
                 })
                 .catch(e => {
                     console.error("Error:", e);
-                    // AQUÍ ESTABA EL "ERROR DE CONEXIÓN" ENGAÑOSO. LO HE QUITADO PARA QUE NO ASUSTE SI ES UN ERROR DE MAPA.
-                    // alert("Error: " + e.message); 
                     document.getElementById('loader').classList.add('hidden');
+
+                    const main = document.querySelector('.main-content');
+                    const alert = document.createElement('div');
+                    alert.className = 'alert alert-danger mt-3';
+                    alert.innerText = 'No se pudo conectar con el servidor de datos. Verifique su conexión e intente recargar la página.';
+                    main.prepend(alert);
                 });
         }
 
         window.nav = (id, el) => {
             document.querySelectorAll('.tab-pane').forEach(d => d.classList.add('hidden'));
-            document.getElementById('view-'+id).classList.remove('hidden');
+            document.getElementById('view-' + id).classList.remove('hidden');
             document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
             el.classList.add('active');
             
@@ -373,7 +506,10 @@
             
             setTimeout(() => { 
                 for(let k in maps) maps[k].invalidateSize(); 
-                if(id==='rep'){ fitMap('mapR1', layerGroups['mapR1']); fitMap('mapR2', layerGroups['mapR2']); }
+                if(id === 'rep'){ 
+                    fitMap('mapR1', layerGroups['mapR1']); 
+                    fitMap('mapR2', layerGroups['mapR2']); 
+                }
             }, 200);
         };
 
@@ -390,16 +526,29 @@
             updRep(fC, fE, name);
         };
 
+        // ========= DIAGNÓSTICO (OBJ 1) =========
         function updDiag(d) {
-            document.getElementById('d_tot').innerText = d.length;
-            let s=0, f=0, a=0, v=0;
+            const total = d.length;
+            document.getElementById('d_tot').innerText = total;
+
             let markers = [];
+
+            if (total === 0) {
+                document.getElementById('d_sat').innerText = 'N/A';
+                document.getElementById('d_veh').innerText = 'N/A';
+                updateMapLayer('mapDiag', markers);
+                renderBar('chD1', ['Salud', 'Bomberos'], [0, 0], '#2563eb');
+                renderBar('chD2', ['SAT', 'Vehículos'], [0, 0], '#0f172a');
+                return;
+            }
+
+            let s = 0, f = 0, a = 0, v = 0;
             
             d.forEach(r => {
                 let lat = getJitter(r[C_CAP.LAT]);
                 let lng = getJitter(r[C_CAP.LNG]);
                 
-                if(lat && lng) {
+                if(lat !== null && lng !== null) {
                     let hasSat = r[C_CAP.SAT] === 'SI';
                     let color = hasSat ? '#16a34a' : '#dc2626';
                     let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_CAP.NOMBRE]}</span></div>
@@ -408,18 +557,25 @@
                                     <strong>Vehículo:</strong> ${r[C_CAP.VEHICULO] || 'No def.'}
                                  </div>`;
                     
-                    markers.push(L.circleMarker([lat, lng], {radius: 7, fillColor: color, color: "white", weight: 2, fillOpacity: 0.9}).bindPopup(popup, {className: 'custom-popup'}));
+                    markers.push(
+                        L.circleMarker([lat, lng], {
+                            radius: 7, 
+                            fillColor: color, 
+                            color: "white", 
+                            weight: 2, 
+                            fillOpacity: 0.9
+                        }).bindPopup(popup, {className: 'custom-popup'})
+                    );
 
-                    if(r[C_CAP.SALUD]==='SI') s++;
-                    if(r[C_CAP.BOMBEROS]==='SI') f++;
-                    if(r[C_CAP.SAT]==='SI') a++;
-                    if(r[C_CAP.VEHICULO]==='SI') v++;
+                    if(r[C_CAP.SALUD] === 'SI') s++;
+                    if(r[C_CAP.BOMBEROS] === 'SI') f++;
+                    if(r[C_CAP.SAT] === 'SI') a++;
+                    if(r[C_CAP.VEHICULO] === 'SI') v++;
                 }
             });
             
             updateMapLayer('mapDiag', markers);
             
-            let total = d.length || 1;
             document.getElementById('d_sat').innerText = Math.round((a/total)*100) + '%';
             document.getElementById('d_veh').innerText = Math.round((v/total)*100) + '%';
             
@@ -427,18 +583,30 @@
             renderBar('chD2', ['SAT', 'Vehículos'], [a, v], '#0f172a');
         }
 
+        // ========= EVALUACIÓN SOCIAL (OBJ 2) =========
         function updEval(d) {
-            document.getElementById('e_tot').innerText = d.length;
-            let sums = new Array(8).fill(0);
+            const total = d.length;
+            document.getElementById('e_tot').innerText = total;
+
             let markers = [];
+
+            if (total === 0) {
+                document.getElementById('e_idx').innerText = 'N/A';
+                document.getElementById('e_st').innerText = 'SIN DATOS';
+                updateMapLayer('mapEval', markers);
+                renderRadar('chEval', new Array(8).fill(0), '#2563eb', 'rgba(37, 99, 235, 0.2)');
+                return;
+            }
+
+            let sums = new Array(8).fill(0);
 
             d.forEach(r => {
                 let lat = getJitter(r[C_EVAL.LAT]);
                 let lng = getJitter(r[C_EVAL.LNG]);
 
-                if(lat && lng) {
+                if(lat !== null && lng !== null) {
                     let avg = 0;
-                    for(let i=0; i<8; i++) {
+                    for(let i = 0; i < 8; i++) {
                         let val = Number(r[C_EVAL.NOTA_INICIO + i]) || 0;
                         sums[i] += val;
                         avg += val;
@@ -452,85 +620,182 @@
                                     <strong>Promedio:</strong> ${avg.toFixed(2)} / 5.0
                                  </div>`;
 
-                    markers.push(L.circleMarker([lat, lng], {radius: 7, fillColor: color, color: "white", weight: 2, fillOpacity: 0.9}).bindPopup(popup, {className: 'custom-popup'}));
+                    markers.push(
+                        L.circleMarker([lat, lng], {
+                            radius: 7, 
+                            fillColor: color, 
+                            color: "white", 
+                            weight: 2, 
+                            fillOpacity: 0.9
+                        }).bindPopup(popup, {className: 'custom-popup'})
+                    );
                 }
             });
 
             updateMapLayer('mapEval', markers);
 
-            let avgs = sums.map(x => Number((x / (d.length || 1)).toFixed(2)));
+            let avgs = sums.map(x => Number((x / total).toFixed(2)));
             let glob = (avgs.reduce((a,b)=>a+b,0)/8).toFixed(2);
             
             document.getElementById('e_idx').innerText = glob;
-            document.getElementById('e_st').innerText = glob>=3.5 ? "FORTALECIDO" : (glob>=2.5 ? "EN PROCESO" : "VULNERABLE");
+            document.getElementById('e_st').innerText = glob >= 3.5 ? "FORTALECIDO" : (glob >= 2.5 ? "EN PROCESO" : "VULNERABLE");
             
             renderRadar('chEval', avgs, '#2563eb', 'rgba(37, 99, 235, 0.2)');
         }
 
+        // ========= REPORTES (OBJ 1 y OBJ 2) =========
         function updRep(dc, de, name) {
             document.querySelectorAll('#r1_loc, #r2_loc').forEach(e => e.innerText = name);
             let dateStr = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             document.querySelectorAll('#r1_date, #r2_date').forEach(e => e.innerText = dateStr);
 
-            // DATOS REPORTE 1
-            let t1 = dc.length || 1;
-            let a = dc.filter(r => r[C_CAP.SAT]==='SI').length;
-            let v = dc.filter(r => r[C_CAP.VEHICULO]==='SI').length;
-            let s = dc.filter(r => r[C_CAP.SALUD]==='SI').length;
+            // ---------- REPORTE 1 (OBJ 1) ----------
+            let t1 = dc.length;
+            let a = dc.filter(r => r[C_CAP.SAT] === 'SI').length;
+            let v = dc.filter(r => r[C_CAP.VEHICULO] === 'SI').length;
+            let s = dc.filter(r => r[C_CAP.SALUD] === 'SI').length;
             
-            document.getElementById('r1_sal').innerText = Math.round((s/t1)*100) + '%';
-            document.getElementById('r1_sat').innerText = Math.round((a/t1)*100) + '%';
-            document.getElementById('r1_veh').innerText = Math.round((v/t1)*100) + '%';
+            let markersR1 = [];
 
-            let txt1 = `Se han evaluado ${t1} puntos en ${name}. La cobertura de Sistemas de Alerta Temprana (SAT) alcanza el ${Math.round((a/t1)*100)}%, lo cual indica un nivel ${a/t1 > 0.6 ? 'aceptable' : 'crítico'} de preparación tecnológica. En logística, el ${Math.round((v/t1)*100)}% de las entidades cuenta con vehículo operativo.`;
-            document.getElementById('r1_txt').innerText = txt1;
+            if (t1 === 0) {
+                document.getElementById('r1_sal').innerText = 'N/A';
+                document.getElementById('r1_sat').innerText = 'N/A';
+                document.getElementById('r1_veh').innerText = 'N/A';
 
-            renderBar('chR1', ['Salud', 'SAT', 'Vehículo'], [s, a, v], '#0f172a');
-            
-            let m1 = [];
-            dc.forEach(r => { 
-                let lat=getJitter(r[C_CAP.LAT]), lng=getJitter(r[C_CAP.LNG]); 
-                if(lat && lng) m1.push(L.circleMarker([lat,lng],{radius:4,color:'#0f172a',weight:0,fillColor:'#0f172a',fillOpacity:0.8}));
-            });
-            updateMapLayer('mapR1', m1);
+                const p1 = `En la jurisdicción de ${name} no se registran infraestructuras evaluadas para el periodo analizado, por lo que no es posible establecer un diagnóstico cuantitativo de capacidades operativas. Esta ausencia de información impide caracterizar el nivel de preparación institucional frente a escenarios de emergencia.`;
+                const p2 = `Desde la perspectiva de la gestión de riesgos, la inexistencia de un levantamiento sistemático de datos representa una brecha crítica para la planificación, ya que limita la identificación de coberturas en salud, sistemas de alerta temprana y recursos logísticos mínimos para la respuesta.`;
+                const p3 = `Se recomienda priorizar un proceso de levantamiento técnico de información, utilizando fichas estandarizadas y georreferenciadas, de manera que se construya una línea base confiable que permita dimensionar brechas, definir prioridades de inversión y articular la capacidad operativa de las instituciones presentes en ${name}.`;
 
-            // DATOS REPORTE 2
+                document.getElementById('r1_txt').innerHTML = buildParagraphsHtml([p1, p2, p3]);
+
+                updateMapLayer('mapR1', markersR1);
+                renderBar('chR1', ['Salud', 'SAT', 'Vehículo'], [0, 0, 0], '#0f172a');
+            } else {
+                const salPct = Math.round((s/t1)*100);
+                const satPct = Math.round((a/t1)*100);
+                const vehPct = Math.round((v/t1)*100);
+
+                document.getElementById('r1_sal').innerText = salPct + '%';
+                document.getElementById('r1_sat').innerText = satPct + '%';
+                document.getElementById('r1_veh').innerText = vehPct + '%';
+
+                let satNivel = satPct > 70 ? 'robusto' : (satPct >= 40 ? 'intermedio' : 'crítico');
+                let vehNivel = vehPct > 70 ? 'satisfactorio' : (vehPct >= 40 ? 'limitado' : 'deficiente');
+                let salNivel = salPct > 70 ? 'adecuada' : (salPct >= 40 ? 'parcial' : 'insuficiente');
+
+                const p1 = `En ${name} se han evaluado un total de ${t1} infraestructuras vinculadas a la gestión del riesgo, lo que permite contar con una línea base operativa para el análisis de capacidades. La cobertura de servicios de salud alcanza el ${salPct}%, evidenciando una disponibilidad ${salNivel} de establecimientos que podrían brindar atención primaria en situaciones de emergencia. Esta información es clave para dimensionar la capacidad de absorción del sistema sanitario ante eventos de alta demanda.`;
+
+                const p2 = `En relación con los Sistemas de Alerta Temprana (SAT), el ${satPct}% de las infraestructuras cuenta con algún tipo de mecanismo de aviso o monitoreo, lo que se interpreta como un nivel ${satNivel} de preparación tecnológica. Cuando la cobertura es baja o intermedia, se incrementa la probabilidad de que la población no reciba avisos oportunos frente a amenazas inminentes, lo que reduce el tiempo de reacción y puede aumentar la exposición a daños. Es prioritario fortalecer estos sistemas mediante protocolos claros, pruebas periódicas y articulación con los organismos de respuesta.`;
+
+                const p3 = `Desde la perspectiva logística, el ${vehPct}% de las entidades evaluadas dispone de vehículos operativos para actividades de evacuación, transporte de personal o distribución de ayuda humanitaria, lo que configura un escenario ${vehNivel} de movilidad institucional. Una logística limitada puede retrasar la respuesta y fragmentar los esfuerzos de coordinación. En este sentido, se recomienda consolidar un plan de flota compartida, garantizar el mantenimiento preventivo de los vehículos existentes y explorar convenios interinstitucionales que permitan optimizar el uso de recursos en beneficio de la gestión de emergencias en ${name}.`;
+
+                document.getElementById('r1_txt').innerHTML = buildParagraphsHtml([p1, p2, p3]);
+
+                renderBar('chR1', ['Salud', 'SAT', 'Vehículo'], [s, a, v], '#0f172a');
+                
+                dc.forEach(r => { 
+                    let lat = getJitter(r[C_CAP.LAT]), lng = getJitter(r[C_CAP.LNG]); 
+                    if(lat !== null && lng !== null) {
+                        markersR1.push(
+                            L.circleMarker([lat,lng],{
+                                radius:4,
+                                color:'#0f172a',
+                                weight:0,
+                                fillColor:'#0f172a',
+                                fillOpacity:0.8
+                            })
+                        );
+                    }
+                });
+                updateMapLayer('mapR1', markersR1);
+            }
+
+            // ---------- REPORTE 2 (OBJ 2) ----------
+            let t2 = de.length;
             let sums = new Array(8).fill(0);
-            de.forEach(r => { for(let i=0; i<8; i++) sums[i] += Number(r[C_EVAL.NOTA_INICIO + i]) || 0; });
-            let avgs = sums.map(x => Number((x / (de.length || 1)).toFixed(2)));
-            let glob = (avgs.reduce((a,b)=>a+b,0)/8).toFixed(2);
-            
-            document.getElementById('r2_tot').innerText = de.length;
-            document.getElementById('r2_idx').innerText = glob;
-            document.getElementById('r2_st').innerText = glob>=3.5 ? "ALTO" : "BAJO";
 
-            let htmlList = "";
-            avgs.forEach((val, i) => {
-                let isGood = val >= 3.0;
-                let color = isGood ? '#16a34a' : '#dc2626';
-                htmlList += `<div class="analysis-item" style="border-left-color:${color}">
-                                <strong style="color:${color}">${VARS[i]} (${val})</strong>
-                                <br><span class="text-muted">${isGood ? 'Fortaleza identificada.' : 'Requiere plan de mejora.'}</span>
-                             </div>`;
-            });
-            document.getElementById('r2_list').innerHTML = htmlList;
-            
-            renderRadar('chR2', avgs, '#2563eb', 'rgba(37, 99, 235, 0.1)');
-            
-            let m2 = [];
-            de.forEach(r => { 
-                let lat=getJitter(r[C_EVAL.LAT]), lng=getJitter(r[C_EVAL.LNG]); 
-                if(lat && lng) m2.push(L.circleMarker([lat,lng],{radius:4,color:'#2563eb',weight:0,fillColor:'#2563eb',fillOpacity:0.8}));
-            });
-            updateMapLayer('mapR2', m2);
+            const r2TxtDiv  = document.getElementById('r2_txt');
+            const r2ChartsDiv = document.getElementById('r2_varCharts');
+            r2ChartsDiv.innerHTML = '';
+
+            if (t2 === 0) {
+                document.getElementById('r2_tot').innerText = 0;
+                document.getElementById('r2_idx').innerText = 'N/A';
+                document.getElementById('r2_st').innerText = 'SIN DATOS';
+
+                const g1 = `No se registran actores encuestados en el territorio de ${name}, por lo que no es posible analizar la percepción del riesgo a nivel de variables específicas como participación, compromiso o articulación. Esta ausencia de información limita la comprensión de las dinámicas sociales que inciden en la preparación comunitaria.`;
+                const g2 = `Desde la óptica de la gestión de riesgos, la falta de datos de percepción social representa una brecha estratégica, ya que impide contrastar las capacidades técnicas con la disposición real de la población y de los actores clave para asumir roles en la prevención, respuesta y recuperación.`;
+                const g3 = `Se recomienda implementar un proceso de levantamiento de encuestas estructuradas que incorpore a representantes de instituciones públicas, organizaciones comunitarias y otros actores territoriales, con el fin de construir indicadores cualitativos y cuantitativos sobre percepción del riesgo, integrándolos posteriormente con el diagnóstico de capacidades físicas e institucionales en ${name}.`;
+
+                r2TxtDiv.innerHTML  = buildParagraphsHtml([g1, g2, g3]);
+
+                renderRadar('chR2', new Array(8).fill(0), '#2563eb', 'rgba(37, 99, 235, 0.1)');
+                updateMapLayer('mapR2', []);
+            } else {
+                de.forEach(r => { 
+                    for(let i = 0; i < 8; i++) sums[i] += Number(r[C_EVAL.NOTA_INICIO + i]) || 0; 
+                });
+                let avgs = sums.map(x => Number((x / t2).toFixed(2)));
+                let glob = (avgs.reduce((a,b)=>a+b,0)/8).toFixed(2);
+                
+                document.getElementById('r2_tot').innerText = t2;
+                document.getElementById('r2_idx').innerText = glob;
+                document.getElementById('r2_st').innerText = glob >= 3.5 ? "ALTO" : "BAJO";
+
+                avgs.forEach((val, i) => {
+                    const col = document.createElement('div');
+                    col.className = 'col-6';
+                    const canvasId = `chR2_var_${i}`;
+                    const paragraph = paragraphForVar(VARS[i], val);
+                    col.innerHTML = `
+                        <div class="card-modern var-card" style="padding:8px; box-shadow:none; border-radius:6px;">
+                            <div class="small fw-bold mb-1" style="font-size:0.7rem;">${VARS[i]}</div>
+                            <div style="height:80px;"><canvas id="${canvasId}"></canvas></div>
+                            <div class="small text-muted mt-1" style="font-size:0.65rem;">Promedio: ${val.toFixed(2)} / 5</div>
+                            <div class="analysis-text mt-1" style="font-size:0.75rem;">${paragraph}</div>
+                        </div>`;
+                    r2ChartsDiv.appendChild(col);
+                    renderMiniBar(canvasId, val);
+                });
+
+                const strong = avgs.filter(v => v >= 3.5).length;
+                const mid    = avgs.filter(v => v >= 3.0 && v < 3.5).length;
+                const weak   = avgs.filter(v => v < 3.0).length;
+
+                const g1 = `El índice promedio de percepción del riesgo en ${name} es de <strong>${glob} puntos</strong> sobre 5, calculado a partir de ${t2} actores encuestados. Este valor sintetiza la visión que tienen las instituciones y organizaciones sobre su grado de preparación y organización frente a posibles emergencias, y constituye un insumo clave para orientar la planificación participativa en gestión de riesgos.`;
+
+                const g2 = `Al desagregar la información, se observa que ${strong} variables se encuentran en rangos altos de valoración, ${mid} presentan un comportamiento intermedio y ${weak} se sitúan por debajo de los niveles deseables, lo que evidencia una mezcla de fortalezas y brechas en la dimensión social del riesgo. Las fortalezas pueden ser aprovechadas como puntos de apoyo para procesos de réplica y liderazgo comunitario, mientras que las variables con calificación baja deben abordarse mediante programas de capacitación, acompañamiento técnico y fortalecimiento organizacional.`;
+
+                const g3 = `Desde la perspectiva de un enfoque integral de gestión de riesgos, resulta fundamental articular estos resultados con el diagnóstico de capacidades físicas e institucionales. Un territorio con buena infraestructura pero baja percepción y organización social mantiene niveles significativos de vulnerabilidad. Por ello, se recomienda incorporar estos hallazgos en los planes locales de gestión de riesgos, definiendo líneas de acción específicas para mejorar la cultura de prevención, consolidar redes de articulación interinstitucional y promover una participación más activa de la comunidad en todas las fases del ciclo del riesgo en ${name}.`;
+
+                r2TxtDiv.innerHTML = buildParagraphsHtml([g1, g2, g3]);
+                
+                renderRadar('chR2', avgs, '#2563eb', 'rgba(37, 99, 235, 0.1)');
+                
+                let markersR2 = [];
+                de.forEach(r => { 
+                    let lat = getJitter(r[C_EVAL.LAT]), lng = getJitter(r[C_EVAL.LNG]); 
+                    if(lat !== null && lng !== null) {
+                        markersR2.push(
+                            L.circleMarker([lat,lng],{
+                                radius:4,
+                                color:'#2563eb',
+                                weight:0,
+                                fillColor:'#2563eb',
+                                fillOpacity:0.8
+                            })
+                        );
+                    }
+                });
+                updateMapLayer('mapR2', markersR2);
+            }
         }
 
-        // --- SOLUCIÓN AL ERROR DE MAPA ---
+        // --- MAPAS ---
         function initMaps() {
             ['mapDiag','mapEval','mapR1','mapR2'].forEach(id => {
                 maps[id] = L.map(id, {zoomControl:false, attributionControl:false}).setView([-0.25, -79.17], 9);
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(maps[id]);
-                // AQUÍ ESTABA EL ERROR: layerGroup no tiene getBounds(), pero featureGroup SÍ.
                 layerGroups[id] = L.featureGroup().addTo(maps[id]);
             });
         }
@@ -539,7 +804,11 @@
             if(maps[id] && layerGroups[id]) {
                 layerGroups[id].clearLayers();
                 markers.forEach(m => m.addTo(layerGroups[id]));
-                if(markers.length > 0) fitMap(id, layerGroups[id]);
+                if(markers.length > 0) {
+                    fitMap(id, layerGroups[id]);
+                } else {
+                    maps[id].setView([-0.25, -79.17], 9);
+                }
             }
         }
 
@@ -550,12 +819,22 @@
             }
         }
 
+        // --- GRÁFICOS ---
         function renderBar(id, l, d, c) {
             if(charts[id]) charts[id].destroy();
             charts[id] = new Chart(document.getElementById(id), {
                 type: 'bar',
                 data: {labels:l, datasets:[{data:d, backgroundColor:c, borderRadius:3}]},
-                options: {responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{grid:{display:false}}}}
+                options: {
+                    responsive:true, 
+                    maintainAspectRatio:false, 
+                    indexAxis:'y', 
+                    plugins:{legend:{display:false}}, 
+                    scales:{
+                        x:{display:false}, 
+                        y:{grid:{display:false}}
+                    }
+                }
             });
         }
 
@@ -564,18 +843,102 @@
             charts[id] = new Chart(document.getElementById(id), {
                 type: 'radar',
                 data: {labels:VARS, datasets:[{data:d, borderColor:c, backgroundColor:bg, pointRadius:0}]},
-                options: {responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{r:{min:0, max:5, ticks:{display:false}, pointLabels:{font:{size:8}}}}}
+                options: {
+                    responsive:true, 
+                    maintainAspectRatio:false, 
+                    plugins:{legend:{display:false}}, 
+                    scales:{
+                        r:{
+                            min:0, 
+                            max:5, 
+                            ticks:{display:false}, 
+                            pointLabels:{font:{size:8}}
+                        }
+                    }
+                }
             });
         }
 
-        window.printReport = (docId) => {
-            document.querySelectorAll('.a4-sheet').forEach(e => e.classList.remove('print-visible'));
-            const t = document.getElementById(docId);
-            t.classList.add('print-visible');
-            if(docId==='doc1') fitMap('mapR1', layerGroups['mapR1']);
-            if(docId==='doc2') fitMap('mapR2', layerGroups['mapR2']);
-            setTimeout(() => { window.print(); t.classList.remove('print-visible'); }, 500);
+        function renderMiniBar(id, value) {
+            if(charts[id]) charts[id].destroy();
+            charts[id] = new Chart(document.getElementById(id), {
+                type: 'bar',
+                data: {
+                    labels: [''],
+                    datasets: [{
+                        data: [value],
+                        backgroundColor: '#2563eb',
+                        borderRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false, min: 0, max: 5 }
+                    }
+                }
+            });
         }
+
+        // --- IMPRESIÓN CON HTML2PDF ---
+        window.printReport = (docId) => {
+            const element = document.getElementById(docId);
+
+            const opt = {
+                margin: [10, 10, 10, 10], // márgenes iguales
+                filename: docId === 'doc1' ? 'informe_tecnico_obj1.pdf' : 'informe_social_obj2.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    scrollX: 0,
+                    scrollY: 0,
+                    useCORS: true
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        };
+
+        // --- HACKERMAN NOTIFICATION ---
+        function showHackerman(message) {
+            const box = document.getElementById('hackermanBox');
+            box.querySelector('span').textContent = message;
+            box.style.display = 'block';
+            box.style.opacity = '1';
+            setTimeout(() => {
+                box.style.transition = 'opacity 0.6s ease';
+                box.style.opacity = '0';
+                setTimeout(() => {
+                    box.style.display = 'none';
+                    box.style.transition = '';
+                }, 600);
+            }, 1500);
+        }
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showHackerman('Clic derecho bloqueado por el sistema.');
+        });
+
+        document.addEventListener('keydown', function(e) {
+            const key = e.key;
+            if (
+                key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && (key === 'I' || key === 'J' || key === 'C')) ||
+                (e.ctrlKey && key === 'U')
+            ) {
+                e.preventDefault();
+                showHackerman('Intento de abrir herramientas de desarrollo bloqueado.');
+            }
+        });
     </script>
 </body>
 </html>
