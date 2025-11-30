@@ -23,40 +23,177 @@
             --sidebar-width: 260px;
         }
 
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: #334155; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: #334155;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-        /* SIDEBAR */
-        .sidebar { width: var(--sidebar-width); background: white; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; padding: 1.2rem; flex-shrink: 0; z-index: 50; }
-        .brand { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #f1f5f9; }
-        .brand h4 { font-weight: 800; margin: 0; color: var(--primary); letter-spacing: -0.5px; }
-        .brand span { font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; }
-        .nav-btn { padding: 10px 14px; margin-bottom: 5px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; color: #64748b; font-weight: 600; font-size: 0.85rem; transition: all 0.2s; }
-        .nav-btn:hover { background: #f8fafc; color: var(--primary); }
-        .nav-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15); }
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            padding: 1.2rem;
+            flex-shrink: 0;
+            z-index: 50;
+        }
+        .brand {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .brand h4 {
+            font-weight: 800;
+            margin: 0;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        .brand span {
+            font-size: 0.65rem;
+            color: #64748b;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .nav-btn {
+            padding: 10px 14px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover {
+            background: #f8fafc;
+            color: var(--primary);
+        }
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
 
-        /* MAIN CONTENT */
-        .main-content { flex-grow: 1; overflow-y: auto; padding: 2rem; position: relative; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .page-title h2 { font-size: 1.4rem; font-weight: 800; margin: 0; color: var(--primary); }
-        .select-custom { border: 1px solid #cbd5e1; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; color: var(--primary); outline: none; min-width: 250px; background-color: white; cursor: pointer; font-size: 0.9rem; }
+        .main-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .page-title h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 0;
+            color: var(--primary);
+        }
+        .select-custom {
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            color: var(--primary);
+            outline: none;
+            min-width: 250px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
 
-        /* CARDS */
-        .card-modern { background: white; border-radius: 10px; padding: 1.25rem; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s; }
-        .card-modern:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card-header-custom { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-        .card-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px; }
-        .kpi-big { font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 0.2rem; color: var(--primary); }
-        .map-wrapper { height: 380px; width: 100%; border-radius: 8px; overflow: hidden; background: #e2e8f0; z-index: 1; border: 1px solid #cbd5e1; }
-        .chart-wrapper { position: relative; height: 180px; width: 100%; }
+        .card-modern {
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+        .card-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card-header-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .card-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+        }
+        .kpi-big {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.2rem;
+            color: var(--primary);
+        }
+        .map-wrapper {
+            height: 380px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #e2e8f0;
+            z-index: 1;
+            border: 1px solid #cbd5e1;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 180px;
+            width: 100%;
+        }
 
-        /* POPUPS */
-        .custom-popup .leaflet-popup-content-wrapper { padding: 0; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .custom-popup .leaflet-popup-content { margin: 0; width: 220px !important; }
-        .pop-header { background: var(--primary); color: white; padding: 8px 12px; font-weight: 700; font-size: 0.75rem; }
-        .pop-body { padding: 12px; font-size: 0.75rem; color: #334155; line-height: 1.4; background: white; }
+        .custom-popup .leaflet-popup-content-wrapper {
+            padding: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .custom-popup .leaflet-popup-content {
+            margin: 0;
+            width: 220px !important;
+        }
+        .pop-header {
+            background: var(--primary);
+            color: white;
+            padding: 8px 12px;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+        .pop-body {
+            padding: 12px;
+            font-size: 0.75rem;
+            color: #334155;
+            line-height: 1.4;
+            background: white;
+        }
 
-        /* REPORTES A4 (para mostrar en pantalla) */
-        .report-bg { background: #e2e8f0; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+        .report-bg {
+            background: #e2e8f0;
+            padding: 24px;
+            border-radius: 12px;
+        }
         .a4-sheet { 
             width: 210mm; 
             min-height: 297mm; 
@@ -70,36 +207,135 @@
             overflow: hidden; 
             margin: 0 auto;
         }
-        .doc-header { border-bottom: 3px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .doc-title { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-transform: uppercase; line-height: 1.1; }
-        .doc-sub { font-size: 0.8rem; color: var(--accent); font-weight: 700; text-transform: uppercase; }
-        .doc-meta { text-align: right; font-size: 0.65rem; color: #475569; line-height: 1.4; }
-        
-        .doc-body { flex: 1; display: flex; flex-direction: column; }
-
-        .kpi-row-doc { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .kpi-box-doc { background: #f8fafc; padding: 12px; text-align: center; border: 1px solid #e2e8f0; border-radius: 6px; }
-        .kpi-doc-val { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
-        .kpi-doc-lbl { font-size: 0.55rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-top: 4px; }
-        
-        .auto-text-box { font-size: 0.8rem; color: #334155; text-align: justify; line-height: 1.5; margin-bottom: 20px; padding: 10px; background: #f8fafc; border-radius: 6px; }
-        .analysis-text { font-size: 0.8rem; color: #334155; text-align: justify; line-height: 1.5; display: flex; flex-direction: column; gap: 6px; }
-        .analysis-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.7rem; }
-        .analysis-item { background: white; padding: 8px 10px; border: 1px solid #f1f5f9; border-radius: 4px; border-left-width: 4px; }
-        
-        .doc-footer { margin-top: auto; border-top: 1px solid #e2e8f0; padding-top: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .footer-info { font-size: 0.6rem; color: #94a3b8; line-height: 1.4; }
-        .qr-box { width: 40px; height: 40px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 6px; color: #cbd5e1; border: 1px solid #e2e8f0; }
-
-        .text-accent { color: var(--accent) !important; }
-
-        /* Tarjetas de variables: evitar corte entre páginas (para html2pdf también sirve) */
-        .var-card {
-            page-break-inside: avoid;
-            break-inside: avoid;
+        .doc-header {
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .doc-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        .doc-sub {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .doc-meta {
+            text-align: right;
+            font-size: 0.65rem;
+            color: #475569;
+            line-height: 1.4;
+        }
+        .doc-section-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-top: 10px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .doc-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Hackerman notification */
+        .kpi-row-doc {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .kpi-box-doc {
+            background: #f8fafc;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+        .kpi-doc-val {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .kpi-doc-lbl {
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        
+        .auto-text-box {
+            font-size: 0.78rem;
+            color: #334155;
+            text-align: justify;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            padding: 8px 10px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .doc-footer {
+            margin-top: auto;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .footer-info {
+            font-size: 0.6rem;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+        .qr-box {
+            width: 40px;
+            height: 40px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6px;
+            color: #cbd5e1;
+            border: 1px solid #e2e8f0;
+        }
+
+        .text-accent { color: var(--accent) !important; }
+        .var-card { page-break-inside: avoid; break-inside: avoid; }
+
+        /* tabla resumen variables */
+        .vars-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+        .vars-table th,
+        .vars-table td {
+            border: 1px solid #e2e8f0;
+            padding: 4px 6px;
+            vertical-align: top;
+        }
+        .vars-table th {
+            background-color: #f1f5f9;
+            font-weight: 700;
+            text-align: left;
+        }
+        .vars-table td:nth-child(2),
+        .vars-table td:nth-child(3) {
+            white-space: nowrap;
+        }
+
         #hackermanBox {
             position: fixed;
             right: 20px;
@@ -121,7 +357,6 @@
             margin-bottom: 2px;
         }
 
-        /* Reglas @media print ya NO son las principales (se queda por compatibilidad) */
         @media print {
             @page { size: A4; margin: 0; }
             body { background: white; display: block; height: auto; overflow: visible; }
@@ -135,810 +370,1006 @@
                 min-height: 100% !important;
                 padding: 15mm;
             }
-            .doc-footer {
-                position: static;
-                margin-top: auto;
-            }
-            .var-card {
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
+            .doc-footer { position: static; margin-top: auto; }
         }
 
         .hidden { display: none !important; }
-        #loader { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.95);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div>
-        <div class="fw-bold text-primary" style="letter-spacing: 1px;">CARGANDO SISTEMA</div>
-        <div class="small text-muted mt-2">Conectando con Servidor UEB...</div>
+<div id="loader">
+    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div>
+    <div class="fw-bold text-primary" style="letter-spacing: 1px;">CARGANDO SISTEMA</div>
+    <div class="small text-muted mt-2">Conectando con Servidor UEB...</div>
+</div>
+
+<div id="hackermanBox">
+    <strong>Hackerman activado</strong>
+    <span>Intento de acceso restringido bloqueado.</span>
+</div>
+
+<div class="sidebar no-print">
+    <div class="brand">
+        <h4>MONITOR RIESGOS</h4>
+        <span>SISTEMA DE GESTIÓN TERRITORIAL</span>
+    </div>
+    <div class="nav-btn active" onclick="nav('diag', this)">
+        <i class="bi bi-grid-1x2-fill"></i> Objetivo 1: Diagnóstico
+    </div>
+    <div class="nav-btn" onclick="nav('eval', this)">
+        <i class="bi bi-people-fill"></i> Objetivo 2: Diagnóstico Social
+    </div>
+    <div class="nav-btn" onclick="nav('strat', this)">
+        <i class="bi bi-journal-text"></i> Objetivo 3: PCDGR
+    </div>
+    <div class="nav-btn" onclick="nav('rep', this)">
+        <i class="bi bi-printer-fill"></i> Informes
+    </div>
+    
+    <div class="mt-auto pt-4 border-top text-center" style="font-size: 0.65rem; color: #94a3b8;">
+        <p class="mb-1 fw-bold text-dark">RESPONSABLES:</p>
+        Dylan Vélez &amp; Jordan Sanabria<br>Ingeniería en Riesgos
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="top-bar no-print">
+        <div class="page-title">
+            <h2 id="pageTitle">Objetivo 1: Diagnóstico</h2>
+            <span class="text-muted small">Panel de Control de Capacidades</span>
+        </div>
+        <select id="filter" class="select-custom shadow-sm" onchange="applyFilter()">
+            <option value="ALL">CONSOLIDADO PROVINCIAL</option>
+        </select>
     </div>
 
-    <div id="hackermanBox">
-        <strong>Hackerman activado</strong>
-        <span>Intento de acceso restringido bloqueado.</span>
-    </div>
-
-    <div class="sidebar no-print">
-        <div class="brand">
-            <h4>MONITOR RIESGOS</h4>
-            <span>SISTEMA DE GESTIÓN TERRITORIAL</span>
-        </div>
-        <div class="nav-btn active" onclick="nav('diag', this)"><i class="bi bi-grid-1x2-fill"></i> Diagnóstico</div>
-        <div class="nav-btn" onclick="nav('eval', this)"><i class="bi bi-people-fill"></i> Evaluación Social</div>
-        <div class="nav-btn" onclick="nav('strat', this)"><i class="bi bi-signpost-split-fill"></i> Estrategias</div>
-        <div class="nav-btn" onclick="nav('rep', this)"><i class="bi bi-printer-fill"></i> Reportes PDF</div>
-        
-        <div class="mt-auto pt-4 border-top text-center" style="font-size: 0.65rem; color: #94a3b8;">
-            <p class="mb-1 fw-bold text-dark">RESPONSABLES:</p>
-            Dylan Vélez & Jordan Sanabria<br>Ingeniería en Riesgos
-        </div>
-    </div>
-
-    <div class="main-content">
-        <div class="top-bar no-print">
-            <div class="page-title">
-                <h2 id="pageTitle">Diagnóstico Institucional</h2>
-                <span class="text-muted small">Panel de Control de Capacidades</span>
-            </div>
-            <select id="filter" class="select-custom shadow-sm" onchange="applyFilter()">
-                <option value="ALL">CONSOLIDADO PROVINCIAL</option>
-            </select>
-        </div>
-
-        <!-- DIAGNÓSTICO -->
-        <div id="view-diag" class="tab-pane active">
-            <div class="row g-3 mb-3">
-                <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">TOTAL PUNTOS</span><i class="bi bi-geo-alt text-muted"></i></div>
+    <!-- OBJETIVO 1: DIAGNÓSTICO -->
+    <div id="view-diag" class="tab-pane active">
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">TOTAL PUNTOS</span>
+                        <i class="bi bi-geo-alt text-muted"></i>
+                    </div>
                     <div class="kpi-big" id="d_tot">0</div>
                     <small class="text-muted">Infraestructuras Levantadas</small>
-                </div></div>
-                <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">SISTEMA ALERTAS</span><i class="bi bi-broadcast text-danger"></i></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">SISTEMA ALERTAS</span>
+                        <i class="bi bi-broadcast text-danger"></i>
+                    </div>
                     <div class="kpi-big text-danger" id="d_sat">0%</div>
                     <small class="text-danger">Cobertura SAT Funcional</small>
-                </div></div>
-                <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">LOGÍSTICA</span><i class="bi bi-truck text-success"></i></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">LOGÍSTICA</span>
+                        <i class="bi bi-truck text-success"></i>
+                    </div>
                     <div class="kpi-big text-success" id="d_veh">0%</div>
                     <small class="text-success">Vehículos Operativos</small>
-                </div></div>
-            </div>
-            <div class="row g-3">
-                <div class="col-lg-8">
-                    <div class="card-modern p-0">
-                        <div class="p-3 border-bottom fw-bold text-primary small bg-light rounded-top">MAPA DE RECURSOS</div>
-                        <div id="mapDiag" class="map-wrapper"></div>
-                    </div>
                 </div>
-                <div class="col-lg-4 d-flex flex-column gap-3">
-                    <div class="card-modern flex-grow-1">
-                        <div class="card-header-custom"><span class="card-label">CAPACIDAD RESPUESTA</span></div>
-                        <div class="chart-wrapper"><canvas id="chD1"></canvas></div>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-lg-8">
+                <div class="card-modern p-0">
+                    <div class="p-3 border-bottom fw-bold text-primary small bg-light rounded-top">
+                        MAPA DE RECURSOS
                     </div>
-                    <div class="card-modern flex-grow-1">
-                        <div class="card-header-custom"><span class="card-label">EQUIPAMIENTO</span></div>
-                        <div class="chart-wrapper"><canvas id="chD2"></canvas></div>
+                    <div id="mapDiag" class="map-wrapper"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex flex-column gap-3">
+                <div class="card-modern flex-grow-1">
+                    <div class="card-header-custom">
+                        <span class="card-label">CAPACIDAD RESPUESTA</span>
                     </div>
+                    <div class="chart-wrapper"><canvas id="chD1"></canvas></div>
+                </div>
+                <div class="card-modern flex-grow-1">
+                    <div class="card-header-custom">
+                        <span class="card-label">EQUIPAMIENTO</span>
+                    </div>
+                    <div class="chart-wrapper"><canvas id="chD2"></canvas></div>
                 </div>
             </div>
         </div>
 
-        <!-- EVALUACIÓN -->
-        <div id="view-eval" class="tab-pane hidden">
-            <div class="row g-3 mb-3">
-                <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">ÍNDICE PERCEPCIÓN</span></div>
-                    <div class="kpi-big text-primary" id="e_idx">0.0</div>
-                    <small class="text-primary">Promedio General (1-5)</small>
-                </div></div>
-                <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">PARTICIPANTES</span></div>
-                    <div class="kpi-big" id="e_tot">0</div>
-                    <small class="text-muted">Encuestas Realizadas</small>
-                </div></div>
-                <div class="col-md-4"><div class="card-modern">
-                    <div class="card-header-custom"><span class="card-label">ESTADO ACTUAL</span></div>
-                    <div class="kpi-big" id="e_st">-</div>
-                    <small>Nivel de Organización</small>
-                </div></div>
-            </div>
-            <div class="row g-3">
-                <div class="col-lg-7">
-                    <div class="card-modern p-0">
-                        <div class="p-3 border-bottom fw-bold text-primary small bg-light rounded-top">DISTRIBUCIÓN DE ACTORES</div>
-                        <div id="mapEval" class="map-wrapper"></div>
+        <!-- Ranking Obj1 -->
+        <div class="row g-3 mt-3">
+            <div class="col-12">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">RANKING INTERNO OBJETIVO 1</span>
                     </div>
+                    <div id="rank_obj1" class="small text-muted"></div>
                 </div>
-                <div class="col-lg-5">
-                    <div class="card-modern">
-                        <div class="card-header-custom"><span class="card-label">RADAR DE VARIABLES SOCIALES</span></div>
-                        <div class="chart-wrapper h-100 d-flex align-items-center"><canvas id="chEval"></canvas></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ESTRATEGIAS -->
-        <div id="view-strat" class="tab-pane hidden">
-            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 border rounded bg-white shadow-sm">
-                <div class="mb-3 p-3 bg-light rounded-circle"><i class="bi bi-cone-striped fs-1 text-warning"></i></div>
-                <h3 class="fw-bold text-primary">Generador de Estrategias</h3>
-                <p class="text-muted w-50">Seleccione una parroquia para visualizar el plan de acción recomendado basado en los resultados del diagnóstico.</p>
-            </div>
-        </div>
-
-        <!-- REPORTES -->
-        <div id="view-rep" class="tab-pane hidden">
-            <div class="report-bg">
-                
-                <!-- OBJETIVO 1 -->
-                <div class="w-100 d-flex flex-column align-items-center gap-3">
-                    <button onclick="printReport('doc1')" class="btn btn-dark w-50 shadow fw-bold no-print py-2">
-                        <i class="bi bi-file-earmark-pdf-fill me-2"></i>GENERAR INFORME TÉCNICO (OBJ 1)
-                    </button>
-                    
-                    <div class="a4-sheet" id="doc1">
-                        <div class="doc-header">
-                            <div>
-                                <div class="doc-title">INFORME TÉCNICO</div>
-                                <div class="doc-sub">DIAGNÓSTICO DE CAPACIDADES (OBJ 1)</div>
-                            </div>
-                            <div class="doc-meta">
-                                <strong>Fecha de Emisión:</strong> <span id="r1_date"></span><br>
-                                <strong>Área:</strong> <span id="r1_loc" class="text-uppercase fw-bold"></span>
-                            </div>
-                        </div>
-
-                        <div class="doc-body">
-                            <div class="kpi-row-doc">
-                                <div class="kpi-box-doc"><div class="kpi-doc-val" id="r1_sal">0%</div><div class="kpi-doc-lbl">COBERTURA SALUD</div></div>
-                                <div class="kpi-box-doc"><div class="kpi-doc-val text-danger" id="r1_sat">0%</div><div class="kpi-doc-lbl">SISTEMA ALERTAS</div></div>
-                                <div class="kpi-box-doc"><div class="kpi-doc-val text-success" id="r1_veh">0%</div><div class="kpi-doc-lbl">LOGÍSTICA</div></div>
-                            </div>
-                            <div class="d-flex gap-3 mb-4" style="height: 250px;">
-                                <div style="width: 60%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;"><div id="mapR1" style="width:100%; height:100%"></div></div>
-                                <div style="width: 40%; display:flex; align-items:center;"><canvas id="chR1"></canvas></div>
-                            </div>
-                            <div class="mb-2 fw-bold text-primary small border-bottom pb-1">ANÁLISIS TÉCNICO DEL DIAGNÓSTICO</div>
-                            <div id="r1_txt" class="auto-text-box"></div>
-                        </div>
-
-                        <div class="doc-footer">
-                            <div class="footer-info">
-                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>
-                                Carrera de Gestión de Riesgos y Desastres<br>
-                                Elaborado por: Dylan Vélez &amp; Jordan Sanabria<br>
-                                Tutor institucional: Ing. Mauricio Ledesma
-                            </div>
-                            <div class="qr-box">UEB</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- OBJETIVO 2 -->
-                <div class="w-100 d-flex flex-column align-items-center gap-3 mt-5">
-                    <button onclick="printReport('doc2')" class="btn btn-primary w-50 shadow fw-bold no-print py-2">
-                        <i class="bi bi-file-earmark-pdf-fill me-2"></i>GENERAR INFORME SOCIAL (OBJ 2)
-                    </button>
-                    
-                    <div class="a4-sheet" id="doc2">
-                        <div class="doc-header" style="border-color: var(--accent);">
-                            <div>
-                                <div class="doc-title" style="color: var(--accent);">EVALUACIÓN SOCIAL</div>
-                                <div class="doc-sub">PERCEPCIÓN DEL RIESGO (OBJ 2)</div>
-                            </div>
-                            <div class="doc-meta">
-                                <strong>Fecha de Emisión:</strong> <span id="r2_date"></span><br>
-                                <strong>Área:</strong> <span id="r2_loc" class="text-uppercase fw-bold"></span>
-                            </div>
-                        </div>
-
-                        <div class="doc-body">
-                            <div class="kpi-row-doc">
-                                <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_tot">0</div><div class="kpi-doc-lbl">TOTAL ACTORES</div></div>
-                                <div class="kpi-box-doc"><div class="kpi-doc-val text-primary" id="r2_idx">0.0</div><div class="kpi-doc-lbl">ÍNDICE PROMEDIO</div></div>
-                                <div class="kpi-box-doc"><div class="kpi-doc-val" id="r2_st">-</div><div class="kpi-doc-lbl">CALIFICACIÓN</div></div>
-                            </div>
-                            <div class="d-flex gap-3 mb-4" style="height: 220px;">
-                                <div style="width: 50%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;"><div id="mapR2" style="width:100%; height:100%"></div></div>
-                                <div style="width: 50%; display:flex; align-items:center; justify-content:center;"><canvas id="chR2"></canvas></div>
-                            </div>
-
-                            <div class="mb-2 fw-bold text-accent small border-bottom pb-1">ANÁLISIS POR VARIABLE (GRÁFICA Y ANÁLISIS)</div>
-                            <div id="r2_varCharts" class="row g-2 mb-3"></div>
-
-                            <div class="mb-2 fw-bold text-accent small border-bottom pb-1">ANÁLISIS GENERAL DE LA PERCEPCIÓN</div>
-                            <div id="r2_txt" class="auto-text-box"></div>
-                        </div>
-
-                        <div class="doc-footer">
-                            <div class="footer-info">
-                                <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>
-                                Carrera de Gestión de Riesgos y Desastres<br>
-                                Elaborado por: Dylan Vélez &amp; Jordan Sanabria<br>
-                                Tutor institucional: Ing. Mauricio Ledesma
-                            </div>
-                            <div class="qr-box">UEB</div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 
-    <!-- Librerías -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- html2pdf para exportar a PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- OBJETIVO 2: DIAGNÓSTICO SOCIAL -->
+    <div id="view-eval" class="tab-pane hidden">
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">ÍNDICE PERCEPCIÓN</span>
+                    </div>
+                    <div class="kpi-big text-primary" id="e_idx">0.0</div>
+                    <small class="text-primary">Promedio General (1-5)</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">PARTICIPANTES</span>
+                    </div>
+                    <div class="kpi-big" id="e_tot">0</div>
+                    <small class="text-muted">Encuestas Realizadas</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">ESTADO ACTUAL</span>
+                    </div>
+                    <div class="kpi-big" id="e_st">-</div>
+                    <small>Nivel de Organización</small>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-lg-7">
+                <div class="card-modern p-0">
+                    <div class="p-3 border-bottom fw-bold text-primary small bg-light rounded-top">
+                        DISTRIBUCIÓN DE ACTORES
+                    </div>
+                    <div id="mapEval" class="map-wrapper"></div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">RADAR DE VARIABLES SOCIALES</span>
+                    </div>
+                    <div class="chart-wrapper h-100 d-flex align-items-center">
+                        <canvas id="chEval"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <script>
-        // ==========================================
-        // CONFIGURACIÓN
-        // ==========================================
-        
-        const C_CAP = {
-            PARROQUIA: 1,  
-            NOMBRE: 2,     
-            LAT: 4,        
-            LNG: 5,        
-            SALUD: 6,      
-            BOMBEROS: 8,   
-            SAT: 11,       
-            VEHICULO: 13   
-        };
+        <!-- Ranking y detalle por pregunta Obj2 -->
+        <div class="row g-3 mt-3">
+            <div class="col-12">
+                <div class="card-modern">
+                    <div class="card-header-custom">
+                        <span class="card-label">DETALLE POR PREGUNTA (OBJETIVO 2)</span>
+                        <small class="text-muted">Promedio, ranking y descarga de cada gráfica</small>
+                    </div>
+                    <div id="rank_obj2" class="small mb-2 text-muted"></div>
+                    <div id="qCharts_obj2" class="row g-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        const C_EVAL = {
-            PARROQUIA: 1,  
-            NOMBRE: 2,     
-            ROL: 4,        
-            LAT: 5,        
-            LNG: 6,        
-            NOTA_INICIO: 7 
-        };
+    <!-- OBJETIVO 3: PCDGR -->
+    <div id="view-strat" class="tab-pane hidden">
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="card-modern h-100">
+                    <div class="card-header-custom">
+                        <span class="card-label">RESUMEN DEL MARCO PCDGR</span>
+                    </div>
+                    <p class="mb-2 small text-muted">
+                        Este módulo integra los resultados de los objetivos 1 y 2 como insumo para el Plan Comunitario
+                        de Gestión del Riesgo (PCDGR).
+                    </p>
+                    <ul class="small text-muted mb-0">
+                        <li>Jerarquización de amenazas y vulnerabilidades</li>
+                        <li>Definición de líneas de acción priorizadas</li>
+                        <li>Articulación entre capacidades operativas y organización social</li>
+                        <li>Base para elaborar el documento técnico del PCDGR</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-modern h-100 text-center d-flex flex-column justify-content-center align-items-center">
+                    <div class="mb-3 p-3 bg-light rounded-circle">
+                        <i class="bi bi-journal-text fs-1 text-primary"></i>
+                    </div>
+                    <h3 class="fw-bold text-primary mb-2">Objetivo 3: PCDGR</h3>
+                    <p class="text-muted mb-0" style="max-width: 360px;">
+                        Utiliza los indicadores técnicos y sociales del tablero como base para describir el diagnóstico,
+                        actores, capacidades y estrategias en tu informe final de prácticas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        const WORKER_URL = "https://ueb.dylanvillasagua.workers.dev/";
-        const PARROQUIAS = ["Alluriquín", "Puerto Limón", "Luz de América", "San Jacinto del Búa", "Valle Hermoso", "El Esfuerzo", "Santa María del Toachi", "La Villegas", "Monterrey", "Plan Piloto"];
-        const VARS = ["Participación", "Compromiso", "Capacitación", "Plan Local", "Comunicación", "Articulación", "Inclusión", "Réplica"];
-        
-        let DC = [], DE = [], maps = {}, charts = {}, layerGroups = {};
+    <!-- INFORME INTEGRAL -->
+    <div id="view-rep" class="tab-pane hidden">
+        <div class="report-bg">
+            <div class="w-100 d-flex flex-column align-items-center gap-3 mb-4">
+                <div class="d-flex flex-column w-50 gap-2 no-print">
+                    <button onclick="printReport('docIntegral')" class="btn btn-dark shadow fw-bold py-2">
+                        <i class="bi bi-file-earmark-pdf-fill me-2"></i>DESCARGAR PDF INFORME INTEGRAL
+                    </button>
+                    <button onclick="window.print()" class="btn btn-outline-secondary shadow fw-bold py-2">
+                        <i class="bi bi-printer me-2"></i>VISTA PREVIA / IMPRIMIR
+                    </button>
+                </div>
+            </div>
 
-        // --- HELPERS GENERALES ---
-        function safeFloat(val) {
-            if (val === null || val === undefined || val === '') return null;
-            const n = parseFloat(val.toString().replace(',', '.'));
-            return isNaN(n) ? null : n;
+            <div class="a4-sheet" id="docIntegral">
+                <div class="doc-header">
+                    <div>
+                        <div class="doc-title">INFORME INTEGRAL</div>
+                        <div class="doc-sub">DIAGNÓSTICO DE CAPACIDADES Y PERCEPCIÓN (OBJ 1 Y 2)</div>
+                    </div>
+                    <div class="doc-meta">
+                        <strong>Fecha de Emisión:</strong> <span id="r_date"></span><br>
+                        <strong>Área:</strong> <span id="r_loc" class="text-uppercase fw-bold"></span>
+                    </div>
+                </div>
+
+                <div class="doc-body">
+                    <!-- KPIs integrados -->
+                    <div class="doc-section-title">RESUMEN EJECUTIVO</div>
+                    <div class="kpi-row-doc">
+                        <div class="kpi-box-doc">
+                            <div class="kpi-doc-val" id="r_sal">0%</div>
+                            <div class="kpi-doc-lbl">COBERTURA SALUD</div>
+                        </div>
+                        <div class="kpi-box-doc">
+                            <div class="kpi-doc-val text-danger" id="r_sat">0%</div>
+                            <div class="kpi-doc-lbl">SISTEMA ALERTAS</div>
+                        </div>
+                        <div class="kpi-box-doc">
+                            <div class="kpi-doc-val text-success" id="r_veh">0%</div>
+                            <div class="kpi-doc-lbl">LOGÍSTICA</div>
+                        </div>
+                        <div class="kpi-box-doc">
+                            <div class="kpi-doc-val text-primary" id="r_idx">0.0</div>
+                            <div class="kpi-doc-lbl">ÍNDICE PERCEPCIÓN</div>
+                        </div>
+                        <div class="kpi-box-doc">
+                            <div class="kpi-doc-val" id="r_tot">0</div>
+                            <div class="kpi-doc-lbl">ACTORES ENCUESTADOS</div>
+                        </div>
+                    </div>
+
+                    <!-- Mapas y gráficos -->
+                    <div class="doc-section-title">CAPACIDADES FÍSICAS E INSTITUCIONALES (OBJETIVO 1)</div>
+                    <div class="d-flex gap-3 mb-3" style="height: 210px;">
+                        <div style="width: 60%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;">
+                            <div id="mapR1" style="width:100%; height:100%"></div>
+                        </div>
+                        <div style="width: 40%; display:flex; align-items:center;">
+                            <canvas id="chR1"></canvas>
+                        </div>
+                    </div>
+                    <div id="r_txt_cap" class="auto-text-box"></div>
+
+                    <div class="doc-section-title">PERCEPCIÓN SOCIAL DEL RIESGO (OBJETIVO 2)</div>
+                    <div class="d-flex gap-3 mb-3" style="height: 210px;">
+                        <div style="width: 50%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;">
+                            <div id="mapR2" style="width:100%; height:100%"></div>
+                        </div>
+                        <div style="width: 50%; display:flex; align-items:center; justify-content:center;">
+                            <canvas id="chR2"></canvas>
+                        </div>
+                    </div>
+                    <div id="r_txt_soc" class="auto-text-box"></div>
+
+                    <div class="doc-section-title">RESUMEN POR VARIABLE SOCIAL</div>
+                    <table class="vars-table mb-3">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Promedio (1-5)</th>
+                                <th>Nivel</th>
+                                <th>Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody id="r_vars_body"></tbody>
+                    </table>
+                </div>
+
+                <div class="doc-footer">
+                    <div class="footer-info">
+                        <strong>UNIVERSIDAD ESTATAL DE BOLÍVAR</strong><br>
+                        Carrera de Gestión de Riesgos y Desastres<br>
+                        Elaborado por: Dylan Vélez &amp; Jordan Sanabria<br>
+                        Tutor institucional: Ing. Mauricio Ledesma
+                    </div>
+                    <div class="qr-box">UEB</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Librerías -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+    // COLUMNAS
+    const C_CAP = { PARROQUIA:1, NOMBRE:2, LAT:4, LNG:5, SALUD:6, BOMBEROS:8, SAT:11, VEHICULO:13 };
+    const C_EVAL = { PARROQUIA:1, NOMBRE:2, ROL:4, LAT:5, LNG:6, NOTA_INICIO:7 };
+
+    const WORKER_URL = "https://ueb.dylanvillasagua.workers.dev/";
+    const PARROQUIAS = ["Alluriquín","Puerto Limón","Luz de América","San Jacinto del Búa","Valle Hermoso","El Esfuerzo","Santa María del Toachi","La Villegas","Monterrey","Plan Piloto"];
+    const VARS = ["Participación","Compromiso","Capacitación","Plan Local","Comunicación","Articulación","Inclusión","Réplica"];
+    const QUESTIONS = [
+        "¿Cómo califica la respuesta y participación de su comunidad el día de hoy?",
+        "¿Cómo evalúa el nivel de compromiso e interés de los líderes elegidos?",
+        "¿Qué tan clara y útil fue la capacitación sobre medidas de autoprotección?",
+        "¿Considera que el Plan Comunitario elaborado hoy es una herramienta útil?",
+        "¿Cómo califica el ambiente de confianza y comunicación durante el taller?",
+        "¿Cómo evalúa el apoyo brindado por el equipo (UEB, GAD, SNGRE)?",
+        "¿Considera que hubo inclusión de diversos grupos (mujeres, jóvenes)?",
+        "¿Cree que este trabajo servirá de ejemplo para que otras comunidades se organicen?"
+    ];
+
+    let DC = [], DE = [], maps = {}, charts = {}, layerGroups = {};
+
+    function safeFloat(val) {
+        if (val === null || val === undefined || val === '') return null;
+        const n = parseFloat(val.toString().replace(',', '.'));
+        return isNaN(n) ? null : n;
+    }
+    function getJitter(val) {
+        const v = safeFloat(val);
+        if (v === null) return null;
+        return v + (Math.random() - 0.5) * 0.003;
+    }
+    function buildParagraphsHtml(paragraphs) {
+        return paragraphs.map(p => `<p style="margin-bottom:6px;">${p}</p>`).join('');
+    }
+    function describeNivel(val) {
+        if (val >= 3.5) return 'alto';
+        if (val >= 3.0) return 'medio';
+        if (val >= 2.0) return 'bajo';
+        return 'muy bajo';
+    }
+    function shortCommentForVar(name, val) {
+        const nivel = describeNivel(val);
+        const vStr = val.toFixed(2);
+        switch (name) {
+            case 'Participación':
+                return `Refleja una participación comunitaria de nivel ${nivel} (promedio ${vStr}), útil para sostener procesos colectivos.`;
+            case 'Compromiso':
+                return `Mide la disposición de los actores para asumir responsabilidades; el valor ${vStr} indica un compromiso ${nivel}.`;
+            case 'Capacitación':
+                return `La formación técnica alcanza un nivel ${nivel} (promedio ${vStr}); se recomienda reforzar contenidos clave.`;
+            case 'Plan Local':
+                return `El uso de instrumentos de planificación local se sitúa en nivel ${nivel}, con promedio ${vStr}.`;
+            case 'Comunicación':
+                return `La calidad de los canales y mensajes de comunicación se ubica en un nivel ${nivel} (promedio ${vStr}).`;
+            case 'Articulación':
+                return `La coordinación interinstitucional presenta un nivel ${nivel}; el promedio de ${vStr} muestra articulación parcial.`;
+            case 'Inclusión':
+                return `La incorporación de grupos prioritarios registra un nivel ${nivel} (promedio ${vStr}).`;
+            case 'Réplica':
+                return `La capacidad de multiplicar la información y buenas prácticas es de nivel ${nivel}, con promedio ${vStr}.`;
+            default:
+                return `Promedio ${vStr}, nivel ${nivel}.`;
         }
+    }
 
-        function getJitter(val) {
-            const v = safeFloat(val);
-            if (v === null) return null;
-            return v + (Math.random() - 0.5) * 0.003;
+    function randChoice(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function textoDistribucionVariables(strong, mid, weak) {
+        const partes = [];
+        if (strong > 0) partes.push(`${strong} variables en rango alto`);
+        if (mid > 0)    partes.push(`${mid} en rango medio`);
+        if (weak > 0)   partes.push(`${weak} por debajo del nivel esperado`);
+
+        if (partes.length === 0) {
+            return 'sin diferencias relevantes entre las variables';
         }
+        if (partes.length === 1) return partes[0];
+        if (partes.length === 2) return partes.join(' y ');
+        return `${partes[0]}, ${partes[1]} y ${partes[2]}`;
+    }
 
-        function buildParagraphsHtml(paragraphs) {
-            return paragraphs
-                .map(p => `<p style="margin-bottom:6px;">${p}</p>`)
-                .join('');
-        }
+    // Textos automáticos OBJ1 (capacidades)
+    function generarTextoCapacidades(name, t1, salPct, satPct, vehPct) {
+        let salNivel = salPct > 70 ? 'alto' : (salPct >= 40 ? 'medio' : 'bajo');
+        let satNivel = satPct > 70 ? 'alto' : (satPct >= 40 ? 'medio' : 'crítico');
+        let vehNivel = vehPct > 70 ? 'alto' : (vehPct >= 40 ? 'medio' : 'bajo');
 
-        function describeNivel(val) {
-            if (val >= 3.5) return 'alto, lo que refleja un desempeño consolidado en esta dimensión';
-            if (val >= 3.0) return 'medio, que evidencia capacidades básicas pero aún frágiles frente a emergencias';
-            if (val >= 2.0) return 'bajo, revelando debilidades importantes que incrementan la vulnerabilidad institucional y comunitaria';
-            return 'muy bajo, configurando una condición crítica que requiere atención inmediata desde la gestión de riesgos';
-        }
+        const p1Opts = [
+            `En ${name} se levantó información de ${t1} infraestructuras vinculadas a la gestión del riesgo. La cobertura de salud alcanza aproximadamente ${salPct}% de los puntos visitados, lo que se interpreta como un nivel ${salNivel} de soporte sanitario inicial para la atención de emergencias.`,
+            `Para el territorio de ${name} se dispone de datos de ${t1} infraestructuras. La red de salud reporta una cobertura estimada de ${salPct}% sobre el total levantado, equivalente a un nivel ${salNivel} de disponibilidad para la primera respuesta.`
+        ];
 
-        function paragraphForVar(name, val) {
-            const nivel = describeNivel(val);
-            const vStr = val.toFixed(2);
+        const p2Opts = [
+            `Los sistemas de alerta temprana se encuentran presentes en alrededor del ${satPct}% de las infraestructuras, configurando un escenario ${satNivel} en términos de aviso oportuno a la población. Cuando la cobertura no es alta, se reduce el tiempo útil para activar protocolos de evacuación y protección.`,
+            `En relación con los SAT, el porcentaje de puntos que dispone de algún mecanismo de alerta se aproxima al ${satPct}%. Este valor evidencia un nivel ${satNivel} de preparación tecnológica, que debería fortalecerse mediante pruebas periódicas y estandarización de procedimientos.`
+        ];
 
-            switch (name) {
-                case 'Participación':
-                    return `En la <strong>gráfica de la variable Participación</strong> se observa un promedio de <strong>${vStr} puntos</strong> sobre 5, un nivel ${nivel}. Este indicador muestra el grado en que los actores institucionales y comunitarios se involucran en espacios de planificación, simulacros y comités de gestión de riesgos, por lo que su fortalecimiento es clave para legitimar decisiones y asegurar que las medidas de prevención sean apropiadas por la población.`;
-                case 'Compromiso':
-                    return `En la <strong>gráfica de la variable Compromiso</strong> se registra un promedio de <strong>${vStr} puntos</strong>, valor que evidencia un nivel ${nivel}. Este resultado refleja la disposición real de las instituciones para asignar tiempo, personal y recursos a la gestión del riesgo, lo cual determina en gran medida la sostenibilidad de los planes y la continuidad de las acciones más allá de proyectos puntuales.`;
-                case 'Capacitación':
-                    return `La <strong>gráfica de la variable Capacitación</strong> muestra un promedio de <strong>${vStr} puntos</strong>, asociado a un nivel ${nivel}. Esta puntuación da cuenta del grado de formación técnica del personal en temas como primeros auxilios, manejo de emergencias y planificación ante desastres, por lo que un valor reducido implica la necesidad de implementar programas sistemáticos de actualización y entrenamiento.`;
-                case 'Plan Local':
-                    return `En la <strong>gráfica de la variable Plan Local</strong> el promedio alcanza <strong>${vStr} puntos</strong>, correspondiente a un nivel ${nivel}. Este indicador expresa la existencia y apropiación de instrumentos formales de planificación (planes de contingencia, mapas de riesgo, protocolos), así como su uso efectivo por parte de los responsables institucionales y comunitarios durante ejercicios y eventos reales.`;
-                case 'Comunicación':
-                    return `La <strong>gráfica de la variable Comunicación</strong> evidencia un promedio de <strong>${vStr} puntos</strong>, que se interpreta como un nivel ${nivel}. Esta dimensión refleja la claridad de los canales y mensajes utilizados para informar a la población antes, durante y después de un evento adverso, incluyendo la coordinación entre instituciones y la difusión de alertas y recomendaciones.`;
-                case 'Articulación':
-                    return `En la <strong>gráfica de la variable Articulación</strong> se observa un promedio de <strong>${vStr} puntos</strong>, indicando un nivel ${nivel}. Este resultado muestra qué tan coordinadas se encuentran las entidades del territorio entre sí y con los sistemas provinciales o nacionales, aspecto fundamental para evitar duplicidad de esfuerzos y garantizar una respuesta coherente y oportuna.`;
-                case 'Inclusión':
-                    return `La <strong>gráfica de la variable Inclusión</strong> presenta un promedio de <strong>${vStr} puntos</strong>, asociado a un nivel ${nivel}. El indicador permite valorar si la gestión del riesgo incorpora a grupos prioritarios (niñez, personas mayores, personas con discapacidad, pueblos y nacionalidades) en los procesos de diagnóstico, planificación y respuesta, evitando que queden al margen de las decisiones.`;
-                case 'Réplica':
-                    return `En la <strong>gráfica de la variable Réplica</strong> el promedio es de <strong>${vStr} puntos</strong>, correspondiente a un nivel ${nivel}. Esta dimensión mide la capacidad de los actores locales para replicar la información recibida, multiplicar las buenas prácticas y sostener procesos de formación interna, condición necesaria para que las capacidades construidas no dependan únicamente de la presencia de equipos externos.`;
-                default:
-                    return `En la gráfica de la variable <strong>${name}</strong> se observa un promedio de <strong>${vStr} puntos</strong>, lo que se interpreta como un nivel ${nivel}.`;
-            }
-        }
+        const p3Opts = [
+            `El componente logístico muestra que el ${vehPct}% de las entidades evaluadas dispone de vehículos operativos para evacuación, traslado de personal o distribución de insumos, lo que se considera un nivel ${vehNivel}. La coordinación interinstitucional sobre el uso de esta flota será clave para mejorar la capacidad de respuesta.`,
+            `En cuanto a logística, cerca del ${vehPct}% de las instituciones levantadas cuenta con vehículos disponibles. Este nivel ${vehNivel} de movilidad requiere ser complementado con acuerdos de cooperación y planes de mantenimiento para evitar restricciones durante una emergencia.`
+        ];
 
-        window.onload = () => {
-            const s = document.getElementById('filter');
-            PARROQUIAS.sort().forEach(p => s.add(new Option(p, p)));
-            initMaps();
-            loadData();
-        };
+        return [randChoice(p1Opts), randChoice(p2Opts), randChoice(p3Opts)];
+    }
 
-        function loadData() {
-            fetch(WORKER_URL)
-                .then(response => {
-                    if (!response.ok) throw new Error('Error HTTP: ' + response.status);
-                    return response.json();
-                })
-                .then(jsonData => {
-                    if (jsonData.status === 'success') {
-                        DC = jsonData.dataCap || [];
-                        DE = jsonData.dataEval || [];
-                        document.getElementById('loader').classList.add('hidden');
-                        applyFilter();
-                    } else {
-                        throw new Error("JSON sin status success");
-                    }
-                })
-                .catch(e => {
-                    console.error("Error:", e);
+    // Textos automáticos OBJ2 (social)
+    function generarTextoSocial(name, t2, glob, strong, mid, weak, distTexto) {
+        const globNum = Number(glob);
+        const p1Opts = [
+            `El índice global de percepción del riesgo en ${name} es de aproximadamente <strong>${globNum.toFixed(2)} puntos</strong> sobre 5, calculado a partir de ${t2} actores encuestados. Este valor resume la autoevaluación que realizan las instituciones y organizaciones sobre su nivel de preparación y organización.`,
+            `En ${name} la media general de las ocho variables analizadas alcanza <strong>${globNum.toFixed(2)} puntos</strong> en una escala de 1 a 5, con ${t2} encuestas válidas. El indicador ofrece una visión sintética de la capacidad social para enfrentar escenarios de riesgo.`
+        ];
+
+        const p2Opts = [
+            `El análisis comparativo muestra ${distTexto}, lo que refleja un conjunto de capacidades heterogéneas. Las variables mejor valoradas pueden usarse como punto de apoyo para liderar procesos de réplica y acompañamiento, mientras que las que se sitúan por debajo del nivel esperado requieren refuerzo mediante capacitación y asistencia técnica.`,
+            `Al revisar el comportamiento interno de las variables se observa ${distTexto}. Esta distribución evidencia tanto fortalezas como brechas específicas, que deben incorporarse a la planificación del PCDGR para orientar acciones focalizadas por componente.`
+        ];
+
+        const p3Opts = [
+            `En conjunto, los resultados sociales deben leerse junto al diagnóstico de infraestructura y equipamiento. Un territorio con cierta capacidad operativa pero con organización social débil mantiene niveles relevantes de vulnerabilidad. Por ello, se sugiere utilizar estos indicadores como línea base para monitorear avances en cultura de prevención, articulación institucional y participación comunitaria en ${name}.`,
+            `Los hallazgos de percepción aportan una línea base útil para priorizar intervenciones de fortalecimiento comunitario y articulación interinstitucional. Integrar estos resultados al PCDGR permitirá definir metas concretas de mejora en participación, comunicación y coordinación para el territorio de ${name}.`
+        ];
+
+        return [randChoice(p1Opts), randChoice(p2Opts), randChoice(p3Opts)];
+    }
+
+    window.onload = () => {
+        const s = document.getElementById('filter');
+        PARROQUIAS.sort().forEach(p => s.add(new Option(p, p)));
+        initMaps();
+        loadData();
+    };
+
+    function loadData() {
+        fetch(WORKER_URL)
+            .then(response => {
+                if (!response.ok) throw new Error('Error HTTP: ' + response.status);
+                return response.json();
+            })
+            .then(jsonData => {
+                if (jsonData.status === 'success') {
+                    DC = jsonData.dataCap || [];
+                    DE = jsonData.dataEval || [];
                     document.getElementById('loader').classList.add('hidden');
-
-                    const main = document.querySelector('.main-content');
-                    const alert = document.createElement('div');
-                    alert.className = 'alert alert-danger mt-3';
-                    alert.innerText = 'No se pudo conectar con el servidor de datos. Verifique su conexión e intente recargar la página.';
-                    main.prepend(alert);
-                });
-        }
-
-        window.nav = (id, el) => {
-            document.querySelectorAll('.tab-pane').forEach(d => d.classList.add('hidden'));
-            document.getElementById('view-' + id).classList.remove('hidden');
-            document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
-            el.classList.add('active');
-            
-            const t = {diag:"Diagnóstico Institucional", eval:"Evaluación Social", strat:"Estrategias", rep:"Centro de Reportes"};
-            document.getElementById('pageTitle').innerText = t[id];
-            
-            setTimeout(() => { 
-                for(let k in maps) maps[k].invalidateSize(); 
-                if(id === 'rep'){ 
-                    fitMap('mapR1', layerGroups['mapR1']); 
-                    fitMap('mapR2', layerGroups['mapR2']); 
+                    applyFilter();
+                } else {
+                    throw new Error("JSON sin status success");
                 }
-            }, 200);
-        };
-
-        window.applyFilter = () => {
-            const val = document.getElementById('filter').value;
-            const isProv = val === 'ALL';
-            const name = isProv ? "Santo Domingo de los Tsáchilas" : val;
-            
-            const fC = isProv ? DC : DC.filter(r => r[C_CAP.PARROQUIA] === val);
-            const fE = isProv ? DE : DE.filter(r => r[C_EVAL.PARROQUIA] === val);
-            
-            updDiag(fC); 
-            updEval(fE); 
-            updRep(fC, fE, name);
-        };
-
-        // ========= DIAGNÓSTICO (OBJ 1) =========
-        function updDiag(d) {
-            const total = d.length;
-            document.getElementById('d_tot').innerText = total;
-
-            let markers = [];
-
-            if (total === 0) {
-                document.getElementById('d_sat').innerText = 'N/A';
-                document.getElementById('d_veh').innerText = 'N/A';
-                updateMapLayer('mapDiag', markers);
-                renderBar('chD1', ['Salud', 'Bomberos'], [0, 0], '#2563eb');
-                renderBar('chD2', ['SAT', 'Vehículos'], [0, 0], '#0f172a');
-                return;
-            }
-
-            let s = 0, f = 0, a = 0, v = 0;
-            
-            d.forEach(r => {
-                let lat = getJitter(r[C_CAP.LAT]);
-                let lng = getJitter(r[C_CAP.LNG]);
-                
-                if(lat !== null && lng !== null) {
-                    let hasSat = r[C_CAP.SAT] === 'SI';
-                    let color = hasSat ? '#16a34a' : '#dc2626';
-                    let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_CAP.NOMBRE]}</span></div>
-                                 <div class="pop-body">
-                                    <strong>SAT:</strong> ${r[C_CAP.SAT] || 'No def.'}<br>
-                                    <strong>Vehículo:</strong> ${r[C_CAP.VEHICULO] || 'No def.'}
-                                 </div>`;
-                    
-                    markers.push(
-                        L.circleMarker([lat, lng], {
-                            radius: 7, 
-                            fillColor: color, 
-                            color: "white", 
-                            weight: 2, 
-                            fillOpacity: 0.9
-                        }).bindPopup(popup, {className: 'custom-popup'})
-                    );
-
-                    if(r[C_CAP.SALUD] === 'SI') s++;
-                    if(r[C_CAP.BOMBEROS] === 'SI') f++;
-                    if(r[C_CAP.SAT] === 'SI') a++;
-                    if(r[C_CAP.VEHICULO] === 'SI') v++;
-                }
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                document.getElementById('loader').classList.add('hidden');
+                const main = document.querySelector('.main-content');
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-danger mt-3';
+                alert.innerText = 'No se pudo conectar con el servidor de datos. Verifique su conexión e intente recargar la página.';
+                main.prepend(alert);
             });
-            
+    }
+
+    window.nav = (id, el) => {
+        document.querySelectorAll('.tab-pane').forEach(d => d.classList.add('hidden'));
+        document.getElementById('view-' + id).classList.remove('hidden');
+        document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        
+        const t = {
+            diag:  "Objetivo 1: Diagnóstico",
+            eval:  "Objetivo 2: Diagnóstico Social",
+            strat: "Objetivo 3: PCDGR",
+            rep:   "Informes"
+        };
+        document.getElementById('pageTitle').innerText = t[id];
+        
+        setTimeout(() => { 
+            for (let k in maps) maps[k].invalidateSize(); 
+            if (id === 'rep'){ 
+                fitMap('mapR1', layerGroups['mapR1']); 
+                fitMap('mapR2', layerGroups['mapR2']); 
+            }
+        }, 200);
+    };
+
+    window.applyFilter = () => {
+        const val = document.getElementById('filter').value;
+        const isProv = val === 'ALL';
+        const name = isProv ? "Santo Domingo de los Tsáchilas" : val;
+        
+        const fC = isProv ? DC : DC.filter(r => r[C_CAP.PARROQUIA] === val);
+        const fE = isProv ? DE : DE.filter(r => r[C_EVAL.PARROQUIA] === val);
+        
+        updDiag(fC); 
+        updEval(fE); 
+        updRep(fC, fE, name);
+    };
+
+    // OBJ1
+    function updDiag(d) {
+        const total = d.length;
+        document.getElementById('d_tot').innerText = total;
+
+        let markers = [];
+
+        if (total === 0) {
+            document.getElementById('d_sat').innerText = 'N/A';
+            document.getElementById('d_veh').innerText = 'N/A';
+            document.getElementById('rank_obj1').innerText = 'Sin datos disponibles para calcular el ranking en este objetivo.';
             updateMapLayer('mapDiag', markers);
-            
-            document.getElementById('d_sat').innerText = Math.round((a/total)*100) + '%';
-            document.getElementById('d_veh').innerText = Math.round((v/total)*100) + '%';
-            
-            renderBar('chD1', ['Salud', 'Bomberos'], [s, f], '#2563eb');
-            renderBar('chD2', ['SAT', 'Vehículos'], [a, v], '#0f172a');
+            renderBar('chD1', ['Salud', 'Bomberos'], [0, 0], '#2563eb');
+            renderBar('chD2', ['SAT', 'Vehículos'], [0, 0], '#0f172a');
+            return;
         }
 
-        // ========= EVALUACIÓN SOCIAL (OBJ 2) =========
-        function updEval(d) {
-            const total = d.length;
-            document.getElementById('e_tot').innerText = total;
+        let s = 0, f = 0, a = 0, v = 0;
+        
+        d.forEach(r => {
+            let lat = getJitter(r[C_CAP.LAT]);
+            let lng = getJitter(r[C_CAP.LNG]);
+            
+            if(lat !== null && lng !== null) {
+                let hasSat = r[C_CAP.SAT] === 'SI';
+                let color = hasSat ? '#16a34a' : '#dc2626';
+                let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_CAP.NOMBRE]}</span></div>
+                             <div class="pop-body">
+                                <strong>SAT:</strong> ${r[C_CAP.SAT] || 'No def.'}<br>
+                                <strong>Vehículo:</strong> ${r[C_CAP.VEHICULO] || 'No def.'}
+                             </div>`;
+                
+                markers.push(
+                    L.circleMarker([lat, lng], {
+                        radius: 7, 
+                        fillColor: color, 
+                        color: "white", 
+                        weight: 2, 
+                        fillOpacity: 0.9
+                    }).bindPopup(popup, {className: 'custom-popup'})
+                );
 
-            let markers = [];
-
-            if (total === 0) {
-                document.getElementById('e_idx').innerText = 'N/A';
-                document.getElementById('e_st').innerText = 'SIN DATOS';
-                updateMapLayer('mapEval', markers);
-                renderRadar('chEval', new Array(8).fill(0), '#2563eb', 'rgba(37, 99, 235, 0.2)');
-                return;
+                if(r[C_CAP.SALUD] === 'SI') s++;
+                if(r[C_CAP.BOMBEROS] === 'SI') f++;
+                if(r[C_CAP.SAT] === 'SI') a++;
+                if(r[C_CAP.VEHICULO] === 'SI') v++;
             }
+        });
+        
+        updateMapLayer('mapDiag', markers);
+        
+        const satPct = Math.round((a/total)*100);
+        const vehPct = Math.round((v/total)*100);
+        const salPct = Math.round((s/total)*100);
 
-            let sums = new Array(8).fill(0);
+        document.getElementById('d_sat').innerText = satPct + '%';
+        document.getElementById('d_veh').innerText = vehPct + '%';
+        
+        renderBar('chD1', ['Salud', 'Bomberos'], [s, f], '#2563eb');
+        renderBar('chD2', ['SAT', 'Vehículos'], [a, v], '#0f172a');
 
-            d.forEach(r => {
-                let lat = getJitter(r[C_EVAL.LAT]);
-                let lng = getJitter(r[C_EVAL.LNG]);
+        // ranking interno Obj1
+        const dims = [
+            { nombre: 'Cobertura de salud', valor: salPct },
+            { nombre: 'Sistemas de alerta temprana (SAT)', valor: satPct },
+            { nombre: 'Vehículos operativos', valor: vehPct },
+        ].sort((x, y) => y.valor - x.valor);
 
+        const textoRank1 = `La dimensión mejor posicionada es <strong>${dims[0].nombre}</strong>, con aproximadamente <strong>${Math.round(dims[0].valor)} %</strong> de cobertura. Le siguen ${dims[1].nombre.toLowerCase()} (${Math.round(dims[1].valor)} %) y ${dims[2].nombre.toLowerCase()} (${Math.round(dims[2].valor)} %), lo que permite identificar brechas relativas dentro del territorio seleccionado.`;
+        document.getElementById('rank_obj1').innerHTML = textoRank1;
+    }
+
+    // OBJ2
+    function updEval(d) {
+        const total = d.length;
+        document.getElementById('e_tot').innerText = total;
+
+        let markers = [];
+
+        if (total === 0) {
+            document.getElementById('e_idx').innerText = 'N/A';
+            document.getElementById('e_st').innerText = 'SIN DATOS';
+            updateMapLayer('mapEval', markers);
+            renderRadar('chEval', new Array(8).fill(0), '#2563eb', 'rgba(37, 99, 235, 0.2)');
+            document.getElementById('rank_obj2').innerText = 'Sin encuestas registradas para calcular el ranking.';
+            document.getElementById('qCharts_obj2').innerHTML = '';
+            return;
+        }
+
+        let sums = new Array(8).fill(0);
+
+        d.forEach(r => {
+            let lat = getJitter(r[C_EVAL.LAT]);
+            let lng = getJitter(r[C_EVAL.LNG]);
+
+            if(lat !== null && lng !== null) {
+                let avg = 0;
+                for(let i = 0; i < 8; i++) {
+                    let val = Number(r[C_EVAL.NOTA_INICIO + i]) || 0;
+                    sums[i] += val;
+                    avg += val;
+                }
+                avg /= 8;
+                
+                let color = avg >= 3.5 ? '#2563eb' : '#dc2626';
+                let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_EVAL.NOMBRE]}</span></div>
+                             <div class="pop-body">
+                                <strong>Rol:</strong> ${r[C_EVAL.ROL]}<br>
+                                <strong>Promedio:</strong> ${avg.toFixed(2)} / 5.0
+                             </div>`;
+
+                markers.push(
+                    L.circleMarker([lat, lng], {
+                        radius: 7, 
+                        fillColor: color, 
+                        color: "white", 
+                        weight: 2, 
+                        fillOpacity: 0.9
+                    }).bindPopup(popup, {className: 'custom-popup'})
+                );
+            }
+        });
+
+        updateMapLayer('mapEval', markers);
+
+        let avgs = sums.map(x => Number((x / total).toFixed(2)));
+        let glob = (avgs.reduce((a,b)=>a+b,0)/8).toFixed(2);
+        
+        document.getElementById('e_idx').innerText = glob;
+        document.getElementById('e_st').innerText = glob >= 3.5 ? "FORTALECIDO" : (glob >= 2.5 ? "EN PROCESO" : "VULNERABLE");
+        
+        renderRadar('chEval', avgs, '#2563eb', 'rgba(37, 99, 235, 0.2)');
+
+        updateDetalleObj2(avgs, total);
+    }
+
+    function updateDetalleObj2(avgs, total) {
+        const contRank = document.getElementById('rank_obj2');
+        const contCharts = document.getElementById('qCharts_obj2');
+        if (!contRank || !contCharts) return;
+
+        if (total === 0) {
+            contRank.innerHTML = 'Sin encuestas registradas para calcular el ranking.';
+            contCharts.innerHTML = '';
+            return;
+        }
+
+        const lista = avgs.map((v, i) => ({ idx: i, valor: v })).sort((a, b) => b.valor - a.valor);
+        const mejor = lista[0];
+        const peor  = lista[lista.length - 1];
+
+        contRank.innerHTML = `
+            La pregunta con mayor calificación promedio es la <strong>${mejor.idx + 1} (${VARS[mejor.idx]})</strong>, 
+            con <strong>${mejor.valor.toFixed(2)} puntos</strong>. 
+            La calificación más baja corresponde a la pregunta <strong>${peor.idx + 1} (${VARS[peor.idx]})</strong>, 
+            con <strong>${peor.valor.toFixed(2)} puntos</strong>. 
+            Estas diferencias permiten identificar qué componentes del proceso comunitario resultan más consolidados 
+            y cuáles requieren refuerzo específico en futuras intervenciones.
+        `;
+
+        contCharts.innerHTML = '';
+        avgs.forEach((val, i) => {
+            const canvasId = `qEval_${i}`;
+            const col = document.createElement('div');
+            col.className = 'col-md-6';
+
+            col.innerHTML = `
+                <div class="card-modern var-card" style="padding:10px;">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <div class="small fw-bold">Pregunta ${i + 1}: ${VARS[i]}</div>
+                            <div class="small text-muted">${QUESTIONS[i]}</div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary no-print"
+                                onclick="downloadChart('${canvasId}', 'obj2_pregunta${i + 1}')">
+                            <i class="bi bi-download"></i>
+                        </button>
+                    </div>
+                    <div style="height:120px;"><canvas id="${canvasId}"></canvas></div>
+                    <div class="small text-muted mt-1">
+                        Promedio: ${val.toFixed(2)} / 5 (n = ${total})
+                    </div>
+                </div>
+            `;
+            contCharts.appendChild(col);
+            renderMiniBar(canvasId, val);
+        });
+    }
+
+    // INFORME INTEGRAL
+    function updRep(dc, de, name) {
+        document.getElementById('r_loc').innerText = name;
+        let dateStr = new Date().toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+        document.getElementById('r_date').innerText = dateStr;
+
+        // OBJ1
+        let t1 = dc.length;
+        let a = dc.filter(r => r[C_CAP.SAT] === 'SI').length;
+        let v = dc.filter(r => r[C_CAP.VEHICULO] === 'SI').length;
+        let s = dc.filter(r => r[C_CAP.SALUD] === 'SI').length;
+        
+        let markersR1 = [];
+        const rCapDiv = document.getElementById('r_txt_cap');
+
+        if (t1 === 0) {
+            document.getElementById('r_sal').innerText = 'N/A';
+            document.getElementById('r_sat').innerText = 'N/A';
+            document.getElementById('r_veh').innerText = 'N/A';
+
+            const p1 = `En la jurisdicción de ${name} no se registran infraestructuras evaluadas para el periodo analizado, por lo que no es posible establecer un diagnóstico cuantitativo de capacidades físicas e institucionales.`;
+            const p2 = `Esta ausencia de información limita la planificación de inversiones en salud, sistemas de alerta temprana y logística para la respuesta. Se recomienda realizar un levantamiento sistemático de datos georreferenciados como línea base.`;
+            rCapDiv.innerHTML = buildParagraphsHtml([p1, p2]);
+
+            updateMapLayer('mapR1', markersR1);
+            renderBar('chR1', ['Salud','SAT','Vehículo'], [0,0,0], '#0f172a');
+        } else {
+            const salPct = Math.round((s/t1)*100);
+            const satPct = Math.round((a/t1)*100);
+            const vehPct = Math.round((v/t1)*100);
+
+            document.getElementById('r_sal').innerText = salPct + '%';
+            document.getElementById('r_sat').innerText = satPct + '%';
+            document.getElementById('r_veh').innerText = vehPct + '%';
+
+            const parrafosCap = generarTextoCapacidades(name, t1, salPct, satPct, vehPct);
+            rCapDiv.innerHTML = buildParagraphsHtml(parrafosCap);
+
+            renderBar('chR1', ['Salud','SAT','Vehículo'], [s,a,v], '#0f172a');
+            
+            dc.forEach(r => { 
+                let lat = getJitter(r[C_CAP.LAT]), lng = getJitter(r[C_CAP.LNG]); 
                 if(lat !== null && lng !== null) {
-                    let avg = 0;
-                    for(let i = 0; i < 8; i++) {
-                        let val = Number(r[C_EVAL.NOTA_INICIO + i]) || 0;
-                        sums[i] += val;
-                        avg += val;
-                    }
-                    avg /= 8;
-                    
-                    let color = avg >= 3.5 ? '#2563eb' : '#dc2626';
-                    let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_EVAL.NOMBRE]}</span></div>
-                                 <div class="pop-body">
-                                    <strong>Rol:</strong> ${r[C_EVAL.ROL]}<br>
-                                    <strong>Promedio:</strong> ${avg.toFixed(2)} / 5.0
-                                 </div>`;
-
-                    markers.push(
-                        L.circleMarker([lat, lng], {
-                            radius: 7, 
-                            fillColor: color, 
-                            color: "white", 
-                            weight: 2, 
-                            fillOpacity: 0.9
-                        }).bindPopup(popup, {className: 'custom-popup'})
+                    markersR1.push(
+                        L.circleMarker([lat,lng],{
+                            radius:4,
+                            color:'#0f172a',
+                            weight:0,
+                            fillColor:'#0f172a',
+                            fillOpacity:0.8
+                        })
                     );
                 }
             });
+            updateMapLayer('mapR1', markersR1);
+        }
 
-            updateMapLayer('mapEval', markers);
+        // OBJ2
+        let t2 = de.length;
+        let sums = new Array(8).fill(0);
+        const rSocDiv  = document.getElementById('r_txt_soc');
+        const tbodyVars = document.getElementById('r_vars_body');
+        tbodyVars.innerHTML = '';
 
-            let avgs = sums.map(x => Number((x / total).toFixed(2)));
+        if (t2 === 0) {
+            document.getElementById('r_tot').innerText = 0;
+            document.getElementById('r_idx').innerText = 'N/A';
+
+            const g1 = `No se registran actores encuestados en el territorio de ${name}, por lo que no es posible caracterizar la percepción social del riesgo.`;
+            const g2 = `La falta de datos cualitativos y cuantitativos impide contrastar las capacidades técnicas con la organización comunitaria. Se recomienda aplicar encuestas estructuradas a instituciones y organizaciones locales.`;
+            rSocDiv.innerHTML  = buildParagraphsHtml([g1, g2]);
+
+            renderRadar('chR2', new Array(8).fill(0), '#2563eb', 'rgba(37, 99, 235, 0.1)');
+            updateMapLayer('mapR2', []);
+        } else {
+            de.forEach(r => { 
+                for(let i = 0; i < 8; i++) sums[i] += Number(r[C_EVAL.NOTA_INICIO + i]) || 0; 
+            });
+            let avgs = sums.map(x => Number((x / t2).toFixed(2)));
             let glob = (avgs.reduce((a,b)=>a+b,0)/8).toFixed(2);
             
-            document.getElementById('e_idx').innerText = glob;
-            document.getElementById('e_st').innerText = glob >= 3.5 ? "FORTALECIDO" : (glob >= 2.5 ? "EN PROCESO" : "VULNERABLE");
+            document.getElementById('r_tot').innerText = t2;
+            document.getElementById('r_idx').innerText = glob;
+
+            const strong = avgs.filter(v => v >= 3.5).length;
+            const mid    = avgs.filter(v => v >= 3.0 && v < 3.5).length;
+            const weak   = avgs.filter(v => v < 3.0).length;
+            const distTexto = textoDistribucionVariables(strong, mid, weak);
+
+            const parrafosSoc = generarTextoSocial(name, t2, glob, strong, mid, weak, distTexto);
+            rSocDiv.innerHTML = buildParagraphsHtml(parrafosSoc);
             
-            renderRadar('chEval', avgs, '#2563eb', 'rgba(37, 99, 235, 0.2)');
-        }
-
-        // ========= REPORTES (OBJ 1 y OBJ 2) =========
-        function updRep(dc, de, name) {
-            document.querySelectorAll('#r1_loc, #r2_loc').forEach(e => e.innerText = name);
-            let dateStr = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            document.querySelectorAll('#r1_date, #r2_date').forEach(e => e.innerText = dateStr);
-
-            // ---------- REPORTE 1 (OBJ 1) ----------
-            let t1 = dc.length;
-            let a = dc.filter(r => r[C_CAP.SAT] === 'SI').length;
-            let v = dc.filter(r => r[C_CAP.VEHICULO] === 'SI').length;
-            let s = dc.filter(r => r[C_CAP.SALUD] === 'SI').length;
+            renderRadar('chR2', avgs, '#2563eb', 'rgba(37, 99, 235, 0.1)');
             
-            let markersR1 = [];
+            let markersR2 = [];
+            de.forEach(r => { 
+                let lat = getJitter(r[C_EVAL.LAT]), lng = getJitter(r[C_EVAL.LNG]); 
+                if(lat !== null && lng !== null) {
+                    markersR2.push(
+                        L.circleMarker([lat,lng],{
+                            radius:4,
+                            color:'#2563eb',
+                            weight:0,
+                            fillColor:'#2563eb',
+                            fillOpacity:0.8
+                        })
+                    );
+                }
+            });
+            updateMapLayer('mapR2', markersR2);
 
-            if (t1 === 0) {
-                document.getElementById('r1_sal').innerText = 'N/A';
-                document.getElementById('r1_sat').innerText = 'N/A';
-                document.getElementById('r1_veh').innerText = 'N/A';
+            // tabla por variable
+            avgs.forEach((val, i) => {
+                const tr = document.createElement('tr');
+                const nivel = describeNivel(val);
+                tr.innerHTML = `
+                    <td>${VARS[i]}</td>
+                    <td>${val.toFixed(2)}</td>
+                    <td class="text-uppercase">${nivel}</td>
+                    <td>${shortCommentForVar(VARS[i], val)}</td>
+                `;
+                tbodyVars.appendChild(tr);
+            });
+        }
+    }
 
-                const p1 = `En la jurisdicción de ${name} no se registran infraestructuras evaluadas para el periodo analizado, por lo que no es posible establecer un diagnóstico cuantitativo de capacidades operativas. Esta ausencia de información impide caracterizar el nivel de preparación institucional frente a escenarios de emergencia.`;
-                const p2 = `Desde la perspectiva de la gestión de riesgos, la inexistencia de un levantamiento sistemático de datos representa una brecha crítica para la planificación, ya que limita la identificación de coberturas en salud, sistemas de alerta temprana y recursos logísticos mínimos para la respuesta.`;
-                const p3 = `Se recomienda priorizar un proceso de levantamiento técnico de información, utilizando fichas estandarizadas y georreferenciadas, de manera que se construya una línea base confiable que permita dimensionar brechas, definir prioridades de inversión y articular la capacidad operativa de las instituciones presentes en ${name}.`;
-
-                document.getElementById('r1_txt').innerHTML = buildParagraphsHtml([p1, p2, p3]);
-
-                updateMapLayer('mapR1', markersR1);
-                renderBar('chR1', ['Salud', 'SAT', 'Vehículo'], [0, 0, 0], '#0f172a');
+    // MAPAS
+    function initMaps() {
+        ['mapDiag','mapEval','mapR1','mapR2'].forEach(id => {
+            maps[id] = L.map(id, {zoomControl:false, attributionControl:false}).setView([-0.25, -79.17], 9);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(maps[id]);
+            layerGroups[id] = L.featureGroup().addTo(maps[id]);
+        });
+    }
+    function updateMapLayer(id, markers) {
+        if(maps[id] && layerGroups[id]) {
+            layerGroups[id].clearLayers();
+            markers.forEach(m => m.addTo(layerGroups[id]));
+            if(markers.length > 0) {
+                fitMap(id, layerGroups[id]);
             } else {
-                const salPct = Math.round((s/t1)*100);
-                const satPct = Math.round((a/t1)*100);
-                const vehPct = Math.round((v/t1)*100);
-
-                document.getElementById('r1_sal').innerText = salPct + '%';
-                document.getElementById('r1_sat').innerText = satPct + '%';
-                document.getElementById('r1_veh').innerText = vehPct + '%';
-
-                let satNivel = satPct > 70 ? 'robusto' : (satPct >= 40 ? 'intermedio' : 'crítico');
-                let vehNivel = vehPct > 70 ? 'satisfactorio' : (vehPct >= 40 ? 'limitado' : 'deficiente');
-                let salNivel = salPct > 70 ? 'adecuada' : (salPct >= 40 ? 'parcial' : 'insuficiente');
-
-                const p1 = `En ${name} se han evaluado un total de ${t1} infraestructuras vinculadas a la gestión del riesgo, lo que permite contar con una línea base operativa para el análisis de capacidades. La cobertura de servicios de salud alcanza el ${salPct}%, evidenciando una disponibilidad ${salNivel} de establecimientos que podrían brindar atención primaria en situaciones de emergencia. Esta información es clave para dimensionar la capacidad de absorción del sistema sanitario ante eventos de alta demanda.`;
-
-                const p2 = `En relación con los Sistemas de Alerta Temprana (SAT), el ${satPct}% de las infraestructuras cuenta con algún tipo de mecanismo de aviso o monitoreo, lo que se interpreta como un nivel ${satNivel} de preparación tecnológica. Cuando la cobertura es baja o intermedia, se incrementa la probabilidad de que la población no reciba avisos oportunos frente a amenazas inminentes, lo que reduce el tiempo de reacción y puede aumentar la exposición a daños. Es prioritario fortalecer estos sistemas mediante protocolos claros, pruebas periódicas y articulación con los organismos de respuesta.`;
-
-                const p3 = `Desde la perspectiva logística, el ${vehPct}% de las entidades evaluadas dispone de vehículos operativos para actividades de evacuación, transporte de personal o distribución de ayuda humanitaria, lo que configura un escenario ${vehNivel} de movilidad institucional. Una logística limitada puede retrasar la respuesta y fragmentar los esfuerzos de coordinación. En este sentido, se recomienda consolidar un plan de flota compartida, garantizar el mantenimiento preventivo de los vehículos existentes y explorar convenios interinstitucionales que permitan optimizar el uso de recursos en beneficio de la gestión de emergencias en ${name}.`;
-
-                document.getElementById('r1_txt').innerHTML = buildParagraphsHtml([p1, p2, p3]);
-
-                renderBar('chR1', ['Salud', 'SAT', 'Vehículo'], [s, a, v], '#0f172a');
-                
-                dc.forEach(r => { 
-                    let lat = getJitter(r[C_CAP.LAT]), lng = getJitter(r[C_CAP.LNG]); 
-                    if(lat !== null && lng !== null) {
-                        markersR1.push(
-                            L.circleMarker([lat,lng],{
-                                radius:4,
-                                color:'#0f172a',
-                                weight:0,
-                                fillColor:'#0f172a',
-                                fillOpacity:0.8
-                            })
-                        );
-                    }
-                });
-                updateMapLayer('mapR1', markersR1);
-            }
-
-            // ---------- REPORTE 2 (OBJ 2) ----------
-            let t2 = de.length;
-            let sums = new Array(8).fill(0);
-
-            const r2TxtDiv  = document.getElementById('r2_txt');
-            const r2ChartsDiv = document.getElementById('r2_varCharts');
-            r2ChartsDiv.innerHTML = '';
-
-            if (t2 === 0) {
-                document.getElementById('r2_tot').innerText = 0;
-                document.getElementById('r2_idx').innerText = 'N/A';
-                document.getElementById('r2_st').innerText = 'SIN DATOS';
-
-                const g1 = `No se registran actores encuestados en el territorio de ${name}, por lo que no es posible analizar la percepción del riesgo a nivel de variables específicas como participación, compromiso o articulación. Esta ausencia de información limita la comprensión de las dinámicas sociales que inciden en la preparación comunitaria.`;
-                const g2 = `Desde la óptica de la gestión de riesgos, la falta de datos de percepción social representa una brecha estratégica, ya que impide contrastar las capacidades técnicas con la disposición real de la población y de los actores clave para asumir roles en la prevención, respuesta y recuperación.`;
-                const g3 = `Se recomienda implementar un proceso de levantamiento de encuestas estructuradas que incorpore a representantes de instituciones públicas, organizaciones comunitarias y otros actores territoriales, con el fin de construir indicadores cualitativos y cuantitativos sobre percepción del riesgo, integrándolos posteriormente con el diagnóstico de capacidades físicas e institucionales en ${name}.`;
-
-                r2TxtDiv.innerHTML  = buildParagraphsHtml([g1, g2, g3]);
-
-                renderRadar('chR2', new Array(8).fill(0), '#2563eb', 'rgba(37, 99, 235, 0.1)');
-                updateMapLayer('mapR2', []);
-            } else {
-                de.forEach(r => { 
-                    for(let i = 0; i < 8; i++) sums[i] += Number(r[C_EVAL.NOTA_INICIO + i]) || 0; 
-                });
-                let avgs = sums.map(x => Number((x / t2).toFixed(2)));
-                let glob = (avgs.reduce((a,b)=>a+b,0)/8).toFixed(2);
-                
-                document.getElementById('r2_tot').innerText = t2;
-                document.getElementById('r2_idx').innerText = glob;
-                document.getElementById('r2_st').innerText = glob >= 3.5 ? "ALTO" : "BAJO";
-
-                avgs.forEach((val, i) => {
-                    const col = document.createElement('div');
-                    col.className = 'col-6';
-                    const canvasId = `chR2_var_${i}`;
-                    const paragraph = paragraphForVar(VARS[i], val);
-                    col.innerHTML = `
-                        <div class="card-modern var-card" style="padding:8px; box-shadow:none; border-radius:6px;">
-                            <div class="small fw-bold mb-1" style="font-size:0.7rem;">${VARS[i]}</div>
-                            <div style="height:80px;"><canvas id="${canvasId}"></canvas></div>
-                            <div class="small text-muted mt-1" style="font-size:0.65rem;">Promedio: ${val.toFixed(2)} / 5</div>
-                            <div class="analysis-text mt-1" style="font-size:0.75rem;">${paragraph}</div>
-                        </div>`;
-                    r2ChartsDiv.appendChild(col);
-                    renderMiniBar(canvasId, val);
-                });
-
-                const strong = avgs.filter(v => v >= 3.5).length;
-                const mid    = avgs.filter(v => v >= 3.0 && v < 3.5).length;
-                const weak   = avgs.filter(v => v < 3.0).length;
-
-                const g1 = `El índice promedio de percepción del riesgo en ${name} es de <strong>${glob} puntos</strong> sobre 5, calculado a partir de ${t2} actores encuestados. Este valor sintetiza la visión que tienen las instituciones y organizaciones sobre su grado de preparación y organización frente a posibles emergencias, y constituye un insumo clave para orientar la planificación participativa en gestión de riesgos.`;
-
-                const g2 = `Al desagregar la información, se observa que ${strong} variables se encuentran en rangos altos de valoración, ${mid} presentan un comportamiento intermedio y ${weak} se sitúan por debajo de los niveles deseables, lo que evidencia una mezcla de fortalezas y brechas en la dimensión social del riesgo. Las fortalezas pueden ser aprovechadas como puntos de apoyo para procesos de réplica y liderazgo comunitario, mientras que las variables con calificación baja deben abordarse mediante programas de capacitación, acompañamiento técnico y fortalecimiento organizacional.`;
-
-                const g3 = `Desde la perspectiva de un enfoque integral de gestión de riesgos, resulta fundamental articular estos resultados con el diagnóstico de capacidades físicas e institucionales. Un territorio con buena infraestructura pero baja percepción y organización social mantiene niveles significativos de vulnerabilidad. Por ello, se recomienda incorporar estos hallazgos en los planes locales de gestión de riesgos, definiendo líneas de acción específicas para mejorar la cultura de prevención, consolidar redes de articulación interinstitucional y promover una participación más activa de la comunidad en todas las fases del ciclo del riesgo en ${name}.`;
-
-                r2TxtDiv.innerHTML = buildParagraphsHtml([g1, g2, g3]);
-                
-                renderRadar('chR2', avgs, '#2563eb', 'rgba(37, 99, 235, 0.1)');
-                
-                let markersR2 = [];
-                de.forEach(r => { 
-                    let lat = getJitter(r[C_EVAL.LAT]), lng = getJitter(r[C_EVAL.LNG]); 
-                    if(lat !== null && lng !== null) {
-                        markersR2.push(
-                            L.circleMarker([lat,lng],{
-                                radius:4,
-                                color:'#2563eb',
-                                weight:0,
-                                fillColor:'#2563eb',
-                                fillOpacity:0.8
-                            })
-                        );
-                    }
-                });
-                updateMapLayer('mapR2', markersR2);
+                maps[id].setView([-0.25, -79.17], 9);
             }
         }
-
-        // --- MAPAS ---
-        function initMaps() {
-            ['mapDiag','mapEval','mapR1','mapR2'].forEach(id => {
-                maps[id] = L.map(id, {zoomControl:false, attributionControl:false}).setView([-0.25, -79.17], 9);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(maps[id]);
-                layerGroups[id] = L.featureGroup().addTo(maps[id]);
-            });
+    }
+    function fitMap(id, lg) {
+        if(maps[id] && lg.getLayers().length > 0) {
+            maps[id].invalidateSize();
+            maps[id].fitBounds(lg.getBounds(), {padding: [30,30]});
         }
+    }
 
-        function updateMapLayer(id, markers) {
-            if(maps[id] && layerGroups[id]) {
-                layerGroups[id].clearLayers();
-                markers.forEach(m => m.addTo(layerGroups[id]));
-                if(markers.length > 0) {
-                    fitMap(id, layerGroups[id]);
-                } else {
-                    maps[id].setView([-0.25, -79.17], 9);
-                }
+    // GRÁFICOS
+    function renderBar(id, l, d, c) {
+        if(charts[id]) charts[id].destroy();
+        charts[id] = new Chart(document.getElementById(id), {
+            type: 'bar',
+            data: {labels:l, datasets:[{data:d, backgroundColor:c, borderRadius:3}]},
+            options: {
+                responsive:true, 
+                maintainAspectRatio:false, 
+                indexAxis:'y', 
+                plugins:{legend:{display:false}}, 
+                scales:{ x:{display:false}, y:{grid:{display:false}} }
             }
-        }
-
-        function fitMap(id, lg) {
-            if(maps[id] && lg.getLayers().length > 0) {
-                maps[id].invalidateSize();
-                maps[id].fitBounds(lg.getBounds(), {padding: [30,30]});
+        });
+    }
+    function renderRadar(id, d, c, bg) {
+        if(charts[id]) charts[id].destroy();
+        charts[id] = new Chart(document.getElementById(id), {
+            type: 'radar',
+            data: {labels:VARS, datasets:[{data:d, borderColor:c, backgroundColor:bg, pointRadius:0}]},
+            options: {
+                responsive:true, 
+                maintainAspectRatio:false, 
+                plugins:{legend:{display:false}}, 
+                scales:{ r:{ min:0, max:5, ticks:{display:false}, pointLabels:{font:{size:8}} } }
             }
-        }
-
-        // --- GRÁFICOS ---
-        function renderBar(id, l, d, c) {
-            if(charts[id]) charts[id].destroy();
-            charts[id] = new Chart(document.getElementById(id), {
-                type: 'bar',
-                data: {labels:l, datasets:[{data:d, backgroundColor:c, borderRadius:3}]},
-                options: {
-                    responsive:true, 
-                    maintainAspectRatio:false, 
-                    indexAxis:'y', 
-                    plugins:{legend:{display:false}}, 
-                    scales:{
-                        x:{display:false}, 
-                        y:{grid:{display:false}}
-                    }
-                }
-            });
-        }
-
-        function renderRadar(id, d, c, bg) {
-            if(charts[id]) charts[id].destroy();
-            charts[id] = new Chart(document.getElementById(id), {
-                type: 'radar',
-                data: {labels:VARS, datasets:[{data:d, borderColor:c, backgroundColor:bg, pointRadius:0}]},
-                options: {
-                    responsive:true, 
-                    maintainAspectRatio:false, 
-                    plugins:{legend:{display:false}}, 
-                    scales:{
-                        r:{
-                            min:0, 
-                            max:5, 
-                            ticks:{display:false}, 
-                            pointLabels:{font:{size:8}}
-                        }
-                    }
-                }
-            });
-        }
-
-        function renderMiniBar(id, value) {
-            if(charts[id]) charts[id].destroy();
-            charts[id] = new Chart(document.getElementById(id), {
-                type: 'bar',
-                data: {
-                    labels: [''],
-                    datasets: [{
-                        data: [value],
-                        backgroundColor: '#2563eb',
-                        borderRadius: 3
-                    }]
+        });
+    }
+    function renderMiniBar(id, value) {
+        if(charts[id]) charts[id].destroy();
+        charts[id] = new Chart(document.getElementById(id), {
+            type: 'bar',
+            data: {
+                labels: [''],
+                datasets: [{
+                    data: [value],
+                    backgroundColor: '#2563eb',
+                    borderRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: false }
-                    },
-                    scales: {
-                        x: { display: false },
-                        y: { display: false, min: 0, max: 5 }
-                    }
+                scales: {
+                    x: { display: false },
+                    y: { display: false, min: 0, max: 5 }
                 }
-            });
-        }
+            }
+        });
+    }
 
-        // --- IMPRESIÓN CON HTML2PDF ---
-        window.printReport = (docId) => {
-            const element = document.getElementById(docId);
+    window.downloadChart = (canvasId, filename) => {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = filename + '.png';
+        link.click();
+    };
 
-            const opt = {
-                margin: [10, 10, 10, 10], // márgenes iguales
-                filename: docId === 'doc1' ? 'informe_tecnico_obj1.pdf' : 'informe_social_obj2.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2,
-                    scrollX: 0,
-                    scrollY: 0,
-                    useCORS: true
-                },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak: { mode: ['css', 'legacy'] }
-            };
-
-            html2pdf().set(opt).from(element).save();
+    // PDF
+    window.printReport = (docId) => {
+        const element = document.getElementById(docId);
+        const opt = {
+            margin: [10, 10, 10, 10],
+            filename: 'informe_integral_obj1_obj2.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2,
+                scrollX: 0,
+                scrollY: 0,
+                useCORS: true
+            },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['css', 'legacy'] }
         };
+        html2pdf().set(opt).from(element).save();
+    };
 
-        // --- HACKERMAN NOTIFICATION ---
-        function showHackerman(message) {
-            const box = document.getElementById('hackermanBox');
-            box.querySelector('span').textContent = message;
-            box.style.display = 'block';
-            box.style.opacity = '1';
+    // HACKERMAN
+    function showHackerman(message) {
+        const box = document.getElementById('hackermanBox');
+        box.querySelector('span').textContent = message;
+        box.style.display = 'block';
+        box.style.opacity = '1';
+        setTimeout(() => {
+            box.style.transition = 'opacity 0.6s ease';
+            box.style.opacity = '0';
             setTimeout(() => {
-                box.style.transition = 'opacity 0.6s ease';
-                box.style.opacity = '0';
-                setTimeout(() => {
-                    box.style.display = 'none';
-                    box.style.transition = '';
-                }, 600);
-            }, 1500);
-        }
-
-        document.addEventListener('contextmenu', function(e) {
+                box.style.display = 'none';
+                box.style.transition = '';
+            }, 600);
+        }, 1500);
+    }
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        showHackerman('Clic derecho bloqueado por el sistema.');
+    });
+    document.addEventListener('keydown', function(e) {
+        const key = e.key;
+        if (
+            key === 'F12' ||
+            (e.ctrlKey && e.shiftKey && (key === 'I' || key === 'J' || key === 'C')) ||
+            (e.ctrlKey && key === 'U')
+        ) {
             e.preventDefault();
-            showHackerman('Clic derecho bloqueado por el sistema.');
-        });
-
-        document.addEventListener('keydown', function(e) {
-            const key = e.key;
-            if (
-                key === 'F12' ||
-                (e.ctrlKey && e.shiftKey && (key === 'I' || key === 'J' || key === 'C')) ||
-                (e.ctrlKey && key === 'U')
-            ) {
-                e.preventDefault();
-                showHackerman('Intento de abrir herramientas de desarrollo bloqueado.');
-            }
-        });
-    </script>
+            showHackerman('Intento de abrir herramientas de desarrollo bloqueado.');
+        }
+    });
+</script>
 </body>
 </html>
