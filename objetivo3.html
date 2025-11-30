@@ -32,16 +32,10 @@
         .form-label { font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 8px; }
         .form-control, .form-select { border-radius: 6px; padding: 10px 12px; font-size: 0.9rem; border-color: #cbd5e1; }
 
-        /* GPS */
-        .gps-container { background: #eff6ff; border: 1px dashed #93c5fd; border-radius: 8px; padding: 20px; text-align: center; }
-        .btn-gps { background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; transition: all 0.2s; }
-        .gps-success { background-color: #dcfce7; border-color: #86efac; color: #166534; }
-
         /* ARCHIVOS */
         .file-hint { font-size: 0.78rem; color: #6b7280; }
-        .file-list { margin-top: 10px; font-size: 0.8rem; }
-        .file-pill { background-color: #e5e7eb; border-radius: 999px; padding: 4px 10px; margin: 2px; display: inline-flex; align-items: center; gap: 6px; }
-        .file-pill i { font-size: 0.8rem; }
+        .anexo-header { font-size: 0.85rem; font-weight: 600; color: #4b5563; margin-bottom: 8px; }
+        .anexo-box { border-bottom: 1px dashed #e5e7eb; padding-bottom: 10px; margin-bottom: 10px; }
 
         /* BOTÓN ENVIAR */
         .btn-submit { background: var(--accent); color: white; width: 100%; padding: 15px; font-weight: 700; border: none; border-radius: 8px; font-size: 1rem; box-shadow: 0 4px 6px rgba(15, 23, 42, 0.2); transition: 0.2s; }
@@ -69,7 +63,7 @@
     <div class="header-bar">
         <div class="container" style="max-width: 700px;">
             <h1 class="title-main">CARGA DE ANEXOS PARROQUIALES</h1>
-            <div class="title-sub">Planes Comunitarios | Actas, listados y evidencias</div>
+            <div class="title-sub">Planes Comunitarios | Anexos 1 al 13</div>
         </div>
     </div>
 
@@ -90,9 +84,9 @@
                 <i class="bi bi-folder-symlink-fill"></i> Registro de anexos de planes comunitarios
             </div>
             <div>
-                Use este formulario para adjuntar actas, listados, planes comunitarios firmados, fotografías u otros documentos
-                relacionados con la gestión del riesgo en su parroquia. <br>
-                <b>La información será almacenada en el sistema institucional para trazabilidad y respaldo.</b>
+                Use este formulario para adjuntar los 13 anexos del plan comunitario (actas, listados, plan firmado, evidencias, etc.).
+                <br>
+                <b>La fecha se registra automáticamente como fecha de subida en el sistema.</b>
             </div>
         </div>
 
@@ -100,6 +94,7 @@
         <form id="anexoForm">
             <!-- Identificador de tipo para Apps Script -->
             <input type="hidden" name="tipo" value="anexos">
+            <input type="hidden" name="fecha_subida" id="fechaSubida">
 
             <!-- 1. Datos de referencia -->
             <div class="form-card">
@@ -130,8 +125,8 @@
                         <input type="text" class="form-control" name="comunidad" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Fecha del evento / reunión <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="fecha_evento" required>
+                        <label class="form-label">Responsable de carga (nombre) <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="responsable" required>
                     </div>
                 </div>
 
@@ -141,69 +136,223 @@
                 </div>
 
                 <div class="mt-3">
-                    <label class="form-label">Tipo de anexo principal <span class="text-danger">*</span></label>
-                    <select class="form-select" name="tipo_anexo" required>
-                        <option value="" selected disabled>Seleccione...</option>
-                        <option value="Acta de asamblea">Acta de asamblea</option>
-                        <option value="Listado de participantes">Listado de participantes</option>
-                        <option value="Plan comunitario firmado">Plan comunitario firmado</option>
-                        <option value="Registro fotográfico">Registro fotográfico</option>
-                        <option value="Oficios / coordinaciones">Oficios / coordinaciones</option>
-                        <option value="Otro">Otro</option>
-                    </select>
+                    <label class="form-label">Fecha de subida (automática)</label>
+                    <input type="text" class="form-control" id="fechaSubidaView" readonly>
+                    <span class="file-hint">Se genera con la fecha y hora del momento de registro.</span>
                 </div>
 
                 <div class="mt-3">
-                    <label class="form-label">Observaciones (opcional)</label>
+                    <label class="form-label">Observaciones generales (opcional)</label>
                     <textarea class="form-control" name="observaciones" rows="2" placeholder="Notas relevantes sobre los anexos o el proceso comunitario."></textarea>
                 </div>
             </div>
 
-            <!-- 2. Ubicación (opcional) -->
+            <!-- 2. Anexos 1 al 13 -->
             <div class="form-card">
                 <h6 class="section-title">
-                    <i class="bi bi-geo-alt-fill"></i> 2. Ubicación (GPS) de la actividad
+                    <i class="bi bi-paperclip"></i> 2. Anexos del plan (máximo 13)
                 </h6>
 
-                <div id="gpsBox" class="gps-container">
-                    <p class="small text-muted mb-3">
-                        Opcional: capture la ubicación donde se realizó la reunión o actividad comunitaria.
-                    </p>
-                    <button type="button" class="btn-gps" onclick="getGPS()" id="btnGPS">
-                        <i class="bi bi-crosshair"></i> Capturar GPS
-                    </button>
-                    <div id="gpsData" class="mt-2 small fw-bold text-success" style="display:none;">
-                        <i class="bi bi-check-circle-fill"></i> <span id="coordsText"></span>
+                <p class="file-hint mb-3">
+                    Cada anexo tiene un campo para una breve descripción y un archivo. 
+                    No es obligatorio cargar los 13, pero al menos un anexo debe adjuntarse.
+                </p>
+
+                <!-- Generación manual de 13 anexos -->
+                <!-- Anexo 1 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 1</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo1_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="1"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                            <div class="file-hint">Ej.: Acta de asamblea.</div>
+                        </div>
                     </div>
                 </div>
 
-                <input type="hidden" name="latitud" id="lat">
-                <input type="hidden" name="longitud" id="lng">
-            </div>
-
-            <!-- 3. Archivos -->
-            <div class="form-card">
-                <h6 class="section-title">
-                    <i class="bi bi-paperclip"></i> 3. Archivos a adjuntar
-                </h6>
-
-                <div class="mb-2">
-                    <label class="form-label">Seleccione los anexos a subir <span class="text-danger">*</span></label>
-                    <input type="file" class="form-control" id="filesInput" multiple required
-                           accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                    <div class="file-hint mt-1">
-                        Puede seleccionar varios archivos a la vez. Tamaño recomendado por archivo: &lt; 10 MB.
+                <!-- Anexo 2 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 2</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo2_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="2"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                            <div class="file-hint">Ej.: Listado de participantes.</div>
+                        </div>
                     </div>
                 </div>
 
-                <div id="fileList" class="file-list"></div>
+                <!-- Anexo 3 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 3</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo3_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="3"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                            <div class="file-hint">Ej.: Plan comunitario firmado.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 4 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 4</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo4_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="4"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                            <div class="file-hint">Ej.: Matriz de actores.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 5 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 5</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo5_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="5"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                            <div class="file-hint">Ej.: Mapa comunitario.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 6 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 6</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo6_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="6"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 7 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 7</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo7_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="7"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 8 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 8</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo8_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="8"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 9 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 9</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo9_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="9"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 10 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 10</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo10_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="10"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 11 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 11</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo11_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="11"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 12 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 12</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo12_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="12"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anexo 13 -->
+                <div class="anexo-box">
+                    <div class="anexo-header">Anexo 13</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="anexo13_titulo" placeholder="Descripción (opcional)">
+                        </div>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="13"
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Botón enviar -->
             <div class="d-grid gap-2 mb-5">
                 <button type="submit" class="btn-submit" id="btnSubmit">SUBIR ANEXOS</button>
                 <p class="text-center small text-muted mt-2">
-                    Los anexos se enviarán al sistema central. Si no hay conexión, se guardarán en el dispositivo y podrá subirlos luego.
+                    Si no hay conexión, los anexos se guardan en el dispositivo para subirlos después.
                 </p>
             </div>
         </form>
@@ -221,12 +370,20 @@
             const preloader = document.getElementById('preloader');
             if (preloader) setTimeout(() => { preloader.style.display = 'none'; }, 500);
 
-            checkOfflineQueue();
+            // Fecha automática de subida
+            const now = new Date();
+            const iso = now.toISOString();
+            const localStr = now.toLocaleString('es-EC', {
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit'
+            });
 
-            const filesInput = document.getElementById('filesInput');
-            if (filesInput) {
-                filesInput.addEventListener('change', renderFileList);
-            }
+            const fechaHidden = document.getElementById('fechaSubida');
+            const fechaView = document.getElementById('fechaSubidaView');
+            if (fechaHidden) fechaHidden.value = iso;
+            if (fechaView) fechaView.value = localStr;
+
+            checkOfflineQueue();
         });
 
         // Seguro extra para preloader
@@ -235,68 +392,65 @@
             if (p && p.style.display !== 'none') p.style.display = 'none';
         }, 3000);
 
-        // --- LISTA DE ARCHIVOS VISUAL ---
-        function renderFileList() {
-            const input = document.getElementById('filesInput');
-            const container = document.getElementById('fileList');
-            container.innerHTML = "";
-
-            if (!input.files || input.files.length === 0) return;
-
-            Array.from(input.files).forEach(file => {
-                const sizeKB = (file.size / 1024).toFixed(1);
-                const pill = document.createElement('div');
-                pill.className = 'file-pill';
-                pill.innerHTML = `
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>${file.name}</span>
-                    <span class="text-muted">${sizeKB} KB</span>
-                `;
-                container.appendChild(pill);
-            });
-        }
-
-        // --- GPS (opcional, no bloquea el envío) ---
-        function getGPS() {
-            const btn = document.getElementById('btnGPS');
-            const box = document.getElementById('gpsBox');
-            if (!navigator.geolocation) {
-                Swal.fire('Error', 'Este dispositivo no permite obtener GPS.', 'error');
-                return;
-            }
-
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
-            btn.disabled = true;
-
-            navigator.geolocation.getCurrentPosition((pos) => {
-                document.getElementById('lat').value = pos.coords.latitude;
-                document.getElementById('lng').value = pos.coords.longitude;
-
-                box.classList.add('gps-success');
-                btn.style.display = 'none';
-                document.getElementById('gpsData').style.display = 'block';
-                document.getElementById('coordsText').innerText =
-                    `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
-            }, (err) => {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="bi bi-crosshair"></i> Reintentar GPS';
-                Swal.fire('No se pudo obtener GPS', 'Verifique permisos o señal y vuelva a intentar.', 'warning');
-            }, { enableHighAccuracy: true, timeout: 15000 });
-        }
-
         // --- UTILIDAD: archivo a Base64 (sin cabecera) ---
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => {
                     const result = reader.result || "";
-                    // reader.result viene como "data:...;base64,AAAA"
                     const base64 = String(result).split(",")[1] || "";
                     resolve(base64);
                 };
                 reader.onerror = () => reject(reader.error);
                 reader.readAsDataURL(file);
             });
+        }
+
+        // --- CONSTRUIR PAYLOAD COMPLETO (FORM + ARCHIVOS) ---
+        async function buildPayload(form) {
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Asegurar fecha_subida
+            if (!data.fecha_subida) {
+                data.fecha_subida = new Date().toISOString();
+            }
+
+            const files = [];
+            const fileInputs = document.querySelectorAll('.anexo-file');
+            const preloader = document.getElementById('preloader');
+
+            const totalSlots = fileInputs.length;
+            let processed = 0;
+
+            for (const input of fileInputs) {
+                const numero = input.dataset.anexo;
+                const tituloField = form.querySelector(`[name="anexo${numero}_titulo"]`);
+                const titulo = tituloField ? tituloField.value : "";
+
+                if (input.files && input.files.length > 0) {
+                    const file = input.files[0];
+                    if (preloader) {
+                        preloader.querySelector('h6').innerText =
+                            `Procesando anexo ${numero}...`;
+                    }
+                    const base64 = await fileToBase64(file);
+
+                    files.push({
+                        numero: numero,
+                        titulo: titulo,
+                        fileName: file.name,
+                        mimeType: file.type,
+                        size: file.size,
+                        content: base64
+                    });
+                }
+
+                processed++;
+            }
+
+            data.files = files;
+            return data;
         }
 
         // --- ENVÍO PRINCIPAL ---
@@ -306,45 +460,33 @@
         });
 
         async function handleSubmit(form) {
-            const filesInput = document.getElementById('filesInput');
+            const fileInputs = document.querySelectorAll('.anexo-file');
+            let hasFile = false;
+            fileInputs.forEach(input => {
+                if (input.files && input.files.length > 0) hasFile = true;
+            });
 
-            if (!filesInput.files || filesInput.files.length === 0) {
-                Swal.fire('Faltan archivos', 'Seleccione al menos un archivo para subir.', 'warning');
-                filesInput.scrollIntoView({ behavior: "smooth" });
+            if (!hasFile) {
+                Swal.fire('Faltan anexos', 'Debe cargar al menos un anexo antes de enviar.', 'warning');
                 return;
             }
 
-            // Mostrar loader
             const preloader = document.getElementById('preloader');
             preloader.style.display = 'flex';
             preloader.style.opacity = '1';
-            preloader.querySelector('h6').innerText = "Preparando archivos...";
+            preloader.querySelector('h6').innerText = "Preparando anexos...";
+
+            let data;
+            try {
+                data = await buildPayload(form);
+            } catch (err) {
+                preloader.style.display = 'none';
+                Swal.fire('Error al procesar archivos', 'Revise los archivos seleccionados e intente de nuevo.', 'error');
+                return;
+            }
 
             try {
-                // Convertir datos de formulario
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-
-                // Procesar archivos a Base64
-                const files = [];
-                const filesArray = Array.from(filesInput.files);
-
-                for (let i = 0; i < filesArray.length; i++) {
-                    const file = filesArray[i];
-                    preloader.querySelector('h6').innerText = `Procesando archivo ${i + 1} de ${filesArray.length}...`;
-                    const base64 = await fileToBase64(file);
-
-                    files.push({
-                        fileName: file.name,
-                        mimeType: file.type,
-                        size: file.size,
-                        content: base64
-                    });
-                }
-
-                data.files = files;
-
-                preloader.querySelector('h6').innerText = "Enviando anexos...";
+                preloader.querySelector('h6').innerText = "Enviando anexos al servidor...";
 
                 const res = await fetch(API_URL, {
                     method: "POST",
@@ -368,7 +510,7 @@
                         confirmButtonColor: '#0f172a'
                     }).then(() => window.location.reload());
                 } else {
-                    // Si el servidor responde distinto, guardar offline
+                    // Guardar offline si el servidor responde con error
                     saveToLocalStorage(data);
                     Swal.fire({
                         title: 'Problema con el servidor',
@@ -380,25 +522,7 @@
 
             } catch (error) {
                 preloader.style.display = 'none';
-                // Sin conexión o error de red: guardar offline
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-
-                // Para offline también necesitamos los archivos ya procesados
-                const filesInput = document.getElementById('filesInput');
-                const filesArray = Array.from(filesInput.files);
-                const files = [];
-                for (const file of filesArray) {
-                    const base64 = await fileToBase64(file);
-                    files.push({
-                        fileName: file.name,
-                        mimeType: file.type,
-                        size: file.size,
-                        content: base64
-                    });
-                }
-                data.files = files;
-
+                // Sin conexión: guardar offline
                 saveToLocalStorage(data);
 
                 Swal.fire({
@@ -469,3 +593,4 @@
     </script>
 </body>
 </html>
+
