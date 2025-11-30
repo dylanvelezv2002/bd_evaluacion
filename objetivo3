@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anexos Parroquiales | Planes Comunitarios</title>
+    
+    <!-- Fuentes y librerías -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        :root { --primary: #0f172a; --accent: #2563eb; --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--primary); padding-bottom: 60px; }
+
+        /* HEADER */
+        .header-bar { background: var(--card); border-bottom: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .title-main { font-weight: 800; color: var(--primary); font-size: 1.1rem; margin: 0; }
+        .title-sub { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-top: 4px; text-transform: uppercase; }
+
+        /* AVISO */
+        .legal-box { background-color: #fff; border-left: 5px solid #0d6efd; padding: 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.85rem; color: #334155; }
+        .legal-title { font-weight: 800; text-transform: uppercase; color: #0d6efd; margin-bottom: 8px; }
+
+        /* TARJETAS */
+        .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .section-title { font-size: 0.85rem; font-weight: 700; color: #475569; border-bottom: 1px solid var(--bg); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+
+        /* INPUTS */
+        .form-label { font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 8px; }
+        .form-control, .form-select { border-radius: 6px; padding: 10px 12px; font-size: 0.9rem; border-color: #cbd5e1; }
+
+        /* GPS */
+        .gps-container { background: #eff6ff; border: 1px dashed #93c5fd; border-radius: 8px; padding: 20px; text-align: center; }
+        .btn-gps { background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; transition: all 0.2s; }
+        .gps-success { background-color: #dcfce7; border-color: #86efac; color: #166534; }
+
+        /* ARCHIVOS */
+        .file-hint { font-size: 0.78rem; color: #6b7280; }
+        .file-list { margin-top: 10px; font-size: 0.8rem; }
+        .file-pill { background-color: #e5e7eb; border-radius: 999px; padding: 4px 10px; margin: 2px; display: inline-flex; align-items: center; gap: 6px; }
+        .file-pill i { font-size: 0.8rem; }
+
+        /* BOTÓN ENVIAR */
+        .btn-submit { background: var(--accent); color: white; width: 100%; padding: 15px; font-weight: 700; border: none; border-radius: 8px; font-size: 1rem; box-shadow: 0 4px 6px rgba(15, 23, 42, 0.2); transition: 0.2s; }
+        .btn-submit:hover { background: #1d4ed8; transform: translateY(-2px); }
+        .btn-submit:disabled { background: #cbd5e1; transform: none; cursor: not-allowed; }
+
+        /* BARRA SYNC */
+        #syncBar { display: none; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; border-radius: 8px; margin-bottom: 20px; align-items: center; justify-content: space-between; font-size: 0.85rem; }
+
+        /* PRELOADER FIXED */
+        #preloader { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,1); z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #e5e7eb; border-top: 5px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="spinner"></div>
+        <h6 class="fw-bold text-secondary">Cargando sistema de anexos...</h6>
+    </div>
+
+    <!-- HEADER -->
+    <div class="header-bar">
+        <div class="container" style="max-width: 700px;">
+            <h1 class="title-main">CARGA DE ANEXOS PARROQUIALES</h1>
+            <div class="title-sub">Planes Comunitarios | Actas, listados y evidencias</div>
+        </div>
+    </div>
+
+    <div class="container" style="max-width: 700px;">
+
+        <!-- BARRA DE SINCRONIZACIÓN OFFLINE -->
+        <div id="syncBar">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-cloud-arrow-up-fill fs-5 me-2"></i>
+                <div><strong id="syncCount">0</strong> registros pendientes por subir.</div>
+            </div>
+            <button class="btn btn-warning btn-sm fw-bold" onclick="syncOfflineData()">SUBIR</button>
+        </div>
+
+        <!-- AVISO -->
+        <div class="legal-box">
+            <div class="legal-title">
+                <i class="bi bi-folder-symlink-fill"></i> Registro de anexos de planes comunitarios
+            </div>
+            <div>
+                Use este formulario para adjuntar actas, listados, planes comunitarios firmados, fotografías u otros documentos
+                relacionados con la gestión del riesgo en su parroquia. <br>
+                <b>La información será almacenada en el sistema institucional para trazabilidad y respaldo.</b>
+            </div>
+        </div>
+
+        <!-- FORMULARIO -->
+        <form id="anexoForm">
+            <!-- Identificador de tipo para Apps Script -->
+            <input type="hidden" name="tipo" value="anexos">
+
+            <!-- 1. Datos de referencia -->
+            <div class="form-card">
+                <h6 class="section-title">
+                    <i class="bi bi-building-fill-gear"></i> 1. Datos de referencia
+                </h6>
+
+                <div class="mb-3">
+                    <label class="form-label">Parroquia Rural <span class="text-danger">*</span></label>
+                    <select class="form-select" name="parroquia" required>
+                        <option value="" selected disabled>Seleccione...</option>
+                        <option value="Alluriquín">Alluriquín</option>
+                        <option value="Puerto Limón">Puerto Limón</option>
+                        <option value="Luz de América">Luz de América</option>
+                        <option value="San Jacinto del Búa">San Jacinto del Búa</option>
+                        <option value="Valle Hermoso">Valle Hermoso</option>
+                        <option value="El Esfuerzo">El Esfuerzo</option>
+                        <option value="Santa María del Toachi">Santa María del Toachi</option>
+                        <option value="La Villegas">La Villegas</option>
+                        <option value="Monterrey">Monterrey</option>
+                        <option value="Plan Piloto">Plan Piloto</option>
+                    </select>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Comunidad / Recinto <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="comunidad" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Fecha del evento / reunión <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" name="fecha_evento" required>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label">Nombre del Plan Comunitario o actividad <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="plan_nombre" placeholder="Ej. Plan Comunitario de Gestión de Riesgos 2025" required>
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label">Tipo de anexo principal <span class="text-danger">*</span></label>
+                    <select class="form-select" name="tipo_anexo" required>
+                        <option value="" selected disabled>Seleccione...</option>
+                        <option value="Acta de asamblea">Acta de asamblea</option>
+                        <option value="Listado de participantes">Listado de participantes</option>
+                        <option value="Plan comunitario firmado">Plan comunitario firmado</option>
+                        <option value="Registro fotográfico">Registro fotográfico</option>
+                        <option value="Oficios / coordinaciones">Oficios / coordinaciones</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label">Observaciones (opcional)</label>
+                    <textarea class="form-control" name="observaciones" rows="2" placeholder="Notas relevantes sobre los anexos o el proceso comunitario."></textarea>
+                </div>
+            </div>
+
+            <!-- 2. Ubicación (opcional) -->
+            <div class="form-card">
+                <h6 class="section-title">
+                    <i class="bi bi-geo-alt-fill"></i> 2. Ubicación (GPS) de la actividad
+                </h6>
+
+                <div id="gpsBox" class="gps-container">
+                    <p class="small text-muted mb-3">
+                        Opcional: capture la ubicación donde se realizó la reunión o actividad comunitaria.
+                    </p>
+                    <button type="button" class="btn-gps" onclick="getGPS()" id="btnGPS">
+                        <i class="bi bi-crosshair"></i> Capturar GPS
+                    </button>
+                    <div id="gpsData" class="mt-2 small fw-bold text-success" style="display:none;">
+                        <i class="bi bi-check-circle-fill"></i> <span id="coordsText"></span>
+                    </div>
+                </div>
+
+                <input type="hidden" name="latitud" id="lat">
+                <input type="hidden" name="longitud" id="lng">
+            </div>
+
+            <!-- 3. Archivos -->
+            <div class="form-card">
+                <h6 class="section-title">
+                    <i class="bi bi-paperclip"></i> 3. Archivos a adjuntar
+                </h6>
+
+                <div class="mb-2">
+                    <label class="form-label">Seleccione los anexos a subir <span class="text-danger">*</span></label>
+                    <input type="file" class="form-control" id="filesInput" multiple required
+                           accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                    <div class="file-hint mt-1">
+                        Puede seleccionar varios archivos a la vez. Tamaño recomendado por archivo: &lt; 10 MB.
+                    </div>
+                </div>
+
+                <div id="fileList" class="file-list"></div>
+            </div>
+
+            <!-- Botón enviar -->
+            <div class="d-grid gap-2 mb-5">
+                <button type="submit" class="btn-submit" id="btnSubmit">SUBIR ANEXOS</button>
+                <p class="text-center small text-muted mt-2">
+                    Los anexos se enviarán al sistema central. Si no hay conexión, se guardarán en el dispositivo y podrá subirlos luego.
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // ========================================
+        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+        // ========================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+        const OFFLINE_KEY = "offlineAnexos";
+
+        // --- INICIALIZACIÓN ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) setTimeout(() => { preloader.style.display = 'none'; }, 500);
+
+            checkOfflineQueue();
+
+            const filesInput = document.getElementById('filesInput');
+            if (filesInput) {
+                filesInput.addEventListener('change', renderFileList);
+            }
+        });
+
+        // Seguro extra para preloader
+        setTimeout(() => {
+            const p = document.getElementById('preloader');
+            if (p && p.style.display !== 'none') p.style.display = 'none';
+        }, 3000);
+
+        // --- LISTA DE ARCHIVOS VISUAL ---
+        function renderFileList() {
+            const input = document.getElementById('filesInput');
+            const container = document.getElementById('fileList');
+            container.innerHTML = "";
+
+            if (!input.files || input.files.length === 0) return;
+
+            Array.from(input.files).forEach(file => {
+                const sizeKB = (file.size / 1024).toFixed(1);
+                const pill = document.createElement('div');
+                pill.className = 'file-pill';
+                pill.innerHTML = `
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>${file.name}</span>
+                    <span class="text-muted">${sizeKB} KB</span>
+                `;
+                container.appendChild(pill);
+            });
+        }
+
+        // --- GPS (opcional, no bloquea el envío) ---
+        function getGPS() {
+            const btn = document.getElementById('btnGPS');
+            const box = document.getElementById('gpsBox');
+            if (!navigator.geolocation) {
+                Swal.fire('Error', 'Este dispositivo no permite obtener GPS.', 'error');
+                return;
+            }
+
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
+            btn.disabled = true;
+
+            navigator.geolocation.getCurrentPosition((pos) => {
+                document.getElementById('lat').value = pos.coords.latitude;
+                document.getElementById('lng').value = pos.coords.longitude;
+
+                box.classList.add('gps-success');
+                btn.style.display = 'none';
+                document.getElementById('gpsData').style.display = 'block';
+                document.getElementById('coordsText').innerText =
+                    `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+            }, (err) => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-crosshair"></i> Reintentar GPS';
+                Swal.fire('No se pudo obtener GPS', 'Verifique permisos o señal y vuelva a intentar.', 'warning');
+            }, { enableHighAccuracy: true, timeout: 15000 });
+        }
+
+        // --- UTILIDAD: archivo a Base64 (sin cabecera) ---
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const result = reader.result || "";
+                    // reader.result viene como "data:...;base64,AAAA"
+                    const base64 = String(result).split(",")[1] || "";
+                    resolve(base64);
+                };
+                reader.onerror = () => reject(reader.error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // --- ENVÍO PRINCIPAL ---
+        document.getElementById('anexoForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            handleSubmit(this);
+        });
+
+        async function handleSubmit(form) {
+            const filesInput = document.getElementById('filesInput');
+
+            if (!filesInput.files || filesInput.files.length === 0) {
+                Swal.fire('Faltan archivos', 'Seleccione al menos un archivo para subir.', 'warning');
+                filesInput.scrollIntoView({ behavior: "smooth" });
+                return;
+            }
+
+            // Mostrar loader
+            const preloader = document.getElementById('preloader');
+            preloader.style.display = 'flex';
+            preloader.style.opacity = '1';
+            preloader.querySelector('h6').innerText = "Preparando archivos...";
+
+            try {
+                // Convertir datos de formulario
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                // Procesar archivos a Base64
+                const files = [];
+                const filesArray = Array.from(filesInput.files);
+
+                for (let i = 0; i < filesArray.length; i++) {
+                    const file = filesArray[i];
+                    preloader.querySelector('h6').innerText = `Procesando archivo ${i + 1} de ${filesArray.length}...`;
+                    const base64 = await fileToBase64(file);
+
+                    files.push({
+                        fileName: file.name,
+                        mimeType: file.type,
+                        size: file.size,
+                        content: base64
+                    });
+                }
+
+                data.files = files;
+
+                preloader.querySelector('h6').innerText = "Enviando anexos...";
+
+                const res = await fetch(API_URL, {
+                    method: "POST",
+                    body: JSON.stringify(data)
+                });
+
+                let json;
+                try {
+                    json = await res.json();
+                } catch (e) {
+                    json = { status: 'error' };
+                }
+
+                preloader.style.display = 'none';
+
+                if (json.status === 'success') {
+                    Swal.fire({
+                        title: '¡Anexos subidos!',
+                        text: `Se registraron los anexos de ${data.parroquia} - ${data.comunidad}.`,
+                        icon: 'success',
+                        confirmButtonColor: '#0f172a'
+                    }).then(() => window.location.reload());
+                } else {
+                    // Si el servidor responde distinto, guardar offline
+                    saveToLocalStorage(data);
+                    Swal.fire({
+                        title: 'Problema con el servidor',
+                        text: 'Los anexos se guardaron en el dispositivo para intentar subirlos después.',
+                        icon: 'info',
+                        confirmButtonColor: '#d97706'
+                    }).then(() => window.location.reload());
+                }
+
+            } catch (error) {
+                preloader.style.display = 'none';
+                // Sin conexión o error de red: guardar offline
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                // Para offline también necesitamos los archivos ya procesados
+                const filesInput = document.getElementById('filesInput');
+                const filesArray = Array.from(filesInput.files);
+                const files = [];
+                for (const file of filesArray) {
+                    const base64 = await fileToBase64(file);
+                    files.push({
+                        fileName: file.name,
+                        mimeType: file.type,
+                        size: file.size,
+                        content: base64
+                    });
+                }
+                data.files = files;
+
+                saveToLocalStorage(data);
+
+                Swal.fire({
+                    title: 'Sin conexión',
+                    text: 'Los anexos se guardaron en el dispositivo. Podrá subirlos cuando tenga internet.',
+                    icon: 'info',
+                    confirmButtonColor: '#d97706'
+                }).then(() => window.location.reload());
+            }
+        }
+
+        // --- OFFLINE: guardar y sincronizar ---
+        function saveToLocalStorage(data) {
+            let queue = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
+            queue.push(data);
+            localStorage.setItem(OFFLINE_KEY, JSON.stringify(queue));
+        }
+
+        function checkOfflineQueue() {
+            let queue = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
+            if (queue.length > 0) {
+                document.getElementById('syncBar').style.display = 'flex';
+                document.getElementById('syncCount').innerText = queue.length;
+            }
+        }
+
+        async function syncOfflineData() {
+            let queue = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
+            if (queue.length === 0) return;
+
+            const preloader = document.getElementById('preloader');
+            preloader.style.display = 'flex';
+            preloader.style.opacity = '1';
+            preloader.querySelector('h6').innerText = "Subiendo anexos pendientes...";
+
+            try {
+                for (let i = 0; i < queue.length; i++) {
+                    const data = queue[i];
+                    preloader.querySelector('h6').innerText =
+                        `Subiendo registro ${i + 1} de ${queue.length}...`;
+
+                    await fetch(API_URL, {
+                        method: "POST",
+                        body: JSON.stringify(data)
+                    });
+                }
+
+                localStorage.removeItem(OFFLINE_KEY);
+                document.getElementById('syncBar').style.display = 'none';
+                preloader.style.display = 'none';
+
+                Swal.fire({
+                    title: '¡Sincronización exitosa!',
+                    text: 'Todos los anexos pendientes se han subido correctamente.',
+                    icon: 'success',
+                    confirmButtonColor: '#0f172a'
+                }).then(() => window.location.reload());
+
+            } catch (error) {
+                preloader.style.display = 'none';
+                Swal.fire({
+                    title: 'Error de conexión',
+                    text: 'Hubo un problema al subir los anexos. Verifique su internet e intente nuevamente.',
+                    icon: 'error'
+                });
+            }
+        }
+    </script>
+</body>
+</html>
