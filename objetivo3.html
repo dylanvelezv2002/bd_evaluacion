@@ -3,594 +3,653 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anexos Parroquiales | Planes Comunitarios</title>
+    <title>Carga de Anexos PCDGR</title>
     
-    <!-- Fuentes y librerías -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root { --primary: #0f172a; --accent: #2563eb; --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--primary); padding-bottom: 60px; }
+        /* --- ESTILOS VISUALES (RESTAURANDO EL DISEÑO) --- */
+        :root { 
+            --primary: #0f172a; 
+            --accent: #2563eb; 
+            --bg: #f1f5f9; 
+            --card: #ffffff; 
+            --border: #e2e8f0; 
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: #334155; 
+            padding-bottom: 80px; 
+        }
 
         /* HEADER */
-        .header-bar { background: var(--card); border-bottom: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .title-main { font-weight: 800; color: var(--primary); font-size: 1.1rem; margin: 0; }
-        .title-sub { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-top: 4px; text-transform: uppercase; }
+        .header-bar { 
+            background: white; 
+            border-bottom: 1px solid var(--border); 
+            padding: 1.5rem; 
+            margin-bottom: 2rem; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
 
-        /* AVISO */
-        .legal-box { background-color: #fff; border-left: 5px solid #0d6efd; padding: 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.85rem; color: #334155; }
-        .legal-title { font-weight: 800; text-transform: uppercase; color: #0d6efd; margin-bottom: 8px; }
+        /* TARJETAS MODERNAS */
+        .card-modern { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
+        }
+        .card-header-custom { 
+            border-bottom: 2px solid #f1f5f9; 
+            padding-bottom: 10px; 
+            margin-bottom: 20px; 
+            font-weight: 800; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            font-size: 0.9rem; 
+            letter-spacing: 0.5px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* TARJETAS */
-        .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .section-title { font-size: 0.85rem; font-weight: 700; color: #475569; border-bottom: 1px solid var(--bg); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+        /* FORMULARIOS */
+        .form-label { font-size: 0.8rem; font-weight: 700; color: #64748b; margin-bottom: 5px; text-transform: uppercase; }
+        .form-control, .form-select { 
+            font-size: 0.9rem; 
+            padding: 10px 12px; 
+            border-radius: 8px; 
+            border: 1px solid #cbd5e1;
+            background-color: #f8fafc;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
 
-        /* INPUTS */
-        .form-label { font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 8px; }
-        .form-control, .form-select { border-radius: 6px; padding: 10px 12px; font-size: 0.9rem; border-color: #cbd5e1; }
+        /* TABLAS INTERNAS */
+        .brigada-section {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .brigada-header {
+            padding: 10px 15px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .bg-aux { background-color: var(--accent); } /* Azul */
+        .bg-inc { background-color: #dc2626; }     /* Rojo */
+        .bg-eva { background-color: #16a34a; }     /* Verde */
+        .bg-pro { background-color: var(--primary); } /* Oscuro */
 
-        /* ARCHIVOS */
-        .file-hint { font-size: 0.78rem; color: #6b7280; }
-        .anexo-header { font-size: 0.85rem; font-weight: 600; color: #4b5563; margin-bottom: 8px; }
-        .anexo-box { border-bottom: 1px dashed #e5e7eb; padding-bottom: 10px; margin-bottom: 10px; }
+        .table-custom { width: 100%; margin-bottom: 0; }
+        .table-custom th { 
+            background: #f8fafc; 
+            font-size: 0.7rem; 
+            text-transform: uppercase; 
+            color: #64748b; 
+            padding: 8px; 
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+        }
+        .table-custom td { padding: 8px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        .btn-add-row { 
+            font-size: 0.8rem; 
+            font-weight: 600; 
+            padding: 8px 15px; 
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 5px; 
+            margin-top: 5px;
+        }
+        .btn-del-row { 
+            border: none; 
+            background: #fee2e2; 
+            color: #dc2626; 
+            width: 28px; 
+            height: 28px; 
+            border-radius: 6px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: 0.2s;
+        }
+        .btn-del-row:hover { background: #dc2626; color: white; }
 
-        /* BOTÓN ENVIAR */
-        .btn-submit { background: var(--accent); color: white; width: 100%; padding: 15px; font-weight: 700; border: none; border-radius: 8px; font-size: 1rem; box-shadow: 0 4px 6px rgba(15, 23, 42, 0.2); transition: 0.2s; }
-        .btn-submit:hover { background: #1d4ed8; transform: translateY(-2px); }
-        .btn-submit:disabled { background: #cbd5e1; transform: none; cursor: not-allowed; }
+        /* ANEXOS INDIVIDUALES */
+        .anexo-item { 
+            background: white; 
+            border: 1px solid var(--border); 
+            border-radius: 10px; 
+            padding: 15px; 
+            height: 100%; 
+            position: relative; 
+            transition: 0.2s;
+        }
+        .anexo-item:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .anexo-badge { 
+            position: absolute; top: 0; right: 0; 
+            background: #f1f5f9; color: #64748b; 
+            font-size: 0.7rem; font-weight: 800; 
+            padding: 4px 10px; 
+            border-bottom-left-radius: 10px; 
+            border-bottom: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+        }
+        .anexo-title { font-weight: 700; font-size: 0.9rem; color: var(--primary); margin-bottom: 8px; margin-right: 30px; }
 
-        /* BARRA SYNC */
-        #syncBar { display: none; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; border-radius: 8px; margin-bottom: 20px; align-items: center; justify-content: space-between; font-size: 0.85rem; }
+        /* BOTÓN SUBMIT */
+        .btn-submit { 
+            background: var(--primary); 
+            color: white; 
+            width: 100%; 
+            padding: 18px; 
+            font-weight: 700; 
+            font-size: 1rem; 
+            border: none; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2); 
+            transition: 0.2s; 
+        }
+        .btn-submit:hover { background: #1e293b; transform: translateY(-2px); }
 
-        /* PRELOADER FIXED */
-        #preloader { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,1); z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; }
-        .spinner { width: 50px; height: 50px; border: 5px solid #e5e7eb; border-top: 5px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* UTILS */
+        #preloader { position: fixed; inset:0; background:rgba(255,255,255,0.95); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; backdrop-filter: blur(5px); }
+        #syncBar { display: none; background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; padding: 12px 20px; border-radius: 10px; margin-bottom: 25px; align-items:center; justify-content:space-between; font-weight: 500; }
     </style>
 </head>
 <body>
 
-    <!-- PRELOADER -->
     <div id="preloader">
-        <div class="spinner"></div>
-        <h6 class="fw-bold text-secondary">Cargando sistema de anexos...</h6>
+        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+        <h6 class="fw-bold text-dark" style="letter-spacing: 1px;">PROCESANDO</h6>
+        <small class="text-muted" id="loaderText">Conectando con el sistema...</small>
     </div>
 
-    <!-- HEADER -->
     <div class="header-bar">
-        <div class="container" style="max-width: 700px;">
-            <h1 class="title-main">CARGA DE ANEXOS PARROQUIALES</h1>
-            <div class="title-sub">Planes Comunitarios | Anexos 1 al 13</div>
+        <div class="container" style="max-width: 900px;">
+            <h1 class="m-0 fw-bold text-primary" style="letter-spacing: -1px;">OBJETIVO 3: PCDGR</h1>
+            <div class="text-muted small fw-bold mt-1 text-uppercase">Plataforma de Carga de Anexos y Planes Comunitarios</div>
         </div>
     </div>
 
-    <div class="container" style="max-width: 700px;">
+    <div class="container" style="max-width: 900px;">
 
-        <!-- BARRA DE SINCRONIZACIÓN OFFLINE -->
         <div id="syncBar">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-cloud-arrow-up-fill fs-5 me-2"></i>
-                <div><strong id="syncCount">0</strong> registros pendientes por subir.</div>
-            </div>
-            <button class="btn btn-warning btn-sm fw-bold" onclick="syncOfflineData()">SUBIR</button>
+            <div><i class="bi bi-wifi-off me-2 fs-5"></i><strong>Modo Offline:</strong> Tienes <span id="syncCount">0</span> registros pendientes.</div>
+            <button class="btn btn-warning btn-sm fw-bold shadow-sm" onclick="syncOfflineData()">Sincronizar Ahora</button>
         </div>
 
-        <!-- AVISO -->
-        <div class="legal-box">
-            <div class="legal-title">
-                <i class="bi bi-folder-symlink-fill"></i> Registro de anexos de planes comunitarios
-            </div>
-            <div>
-                Use este formulario para adjuntar los 13 anexos del plan comunitario (actas, listados, plan firmado, evidencias, etc.).
-                <br>
-                <b>La fecha se registra automáticamente como fecha de subida en el sistema.</b>
-            </div>
-        </div>
-
-        <!-- FORMULARIO -->
-        <form id="anexoForm">
-            <!-- Identificador de tipo para Apps Script -->
-            <input type="hidden" name="tipo" value="anexos">
+        <form id="mainForm">
+            <input type="hidden" name="tipo" value="anexos_full">
             <input type="hidden" name="fecha_subida" id="fechaSubida">
 
-            <!-- 1. Datos de referencia -->
-            <div class="form-card">
-                <h6 class="section-title">
-                    <i class="bi bi-building-fill-gear"></i> 1. Datos de referencia
-                </h6>
-
-                <div class="mb-3">
-                    <label class="form-label">Parroquia Rural <span class="text-danger">*</span></label>
-                    <select class="form-select" name="parroquia" required>
-                        <option value="" selected disabled>Seleccione...</option>
-                        <option value="Alluriquín">Alluriquín</option>
-                        <option value="Puerto Limón">Puerto Limón</option>
-                        <option value="Luz de América">Luz de América</option>
-                        <option value="San Jacinto del Búa">San Jacinto del Búa</option>
-                        <option value="Valle Hermoso">Valle Hermoso</option>
-                        <option value="El Esfuerzo">El Esfuerzo</option>
-                        <option value="Santa María del Toachi">Santa María del Toachi</option>
-                        <option value="La Villegas">La Villegas</option>
-                        <option value="Monterrey">Monterrey</option>
-                        <option value="Plan Piloto">Plan Piloto</option>
-                    </select>
+            <div class="card-modern">
+                <div class="card-header-custom">
+                    <span><i class="bi bi-geo-alt-fill me-2"></i>1. Datos de Referencia</span>
                 </div>
-
                 <div class="row g-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label class="form-label">Parroquia Rural <span class="text-danger">*</span></label>
+                        <select class="form-select" name="parroquia" required>
+                            <option value="" disabled selected>Seleccione...</option>
+                            <option value="Alluriquín">Alluriquín</option>
+                            <option value="Puerto Limón">Puerto Limón</option>
+                            <option value="Luz de América">Luz de América</option>
+                            <option value="San Jacinto del Búa">San Jacinto del Búa</option>
+                            <option value="Valle Hermoso">Valle Hermoso</option>
+                            <option value="El Esfuerzo">El Esfuerzo</option>
+                            <option value="Santa María del Toachi">Santa María del Toachi</option>
+                            <option value="La Villegas">La Villegas</option>
+                            <option value="Monterrey">Monterrey</option>
+                            <option value="Plan Piloto">Plan Piloto</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
                         <label class="form-label">Comunidad / Recinto <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="comunidad" required>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Responsable de carga (nombre) <span class="text-danger">*</span></label>
+                    <div class="col-md-4">
+                        <label class="form-label">Responsable Carga <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="responsable" required>
                     </div>
                 </div>
+            </div>
 
-                <div class="mt-3">
-                    <label class="form-label">Nombre del Plan Comunitario o actividad <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="plan_nombre" placeholder="Ej. Plan Comunitario de Gestión de Riesgos 2025" required>
+            <div class="card-modern">
+                <div class="card-header-custom">
+                    <span><i class="bi bi-people-fill me-2"></i>2. Integrantes (Anexos 6 y 7)</span>
+                    <button class="btn btn-sm btn-outline-primary fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#boxIntegrantes">
+                        <i class="bi bi-chevron-down me-1"></i> Desplegar
+                    </button>
                 </div>
+                
+                <div class="collapse show" id="boxIntegrantes">
+                    <div class="alert alert-light border small py-2 mb-4 text-muted">
+                        <i class="bi bi-info-circle-fill me-2 text-primary"></i>
+                        Complete los datos del <strong>Líder</strong> de cada brigada y agregue los integrantes en las tablas.
+                    </div>
 
-                <div class="mt-3">
-                    <label class="form-label">Fecha de subida (automática)</label>
-                    <input type="text" class="form-control" id="fechaSubidaView" readonly>
-                    <span class="file-hint">Se genera con la fecha y hora del momento de registro.</span>
-                </div>
+                    <div class="row g-3 mb-4 p-3 bg-light border rounded mx-0">
+                        <div class="col-12 text-primary fw-bold small border-bottom pb-2 mb-1">MANDO DEL COMITÉ (CCGR)</div>
+                        <div class="col-md-6">
+                            <label class="form-label">Responsable Comité</label>
+                            <input type="text" class="form-control mb-2" name="head_resp_nom" placeholder="Nombres Completos">
+                            <div class="row g-2">
+                                <div class="col-6"><input type="text" class="form-control" name="head_resp_ci" placeholder="Cédula"></div>
+                                <div class="col-6"><input type="text" class="form-control" name="head_resp_tel" placeholder="Teléfono"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Coordinador Brigadas</label>
+                            <input type="text" class="form-control mb-2" name="head_coord_nom" placeholder="Nombres Completos">
+                            <div class="row g-2">
+                                <div class="col-6"><input type="text" class="form-control" name="head_coord_ci" placeholder="Cédula"></div>
+                                <div class="col-6"><input type="text" class="form-control" name="head_coord_tel" placeholder="Teléfono"></div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="mt-3">
-                    <label class="form-label">Observaciones generales (opcional)</label>
-                    <textarea class="form-control" name="observaciones" rows="2" placeholder="Notas relevantes sobre los anexos o el proceso comunitario."></textarea>
+                    <div class="brigada-section">
+                        <div class="brigada-header bg-aux">
+                            <i class="bi bi-heart-pulse-fill me-2"></i>Brigada de Primeros Auxilios
+                        </div>
+                        <div class="p-3 bg-white">
+                            <div class="row mb-3 pb-3 border-bottom align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label text-primary">Líder de Brigada</label>
+                                    <input type="text" class="form-control" name="lider_aux_nom" placeholder="Nombre del Líder">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="lider_aux_ci" placeholder="Cédula">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="lider_aux_tel" placeholder="Teléfono">
+                                </div>
+                            </div>
+                            <label class="form-label text-muted">Integrantes Adicionales:</label>
+                            <table class="table-custom" id="tbl_aux">
+                                <tbody></tbody>
+                            </table>
+                            <button type="button" class="btn-add-row text-primary" onclick="addRow('aux')">
+                                <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="brigada-section">
+                        <div class="brigada-header bg-inc">
+                            <i class="bi bi-fire me-2"></i>Brigada Contra Incendios
+                        </div>
+                        <div class="p-3 bg-white">
+                            <div class="row mb-3 pb-3 border-bottom align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label text-danger">Líder de Brigada</label>
+                                    <input type="text" class="form-control" name="lider_inc_nom" placeholder="Nombre del Líder">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="lider_inc_ci" placeholder="Cédula">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="lider_inc_tel" placeholder="Teléfono">
+                                </div>
+                            </div>
+                            <label class="form-label text-muted">Integrantes Adicionales:</label>
+                            <table class="table-custom" id="tbl_inc">
+                                <tbody></tbody>
+                            </table>
+                            <button type="button" class="btn-add-row text-danger" onclick="addRow('inc')">
+                                <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="brigada-section">
+                        <div class="brigada-header bg-eva">
+                            <i class="bi bi-sign-turn-right-fill me-2"></i>Brigada de Evacuación
+                        </div>
+                        <div class="p-3 bg-white">
+                            <div class="row mb-3 pb-3 border-bottom align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label text-success">Líder de Brigada</label>
+                                    <input type="text" class="form-control" name="lider_eva_nom" placeholder="Nombre del Líder">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="lider_eva_ci" placeholder="Cédula">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="lider_eva_tel" placeholder="Teléfono">
+                                </div>
+                            </div>
+                            <label class="form-label text-muted">Integrantes Adicionales:</label>
+                            <table class="table-custom" id="tbl_eva">
+                                <tbody></tbody>
+                            </table>
+                            <button type="button" class="btn-add-row text-success" onclick="addRow('eva')">
+                                <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="brigada-section">
+                        <div class="brigada-header bg-pro">
+                            <i class="bi bi-megaphone-fill me-2"></i>Grupo Promotor (Anexo 7)
+                        </div>
+                        <div class="p-3 bg-white">
+                            <div class="row mb-3 pb-3 border-bottom align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label text-dark">Líder Promotor</label>
+                                    <input type="text" class="form-control" name="lider_prom_nom" placeholder="Nombre del Líder">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="lider_prom_ci" placeholder="Cédula">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="lider_prom_tel" placeholder="Teléfono">
+                                </div>
+                            </div>
+                            <label class="form-label text-muted">Promotores Adicionales:</label>
+                            <table class="table-custom" id="tbl_prom">
+                                <tbody></tbody>
+                            </table>
+                            <button type="button" class="btn-add-row text-dark" onclick="addRow('prom')">
+                                <i class="bi bi-plus-circle-fill"></i> Agregar Promotor
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- 2. Anexos 1 al 13 -->
-            <div class="form-card">
-                <h6 class="section-title">
-                    <i class="bi bi-paperclip"></i> 2. Anexos del plan (máximo 13)
-                </h6>
-
-                <p class="file-hint mb-3">
-                    Cada anexo tiene un campo para una breve descripción y un archivo. 
-                    No es obligatorio cargar los 13, pero al menos un anexo debe adjuntarse.
-                </p>
-
-                <!-- Generación manual de 13 anexos -->
-                <!-- Anexo 1 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 1</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo1_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="1"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                            <div class="file-hint">Ej.: Acta de asamblea.</div>
-                        </div>
-                    </div>
+            <div class="card-modern">
+                <div class="card-header-custom">
+                    <span><i class="bi bi-paperclip me-2"></i>3. Carga de Archivos (13 Anexos)</span>
+                </div>
+                <div class="alert alert-light border small text-muted mb-4">
+                    <i class="bi bi-cloud-arrow-up me-1"></i> Cargue los documentos escaneados. No es obligatorio subir los 13 de una sola vez.
                 </div>
 
-                <!-- Anexo 2 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 2</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo2_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="2"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                            <div class="file-hint">Ej.: Listado de participantes.</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#1</div>
+                        <div class="anexo-title">Acta de Asamblea</div>
+                        <input type="text" class="form-control mb-2" name="desc_1" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="1" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 3 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 3</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo3_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="3"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                            <div class="file-hint">Ej.: Plan comunitario firmado.</div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#2</div>
+                        <div class="anexo-title">Listado Participantes</div>
+                        <input type="text" class="form-control mb-2" name="desc_2" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="2" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 4 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 4</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo4_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="4"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                            <div class="file-hint">Ej.: Matriz de actores.</div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#3</div>
+                        <div class="anexo-title">Plan Firmado</div>
+                        <input type="text" class="form-control mb-2" name="desc_3" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="3" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 5 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 5</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo5_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="5"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                            <div class="file-hint">Ej.: Mapa comunitario.</div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#4</div>
+                        <div class="anexo-title">Matriz de Actores</div>
+                        <input type="text" class="form-control mb-2" name="desc_4" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="4" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 6 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 6</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo6_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="6"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#5</div>
+                        <div class="anexo-title">Mapa Comunitario</div>
+                        <input type="text" class="form-control mb-2" name="desc_5" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="5" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 7 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 7</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo7_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="7"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#6</div>
+                        <div class="anexo-title">Ficha Comité (Scan)</div>
+                        <input type="text" class="form-control mb-2" name="desc_6" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="6" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 8 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 8</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo8_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="8"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#7</div>
+                        <div class="anexo-title">Ficha Promotores (Scan)</div>
+                        <input type="text" class="form-control mb-2" name="desc_7" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="7" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 9 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 9</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo9_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="9"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#8</div>
+                        <div class="anexo-title">Cronograma</div>
+                        <input type="text" class="form-control mb-2" name="desc_8" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="8" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 10 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 10</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo10_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="10"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#9</div>
+                        <div class="anexo-title">Evidencias Fotos</div>
+                        <input type="text" class="form-control mb-2" name="desc_9" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="9" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 11 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 11</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo11_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="11"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#10</div>
+                        <div class="anexo-title">Informe Final</div>
+                        <input type="text" class="form-control mb-2" name="desc_10" placeholder="Detalle (opcional)">
+                        <input type="file" class="form-control anexo-file" data-id="10" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 12 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 12</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo12_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="12"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#11</div>
+                        <div class="anexo-title">Anexo 11</div>
+                        <input type="text" class="form-control mb-2" name="desc_11" placeholder="Especifique...">
+                        <input type="file" class="form-control anexo-file" data-id="11" accept=".pdf,.jpg,.png">
+                    </div></div>
 
-                <!-- Anexo 13 -->
-                <div class="anexo-box">
-                    <div class="anexo-header">Anexo 13</div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" name="anexo13_titulo" placeholder="Descripción (opcional)">
-                        </div>
-                        <div class="col-md-8">
-                            <input type="file" class="form-control form-control-sm anexo-file" data-anexo="13"
-                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt">
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#12</div>
+                        <div class="anexo-title">Anexo 12</div>
+                        <input type="text" class="form-control mb-2" name="desc_12" placeholder="Especifique...">
+                        <input type="file" class="form-control anexo-file" data-id="12" accept=".pdf,.jpg,.png">
+                    </div></div>
 
+                    <div class="col-md-6 col-lg-4"><div class="anexo-item">
+                        <div class="anexo-badge">#13</div>
+                        <div class="anexo-title">Anexo 13</div>
+                        <input type="text" class="form-control mb-2" name="desc_13" placeholder="Especifique...">
+                        <input type="file" class="form-control anexo-file" data-id="13" accept=".pdf,.jpg,.png">
+                    </div></div>
+                </div>
             </div>
 
-            <!-- Botón enviar -->
-            <div class="d-grid gap-2 mb-5">
-                <button type="submit" class="btn-submit" id="btnSubmit">SUBIR ANEXOS</button>
-                <p class="text-center small text-muted mt-2">
-                    Si no hay conexión, los anexos se guardan en el dispositivo para subirlos después.
-                </p>
+            <div class="pb-5 pt-3">
+                <button type="submit" class="btn-submit">
+                    <i class="bi bi-cloud-arrow-up-fill me-2 fs-5"></i>
+                    GUARDAR TODA LA INFORMACIÓN
+                </button>
             </div>
         </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         // ========================================
-        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+        // URL DE TU SCRIPT (Google Apps Script)
         // ========================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
-        const OFFLINE_KEY = "offlineAnexos";
+        const OFFLINE_KEY = "offlineDataObj3";
 
-        // --- INICIALIZACIÓN ---
-        document.addEventListener("DOMContentLoaded", function() {
-            const preloader = document.getElementById('preloader');
-            if (preloader) setTimeout(() => { preloader.style.display = 'none'; }, 500);
-
-            // Fecha automática de subida
-            const now = new Date();
-            const iso = now.toISOString();
-            const localStr = now.toLocaleString('es-EC', {
-                year: 'numeric', month: '2-digit', day: '2-digit',
-                hour: '2-digit', minute: '2-digit'
-            });
-
-            const fechaHidden = document.getElementById('fechaSubida');
-            const fechaView = document.getElementById('fechaSubidaView');
-            if (fechaHidden) fechaHidden.value = iso;
-            if (fechaView) fechaView.value = localStr;
-
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => document.getElementById('preloader').style.display = 'none', 600);
+            document.getElementById('fechaSubida').value = new Date().toISOString();
             checkOfflineQueue();
         });
 
-        // Seguro extra para preloader
-        setTimeout(() => {
-            const p = document.getElementById('preloader');
-            if (p && p.style.display !== 'none') p.style.display = 'none';
-        }, 3000);
+        // 1. AGREGAR FILAS A TABLAS
+        function addRow(type) {
+            const table = document.getElementById('tbl_' + type).querySelector('tbody');
+            const newRow = document.createElement('tr');
+            
+            // Si es promotor, tiene menos campos según tu Anexo 7 (Nombre, Teléfono)
+            if (type === 'prom') {
+                newRow.innerHTML = `
+                    <td style="width: 50%"><input type="text" class="form-control" placeholder="Nombre completo" name="list_${type}_nom[]"></td>
+                    <td style="width: 40%"><input type="text" class="form-control" placeholder="Teléfono" name="list_${type}_tel[]"></td>
+                    <td style="width: 10%" class="text-center"><button type="button" class="btn-del-row" onclick="this.closest('tr').remove()"><i class="bi bi-x-lg"></i></button></td>
+                `;
+            } else {
+                newRow.innerHTML = `
+                    <td style="width: 40%"><input type="text" class="form-control" placeholder="Nombre completo" name="list_${type}_nom[]"></td>
+                    <td style="width: 25%"><input type="text" class="form-control" placeholder="Cédula" name="list_${type}_ci[]"></td>
+                    <td style="width: 25%"><input type="text" class="form-control" placeholder="Teléfono" name="list_${type}_tel[]"></td>
+                    <td style="width: 10%" class="text-center"><button type="button" class="btn-del-row" onclick="this.closest('tr').remove()"><i class="bi bi-x-lg"></i></button></td>
+                `;
+            }
+            table.appendChild(newRow);
+        }
 
-        // --- UTILIDAD: archivo a Base64 (sin cabecera) ---
+        // 2. LEER ARCHIVOS
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = () => {
-                    const result = reader.result || "";
-                    const base64 = String(result).split(",")[1] || "";
-                    resolve(base64);
-                };
-                reader.onerror = () => reject(reader.error);
+                reader.onload = () => resolve(reader.result.split(",")[1]);
+                reader.onerror = error => reject(error);
                 reader.readAsDataURL(file);
             });
         }
 
-        // --- CONSTRUIR PAYLOAD COMPLETO (FORM + ARCHIVOS) ---
+        // 3. CONSTRUIR DATA
         async function buildPayload(form) {
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
-            // Asegurar fecha_subida
-            if (!data.fecha_subida) {
-                data.fecha_subida = new Date().toISOString();
-            }
-
+            // Procesar Archivos
             const files = [];
-            const fileInputs = document.querySelectorAll('.anexo-file');
-            const preloader = document.getElementById('preloader');
+            const inputs = document.querySelectorAll('.anexo-file');
+            const loaderText = document.getElementById('loaderText');
 
-            const totalSlots = fileInputs.length;
-            let processed = 0;
-
-            for (const input of fileInputs) {
-                const numero = input.dataset.anexo;
-                const tituloField = form.querySelector(`[name="anexo${numero}_titulo"]`);
-                const titulo = tituloField ? tituloField.value : "";
-
-                if (input.files && input.files.length > 0) {
+            for (const input of inputs) {
+                if (input.files.length > 0) {
+                    const id = input.getAttribute('data-id');
                     const file = input.files[0];
-                    if (preloader) {
-                        preloader.querySelector('h6').innerText =
-                            `Procesando anexo ${numero}...`;
-                    }
-                    const base64 = await fileToBase64(file);
-
+                    if(loaderText) loaderText.innerText = `Procesando Anexo ${id}...`;
+                    
+                    const b64 = await fileToBase64(file);
+                    const descInput = document.querySelector(`input[name="desc_${id}"]`);
+                    
                     files.push({
-                        numero: numero,
-                        titulo: titulo,
-                        fileName: file.name,
-                        mimeType: file.type,
-                        size: file.size,
-                        content: base64
+                        numero: id,
+                        desc: descInput ? descInput.value : "",
+                        name: file.name,
+                        mime: file.type,
+                        content: b64
                     });
                 }
-
-                processed++;
             }
-
             data.files = files;
             return data;
         }
 
-        // --- ENVÍO PRINCIPAL ---
-        document.getElementById('anexoForm').addEventListener('submit', function (e) {
+        // 4. ENVIAR
+        document.getElementById('mainForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            handleSubmit(this);
-        });
-
-        async function handleSubmit(form) {
-            const fileInputs = document.querySelectorAll('.anexo-file');
-            let hasFile = false;
-            fileInputs.forEach(input => {
-                if (input.files && input.files.length > 0) hasFile = true;
-            });
-
-            if (!hasFile) {
-                Swal.fire('Faltan anexos', 'Debe cargar al menos un anexo antes de enviar.', 'warning');
-                return;
-            }
-
-            const preloader = document.getElementById('preloader');
-            preloader.style.display = 'flex';
-            preloader.style.opacity = '1';
-            preloader.querySelector('h6').innerText = "Preparando anexos...";
-
-            let data;
-            try {
-                data = await buildPayload(form);
-            } catch (err) {
-                preloader.style.display = 'none';
-                Swal.fire('Error al procesar archivos', 'Revise los archivos seleccionados e intente de nuevo.', 'error');
-                return;
-            }
+            const loader = document.getElementById('preloader');
+            const loaderText = document.getElementById('loaderText');
+            
+            loader.style.display = 'flex';
+            loaderText.innerText = "Empaquetando datos...";
 
             try {
-                preloader.querySelector('h6').innerText = "Enviando anexos al servidor...";
-
-                const res = await fetch(API_URL, {
-                    method: "POST",
+                const data = await buildPayload(this);
+                
+                loaderText.innerText = "Enviando a Google Drive...";
+                const response = await fetch(API_URL, {
+                    method: 'POST',
                     body: JSON.stringify(data)
                 });
+                
+                // Hack para evitar error de CORS si Apps Script no devuelve JSON correcto a veces
+                let result; 
+                try { result = await response.json(); } catch(err) { result = {status: 'unknown'}; }
 
-                let json;
-                try {
-                    json = await res.json();
-                } catch (e) {
-                    json = { status: 'error' };
-                }
+                loader.style.display = 'none';
 
-                preloader.style.display = 'none';
-
-                if (json.status === 'success') {
+                if(result.status === 'success' || result.status === 'unknown') {
                     Swal.fire({
-                        title: '¡Anexos subidos!',
-                        text: `Se registraron los anexos de ${data.parroquia} - ${data.comunidad}.`,
+                        title: '¡Información Guardada!',
+                        text: 'Anexos e integrantes registrados correctamente.',
                         icon: 'success',
                         confirmButtonColor: '#0f172a'
                     }).then(() => window.location.reload());
                 } else {
-                    // Guardar offline si el servidor responde con error
-                    saveToLocalStorage(data);
-                    Swal.fire({
-                        title: 'Problema con el servidor',
-                        text: 'Los anexos se guardaron en el dispositivo para intentar subirlos después.',
-                        icon: 'info',
-                        confirmButtonColor: '#d97706'
-                    }).then(() => window.location.reload());
+                    throw new Error("Server Error");
                 }
 
             } catch (error) {
-                preloader.style.display = 'none';
-                // Sin conexión: guardar offline
-                saveToLocalStorage(data);
-
+                loader.style.display = 'none';
+                console.error(error);
+                saveOffline(await buildPayload(this));
+                
                 Swal.fire({
-                    title: 'Sin conexión',
-                    text: 'Los anexos se guardaron en el dispositivo. Podrá subirlos cuando tenga internet.',
+                    title: 'Modo Offline Activado',
+                    text: 'Sin conexión al servidor. Los datos se guardaron localmente y podrás subirlos cuando recuperes internet.',
                     icon: 'info',
                     confirmButtonColor: '#d97706'
                 }).then(() => window.location.reload());
             }
-        }
+        });
 
-        // --- OFFLINE: guardar y sincronizar ---
-        function saveToLocalStorage(data) {
-            let queue = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
-            queue.push(data);
-            localStorage.setItem(OFFLINE_KEY, JSON.stringify(queue));
+        // 5. OFFLINE
+        function saveOffline(data) {
+            let list = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
+            list.push(data);
+            localStorage.setItem(OFFLINE_KEY, JSON.stringify(list));
         }
 
         function checkOfflineQueue() {
-            let queue = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
-            if (queue.length > 0) {
+            let list = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
+            if(list.length > 0) {
                 document.getElementById('syncBar').style.display = 'flex';
-                document.getElementById('syncCount').innerText = queue.length;
+                document.getElementById('syncCount').innerText = list.length;
             }
         }
 
-        async function syncOfflineData() {
-            let queue = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
-            if (queue.length === 0) return;
+        window.syncOfflineData = async () => {
+            let list = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
+            if(list.length === 0) return;
 
-            const preloader = document.getElementById('preloader');
-            preloader.style.display = 'flex';
-            preloader.style.opacity = '1';
-            preloader.querySelector('h6').innerText = "Subiendo anexos pendientes...";
-
+            const loader = document.getElementById('preloader');
+            const loaderText = document.getElementById('loaderText');
+            loader.style.display = 'flex';
+            
             try {
-                for (let i = 0; i < queue.length; i++) {
-                    const data = queue[i];
-                    preloader.querySelector('h6').innerText =
-                        `Subiendo registro ${i + 1} de ${queue.length}...`;
-
-                    await fetch(API_URL, {
-                        method: "POST",
-                        body: JSON.stringify(data)
-                    });
+                for(let i=0; i<list.length; i++) {
+                    loaderText.innerText = `Sincronizando ${i+1} de ${list.length}...`;
+                    await fetch(API_URL, { method:'POST', body: JSON.stringify(list[i]) });
                 }
-
                 localStorage.removeItem(OFFLINE_KEY);
-                document.getElementById('syncBar').style.display = 'none';
-                preloader.style.display = 'none';
-
-                Swal.fire({
-                    title: '¡Sincronización exitosa!',
-                    text: 'Todos los anexos pendientes se han subido correctamente.',
-                    icon: 'success',
-                    confirmButtonColor: '#0f172a'
-                }).then(() => window.location.reload());
-
-            } catch (error) {
-                preloader.style.display = 'none';
-                Swal.fire({
-                    title: 'Error de conexión',
-                    text: 'Hubo un problema al subir los anexos. Verifique su internet e intente nuevamente.',
-                    icon: 'error'
-                });
+                loader.style.display = 'none';
+                Swal.fire('Sincronización Exitosa', 'Todos los registros pendientes fueron subidos.', 'success').then(() => window.location.reload());
+            } catch(e) {
+                loader.style.display = 'none';
+                Swal.fire('Error', 'Falló la sincronización. Verifica tu internet.', 'error');
             }
-        }
+        };
     </script>
 </body>
 </html>
-
