@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* --- ESTILOS VISUALES (RESTAURANDO EL DISEÑO) --- */
+        /* --- ESTILOS VISUALES --- */
         :root { 
             --primary: #0f172a; 
             --accent: #2563eb; 
@@ -89,10 +89,10 @@
             color: white;
             letter-spacing: 0.5px;
         }
-        .bg-aux { background-color: var(--accent); } /* Azul */
-        .bg-inc { background-color: #dc2626; }     /* Rojo */
-        .bg-eva { background-color: #16a34a; }     /* Verde */
-        .bg-pro { background-color: var(--primary); } /* Oscuro */
+        .bg-aux { background-color: var(--accent); } 
+        .bg-inc { background-color: #dc2626; }     
+        .bg-eva { background-color: #16a34a; }     
+        .bg-pro { background-color: var(--primary); } 
 
         .table-custom { width: 100%; margin-bottom: 0; }
         .table-custom th { 
@@ -114,6 +114,7 @@
             align-items: center; 
             gap: 5px; 
             margin-top: 5px;
+            cursor: pointer;
         }
         .btn-del-row { 
             border: none; 
@@ -126,6 +127,7 @@
             align-items: center; 
             justify-content: center; 
             transition: 0.2s;
+            cursor: pointer;
         }
         .btn-del-row:hover { background: #dc2626; color: white; }
 
@@ -226,6 +228,10 @@
                         <label class="form-label">Responsable Carga <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="responsable" required>
                     </div>
+                    <div class="col-12">
+                         <label class="form-label">Nombre del Plan / Observaciones</label>
+                         <input type="text" class="form-control" name="plan_nombre" placeholder="Ej: Plan Comunitario de Gestión de Riesgos">
+                    </div>
                 </div>
             </div>
 
@@ -284,9 +290,11 @@
                             <table class="table-custom" id="tbl_aux">
                                 <tbody></tbody>
                             </table>
-                            <button type="button" class="btn-add-row text-primary" onclick="addRow('aux')">
-                                <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
-                            </button>
+                            <div class="mt-2 text-end">
+                                <button type="button" class="btn-add-row text-primary border border-primary bg-light rounded" onclick="addRow('aux')">
+                                    <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -311,9 +319,11 @@
                             <table class="table-custom" id="tbl_inc">
                                 <tbody></tbody>
                             </table>
-                            <button type="button" class="btn-add-row text-danger" onclick="addRow('inc')">
-                                <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
-                            </button>
+                            <div class="mt-2 text-end">
+                                <button type="button" class="btn-add-row text-danger border border-danger bg-light rounded" onclick="addRow('inc')">
+                                    <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -338,9 +348,11 @@
                             <table class="table-custom" id="tbl_eva">
                                 <tbody></tbody>
                             </table>
-                            <button type="button" class="btn-add-row text-success" onclick="addRow('eva')">
-                                <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
-                            </button>
+                            <div class="mt-2 text-end">
+                                <button type="button" class="btn-add-row text-success border border-success bg-light rounded" onclick="addRow('eva')">
+                                    <i class="bi bi-plus-circle-fill"></i> Agregar Integrante
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -365,9 +377,11 @@
                             <table class="table-custom" id="tbl_prom">
                                 <tbody></tbody>
                             </table>
-                            <button type="button" class="btn-add-row text-dark" onclick="addRow('prom')">
-                                <i class="bi bi-plus-circle-fill"></i> Agregar Promotor
-                            </button>
+                            <div class="mt-2 text-end">
+                                <button type="button" class="btn-add-row text-dark border border-dark bg-light rounded" onclick="addRow('prom')">
+                                    <i class="bi bi-plus-circle-fill"></i> Agregar Promotor
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -489,9 +503,9 @@
 
     <script>
         // ========================================
-        // URL DE TU SCRIPT (Google Apps Script)
+        // ⚠️ USANDO TU WORKER PARA EVITAR OFFLINE
         // ========================================
-        const API_URL = "https://script.google.com/macros/s/AKfycbzY6lu7YA6rpHihQPY8vjwlxdMg32g3Ezii10aAlPdG2h6BlFWBdLmnYeD_rI5jtM3B/exec";
+        const API_URL = "https://ueb.dylanvillasagua.workers.dev/";
         const OFFLINE_KEY = "offlineDataObj3";
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -505,7 +519,6 @@
             const table = document.getElementById('tbl_' + type).querySelector('tbody');
             const newRow = document.createElement('tr');
             
-            // Si es promotor, tiene menos campos según tu Anexo 7 (Nombre, Teléfono)
             if (type === 'prom') {
                 newRow.innerHTML = `
                     <td style="width: 50%"><input type="text" class="form-control" placeholder="Nombre completo" name="list_${type}_nom[]"></td>
@@ -523,7 +536,7 @@
             table.appendChild(newRow);
         }
 
-        // 2. LEER ARCHIVOS
+        // 2. LEER ARCHIVOS A BASE64
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -537,6 +550,18 @@
         async function buildPayload(form) {
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
+
+            // Procesar listas manualmente (FormData puede fallar con arrays en Workers a veces)
+            // Aquí extraemos todos los inputs de listas y los metemos como arrays en el JSON
+            ['aux', 'inc', 'eva', 'prom'].forEach(type => {
+                const noms = Array.from(document.querySelectorAll(`input[name="list_${type}_nom[]"]`)).map(i => i.value);
+                const cis = Array.from(document.querySelectorAll(`input[name="list_${type}_ci[]"]`)).map(i => i.value);
+                const tels = Array.from(document.querySelectorAll(`input[name="list_${type}_tel[]"]`)).map(i => i.value);
+                
+                data[`list_${type}_nom`] = noms;
+                data[`list_${type}_ci`] = cis;
+                data[`list_${type}_tel`] = tels;
+            });
 
             // Procesar Archivos
             const files = [];
@@ -565,7 +590,7 @@
             return data;
         }
 
-        // 4. ENVIAR
+        // 4. ENVIAR (USANDO WORKER)
         document.getElementById('mainForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const loader = document.getElementById('preloader');
@@ -577,13 +602,13 @@
             try {
                 const data = await buildPayload(this);
                 
-                loaderText.innerText = "Enviando a Google Drive...";
+                loaderText.innerText = "Enviando vía Worker...";
                 const response = await fetch(API_URL, {
                     method: 'POST',
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(data),
+                    headers: { 'Content-Type': 'application/json' }
                 });
                 
-                // Hack para evitar error de CORS si Apps Script no devuelve JSON correcto a veces
                 let result; 
                 try { result = await response.json(); } catch(err) { result = {status: 'unknown'}; }
 
@@ -606,9 +631,9 @@
                 saveOffline(await buildPayload(this));
                 
                 Swal.fire({
-                    title: 'Modo Offline Activado',
-                    text: 'Sin conexión al servidor. Los datos se guardaron localmente y podrás subirlos cuando recuperes internet.',
-                    icon: 'info',
+                    title: 'Modo Offline',
+                    text: 'Sin conexión al servidor. Datos guardados en el dispositivo.',
+                    icon: 'warning',
                     confirmButtonColor: '#d97706'
                 }).then(() => window.location.reload());
             }
@@ -640,7 +665,11 @@
             try {
                 for(let i=0; i<list.length; i++) {
                     loaderText.innerText = `Sincronizando ${i+1} de ${list.length}...`;
-                    await fetch(API_URL, { method:'POST', body: JSON.stringify(list[i]) });
+                    await fetch(API_URL, { 
+                        method:'POST', 
+                        body: JSON.stringify(list[i]),
+                        headers: { 'Content-Type': 'application/json' }
+                    });
                 }
                 localStorage.removeItem(OFFLINE_KEY);
                 loader.style.display = 'none';
