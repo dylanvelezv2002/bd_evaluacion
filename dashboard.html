@@ -172,7 +172,7 @@
         }
         .custom-popup .leaflet-popup-content {
             margin: 0;
-            width: 220px !important;
+            width: 260px !important; /* Aumentado para más datos */
         }
         .pop-header {
             background: var(--primary);
@@ -315,18 +315,20 @@
         .var-card { page-break-inside: avoid; break-inside: avoid; }
 
         /* tabla resumen variables */
-        .vars-table {
+        .vars-table, .data-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.75rem;
         }
         .vars-table th,
-        .vars-table td {
+        .vars-table td,
+        .data-table th,
+        .data-table td {
             border: 1px solid #e2e8f0;
             padding: 4px 6px;
             vertical-align: top;
         }
-        .vars-table th {
+        .vars-table th, .data-table th {
             background-color: #f1f5f9;
             font-weight: 700;
             text-align: left;
@@ -335,6 +337,12 @@
         .vars-table td:nth-child(3) {
             white-space: nowrap;
         }
+        /* Nueva regla para celdas de coordenadas y promedio en tablas de datos */
+        .data-table td.coord {
+             font-size: 0.68rem;
+             white-space: nowrap;
+        }
+
 
         #hackermanBox {
             position: fixed;
@@ -436,7 +444,6 @@
         </select>
     </div>
 
-    <!-- OBJETIVO 1: DIAGNÓSTICO -->
     <div id="view-diag" class="tab-pane active">
         <div class="row g-3 mb-3">
             <div class="col-md-4">
@@ -495,26 +502,47 @@
             </div>
         </div>
 
-        <!-- Ranking Obj1 -->
         <div class="row g-3 mt-3">
             <div class="col-12">
                 <div class="card-modern">
                     <div class="card-header-custom">
                         <span class="card-label">RANKING INTERNO OBJETIVO 1</span>
                     </div>
-                    <div id="rank_obj1" class="small text-muted"></div>
+                    <div id="rank_obj1" class="small text-muted mb-3"></div>
+                    
+                    <div class="card-header-custom mt-3">
+                        <span class="card-label text-primary">DETALLE DE PUNTOS GEORREFERENCIADOS (OBJETIVO 1)</span>
+                    </div>
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table class="data-table" id="table_obj1">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre Punto</th>
+                                    <th>Parroquia</th>
+                                    <th>Coordenadas</th>
+                                    <th>Salud</th>
+                                    <th>Bomberos</th>
+                                    <th>SAT</th>
+                                    <th>Vehículo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- OBJETIVO 2: DIAGNÓSTICO SOCIAL -->
     <div id="view-eval" class="tab-pane hidden">
         <div class="row g-3 mb-3">
             <div class="col-md-4">
                 <div class="card-modern">
                     <div class="card-header-custom">
                         <span class="card-label">ÍNDICE PERCEPCIÓN</span>
+                        <i class="bi bi-star-fill text-primary"></i>
                     </div>
                     <div class="kpi-big text-primary" id="e_idx">0.0</div>
                     <small class="text-primary">Promedio General (1-5)</small>
@@ -524,6 +552,7 @@
                 <div class="card-modern">
                     <div class="card-header-custom">
                         <span class="card-label">PARTICIPANTES</span>
+                        <i class="bi bi-people-fill text-muted"></i>
                     </div>
                     <div class="kpi-big" id="e_tot">0</div>
                     <small class="text-muted">Encuestas Realizadas</small>
@@ -533,6 +562,7 @@
                 <div class="card-modern">
                     <div class="card-header-custom">
                         <span class="card-label">ESTADO ACTUAL</span>
+                        <i class="bi bi-patch-check-fill text-muted"></i>
                     </div>
                     <div class="kpi-big" id="e_st">-</div>
                     <small>Nivel de Organización</small>
@@ -560,22 +590,44 @@
             </div>
         </div>
 
-        <!-- Ranking y detalle por pregunta Obj2 -->
         <div class="row g-3 mt-3">
             <div class="col-12">
                 <div class="card-modern">
                     <div class="card-header-custom">
-                        <span class="card-label">DETALLE POR PREGUNTA (OBJETIVO 2)</span>
-                        <small class="text-muted">Promedio, ranking y descarga de cada gráfica</small>
+                        <span class="card-label">RANKING DE VARIABLES SOCIALES</span>
                     </div>
-                    <div id="rank_obj2" class="small mb-2 text-muted"></div>
+                    <div id="rank_obj2" class="small mb-3 text-muted"></div>
+                    
+                    <div class="card-header-custom mt-3">
+                        <span class="card-label text-primary">DETALLE DE ACTORES ENCUESTADOS (OBJETIVO 2)</span>
+                    </div>
+                    <div class="table-responsive mb-4" style="max-height: 400px; overflow-y: auto;">
+                        <table class="data-table" id="table_obj2">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre Actor</th>
+                                    <th>Parroquia</th>
+                                    <th>Rol / Cargo</th>
+                                    <th>Coordenadas</th>
+                                    <th>Promedio (1-5)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-header-custom">
+                        <span class="card-label">DETALLE POR PREGUNTA (OBJETIVO 2)</span>
+                        <small class="text-muted">Promedio por variable de percepción</small>
+                    </div>
                     <div id="qCharts_obj2" class="row g-3"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- OBJETIVO 3: PCDGR -->
     <div id="view-strat" class="tab-pane hidden">
         <div class="row g-3">
             <div class="col-lg-6">
@@ -610,7 +662,6 @@
         </div>
     </div>
 
-    <!-- INFORME INTEGRAL -->
     <div id="view-rep" class="tab-pane hidden">
         <div class="report-bg">
             <div class="w-100 d-flex flex-column align-items-center gap-3 mb-4">
@@ -637,7 +688,6 @@
                 </div>
 
                 <div class="doc-body">
-                    <!-- KPIs integrados -->
                     <div class="doc-section-title">RESUMEN EJECUTIVO</div>
                     <div class="kpi-row-doc">
                         <div class="kpi-box-doc">
@@ -662,7 +712,6 @@
                         </div>
                     </div>
 
-                    <!-- Mapas y gráficos -->
                     <div class="doc-section-title">CAPACIDADES FÍSICAS E INSTITUCIONALES (OBJETIVO 1)</div>
                     <div class="d-flex gap-3 mb-3" style="height: 210px;">
                         <div style="width: 60%; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;">
@@ -714,12 +763,11 @@
     </div>
 </div>
 
-<!-- Librerías -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-    // COLUMNAS
+    // COLUMNAS (Se mantienen iguales)
     const C_CAP = { PARROQUIA:1, NOMBRE:2, LAT:4, LNG:5, SALUD:6, BOMBEROS:8, SAT:11, VEHICULO:13 };
     const C_EVAL = { PARROQUIA:1, NOMBRE:2, ROL:4, LAT:5, LNG:6, NOTA_INICIO:7 };
 
@@ -791,7 +839,7 @@
         const partes = [];
         if (strong > 0) partes.push(`${strong} variables en rango alto`);
         if (mid > 0)    partes.push(`${mid} en rango medio`);
-        if (weak > 0)   partes.push(`${weak} por debajo del nivel esperado`);
+        if (weak > 0)    partes.push(`${weak} por debajo del nivel esperado`);
 
         if (partes.length === 0) {
             return 'sin diferencias relevantes entre las variables';
@@ -880,6 +928,10 @@
             });
     }
 
+    /**
+     * Navegación entre pestañas (Objetivos/Informes)
+     * Se agregó lógica para forzar el centrado del mapa del Objetivo 2.
+     */
     window.nav = (id, el) => {
         document.querySelectorAll('.tab-pane').forEach(d => d.classList.add('hidden'));
         document.getElementById('view-' + id).classList.remove('hidden');
@@ -894,8 +946,20 @@
         };
         document.getElementById('pageTitle').innerText = t[id];
         
+        // Se ejecuta un pequeño retraso para asegurar que la pestaña ya esté visible (no 'hidden')
         setTimeout(() => { 
+            // 1. Invalida el tamaño de TODOS los mapas por si se redimensionó la ventana
             for (let k in maps) maps[k].invalidateSize(); 
+            
+            // 2. Lógica Específica para el Objetivo 2 (MapEval)
+            if (id === 'eval'){ 
+                // Forzar el ajuste de límites si hay puntos en la capa, resolviendo el problema de centrado
+                if (layerGroups['mapEval'] && layerGroups['mapEval'].getLayers().length > 0) {
+                    fitMap('mapEval', layerGroups['mapEval']);
+                }
+            }
+            
+            // 3. Lógica para el Informe (Mapas en el PDF)
             if (id === 'rep'){ 
                 fitMap('mapR1', layerGroups['mapR1']); 
                 fitMap('mapR2', layerGroups['mapR2']); 
@@ -922,6 +986,8 @@
         document.getElementById('d_tot').innerText = total;
 
         let markers = [];
+        const tableBody = document.getElementById('table_obj1').querySelector('tbody');
+        tableBody.innerHTML = ''; // Limpiar tabla
 
         if (total === 0) {
             document.getElementById('d_sat').innerText = 'N/A';
@@ -935,19 +1001,26 @@
 
         let s = 0, f = 0, a = 0, v = 0;
         
-        d.forEach(r => {
+        d.forEach((r, index) => {
             let lat = getJitter(r[C_CAP.LAT]);
             let lng = getJitter(r[C_CAP.LNG]);
+            let hasSat = r[C_CAP.SAT] === 'SI';
+            let color = hasSat ? '#16a34a' : '#dc2626';
             
-            if(lat !== null && lng !== null) {
-                let hasSat = r[C_CAP.SAT] === 'SI';
-                let color = hasSat ? '#16a34a' : '#dc2626';
-                let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_CAP.NOMBRE]}</span></div>
+            // Construir el popup con toda la información
+            let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_CAP.NOMBRE]}</span></div>
                              <div class="pop-body">
+                                <strong>Parroquia:</strong> ${r[C_CAP.PARROQUIA] || 'No def.'}<br>
+                                <strong>Coordenadas:</strong> ${r[C_CAP.LAT]}, ${r[C_CAP.LNG]}<br>
+                                ---<br>
+                                <strong>SALUD:</strong> ${r[C_CAP.SALUD] || 'No def.'}<br>
+                                <strong>BOMBEROS:</strong> ${r[C_CAP.BOMBEROS] || 'No def.'}<br>
                                 <strong>SAT:</strong> ${r[C_CAP.SAT] || 'No def.'}<br>
                                 <strong>Vehículo:</strong> ${r[C_CAP.VEHICULO] || 'No def.'}
                              </div>`;
-                
+            
+            // Crear marcador
+            if(lat !== null && lng !== null) {
                 markers.push(
                     L.circleMarker([lat, lng], {
                         radius: 7, 
@@ -957,19 +1030,34 @@
                         fillOpacity: 0.9
                     }).bindPopup(popup, {className: 'custom-popup'})
                 );
-
-                if(r[C_CAP.SALUD] === 'SI') s++;
-                if(r[C_CAP.BOMBEROS] === 'SI') f++;
-                if(r[C_CAP.SAT] === 'SI') a++;
-                if(r[C_CAP.VEHICULO] === 'SI') v++;
             }
+
+            // Contar KPIs
+            if(r[C_CAP.SALUD] === 'SI') s++;
+            if(r[C_CAP.BOMBEROS] === 'SI') f++;
+            if(r[C_CAP.SAT] === 'SI') a++;
+            if(r[C_CAP.VEHICULO] === 'SI') v++;
+
+            // Llenar la tabla
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${r[C_CAP.NOMBRE] || 'N/A'}</td>
+                <td>${r[C_CAP.PARROQUIA] || 'N/A'}</td>
+                <td class="coord">${(r[C_CAP.LAT] || 'N/A')}, ${(r[C_CAP.LNG] || 'N/A')}</td>
+                <td>${r[C_CAP.SALUD] || 'N/A'}</td>
+                <td>${r[C_CAP.BOMBEROS] || 'N/A'}</td>
+                <td>${r[C_CAP.SAT] || 'N/A'}</td>
+                <td>${r[C_CAP.VEHICULO] || 'N/A'}</td>
+            `;
+            tableBody.appendChild(tr);
         });
         
         updateMapLayer('mapDiag', markers);
         
-        const satPct = Math.round((a/total)*100);
-        const vehPct = Math.round((v/total)*100);
-        const salPct = Math.round((s/total)*100);
+        const satPct = total > 0 ? Math.round((a/total)*100) : 0;
+        const vehPct = total > 0 ? Math.round((v/total)*100) : 0;
+        const salPct = total > 0 ? Math.round((s/total)*100) : 0;
 
         document.getElementById('d_sat').innerText = satPct + '%';
         document.getElementById('d_veh').innerText = vehPct + '%';
@@ -994,39 +1082,46 @@
         document.getElementById('e_tot').innerText = total;
 
         let markers = [];
+        const tableBody = document.getElementById('table_obj2').querySelector('tbody');
+        tableBody.innerHTML = ''; // Limpiar tabla
 
         if (total === 0) {
             document.getElementById('e_idx').innerText = 'N/A';
             document.getElementById('e_st').innerText = 'SIN DATOS';
             updateMapLayer('mapEval', markers);
             renderRadar('chEval', new Array(8).fill(0), '#2563eb', 'rgba(37, 99, 235, 0.2)');
-            document.getElementById('rank_obj2').innerText = 'Sin encuestas registradas para calcular el ranking.';
+            document.getElementById('rank_obj2').innerHTML = 'Sin encuestas registradas para calcular el ranking.';
             document.getElementById('qCharts_obj2').innerHTML = '';
             return;
         }
 
         let sums = new Array(8).fill(0);
 
-        d.forEach(r => {
+        d.forEach((r, index) => {
             let lat = getJitter(r[C_EVAL.LAT]);
             let lng = getJitter(r[C_EVAL.LNG]);
-
-            if(lat !== null && lng !== null) {
-                let avg = 0;
-                for(let i = 0; i < 8; i++) {
-                    let val = Number(r[C_EVAL.NOTA_INICIO + i]) || 0;
-                    sums[i] += val;
-                    avg += val;
-                }
-                avg /= 8;
-                
-                let color = avg >= 3.5 ? '#2563eb' : '#dc2626';
-                let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_EVAL.NOMBRE]}</span></div>
+            let avg = 0;
+            for(let i = 0; i < 8; i++) {
+                let val = safeFloat(r[C_EVAL.NOTA_INICIO + i]) || 0;
+                sums[i] += val;
+                avg += val;
+            }
+            avg = avg / 8;
+            
+            let color = avg >= 3.5 ? '#2563eb' : '#dc2626';
+            
+            // Construir el popup con toda la información
+            let popup = `<div class="pop-header" style="background:${color}"><span>${r[C_EVAL.NOMBRE]}</span></div>
                              <div class="pop-body">
-                                <strong>Rol:</strong> ${r[C_EVAL.ROL]}<br>
+                                <strong>Parroquia:</strong> ${r[C_EVAL.PARROQUIA] || 'No def.'}<br>
+                                <strong>Rol/Cargo:</strong> ${r[C_EVAL.ROL] || 'No def.'}<br>
+                                <strong>Coordenadas:</strong> ${r[C_EVAL.LAT]}, ${r[C_EVAL.LNG]}<br>
+                                ---<br>
                                 <strong>Promedio:</strong> ${avg.toFixed(2)} / 5.0
                              </div>`;
 
+            // Crear marcador
+            if(lat !== null && lng !== null) {
                 markers.push(
                     L.circleMarker([lat, lng], {
                         radius: 7, 
@@ -1037,6 +1132,18 @@
                     }).bindPopup(popup, {className: 'custom-popup'})
                 );
             }
+            
+            // Llenar la tabla
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${r[C_EVAL.NOMBRE] || 'N/A'}</td>
+                <td>${r[C_EVAL.PARROQUIA] || 'N/A'}</td>
+                <td>${r[C_EVAL.ROL] || 'N/A'}</td>
+                <td class="coord">${(r[C_EVAL.LAT] || 'N/A')}, ${(r[C_EVAL.LNG] || 'N/A')}</td>
+                <td>${avg.toFixed(2)}</td>
+            `;
+            tableBody.appendChild(tr);
         });
 
         updateMapLayer('mapEval', markers);
@@ -1068,9 +1175,9 @@
         const peor  = lista[lista.length - 1];
 
         contRank.innerHTML = `
-            La pregunta con mayor calificación promedio es la <strong>${mejor.idx + 1} (${VARS[mejor.idx]})</strong>, 
+            La variable con mayor calificación promedio es <strong>${VARS[mejor.idx]}</strong>, 
             con <strong>${mejor.valor.toFixed(2)} puntos</strong>. 
-            La calificación más baja corresponde a la pregunta <strong>${peor.idx + 1} (${VARS[peor.idx]})</strong>, 
+            La calificación más baja corresponde a <strong>${VARS[peor.idx]}</strong>, 
             con <strong>${peor.valor.toFixed(2)} puntos</strong>. 
             Estas diferencias permiten identificar qué componentes del proceso comunitario resultan más consolidados 
             y cuáles requieren refuerzo específico en futuras intervenciones.
@@ -1086,7 +1193,7 @@
                 <div class="card-modern var-card" style="padding:10px;">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                            <div class="small fw-bold">Pregunta ${i + 1}: ${VARS[i]}</div>
+                            <div class="small fw-bold">Variable ${i + 1}: ${VARS[i]}</div>
                             <div class="small text-muted">${QUESTIONS[i]}</div>
                         </div>
                         <button type="button" class="btn btn-sm btn-outline-secondary no-print"
@@ -1105,7 +1212,7 @@
         });
     }
 
-    // INFORME INTEGRAL
+    // INFORME INTEGRAL (Se mantiene igual, solo usa las variables ya calculadas)
     function updRep(dc, de, name) {
         document.getElementById('r_loc').innerText = name;
         let dateStr = new Date().toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
@@ -1181,7 +1288,7 @@
             updateMapLayer('mapR2', []);
         } else {
             de.forEach(r => { 
-                for(let i = 0; i < 8; i++) sums[i] += Number(r[C_EVAL.NOTA_INICIO + i]) || 0; 
+                for(let i = 0; i < 8; i++) sums[i] += safeFloat(r[C_EVAL.NOTA_INICIO + i]) || 0; 
             });
             let avgs = sums.map(x => Number((x / t2).toFixed(2)));
             let glob = (avgs.reduce((a,b)=>a+b,0)/8).toFixed(2);
@@ -1234,6 +1341,7 @@
     // MAPAS
     function initMaps() {
         ['mapDiag','mapEval','mapR1','mapR2'].forEach(id => {
+            // Se inicializa en una vista por defecto
             maps[id] = L.map(id, {zoomControl:false, attributionControl:false}).setView([-0.25, -79.17], 9);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(maps[id]);
             layerGroups[id] = L.featureGroup().addTo(maps[id]);
@@ -1244,14 +1352,17 @@
             layerGroups[id].clearLayers();
             markers.forEach(m => m.addTo(layerGroups[id]));
             if(markers.length > 0) {
+                // Llama a fitMap para centrar si hay puntos
                 fitMap(id, layerGroups[id]);
             } else {
+                // Si NO hay marcadores, restablece la vista por defecto
                 maps[id].setView([-0.25, -79.17], 9);
             }
         }
     }
     function fitMap(id, lg) {
         if(maps[id] && lg.getLayers().length > 0) {
+            // La función invalidateSize() es clave para corregir el renderizado
             maps[id].invalidateSize();
             maps[id].fitBounds(lg.getBounds(), {padding: [30,30]});
         }
