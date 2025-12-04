@@ -5,65 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión PCDGR | Anexos</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root { --primary: #0f172a; --accent: #2563eb; --bg: #f3f4f6; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #1f2937; padding-bottom: 100px; }
+        :root { 
+            --primary: #2563eb; 
+            --secondary: #64748b; 
+            --success: #10b981;
+            --bg-color: #f8fafc;
+            --card-border: #e2e8f0;
+        }
 
-        /* ESTILOS ACORDEÓN */
-        .accordion-item { border: 1px solid #e5e7eb; border-radius: 8px !important; margin-bottom: 12px; overflow: hidden; background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .accordion-button { font-weight: 700; color: var(--primary); background-color: #fff; padding: 1rem 1.25rem; }
-        .accordion-button:not(.collapsed) { color: var(--accent); background-color: #eff6ff; box-shadow: none; }
-        .accordion-button:focus { box-shadow: none; border-color: rgba(37,99,235,0.1); }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-color); 
+            color: #334155; 
+            padding-bottom: 80px; 
+        }
 
-        /* FORMULARIOS */
-        .form-label { font-size: 0.75rem; font-weight: 700; color: #4b5563; text-transform: uppercase; margin-bottom: 4px; }
-        .form-control, .form-select { font-size: 0.9rem; padding: 0.6rem; border-radius: 6px; border: 1px solid #d1d5db; }
-        .form-control:focus { border-color: var(--accent); ring: 2px var(--accent); }
+        /* HEADER ESTILIZADO */
+        .header-title { color: #1e293b; font-weight: 700; letter-spacing: -0.5px; }
+        .header-subtitle { color: var(--secondary); font-size: 0.9rem; }
 
-        /* TABLAS DE INTEGRANTES */
-        .nav-tabs .nav-link { font-size: 0.8rem; font-weight: 600; color: #6b7280; }
-        .nav-tabs .nav-link.active { color: var(--accent); border-bottom: 2px solid var(--accent); font-weight: 800; }
-        .table-custom th { background: #f9fafb; font-size: 0.7rem; text-transform: uppercase; color: #6b7280; padding: 8px; }
-        .table-custom td { padding: 5px; vertical-align: middle; }
+        /* ACORDEÓN MEJORADO */
+        .accordion-item { 
+            border: none; 
+            border-radius: 12px !important; 
+            margin-bottom: 16px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
+            overflow: hidden;
+        }
+        .accordion-button { 
+            font-weight: 600; 
+            color: #1e293b; 
+            background: white; 
+            padding: 1.2rem;
+        }
+        .accordion-button:not(.collapsed) { 
+            color: var(--primary); 
+            background-color: #eff6ff; 
+            box-shadow: none; 
+        }
+        .accordion-button:focus { box-shadow: none; }
+
+        /* INPUTS Y FORMULARIOS */
+        .form-label { font-size: 0.75rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-control, .form-select { 
+            border-radius: 8px; 
+            border: 1px solid #cbd5e1; 
+            padding: 0.6rem 0.8rem; 
+            font-size: 0.9rem;
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        /* TARJETAS DE ARCHIVOS (NUEVO DISEÑO) */
+        .file-card {
+            background: white;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 16px;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
         
-        /* CHECK VERDE SI HAY ARCHIVO */
-        .file-check { display: none; color: #16a34a; font-size: 0.75rem; font-weight: 700; margin-top: 4px; }
-        .has-file .file-check { display: block; }
-        .has-file { border-color: #22c55e !important; background-color: #f0fdf4; }
-
-        /* BOTONES */
-        .btn-add { font-size: 0.75rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 5px; margin-top: 8px; cursor: pointer; }
-        .btn-del { color: #ef4444; background: #fee2e2; border: none; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .btn-del:hover { background: #ef4444; color: white; }
+        /* Estado cuando hay archivo */
+        .file-card.has-file {
+            border: 1px solid var(--success);
+            background: #f0fdf4;
+        }
         
-        .btn-submit { background: var(--primary); color: white; width: 100%; padding: 16px; border-radius: 8px; font-weight: 700; border: none; transition: 0.2s; }
-        .btn-submit:hover { background: #1e293b; transform: translateY(-2px); }
+        .file-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
 
-        #preloader { position: fixed; inset:0; background:rgba(255,255,255,0.95); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+        .file-icon { font-size: 2rem; color: #94a3b8; margin-bottom: 10px; transition: 0.3s; }
+        .has-file .file-icon { color: var(--success); }
+
+        .file-title { 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            color: #334155; 
+            line-height: 1.3; 
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .btn-view-file {
+            background-color: var(--success);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: 0.2s;
+        }
+        .btn-view-file:hover { background-color: #059669; color: white; }
+
+        /* BOTÓN FLOTANTE GUARDAR */
+        .fab-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: auto;
+        }
+        .btn-submit-float {
+            background: #0f172a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+        .btn-submit-float:hover { background: #1e293b; transform: scale(1.05); }
+
+        /* PRELOADER */
+        #preloader { position: fixed; inset:0; background:rgba(255,255,255,0.98); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+        
+        /* NOTIFICACIONES */
+        #notificationArea { position: sticky; top: 10px; z-index: 900; }
+        .alert-modern { border: none; border-radius: 10px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
 <div id="preloader">
-    <div class="spinner-border text-primary mb-2"></div>
-    <div class="small fw-bold text-muted">CARGANDO...</div>
+    <div class="spinner-border text-primary mb-3" role="status"></div>
+    <div class="small fw-bold text-muted tracking-wider">CARGANDO SISTEMA...</div>
 </div>
 
-<div class="container mt-4" style="max-width: 850px;">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold text-primary m-0">GESTIÓN DE ANEXOS</h4>
-            <span class="text-muted small">Planes Comunitarios de Gestión de Riesgos</span>
+<div class="container mt-4" style="max-width: 950px;">
+    
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <div class="mb-3 mb-md-0">
+            <h4 class="header-title m-0"><i class="bi bi-folder2-open me-2 text-primary"></i>GESTIÓN DE ANEXOS</h4>
+            <span class="header-subtitle">Planes Comunitarios de Gestión de Riesgos</span>
         </div>
-        <div class="badge bg-white text-dark border px-3 py-2 shadow-sm">
-            <i class="bi bi-calendar-event me-1"></i> <span id="fechaDisplay"></span>
+        <div class="badge bg-white text-secondary border px-3 py-2 rounded-pill">
+            <i class="bi bi-calendar3 me-2"></i><span id="fechaDisplay"></span>
         </div>
     </div>
+
+    <div id="notificationArea"></div>
 
     <form id="mainForm">
         <input type="hidden" name="tipo" value="anexos_full">
@@ -73,16 +172,16 @@
 
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sec1" aria-expanded="true">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sec1">
                         1. UBICACIÓN Y BÚSQUEDA
                     </button>
                 </h2>
                 <div id="sec1" class="accordion-collapse collapse show" data-bs-parent="#mainAccordion">
-                    <div class="accordion-body bg-light">
+                    <div class="accordion-body">
                         <div class="row g-3 align-items-end">
                             <div class="col-md-4">
                                 <label class="form-label">Parroquia</label>
-                                <select class="form-select" id="selParroquia" name="parroquia" required>
+                                <select class="form-select bg-light" id="selParroquia" name="parroquia" required>
                                     <option value="" disabled selected>Seleccione...</option>
                                     <option value="Alluriquín">Alluriquín</option>
                                     <option value="Puerto Limón">Puerto Limón</option>
@@ -98,15 +197,17 @@
                             </div>
                             <div class="col-md-5">
                                 <label class="form-label">Comunidad / Recinto</label>
-                                <input type="text" class="form-control" id="txtComunidad" name="comunidad" placeholder="Nombre exacto..." required>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-geo-alt text-muted"></i></span>
+                                    <input type="text" class="form-control border-start-0 ps-0" id="txtComunidad" name="comunidad" placeholder="Nombre exacto..." required>
+                                </div>
                             </div>
                             <div class="col-md-3">
-                                <button type="button" class="btn btn-primary fw-bold w-100" onclick="buscarDatos()">
-                                    <i class="bi bi-search me-1"></i> BUSCAR
+                                <button type="button" class="btn btn-primary fw-bold w-100 py-2" onclick="buscarDatos()">
+                                    <i class="bi bi-search me-2"></i>BUSCAR
                                 </button>
                             </div>
                         </div>
-                        <div id="searchFeedback" class="mt-3"></div>
                     </div>
                 </div>
             </div>
@@ -140,12 +241,12 @@
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sec3">
-                        3. INTEGRANTES (ANEXO 6 Y 7)
+                        3. INTEGRANTES (ANEXOS 6 Y 7)
                     </button>
                 </h2>
                 <div id="sec3" class="accordion-collapse collapse" data-bs-parent="#mainAccordion">
                     <div class="accordion-body p-0">
-                        <ul class="nav nav-tabs nav-fill bg-light px-2 pt-2" id="myTab" role="tablist">
+                        <ul class="nav nav-tabs nav-fill bg-light px-3 pt-3 border-bottom-0" id="myTab">
                             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMando" type="button">Mando</button></li>
                             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAux" type="button">Auxilios</button></li>
                             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabInc" type="button">Incendios</button></li>
@@ -153,79 +254,74 @@
                             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabProm" type="button">Promotores</button></li>
                         </ul>
 
-                        <div class="tab-content p-3" id="myTabContent">
+                        <div class="tab-content p-4 bg-white">
                             <div class="tab-pane fade show active" id="tabMando">
-                                <h6 class="text-primary fw-bold small mb-3">ANEXO 6: CABEZAS DE MANDO</h6>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Responsable Comité</label>
-                                        <input type="text" class="form-control mb-2" name="head_resp_nom" placeholder="Nombres">
-                                        <div class="d-flex gap-2">
-                                            <input type="text" class="form-control" name="head_resp_ci" placeholder="Cédula">
-                                            <input type="text" class="form-control" name="head_resp_tel" placeholder="Teléfono">
+                                        <div class="p-3 border rounded bg-light">
+                                            <h6 class="text-primary fw-bold mb-3">RESPONSABLE COMITÉ</h6>
+                                            <input type="text" class="form-control mb-2" name="head_resp_nom" placeholder="Nombres Completos">
+                                            <div class="row g-2">
+                                                <div class="col-6"><input type="text" class="form-control form-control-sm" name="head_resp_ci" placeholder="Cédula"></div>
+                                                <div class="col-6"><input type="text" class="form-control form-control-sm" name="head_resp_tel" placeholder="Teléfono"></div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Coordinador Brigadas</label>
-                                        <input type="text" class="form-control mb-2" name="head_coord_nom" placeholder="Nombres">
-                                        <div class="d-flex gap-2">
-                                            <input type="text" class="form-control" name="head_coord_ci" placeholder="Cédula">
-                                            <input type="text" class="form-control" name="head_coord_tel" placeholder="Teléfono">
+                                        <div class="p-3 border rounded bg-light">
+                                            <h6 class="text-primary fw-bold mb-3">COORDINADOR BRIGADAS</h6>
+                                            <input type="text" class="form-control mb-2" name="head_coord_nom" placeholder="Nombres Completos">
+                                            <div class="row g-2">
+                                                <div class="col-6"><input type="text" class="form-control form-control-sm" name="head_coord_ci" placeholder="Cédula"></div>
+                                                <div class="col-6"><input type="text" class="form-control form-control-sm" name="head_coord_tel" placeholder="Teléfono"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="tab-pane fade" id="tabAux">
-                                <div class="bg-primary bg-opacity-10 p-2 rounded mb-3 border border-primary">
-                                    <label class="form-label text-primary">LÍDER BRIGADA AUXILIOS</label>
-                                    <div class="row g-2">
-                                        <div class="col-5"><input type="text" class="form-control form-control-sm" name="lider_aux_nom" placeholder="Nombre"></div>
-                                        <div class="col-3"><input type="text" class="form-control form-control-sm" name="lider_aux_ci" placeholder="C.I."></div>
-                                        <div class="col-4"><input type="text" class="form-control form-control-sm" name="lider_aux_tel" placeholder="Tel"></div>
-                                    </div>
+                                <div class="alert alert-info py-2"><i class="bi bi-people-fill me-2"></i>Líder Brigada de Primeros Auxilios</div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-5"><input type="text" class="form-control" name="lider_aux_nom" placeholder="Nombre Líder"></div>
+                                    <div class="col-md-3"><input type="text" class="form-control" name="lider_aux_ci" placeholder="C.I."></div>
+                                    <div class="col-md-4"><input type="text" class="form-control" name="lider_aux_tel" placeholder="Teléfono"></div>
                                 </div>
-                                <table class="table table-sm table-custom w-100" id="tbl_aux"><tbody></tbody></table>
-                                <div class="btn-add text-primary" onclick="addRow('aux')"><i class="bi bi-plus-circle-fill"></i> Agregar Integrante</div>
+                                <table class="table table-bordered table-sm" id="tbl_aux"><thead><tr class="table-light"><th>Nombre</th><th>Cédula</th><th>Teléfono</th><th></th></tr></thead><tbody></tbody></table>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRow('aux')">+ Agregar Integrante</button>
                             </div>
 
                             <div class="tab-pane fade" id="tabInc">
-                                <div class="bg-danger bg-opacity-10 p-2 rounded mb-3 border border-danger">
-                                    <label class="form-label text-danger">LÍDER BRIGADA INCENDIOS</label>
-                                    <div class="row g-2">
-                                        <div class="col-5"><input type="text" class="form-control form-control-sm" name="lider_inc_nom" placeholder="Nombre"></div>
-                                        <div class="col-3"><input type="text" class="form-control form-control-sm" name="lider_inc_ci" placeholder="C.I."></div>
-                                        <div class="col-4"><input type="text" class="form-control form-control-sm" name="lider_inc_tel" placeholder="Tel"></div>
-                                    </div>
+                                <div class="alert alert-danger py-2"><i class="bi bi-fire me-2"></i>Líder Brigada Contra Incendios</div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-5"><input type="text" class="form-control" name="lider_inc_nom" placeholder="Nombre Líder"></div>
+                                    <div class="col-md-3"><input type="text" class="form-control" name="lider_inc_ci" placeholder="C.I."></div>
+                                    <div class="col-md-4"><input type="text" class="form-control" name="lider_inc_tel" placeholder="Teléfono"></div>
                                 </div>
-                                <table class="table table-sm table-custom w-100" id="tbl_inc"><tbody></tbody></table>
-                                <div class="btn-add text-danger" onclick="addRow('inc')"><i class="bi bi-plus-circle-fill"></i> Agregar Integrante</div>
+                                <table class="table table-bordered table-sm" id="tbl_inc"><thead><tr class="table-light"><th>Nombre</th><th>Cédula</th><th>Teléfono</th><th></th></tr></thead><tbody></tbody></table>
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="addRow('inc')">+ Agregar Integrante</button>
                             </div>
 
                             <div class="tab-pane fade" id="tabEva">
-                                <div class="bg-success bg-opacity-10 p-2 rounded mb-3 border border-success">
-                                    <label class="form-label text-success">LÍDER BRIGADA EVACUACIÓN</label>
-                                    <div class="row g-2">
-                                        <div class="col-5"><input type="text" class="form-control form-control-sm" name="lider_eva_nom" placeholder="Nombre"></div>
-                                        <div class="col-3"><input type="text" class="form-control form-control-sm" name="lider_eva_ci" placeholder="C.I."></div>
-                                        <div class="col-4"><input type="text" class="form-control form-control-sm" name="lider_eva_tel" placeholder="Tel"></div>
-                                    </div>
+                                <div class="alert alert-success py-2"><i class="bi bi-box-arrow-right me-2"></i>Líder Brigada de Evacuación</div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-5"><input type="text" class="form-control" name="lider_eva_nom" placeholder="Nombre Líder"></div>
+                                    <div class="col-md-3"><input type="text" class="form-control" name="lider_eva_ci" placeholder="C.I."></div>
+                                    <div class="col-md-4"><input type="text" class="form-control" name="lider_eva_tel" placeholder="Teléfono"></div>
                                 </div>
-                                <table class="table table-sm table-custom w-100" id="tbl_eva"><tbody></tbody></table>
-                                <div class="btn-add text-success" onclick="addRow('eva')"><i class="bi bi-plus-circle-fill"></i> Agregar Integrante</div>
+                                <table class="table table-bordered table-sm" id="tbl_eva"><thead><tr class="table-light"><th>Nombre</th><th>Cédula</th><th>Teléfono</th><th></th></tr></thead><tbody></tbody></table>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="addRow('eva')">+ Agregar Integrante</button>
                             </div>
 
                             <div class="tab-pane fade" id="tabProm">
-                                <div class="bg-dark bg-opacity-10 p-2 rounded mb-3 border border-dark">
-                                    <label class="form-label text-dark">LÍDER PROMOTOR (ANEXO 7)</label>
-                                    <div class="row g-2">
-                                        <div class="col-5"><input type="text" class="form-control form-control-sm" name="lider_prom_nom" placeholder="Nombre"></div>
-                                        <div class="col-3"><input type="text" class="form-control form-control-sm" name="lider_prom_ci" placeholder="C.I."></div>
-                                        <div class="col-4"><input type="text" class="form-control form-control-sm" name="lider_prom_tel" placeholder="Tel"></div>
-                                    </div>
+                                <div class="alert alert-secondary py-2"><i class="bi bi-megaphone-fill me-2"></i>Líder Grupo Promotor</div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-5"><input type="text" class="form-control" name="lider_prom_nom" placeholder="Nombre Líder"></div>
+                                    <div class="col-md-3"><input type="text" class="form-control" name="lider_prom_ci" placeholder="C.I."></div>
+                                    <div class="col-md-4"><input type="text" class="form-control" name="lider_prom_tel" placeholder="Teléfono"></div>
                                 </div>
-                                <table class="table table-sm table-custom w-100" id="tbl_prom"><tbody></tbody></table>
-                                <div class="btn-add text-dark" onclick="addRow('prom')"><i class="bi bi-plus-circle-fill"></i> Agregar Promotor</div>
+                                <table class="table table-bordered table-sm" id="tbl_prom"><thead><tr class="table-light"><th>Nombre</th><th>Cédula</th><th>Teléfono</th><th></th></tr></thead><tbody></tbody></table>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addRow('prom')">+ Agregar Integrante</button>
                             </div>
                         </div>
                     </div>
@@ -243,18 +339,38 @@
                         <div class="row g-3">
                             <script>
                                 const fileLabels = [
-                                    "1. Acta de Asamblea", "2. Listado Participantes", "3. Plan Firmado", 
-                                    "4. Matriz de Actores", "5. Mapa Comunitario", "6. Ficha Comité (Scan)", 
-                                    "7. Ficha Promotores (Scan)", "8. Cronograma", "9. Evidencias Fotos", 
-                                    "10. Informe Final", "11. Anexo Extra A", "12. Anexo Extra B", "13. Anexo Extra C"
+                                    "1. ANEXO 1: CRITERIOS DE PRIORIZACION DE COMUNIDADES",
+                                    "2. ANEXO 2: ACTA DE REUNIÓN",
+                                    "3. ANEXO 3: REGISTRO DE ASISTENCIA PARA ACTIVIDADES",
+                                    "4. ANEXO 4: ACTA DE CONFORMACION DEL CCGR",
+                                    "5. ANEXO 5: HOJA DE RUTA GENERAL DEL PROCESO",
+                                    "6. ANEXO 6: FICHA DE INTEGRANTES DE CCGR",
+                                    "7. ANEXO 7: FICHA GRUPOS PROMOTORES Y PIONEROS",
+                                    "8. ANEXO 8: INFORME DE CAPACITACIÓN",
+                                    "9. ANEXO 9: FICHA EVALUACION PREELIMINAR DE DANOS",
+                                    "10. ANEXO 10: PLAN COMUNITARIO",
+                                    "11. ANEXO 11: FICHA EVALUACIÓN SIMULACRO",
+                                    "12. ANEXO 12: INFORME DE SIMULACRO",
+                                    "13. ANEXO 13: ACTA FORMACION RED CCGR"
                                 ];
+                                
                                 fileLabels.forEach((lbl, i) => {
                                     document.write(`
                                     <div class="col-md-6 col-lg-4">
-                                        <div class="p-3 bg-white border rounded shadow-sm h-100" id="boxFile${i+1}">
-                                            <div style="font-weight:700; font-size:0.8rem; margin-bottom:5px;">${lbl}</div>
-                                            <input type="file" class="form-control form-control-sm anexo-file" data-id="${i+1}" accept=".pdf,.jpg,.png">
-                                            <div class="file-check" id="check${i+1}"><i class="bi bi-check-circle-fill"></i> Guardado en Nube</div>
+                                        <div class="file-card" id="cardFile${i+1}">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="bi bi-file-earmark-pdf file-icon me-2" id="iconFile${i+1}"></i>
+                                                <div class="file-title">${lbl}</div>
+                                            </div>
+                                            
+                                            <div class="mt-auto">
+                                                <a id="btnLink${i+1}" href="#" target="_blank" class="btn-view-file d-none">
+                                                    <i class="bi bi-eye-fill me-1"></i> VER ARCHIVO
+                                                </a>
+
+                                                <label class="small text-muted mb-1 d-block">Subir / Reemplazar:</label>
+                                                <input type="file" class="form-control form-control-sm anexo-file" data-id="${i+1}" accept=".pdf,.jpg,.png,.jpeg">
+                                            </div>
                                         </div>
                                     </div>`);
                                 });
@@ -264,35 +380,46 @@
                 </div>
             </div>
 
-        </div> <div class="mt-4">
-            <button type="submit" class="btn-submit shadow">
-                <i class="bi bi-cloud-arrow-up-fill me-2 fs-5"></i>
-                GUARDAR Y SUBIR INFORMACIÓN
+        </div> <div class="fab-container">
+            <button type="submit" class="btn-submit-float">
+                <i class="bi bi-cloud-arrow-up-fill fs-5"></i> GUARDAR TODO
             </button>
         </div>
+
     </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // ⚠️ REEMPLAZA CON LA URL DE TU WORKER
+    // ⚠️ CONFIGURACION
     const API_URL = "https://ueb.dylanvillasagua.workers.dev/";
 
     window.onload = () => {
         document.getElementById('preloader').style.display = 'none';
         document.getElementById('fechaSubida').value = new Date().toISOString();
-        document.getElementById('fechaDisplay').innerText = new Date().toLocaleDateString();
+        if(document.getElementById('fechaDisplay')) 
+            document.getElementById('fechaDisplay').innerText = new Date().toLocaleDateString();
     };
 
-    // --- AGREGAR FILAS A LAS TABLAS ---
-    function addRow(type) {
+    // --- UTILS ---
+    function parseField(text) {
+        if (!text || typeof text !== 'string') return { nom: '', ci: '', tel: '' };
+        const match = text.match(/^(.*?) \(CI:(.*?) \| T:(.*?)\)$/);
+        return match ? { nom: match[1].trim(), ci: match[2].trim(), tel: match[3].trim() } : { nom: text, ci: '', tel: '' };
+    }
+
+    function addRow(type, data = null) {
         const tbody = document.getElementById('tbl_' + type).querySelector('tbody');
         const tr = document.createElement('tr');
+        const nom = data ? (data.nom || '') : '';
+        const ci = data ? (data.ci || '') : '';
+        const tel = data ? (data.tel || '') : '';
+
         tr.innerHTML = `
-            <td style="width:45%"><input type="text" class="form-control form-control-sm" name="list_${type}_nom[]" placeholder="Nombre"></td>
-            <td style="width:25%"><input type="text" class="form-control form-control-sm" name="list_${type}_ci[]" placeholder="Cédula"></td>
-            <td style="width:25%"><input type="text" class="form-control form-control-sm" name="list_${type}_tel[]" placeholder="Teléfono"></td>
-            <td style="width:5%"><button type="button" class="btn-del" onclick="this.closest('tr').remove()"><i class="bi bi-x"></i></button></td>
+            <td><input type="text" class="form-control form-control-sm border-0" name="list_${type}_nom[]" value="${nom}" placeholder="Nombre"></td>
+            <td><input type="text" class="form-control form-control-sm border-0" name="list_${type}_ci[]" value="${ci}" placeholder="Cédula"></td>
+            <td><input type="text" class="form-control form-control-sm border-0" name="list_${type}_tel[]" value="${tel}" placeholder="Teléfono"></td>
+            <td class="text-center"><button type="button" class="btn btn-sm text-danger" onclick="this.closest('tr').remove()"><i class="bi bi-trash"></i></button></td>
         `;
         tbody.appendChild(tr);
     }
@@ -301,11 +428,16 @@
     async function buscarDatos() {
         const p = document.getElementById('selParroquia').value;
         const c = document.getElementById('txtComunidad').value;
-        const fb = document.getElementById('searchFeedback');
+        const alertArea = document.getElementById('notificationArea');
 
-        if(!p || !c) return Swal.fire('Error', 'Seleccione Parroquia y Comunidad', 'warning');
+        if(!p || !c) {
+            alertArea.innerHTML = `<div class="alert alert-warning alert-modern alert-dismissible fade show"><i class="bi bi-exclamation-triangle-fill me-2"></i>Seleccione Parroquia y Comunidad.<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+            return;
+        }
 
         document.getElementById('preloader').style.display = 'flex';
+        alertArea.innerHTML = '';
+
         try {
             const res = await fetch(API_URL, {
                 method: 'POST',
@@ -316,45 +448,106 @@
             document.getElementById('preloader').style.display = 'none';
 
             if(json.status === 'found') {
-                const d = json.data.raw_data;
-                // Llenar campos simples
-                document.getElementById('inpResponsable').value = d[4] || "";
-                document.getElementById('inpPlan').value = d[5] || "";
-                document.getElementById('inpObs').value = d[6] || "";
-                
-                // Marcar archivos existentes (Col R = index 17)
-                for(let i=1; i<=13; i++){
-                    const box = document.getElementById(`boxFile${i}`);
-                    if(d[16+i] && d[16+i].startsWith('http')) box.classList.add('has-file');
-                    else box.classList.remove('has-file');
+                const d = json.data.raw_data || json.data;
+
+                // NOTIFICACIÓN ÉXITO
+                alertArea.innerHTML = `
+                    <div class="alert alert-success alert-modern alert-dismissible fade show" role="alert">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill fs-3 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold m-0">Registro Encontrado</h6>
+                                <small>Datos cargados para: <strong>${c}</strong></small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>`;
+
+                if (Array.isArray(d)) {
+                    document.getElementById('inpResponsable').value = d[4] || "";
+                    document.getElementById('inpPlan').value = d[5] || "";
+                    document.getElementById('inpObs').value = d[6] || "";
+
+                    const hR = parseField(d[7]); document.getElementsByName('head_resp_nom')[0].value = hR.nom; document.getElementsByName('head_resp_ci')[0].value = hR.ci; document.getElementsByName('head_resp_tel')[0].value = hR.tel;
+                    const hC = parseField(d[8]); document.getElementsByName('head_coord_nom')[0].value = hC.nom; document.getElementsByName('head_coord_ci')[0].value = hC.ci; document.getElementsByName('head_coord_tel')[0].value = hC.tel;
+
+                    [{i:9,t:'aux'}, {i:10,t:'inc'}, {i:11,t:'eva'}, {i:12,t:'prom'}].forEach(x => {
+                        const dat = parseField(d[x.i]);
+                        document.getElementsByName(`lider_${x.t}_nom`)[0].value = dat.nom;
+                        document.getElementsByName(`lider_${x.t}_ci`)[0].value = dat.ci;
+                        document.getElementsByName(`lider_${x.t}_tel`)[0].value = dat.tel;
+                    });
+
+                    ['aux', 'inc', 'eva', 'prom'].forEach(t => document.querySelector(`#tbl_${t} tbody`).innerHTML = '');
+                    [{i:13,t:'aux'}, {i:14,t:'inc'}, {i:15,t:'eva'}, {i:16,t:'prom'}].forEach(m => {
+                        let l = []; try { if(d[m.i] && d[m.i].startsWith('[')) l = JSON.parse(d[m.i]); } catch(e){}
+                        l.forEach(it => addRow(m.t, it));
+                    });
+
+                    // --- CARGA DE ARCHIVOS (MEJORADO) ---
+                    for(let i=1; i<=13; i++){
+                        const card = document.getElementById(`cardFile${i}`);
+                        const btn = document.getElementById(`btnLink${i}`);
+                        const icon = document.getElementById(`iconFile${i}`);
+                        const url = d[16+i]; // Columna 17 en adelante
+
+                        if(url && url.toString().includes('http')) {
+                            card.classList.add('has-file');
+                            btn.classList.remove('d-none');
+                            btn.href = url; // Asignar Link
+                            icon.classList.remove('bi-file-earmark-pdf');
+                            icon.classList.add('bi-check-circle-fill');
+                        } else {
+                            card.classList.remove('has-file');
+                            btn.classList.add('d-none');
+                            btn.href = "#";
+                            icon.classList.add('bi-file-earmark-pdf');
+                            icon.classList.remove('bi-check-circle-fill');
+                        }
+                    }
+
+                    new bootstrap.Collapse(document.getElementById('sec2')).show();
                 }
-                
-                fb.innerHTML = `<div class="alert alert-success py-2 small"><i class="bi bi-check-circle"></i> Datos encontrados. Se actualizará el registro.</div>`;
-                // Abrir siguiente sección
-                new bootstrap.Collapse(document.getElementById('sec2')).show();
+
             } else {
-                fb.innerHTML = `<div class="alert alert-primary py-2 small"><i class="bi bi-info-circle"></i> Nuevo registro. Puede comenzar a llenar.</div>`;
-                // Limpiar visuales
-                document.querySelectorAll('.has-file').forEach(e => e.classList.remove('has-file'));
+                // NOTIFICACIÓN NUEVO
+                alertArea.innerHTML = `
+                    <div class="alert alert-primary alert-modern alert-dismissible fade show" role="alert">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill fs-3 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold m-0">Nuevo Registro</h6>
+                                <small>No hay datos previos. Formulario listo.</small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>`;
+                
+                document.getElementById('mainForm').reset();
+                document.querySelectorAll('.file-card').forEach(e => e.classList.remove('has-file'));
+                document.querySelectorAll('.btn-view-file').forEach(e => e.classList.add('d-none'));
+                document.querySelectorAll('tbody').forEach(e => e.innerHTML = '');
+                
+                document.getElementById('selParroquia').value = p;
+                document.getElementById('txtComunidad').value = c;
                 new bootstrap.Collapse(document.getElementById('sec2')).show();
             }
         } catch(e) {
             document.getElementById('preloader').style.display = 'none';
-            Swal.fire('Error', 'No se pudo conectar al servidor.', 'error');
+            alertArea.innerHTML = `<div class="alert alert-danger">Error: ${e.message}</div>`;
         }
     }
 
-    // --- SUBIR ARCHIVOS ---
+    // --- ENVIAR ---
     function fileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split(",")[1]);
-            reader.onerror = error => reject(error);
-            reader.readAsDataURL(file);
+        return new Promise((r, j) => {
+            const rd = new FileReader();
+            rd.onload = () => r(rd.result.split(",")[1]);
+            rd.onerror = j;
+            rd.readAsDataURL(file);
         });
     }
 
-    // --- ENVIAR FORMULARIO ---
     document.getElementById('mainForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const loader = document.getElementById('preloader');
@@ -364,14 +557,21 @@
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
 
-            // Capturar listas manuales (porque FormData falla con arrays vacíos)
-            ['aux', 'inc', 'eva', 'prom'].forEach(type => {
-                data[`list_${type}_nom`] = Array.from(document.querySelectorAll(`input[name="list_${type}_nom[]"]`)).map(x=>x.value);
-                data[`list_${type}_ci`] = Array.from(document.querySelectorAll(`input[name="list_${type}_ci[]"]`)).map(x=>x.value);
-                data[`list_${type}_tel`] = Array.from(document.querySelectorAll(`input[name="list_${type}_tel[]"]`)).map(x=>x.value);
+            data.head_resp = `${data.head_resp_nom} (CI:${data.head_resp_ci} | T:${data.head_resp_tel})`;
+            data.head_coord = `${data.head_coord_nom} (CI:${data.head_coord_ci} | T:${data.head_coord_tel})`;
+            ['aux','inc','eva','prom'].forEach(t => {
+                data[`lider_${t}`] = `${data[`lider_${t}_nom`]} (CI:${data[`lider_${t}_ci`]} | T:${data[`lider_${t}_tel`]})`;
             });
 
-            // Procesar archivos
+            ['aux', 'inc', 'eva', 'prom'].forEach(type => {
+                const noms = Array.from(document.querySelectorAll(`input[name="list_${type}_nom[]"]`)).map(x=>x.value);
+                const cis = Array.from(document.querySelectorAll(`input[name="list_${type}_ci[]"]`)).map(x=>x.value);
+                const tels = Array.from(document.querySelectorAll(`input[name="list_${type}_tel[]"]`)).map(x=>x.value);
+                const l = noms.map((n, i) => ({ nom: n, ci: cis[i], tel: tels[i] })).filter(x => x.nom.trim() !== "");
+                data[`list_${type}`] = JSON.stringify(l);
+                delete data[`list_${type}_nom[]`]; delete data[`list_${type}_ci[]`]; delete data[`list_${type}_tel[]`];
+            });
+
             const files = [];
             const inputs = document.querySelectorAll('.anexo-file');
             for(const inp of inputs) {
@@ -382,7 +582,6 @@
             }
             data.files = files;
 
-            // Enviar
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -394,16 +593,12 @@
             if(res.status === 'success') {
                 Swal.fire('¡Éxito!', res.message, 'success').then(() => location.reload());
             } else {
-                throw new Error(res.message || 'Error desconocido');
+                throw new Error(res.message);
             }
 
         } catch(err) {
             loader.style.display = 'none';
-            Swal.fire({
-                title: 'Error',
-                text: 'Fallo al guardar: ' + err.message,
-                icon: 'error'
-            });
+            Swal.fire({ title: 'Error', text: err.message, icon: 'error' });
         }
     });
 </script>
